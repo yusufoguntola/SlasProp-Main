@@ -133,6 +133,8 @@ export function LoginModal() {
             size="small"
             margin="normal"
             sx={{ color: "grey", mb: 1.5 }}
+            error={Boolean(form.errors.username)}
+            helperText={form.errors.username}
           />
           <FormLabel sx={{ fontSize: 13 }}>Password</FormLabel>
           <TextField
@@ -159,6 +161,8 @@ export function LoginModal() {
                 </InputAdornment>
               ),
             }}
+            error={Boolean(form.errors.password)}
+            helperText={form.errors.password}
           />
 
           <Link
