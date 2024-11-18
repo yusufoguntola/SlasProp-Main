@@ -24,6 +24,7 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
 import { showToast } from "@/utils/toast-style";
+import { useEffect } from "react";
 import { SignUpModal } from "./sign-up-modal";
 
 const schema = object({
@@ -70,6 +71,10 @@ export function LoginModal() {
 
     setOption(false);
   }
+
+  useEffect(() => {
+    form.reset();
+  }, [loginIsOpen]);
 
   return (
     <>
