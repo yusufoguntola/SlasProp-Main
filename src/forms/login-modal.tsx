@@ -53,12 +53,9 @@ export function LoginModal() {
     validate: yupResolver(schema),
   });
 
-  console.log({ form: form.errors });
-
   const { loginIsOpen, loginToggle, loginClose } = useMaterialMenu("login");
 
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
-    console.log({ format: form.getValues() });
     login(values, {
       onSuccess: (response) => {
         setToken(response.data.access_token);
