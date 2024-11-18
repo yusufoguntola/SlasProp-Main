@@ -1,12 +1,11 @@
 import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
-import { PropertiesData } from "@/types";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { SlasPayLogin } from "../forms/SlasPayLogin";
 
 // Define the types for properties
-const properties: PropertiesData[] = [
+const properties = [
   {
     id: 1,
     name: "John Doe",
@@ -23,13 +22,23 @@ const properties: PropertiesData[] = [
       taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
       status: ["pending"],
     },
-    OwnerDetails: {
+    ownerDetails: {
       owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
       totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
       initials: ["IS", "AD", "CD"],
     },
   },
-  // Add other properties if needed
+  // {
+  //     id: 2,
+  //     name:"John Doe",
+  //     taxID: 'HGFFT23T821',
+  //     landType:'Sample Data',
+  //     area:478,
+  //     regNumber:3246745335,
+  //     location: "Sample Data",
+  //     address:"17917 Holderness Ln, Pflugerville, TX 78660",
+  //     zip:"78660"
+  // }
 ];
 
 const RegisteredProperties: React.FC = () => {
@@ -201,7 +210,10 @@ const RegisteredProperties: React.FC = () => {
       <Box sx={{ marginLeft: "30%", pb: 2, display: "flex" }}>
         {isPressed ? (
           properties.map((property) => (
-            <TaxOwnerDetailsCard property={property} key={property.id} />
+            <TaxOwnerDetailsCard
+              taxDetails={property.taxDetails}
+              ownerDetails={property.ownerDetails}
+            />
           ))
         ) : (
           <Box minHeight={140}></Box>

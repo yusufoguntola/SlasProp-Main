@@ -24,7 +24,6 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
 import { showToast } from "@/utils/toast-style";
-import { useState } from "react";
 import { SignUpModal } from "./sign-up-modal";
 
 const schema = object({
@@ -40,7 +39,6 @@ const schema = object({
 
 export function LoginModal() {
   const setOption = useOptionStore((state) => state.setOption);
-  const [open, setOpen] = useState(false);
   const { mutate: login } = useLogin();
   const [, setToken] = useLocalStorage<string>("token");
 
@@ -56,7 +54,7 @@ export function LoginModal() {
 
   console.log({ form: form.errors });
 
-  const { loginIsOpen, loginToggle } = useMaterialMenu("login");
+  const { loginIsOpen, loginToggle, loginClose } = useMaterialMenu("login");
 
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
     console.log({ format: form.getValues() });
@@ -65,8 +63,8 @@ export function LoginModal() {
         setToken(response.data.access_token);
         showToast("success", <p>Login Successful!</p>);
       },
-      onError: (error) => {
-        showToast("error", <p> Login Failed! Please try again.</p>);
+      onError: () => {
+        showToast("error", <p> Login Failed! Please try again. </p>);
       },
     });
 
@@ -78,7 +76,7 @@ export function LoginModal() {
       <Button
         color="inherit"
         style={{ textTransform: "capitalize" }}
-        onClick={() => setOpen(!open)}>
+        onClick={loginToggle}>
         Sign In / Login
         <ArrowCircleRightOutlined
           style={{ color: "#26a69a", paddingLeft: 4 }}
@@ -86,12 +84,12 @@ export function LoginModal() {
       </Button>
 
       <Dialog
-        open={open}
+        open={loginIsOpen}
         sx={{
           maxWidth: "500px",
           left: "28%",
         }}
-        onClose={() => !loginIsOpen}
+        onClose={loginClose}
         PaperProps={{
           component: "form",
           onSubmit: form.onSubmit(handleSubmit),
@@ -109,7 +107,7 @@ export function LoginModal() {
               }}>
               Login
             </p>
-            <Button onClick={() => setOpen(!open)} sx={{ marginRight: -4 }}>
+            <Button onClick={loginClose}>
               <Clear
                 sx={{
                   color: "red",
