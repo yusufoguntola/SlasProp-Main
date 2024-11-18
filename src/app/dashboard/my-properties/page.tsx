@@ -1,11 +1,14 @@
-import { MyPropertyCard } from "@/components/MyPropertyCard";
 import { AddCircleOutline } from "@mui/icons-material";
 import { Box, Container, IconButton, Typography } from "@mui/material";
 
-const properties = [
+import landImage from "@/assets/land-image.jpg";
+import { MyPropertyCard } from "@/components/MyPropertyCard";
+import { PropertyData } from "@/types";
+
+const properties: PropertyData[] = [
   {
     id: 1,
-    imageUrl: require("../assets/land-image.jpg"),
+    imageUrl: landImage,
     heading: "Lore Epsom Property",
     desc: "Rare Opportunity in highly desirable SpringBrook. Popular Scott Felder built floorplan. Showcasing easy living",
     area: 2345,
@@ -17,7 +20,7 @@ const properties = [
   },
   {
     id: 2,
-    imageUrl: require("../assets/land-image.jpg"),
+    imageUrl: landImage,
     heading: "Lore Epsom Property",
     desc: "Rare Opportunity in highly desirable SpringBrook. Popular Scott Felder built floorplan. Showcasing easy living",
     area: 2345,
@@ -39,8 +42,7 @@ export default function MyProperties() {
           mt: 4,
           borderBottom: "1px solid lightgray",
           pb: 2,
-        }}
-      >
+        }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           List Of Properties
         </Typography>
@@ -52,8 +54,7 @@ export default function MyProperties() {
             color: "white",
             fontSize: "12px",
             p: 1,
-          }}
-        >
+          }}>
           <AddCircleOutline /> &nbsp;Add New Property
         </IconButton>
       </Box>

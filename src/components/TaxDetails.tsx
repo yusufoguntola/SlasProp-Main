@@ -15,8 +15,7 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
         flexDirection: "column",
         border: "2px solid #26a69a",
         pb: 2,
-      }}
-    >
+      }}>
       <Typography
         sx={{
           backgroundColor: "#26a69a",
@@ -25,8 +24,7 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
           fontWeight: "bold",
           py: 1.5,
           px: 1,
-        }}
-      >
+        }}>
         Tax Details
       </Typography>
       <Box sx={{ display: "flex", mt: 1 }}>
@@ -63,8 +61,7 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
               {taxAs}{" "}
               <Typography
                 component="span"
-                sx={{ color: "#26a69a", fontSize: "10px", fontWeight: "bold" }}
-              >
+                sx={{ color: "#26a69a", fontSize: "10px", fontWeight: "bold" }}>
                 +62.5%
               </Typography>
             </Typography>

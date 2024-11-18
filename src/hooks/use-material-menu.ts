@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef, useState } from "react";
 
 type MaterialMenu<Key extends string> = {

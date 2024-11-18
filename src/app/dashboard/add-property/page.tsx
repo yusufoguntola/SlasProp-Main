@@ -1,3 +1,5 @@
+"use client";
+
 import { MultipleFileUpload } from "@/components/MultiFileUpload";
 import { usePropertyType } from "@/hooks/use-property-type";
 import { KeyboardArrowUp } from "@mui/icons-material";
@@ -29,8 +31,7 @@ export default function AddProperty() {
           borderBottom: "1px solid lightgray",
           pl: 2,
           pb: 2,
-        }}
-      >
+        }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Add New Property
         </Typography>
@@ -42,8 +43,7 @@ export default function AddProperty() {
             color: "white",
             fontSize: "12px",
             p: 1,
-          }}
-        >
+          }}>
           Add Property
         </IconButton>
       </Box>
@@ -55,8 +55,7 @@ export default function AddProperty() {
           flexDirection: "row",
           mt: 2,
           pl: 2,
-        }}
-      >
+        }}>
         <Box component="form">
           <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
             Name Of Property
@@ -82,8 +81,7 @@ export default function AddProperty() {
                         color: "#26a69a",
                         fontSize: "14px",
                         borderRight: "1px solid lightgrey",
-                      }}
-                    >
+                      }}>
                       $
                     </Button>
                   </InputAdornment>
@@ -98,8 +96,7 @@ export default function AddProperty() {
                 name="propertyType"
                 onChange={(e) => setPropertyType(e.target.value)}
                 displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-              >
+                inputProps={{ "aria-label": "Without label" }}>
                 <MenuItem value="" sx={{ fontSize: "12px" }}>
                   <em>Property Type</em>
                 </MenuItem>
@@ -137,8 +134,7 @@ export default function AddProperty() {
                         fontSize: "12px",
                         borderRight: "1px solid lightgrey",
                         pl: -1,
-                      }}
-                    >
+                      }}>
                       Sqft
                     </Button>
                   </InputAdornment>
@@ -168,8 +164,7 @@ export default function AddProperty() {
                         fontSize: "12px",
                         borderLeft: "1px solid lightgrey",
                         pl: -1,
-                      }}
-                    >
+                      }}>
                       Garage Type
                     </Button>
                   </InputAdornment>
@@ -202,8 +197,7 @@ export default function AddProperty() {
           justifyContent: "flex-start",
           width: "600px",
         }}
-        endIcon={<KeyboardArrowUp />}
-      >
+        endIcon={<KeyboardArrowUp />}>
         Property Details
       </Button>
       <Button
@@ -216,8 +210,7 @@ export default function AddProperty() {
           justifyContent: "flex-start",
           width: "600px",
         }}
-        endIcon={<KeyboardArrowUp />}
-      >
+        endIcon={<KeyboardArrowUp />}>
         Construction Details
       </Button>
       <Button
@@ -230,8 +223,7 @@ export default function AddProperty() {
           justifyContent: "flex-start",
           width: "600px",
         }}
-        endIcon={<KeyboardArrowUp />}
-      >
+        endIcon={<KeyboardArrowUp />}>
         Utilities / Green Energy Details
       </Button>
       <Button
@@ -244,8 +236,7 @@ export default function AddProperty() {
           justifyContent: "flex-start",
           width: "600px",
         }}
-        endIcon={<KeyboardArrowUp />}
-      >
+        endIcon={<KeyboardArrowUp />}>
         Community and Neighborhood Details
       </Button>
       <Button
@@ -259,8 +250,7 @@ export default function AddProperty() {
           justifyContent: "flex-start",
           width: "600px",
         }}
-        endIcon={<KeyboardArrowUp />}
-      >
+        endIcon={<KeyboardArrowUp />}>
         HOA and Financial Details
       </Button>
     </Container>
