@@ -1,8 +1,9 @@
-import TaxOwnerDetailsCard from "@/components/TaxOwnerDetailsCards";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { MoreVert } from "@mui/icons-material";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
-import React, { useState } from "react";
-import SlasPayLogin from "../forms/SlasPayLogin";
+import { useState } from "react";
+
+import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
+import { SlasPayLogin } from "@/forms/SlasPayLogin";
 
 const properties = [
   {
@@ -21,7 +22,7 @@ const properties = [
       taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
       status: ["pending"],
     },
-    OwnerDetails: {
+    ownerDetails: {
       owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
       totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
       initials: ["IS", "AD", "CD"],
@@ -39,7 +40,8 @@ const properties = [
   //     zip:"78660"
   // }
 ];
-const RegisteredProperties = () => {
+
+export default function RegisteredProperties() {
   const [isPressed, setIsPressed] = useState(false);
   const [checkHeading, setCheckHeading] = useState("Registered Properties");
 
@@ -143,7 +145,7 @@ const RegisteredProperties = () => {
                   </Typography>
                 </Typography>
                 <Button sx={{ color: "grey", ml: 15 }} onClick={handleClick}>
-                  <MoreVertIcon />
+                  <MoreVert />
                 </Button>
               </Typography>
             </Box>
@@ -220,7 +222,10 @@ const RegisteredProperties = () => {
       <Box sx={{ marginLeft: "30%", pb: 2, display: "flex" }}>
         {isPressed ? (
           properties.map((property) => (
-            <TaxOwnerDetailsCard property={property} />
+            <TaxOwnerDetailsCard
+              taxDetails={property.taxDetails}
+              ownerDetails={property.ownerDetails}
+            />
           ))
         ) : (
           <Box minHeight={140}></Box>
@@ -277,6 +282,4 @@ const RegisteredProperties = () => {
       </Box>
     </Container>
   );
-};
-
-export default RegisteredProperties;
+}
