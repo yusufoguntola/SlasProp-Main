@@ -14,7 +14,7 @@ export interface PropertiesData {
     taxAssessment: string[];
     status: string[];
   };
-  OwnerDetail: {
+  OwnerDetails: {
     owner: string[];
     totalYears: string[];
     initials: string[];

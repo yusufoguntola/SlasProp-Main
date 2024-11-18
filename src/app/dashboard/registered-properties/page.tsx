@@ -1,16 +1,22 @@
-import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
-import { PropertiesData } from "@/types";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+<<<<<<<< HEAD:src/app/RegisteredProperties.tsx
+import RegisteredProperties from "@/app/RegisteredProperties";
+import app from "next/app";
+import src from "node_modules/@emotion/styled/dist/declarations/src";
+========
+import { MoreVert } from "@mui/icons-material";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
-import React, { useState } from "react";
-import { SlasPayLogin } from "../forms/SlasPayLogin";
+import { useState } from "react";
+
+import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
+import { SlasPayLogin } from "@/forms/SlasPayLogin";
+>>>>>>>> 59e41c6430932db2727e58a424fead25cb150238:src/app/dashboard/registered-properties/page.tsx
 
 // Define the types for properties
 const properties: PropertiesData[] = [
   {
     id: 1,
     name: "John Doe",
-    taxID: "HGFFT23T821",
+    taxID: "HGFFT23T821",``
     landType: "Sample Data",
     area: 478,
     regNumber: 3246745335,
@@ -23,7 +29,7 @@ const properties: PropertiesData[] = [
       taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
       status: ["pending"],
     },
-    OwnerDetails: {
+    ownerDetails: {
       owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
       totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
       initials: ["IS", "AD", "CD"],
@@ -32,8 +38,13 @@ const properties: PropertiesData[] = [
   // Add other properties if needed
 ];
 
+<<<<<<<< HEAD:src/app/RegisteredProperties.tsx
 const RegisteredProperties: React.FC = () => {
   const [isPressed, setIsPressed] = useState<boolean>(false);
+========
+export default function RegisteredProperties() {
+  const [isPressed, setIsPressed] = useState(false);
+>>>>>>>> 59e41c6430932db2727e58a424fead25cb150238:src/app/dashboard/registered-properties/page.tsx
   const [checkHeading, setCheckHeading] = useState("Registered Properties");
 
   const [isHeading, setIsHeading] = useState<boolean>(false);
@@ -129,7 +140,7 @@ const RegisteredProperties: React.FC = () => {
                   </Typography>
                 </Typography>
                 <Button sx={{ color: "grey", ml: 15 }} onClick={handleClick}>
-                  <MoreVertIcon />
+                  <MoreVert />
                 </Button>
               </Typography>
             </Box>
@@ -201,7 +212,14 @@ const RegisteredProperties: React.FC = () => {
       <Box sx={{ marginLeft: "30%", pb: 2, display: "flex" }}>
         {isPressed ? (
           properties.map((property) => (
+<<<<<<<< HEAD:src/app/RegisteredProperties.tsx
             <TaxOwnerDetailsCard property={property} key={property.id} />
+========
+            <TaxOwnerDetailsCard
+              taxDetails={property.taxDetails}
+              ownerDetails={property.ownerDetails}
+            />
+>>>>>>>> 59e41c6430932db2727e58a424fead25cb150238:src/app/dashboard/registered-properties/page.tsx
           ))
         ) : (
           <Box minHeight={140}></Box>
@@ -254,6 +272,4 @@ const RegisteredProperties: React.FC = () => {
       </Box>
     </Container>
   );
-};
-
-export default RegisteredProperties;
+}

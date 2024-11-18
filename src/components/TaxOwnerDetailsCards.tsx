@@ -1,16 +1,22 @@
-import { PropertiesData } from "@/types";
 import { Box } from "@mui/material";
+
 import { OwnerDetails } from "./OwnerDetails";
+import { PropertyCardProps } from "./PropertyCard";
 import { TaxDetails } from "./TaxDetails";
 
-const TaxOwnerDetailsCard = ({ property }: { property: PropertiesData }) => {
-  const { OwnerDetail } = property;
+export interface TaxOwnerDetailsCardProps {
+  taxDetails: PropertyCardProps["taxDetails"];
+  ownerDetails: PropertyCardProps["ownerDetails"];
+}
+
+export function TaxOwnerDetailsCard({
+  taxDetails,
+  ownerDetails,
+}: TaxOwnerDetailsCardProps) {
   return (
     <Box sx={{ display: "flex" }}>
-      <TaxDetails property={property} />
-      <OwnerDetails property={OwnerDetail} />
+      <TaxDetails {...taxDetails} />
+      <OwnerDetails {...ownerDetails} />
     </Box>
   );
-};
-
-export default TaxOwnerDetailsCard;
+}
