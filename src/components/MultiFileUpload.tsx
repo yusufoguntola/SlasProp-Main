@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Button, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 
@@ -27,8 +29,7 @@ export function MultipleFileUpload() {
       border="1px dashed #ccc"
       borderRadius={8}
       textAlign="center"
-      sx={{ maxHeight: "230px", ml: 2, backgroundColor: "lightgrey" }}
-    >
+      sx={{ maxHeight: "230px", ml: 2, backgroundColor: "lightgrey" }}>
       <input
         type="file"
         accept="image/*"
@@ -45,8 +46,7 @@ export function MultipleFileUpload() {
             color: "#5B5B5B",
             textTransform: "capitalize",
             border: "1px solid black",
-          }}
-        >
+          }}>
           Upload Gallery Image {selectedFiles.length}
         </Button>
       </label>
@@ -64,8 +64,7 @@ export function MultipleFileUpload() {
             variant="contained"
             color="primary"
             onClick={handleUpload}
-            sx={{ mt: 2 }}
-          >
+            sx={{ mt: 2 }}>
             Upload
           </Button>
         </div>

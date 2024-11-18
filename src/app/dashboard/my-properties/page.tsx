@@ -1,11 +1,27 @@
-import { MyPropertyCard } from "@/components/MyPropertyCard";
 import { AddCircleOutline } from "@mui/icons-material";
 import { Box, Container, IconButton, Typography } from "@mui/material";
+import { StaticImageData } from "next/image";
 
-const properties = [
+import landImage from "@/assets/land-image.jpg";
+import { MyPropertyCard } from "@/components/MyPropertyCard";
+
+export interface PropertyData {
+  id: number;
+  imageUrl: StaticImageData;
+  heading: string;
+  desc: string;
+  area: number;
+  beds: number;
+  baths: number;
+  price: string;
+  location: string;
+  status: string;
+}
+
+const properties: PropertyData[] = [
   {
     id: 1,
-    imageUrl: require("../assets/land-image.jpg"),
+    imageUrl: landImage,
     heading: "Lore Epsom Property",
     desc: "Rare Opportunity in highly desirable SpringBrook. Popular Scott Felder built floorplan. Showcasing easy living",
     area: 2345,
@@ -17,7 +33,7 @@ const properties = [
   },
   {
     id: 2,
-    imageUrl: require("../assets/land-image.jpg"),
+    imageUrl: landImage,
     heading: "Lore Epsom Property",
     desc: "Rare Opportunity in highly desirable SpringBrook. Popular Scott Felder built floorplan. Showcasing easy living",
     area: 2345,

@@ -2,7 +2,7 @@ import { ImageCardWelcomeSearched } from "@/components/ImageCardWelcomeSearched"
 import { NavBarContainer } from "@/sections/NavBarContainer";
 import { CardMedia, Typography } from "@mui/material";
 
-import sampleImage from "../assets/aerial-view.png";
+import sampleImage from "@/assets/aerial-view.png";
 
 export default function Properties() {
   return (
@@ -35,8 +35,7 @@ export default function Properties() {
             left: "5%",
             color: "white",
             fontWeight: "bold",
-          }}
-        >
+          }}>
           Welcome To SlasProp
         </Typography>
 
@@ -52,8 +51,7 @@ export default function Properties() {
             fontSize: "12px",
             left: "5%",
             color: "white",
-          }}
-        >
+          }}>
           Where Innovation meets Real Estate. You property adventure starts
           here.
         </Typography>

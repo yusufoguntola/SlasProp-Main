@@ -1,8 +1,9 @@
 import { ArrowForward, LocationOn } from "@mui/icons-material";
 import { Box, Button, IconButton, Typography } from "@mui/material";
+import Image, { StaticImageData } from "next/image";
 
 interface MyPropertyCardProps {
-  imageUrl: string;
+  imageUrl: string | StaticImageData;
   price: string;
   location: string;
   desc: string;
@@ -16,15 +17,12 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
         pb: 4,
         mt: 4,
         display: "flex",
-      }}
-    >
-      <Box
-        component="img"
+      }}>
+      <Image
         src={property.imageUrl}
-        sx={{
-          height: 150,
-          width: 200,
-        }}
+        height={150}
+        width={200}
+        alt="land image"
       />
       <Box sx={{ display: "flex", flexDirection: "column", ml: 4 }}>
         <Button
@@ -36,8 +34,7 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
             fontSize: "8px",
             maxWidth: "70px",
             px: 2.5,
-          }}
-        >
+          }}>
           Active
         </Button>
         <Typography
@@ -46,8 +43,7 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
             fontStyle: "italic",
             color: "#26a69a",
             fontWeight: "bold",
-          }}
-        >
+          }}>
           {property.price}
         </Typography>
         <Typography sx={{ fontSize: "9px", color: "grey" }}>
@@ -71,8 +67,7 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
             mt: 2,
             maxWidth: "90px",
             mx: -1,
-          }}
-        >
+          }}>
           View Details{" "}
           <ArrowForward sx={{ fontSize: "12px", color: "#DF593D", ml: 0.5 }} />
         </IconButton>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef, useState } from "react";
 
 import {
@@ -40,8 +42,7 @@ export function ProfileMenu() {
           sx={{ p: 0 }}
           onClick={() => {
             setMenuOpen((prev) => !prev);
-          }}
-        >
+          }}>
           <Avatar alt="Remy Sharp" src={sampleImage.src} />
         </IconButton>
       </Tooltip>
@@ -59,8 +60,7 @@ export function ProfileMenu() {
           vertical: "top",
           horizontal: "right",
         }}
-        open={menuOpen}
-      >
+        open={menuOpen}>
         <MenuItem onClick={handleClose} component={Link} to="/dashboard">
           <Typography textAlign="center">Dashboard</Typography>
         </MenuItem>
