@@ -4,47 +4,46 @@ import { Box, Button, Container, IconButton, Typography } from "@mui/material";
 import React, { useState } from "react";
 import SlasPayLogin from "../forms/SlasPayLogin";
 
+const properties = [
+  {
+    id: 1,
+    name: "John Doe",
+    taxID: "HGFFT23T821",
+    landType: "Sample Data",
+    area: 478,
+    regNumber: 3246745335,
+    location: "Sample Data",
+    address: "17917 Holderness Ln, Pflugerville, TX 78660",
+    zip: "78660",
+    taxDetails: {
+      year: [2022, 2021, 2020, 2019],
+      propertyTax: ["$9246", "$9426", "$9246", "$9246"],
+      taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
+      status: ["pending"],
+    },
+    OwnerDetails: {
+      owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
+      totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
+      initials: ["IS", "AD", "CD"],
+    },
+  },
+  // {
+  //     id: 2,
+  //     name:"John Doe",
+  //     taxID: 'HGFFT23T821',
+  //     landType:'Sample Data',
+  //     area:478,
+  //     regNumber:3246745335,
+  //     location: "Sample Data",
+  //     address:"17917 Holderness Ln, Pflugerville, TX 78660",
+  //     zip:"78660"
+  // }
+];
 const RegisteredProperties = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [checkHeading, setCheckHeading] = useState("Registered Properties");
 
   const [isHeading, setIsHeading] = useState(false);
-
-  const properties = [
-    {
-      id: 1,
-      name: "John Doe",
-      taxID: "HGFFT23T821",
-      landType: "Sample Data",
-      area: 478,
-      regNumber: 3246745335,
-      location: "Sample Data",
-      address: "17917 Holderness Ln, Pflugerville, TX 78660",
-      zip: "78660",
-      taxDetails: {
-        year: [2022, 2021, 2020, 2019],
-        propertyTax: ["$9246", "$9426", "$9246", "$9246"],
-        taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
-        status: ["pending"],
-      },
-      OwnerDetails: {
-        owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
-        totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
-        initials: ["IS", "AD", "CD"],
-      },
-    },
-    // {
-    //     id: 2,
-    //     name:"John Doe",
-    //     taxID: 'HGFFT23T821',
-    //     landType:'Sample Data',
-    //     area:478,
-    //     regNumber:3246745335,
-    //     location: "Sample Data",
-    //     address:"17917 Holderness Ln, Pflugerville, TX 78660",
-    //     zip:"78660"
-    // }
-  ];
   const handleClick = () => {
     setIsPressed(!isPressed);
     setIsHeading(!isHeading);
