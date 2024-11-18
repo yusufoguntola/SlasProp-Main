@@ -3,7 +3,7 @@ import { PropertyCardProps } from "./PropertyCard";
 
 type OwnerDetailsProps = PropertyCardProps["ownerDetails"];
 
-export function OwnerDetails(ownerDetails) {
+export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
   return (
     <Box
       sx={{

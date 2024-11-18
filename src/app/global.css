@@ -1,0 +1,83 @@
+/* globals.css */
+
+/* Toast container styles */
+.bg-blue-600 {
+  background-color: #2563eb;
+}
+
+.bg-red-600 {
+  background-color: #dc2626;
+}
+
+.bg-gray-600 {
+  background-color: #4b5563;
+}
+
+.bg-orange-400 {
+  background-color: #fb923c;
+}
+
+.bg-indigo-600 {
+  background-color: #4f46e5;
+}
+
+.bg-white-600 {
+  background-color: #ffffff;
+}
+
+.font-gray-300 {
+  color: #d1d5db;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.font-white {
+  color: #ffffff;
+}
+
+.font-med {
+  font-weight: 500;
+}
+
+/* Toast customization */
+.relative {
+  position: relative;
+}
+
+.flex {
+  display: flex;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.min-h-10 {
+  min-height: 2.5rem;
+}
+
+.rounded-md {
+  border-radius: 0.375rem;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.block {
+  display: block;
+}
+
+.p-3 {
+  padding: 0.75rem;
+}

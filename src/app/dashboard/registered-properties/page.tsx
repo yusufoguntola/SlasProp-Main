@@ -1,22 +1,17 @@
-<<<<<<<< HEAD:src/app/RegisteredProperties.tsx
-import RegisteredProperties from "@/app/RegisteredProperties";
-import app from "next/app";
-import src from "node_modules/@emotion/styled/dist/declarations/src";
-========
+"use client";
+
 import { MoreVert } from "@mui/icons-material";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
 import { SlasPayLogin } from "@/forms/SlasPayLogin";
->>>>>>>> 59e41c6430932db2727e58a424fead25cb150238:src/app/dashboard/registered-properties/page.tsx
 
-// Define the types for properties
-const properties: PropertiesData[] = [
+const properties = [
   {
     id: 1,
     name: "John Doe",
-    taxID: "HGFFT23T821",``
+    taxID: "HGFFT23T821",
     landType: "Sample Data",
     area: 478,
     regNumber: 3246745335,
@@ -35,24 +30,29 @@ const properties: PropertiesData[] = [
       initials: ["IS", "AD", "CD"],
     },
   },
-  // Add other properties if needed
+  // {
+  //     id: 2,
+  //     name:"John Doe",
+  //     taxID: 'HGFFT23T821',
+  //     landType:'Sample Data',
+  //     area:478,
+  //     regNumber:3246745335,
+  //     location: "Sample Data",
+  //     address:"17917 Holderness Ln, Pflugerville, TX 78660",
+  //     zip:"78660"
+  // }
 ];
 
-<<<<<<<< HEAD:src/app/RegisteredProperties.tsx
-const RegisteredProperties: React.FC = () => {
-  const [isPressed, setIsPressed] = useState<boolean>(false);
-========
 export default function RegisteredProperties() {
   const [isPressed, setIsPressed] = useState(false);
->>>>>>>> 59e41c6430932db2727e58a424fead25cb150238:src/app/dashboard/registered-properties/page.tsx
   const [checkHeading, setCheckHeading] = useState("Registered Properties");
 
-  const [isHeading, setIsHeading] = useState<boolean>(false);
+  const [isHeading, setIsHeading] = useState(false);
   const handleClick = () => {
     setIsPressed(!isPressed);
     setIsHeading(!isHeading);
 
-    if (!isHeading) {
+    if (isHeading === false) {
       setCheckHeading("Details");
     } else {
       setCheckHeading("Registered Properties");
@@ -94,7 +94,7 @@ export default function RegisteredProperties() {
           flexDirection: "column",
         }}>
         {properties.map((property) => (
-          <Box sx={{ border: "1px solid lightgray", mb: 4 }} key={property.id}>
+          <Box sx={{ border: "1px solid lightgray", mb: 4 }}>
             <Box sx={{ display: "flex", pl: 6 }}>
               <Typography
                 sx={{
@@ -212,14 +212,10 @@ export default function RegisteredProperties() {
       <Box sx={{ marginLeft: "30%", pb: 2, display: "flex" }}>
         {isPressed ? (
           properties.map((property) => (
-<<<<<<<< HEAD:src/app/RegisteredProperties.tsx
-            <TaxOwnerDetailsCard property={property} key={property.id} />
-========
             <TaxOwnerDetailsCard
               taxDetails={property.taxDetails}
               ownerDetails={property.ownerDetails}
             />
->>>>>>>> 59e41c6430932db2727e58a424fead25cb150238:src/app/dashboard/registered-properties/page.tsx
           ))
         ) : (
           <Box minHeight={140}></Box>

@@ -23,10 +23,12 @@ import { useLogin } from "@/api/use-login";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
+import { showToast } from "@/utils/toast-style";
+import { useState } from "react";
 import { SignUpModal } from "./sign-up-modal";
 
 const schema = object({
-  userID: string().required(),
+  username: string().required(),
   password: string()
     .required()
     .min(6, "Password must be at least 6 characters")
@@ -38,6 +40,7 @@ const schema = object({
 
 export function LoginModal() {
   const setOption = useOptionStore((state) => state.setOption);
+  const [open, setOpen] = useState(false);
   const { mutate: login } = useLogin();
   const [, setToken] = useLocalStorage<string>("token");
 
@@ -51,12 +54,19 @@ export function LoginModal() {
     validate: yupResolver(schema),
   });
 
+  console.log({ form: form.errors });
+
   const { loginIsOpen, loginToggle } = useMaterialMenu("login");
 
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
+    console.log({ format: form.getValues() });
     login(values, {
       onSuccess: (response) => {
         setToken(response.data.access_token);
+        showToast("success", <p>Login Successful!</p>);
+      },
+      onError: (error) => {
+        showToast("error", <p> Login Failed! Please try again.</p>);
       },
     });
 
@@ -68,8 +78,7 @@ export function LoginModal() {
       <Button
         color="inherit"
         style={{ textTransform: "capitalize" }}
-        onClick={loginToggle}
-      >
+        onClick={() => setOpen(!open)}>
         Sign In / Login
         <ArrowCircleRightOutlined
           style={{ color: "#26a69a", paddingLeft: 4 }}
@@ -77,17 +86,16 @@ export function LoginModal() {
       </Button>
 
       <Dialog
-        open={loginIsOpen}
+        open={open}
         sx={{
           maxWidth: "500px",
           left: "28%",
         }}
-        onClose={close}
+        onClose={() => !loginIsOpen}
         PaperProps={{
           component: "form",
           onSubmit: form.onSubmit(handleSubmit),
-        }}
-      >
+        }}>
         <Container sx={{ borderBottom: 1 }}>
           <DialogActions>
             <p
@@ -98,18 +106,16 @@ export function LoginModal() {
                 fontSize: 17,
                 fontWeight: "bold",
                 marginRight: "auto",
-              }}
-            >
+              }}>
               Login
             </p>
-            <Button onClick={close} sx={{ marginRight: -4 }}>
+            <Button onClick={() => setOpen(!open)} sx={{ marginRight: -4 }}>
               <Clear
                 sx={{
                   color: "red",
                   fontSize: 20,
                   fontWeight: "bold",
-                }}
-              ></Clear>
+                }}></Clear>
             </Button>
           </DialogActions>
         </Container>
@@ -140,8 +146,7 @@ export function LoginModal() {
                         "showPassword",
                         !form.values.showPassword
                       );
-                    }}
-                  >
+                    }}>
                     {form.values.showPassword ? (
                       <VisibilityOff />
                     ) : (
@@ -161,8 +166,7 @@ export function LoginModal() {
               color: "red",
               fontWeight: "bold",
               marginLeft: "auto",
-            }}
-          >
+            }}>
             Forgot Password?
           </Link>
           <Container sx={{ display: "flex", justifyContent: "center" }}>
@@ -178,8 +182,7 @@ export function LoginModal() {
                   borderRadius: "16px",
                   boxShadow: "10px 10px 5px #269d91 inset",
                   width: "150px",
-                }}
-              >
+                }}>
                 Login
               </Button>
             </DialogActions>

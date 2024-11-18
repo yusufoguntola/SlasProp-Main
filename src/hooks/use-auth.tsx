@@ -1,7 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { createContext, ReactNode, useContext, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./use-local-storage";
 
 interface AuthContextType {
@@ -18,16 +18,16 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useLocalStorage("user", null);
-  const navigate = useNavigate();
+  const { push } = useRouter();
 
   const login = async (data: any) => {
     setUser(data);
-    navigate("/welcome");
+    push("/welcome");
   };
 
   const logout = () => {
     setUser(null);
-    navigate("/", { replace: true });
+    push("/");
   };
 
   const value = useMemo(() => {
