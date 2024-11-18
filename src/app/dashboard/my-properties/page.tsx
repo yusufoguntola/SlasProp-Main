@@ -1,9 +1,22 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import { Box, Container, IconButton, Typography } from "@mui/material";
+import { StaticImageData } from "next/image";
 
 import landImage from "@/assets/land-image.jpg";
 import { MyPropertyCard } from "@/components/MyPropertyCard";
-import { PropertyData } from "@/types";
+
+export interface PropertyData {
+  id: number;
+  imageUrl: StaticImageData;
+  heading: string;
+  desc: string;
+  area: number;
+  beds: number;
+  baths: number;
+  price: string;
+  location: string;
+  status: string;
+}
 
 const properties: PropertyData[] = [
   {
