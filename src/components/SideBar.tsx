@@ -13,8 +13,8 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 
+import Link from "next/link";
 import sampleImage from "../assets/profile-picture.png";
 
 const ListOptions = [
@@ -84,7 +84,7 @@ export function SideBar() {
             <Button
               size="small"
               component={Link}
-              to="/dashboard/settings"
+              href="/dashboard/settings"
               sx={{
                 color: "#26a69a",
                 fontSize: "12px",
@@ -124,7 +124,7 @@ export function SideBar() {
             <ListItemButton
               sx={{ borderBottom: "1px solid lightgrey" }}
               component={Link}
-              to="/dashboard"
+              href="/dashboard"
             >
               <ListItemText
                 primary={"Dashboard"}
@@ -140,7 +140,7 @@ export function SideBar() {
                   <ListItemButton
                     sx={{ borderBottom: "1px solid lightgrey" }}
                     component={Link}
-                    to={`/dashboard/${option.address}`}
+                    href={`/dashboard/${option.address}`}
                   >
                     <ListItemText
                       sx={{
@@ -159,7 +159,7 @@ export function SideBar() {
                   <ListItemButton
                     sx={{ borderBottom: "1px solid lightgrey" }}
                     component={Link}
-                    to={`/dashboard/${option.address}`}
+                    href={`/dashboard/${option.address}`}
                   >
                     <ListItemText
                       sx={{
@@ -177,7 +177,7 @@ export function SideBar() {
             <ListItemButton
               sx={{ borderBottom: "1px solid lightgrey" }}
               component={Link}
-              to="/dashboard/messages"
+              href="/dashboard/messages"
             >
               <ListItemText
                 sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
@@ -191,7 +191,7 @@ export function SideBar() {
             <ListItemButton
               sx={{ borderBottom: "1px solid lightgrey" }}
               component={Link}
-              to="/dashboard/settings"
+              href="/dashboard/settings"
             >
               <ListItemText
                 sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
@@ -202,7 +202,7 @@ export function SideBar() {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton component={Link} to="/dashboard/notifications">
+            <ListItemButton component={Link} href="/dashboard/notifications">
               <ListItemText
                 sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
                 primaryTypographyProps={{ fontSize: "12px" }}

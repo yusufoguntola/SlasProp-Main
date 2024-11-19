@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 
-import "globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
 
 type LayoutProps = PropsWithChildren;
 

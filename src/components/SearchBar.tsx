@@ -1,6 +1,7 @@
 import { LocationOn, Search } from "@mui/icons-material";
 import { Button, Container, InputBase, Paper } from "@mui/material";
-import { Link } from "react-router-dom";
+
+import Link from "next/link";
 
 export function SearchBar() {
   return (
@@ -28,7 +29,7 @@ export function SearchBar() {
       <Button
         type="button"
         component={Link}
-        to="/property-details"
+        href="/property-details"
         className="SearchButton"
         sx={{
           bgcolor: "#26a69a",

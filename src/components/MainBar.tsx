@@ -8,11 +8,11 @@ import {
   IconButton,
   Toolbar,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-
-import { ProfileMenu } from "./ProfileMenu";
 
 import { LoginModal } from "@/forms/login-modal";
+import { ProfileMenu } from "./ProfileMenu";
+
+import Link from "next/link";
 import Logo from "../assets/Logo.png";
 
 export function MainBar() {
@@ -28,10 +28,11 @@ export function MainBar() {
           maxHeight: "80px",
           minHeight: "80px",
           boxShadow: "none",
-        }}>
+        }}
+      >
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Button component={Link} to="/">
+            <Button component={Link} href="/">
               <Box
                 component="img"
                 sx={{
@@ -49,7 +50,8 @@ export function MainBar() {
               maxHeight: 30,
               maxWidth: 30,
               mr: 1.5,
-            }}>
+            }}
+          >
             <Facebook style={{ color: "#26a69a", fontSize: 20 }} />
           </IconButton>
 
@@ -59,7 +61,8 @@ export function MainBar() {
               maxHeight: 30,
               maxWidth: 30,
               mr: 1.5,
-            }}>
+            }}
+          >
             <Instagram style={{ color: "#26a69a", fontSize: 20 }} />
           </IconButton>
 
@@ -69,7 +72,8 @@ export function MainBar() {
               maxHeight: 30,
               maxWidth: 30,
               mr: 1.5,
-            }}>
+            }}
+          >
             <YouTube style={{ color: "#26a69a", fontSize: 20 }} />
           </IconButton>
 
@@ -79,7 +83,8 @@ export function MainBar() {
               maxHeight: 30,
               maxWidth: 30,
               mr: 3,
-            }}>
+            }}
+          >
             <X style={{ color: "#26a69a", fontSize: 20 }} />
           </IconButton>
 

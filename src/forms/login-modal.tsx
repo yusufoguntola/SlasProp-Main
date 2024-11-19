@@ -14,7 +14,6 @@ import {
   FormLabel,
   IconButton,
   InputAdornment,
-  Link,
   TextField,
 } from "@mui/material";
 import { useEffect } from "react";
@@ -24,9 +23,10 @@ import { useLogin } from "@/api/use-login";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
-import { showToast } from "@/utils/toast-style";
-
+import { showToast } from "@/utils/toast";
 import { SignUpModal } from "./sign-up-modal";
+
+import Link from "next/link";
 
 const schema = object({
   username: string().required(),
@@ -170,7 +170,6 @@ export function LoginModal() {
 
           <Link
             href="#"
-            variant="body2"
             style={{
               textDecoration: "none",
               color: "red",

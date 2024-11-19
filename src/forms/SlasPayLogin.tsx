@@ -5,7 +5,6 @@ import {
   FormLabel,
   IconButton,
   InputAdornment,
-  Link,
   Modal,
   TextField,
   Typography,
@@ -13,6 +12,8 @@ import {
 
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useForm } from "@mantine/form";
+
+import Link from "next/link";
 import sampleImage from "../assets/Logo.png";
 
 const style = {
@@ -130,7 +131,6 @@ export function SlasPayLogin() {
 
           <Link
             href="#"
-            variant="body2"
             style={{
               textDecoration: "none",
               color: "red",

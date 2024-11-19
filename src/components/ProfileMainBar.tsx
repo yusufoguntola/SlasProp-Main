@@ -17,10 +17,11 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 
 import { useAuth } from "@/hooks/use-auth";
 import { useOptionStore } from "@/stores/useOptionStore";
+
+import Link from "next/link";
 
 const ProfileMainBar = () => {
   const setOption = useOptionStore((state) => state.setOption);
@@ -86,7 +87,7 @@ const ProfileMainBar = () => {
               size="large"
               color="inherit"
               component={Link}
-              to="/dashboard/messages"
+              href="/dashboard/messages"
             >
               <Badge badgeContent={1} color="error">
                 <ChatBubbleOutlineOutlined
@@ -106,7 +107,7 @@ const ProfileMainBar = () => {
               size="large"
               color="inherit"
               component={Link}
-              to="/dashboard/notifications"
+              href="/dashboard/notifications"
             >
               <Badge badgeContent={1} color="error">
                 <NotificationsNoneOutlined

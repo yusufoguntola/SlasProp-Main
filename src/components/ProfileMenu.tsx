@@ -12,11 +12,11 @@ import {
   Typography,
 } from "@mui/material";
 
+import { useAuth } from "@/hooks/use-auth";
 import { useOptionStore } from "@/stores/useOptionStore";
-import { Link } from "react-router-dom";
 
-import sampleImage from "../assets/profile-picture.png";
-import { useAuth } from "../hooks/use-auth";
+import sampleImage from "@/assets/profile-picture.png";
+import Link from "next/link";
 
 export function ProfileMenu() {
   const { logout } = useAuth();
@@ -42,7 +42,8 @@ export function ProfileMenu() {
           sx={{ p: 0 }}
           onClick={() => {
             setMenuOpen((prev) => !prev);
-          }}>
+          }}
+        >
           <Avatar alt="Remy Sharp" src={sampleImage.src} />
         </IconButton>
       </Tooltip>
@@ -60,8 +61,9 @@ export function ProfileMenu() {
           vertical: "top",
           horizontal: "right",
         }}
-        open={menuOpen}>
-        <MenuItem onClick={handleClose} component={Link} to="/dashboard">
+        open={menuOpen}
+      >
+        <MenuItem onClick={handleClose} component={Link} href="/dashboard">
           <Typography textAlign="center">Dashboard</Typography>
         </MenuItem>
 

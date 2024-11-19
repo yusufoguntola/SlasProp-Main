@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import sampleImage from "../assets/property-image.jpg";
 
 export interface PropertyCardProps {
@@ -37,8 +37,7 @@ export function PropertyCard(property: PropertyCardProps) {
       <CardActionArea
         sx={{ display: "flex" }}
         component={Link}
-        to={`/property-details/${property.taxID}`}
-        state={{ property: property }}
+        href={`/property-details/${property.taxID}`}
       >
         <CardMedia
           component="img"
