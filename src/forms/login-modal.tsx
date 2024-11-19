@@ -17,6 +17,7 @@ import {
   Link,
   TextField,
 } from "@mui/material";
+import { useEffect } from "react";
 import { object, string } from "yup";
 
 import { useLogin } from "@/api/use-login";
@@ -24,7 +25,6 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
 import { showToast } from "@/utils/toast-style";
-import { useEffect } from "react";
 import { SignUpModal } from "./sign-up-modal";
 
 const schema = object({
