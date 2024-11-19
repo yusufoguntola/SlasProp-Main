@@ -4,7 +4,7 @@ import { OwnerDetails } from "./OwnerDetails";
 import { PropertyCardProps } from "./PropertyCard";
 import { TaxDetails } from "./TaxDetails";
 
-interface TaxOwnerDetailsCardProps {
+export interface TaxOwnerDetailsCardProps {
   taxDetails: PropertyCardProps["taxDetails"];
   ownerDetails: PropertyCardProps["ownerDetails"];
 }

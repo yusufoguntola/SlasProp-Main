@@ -10,7 +10,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useForm } from "@mantine/form";
@@ -31,8 +30,7 @@ const style = {
 };
 
 export function SlasPayLogin() {
-  const [showPassword, setShowPassword] = useState(false);
-  const { navClose, navOpen, navIsOpen, navToggle } = useMaterialMenu("nav");
+  const { navClose, navIsOpen, navToggle } = useMaterialMenu("nav");
 
   const form = useForm({
     initialValues: {
@@ -104,7 +102,7 @@ export function SlasPayLogin() {
           </FormLabel>
 
           <TextField
-            type={showPassword ? "text" : "password"}
+            type={form.values.showPassword ? "text" : "password"}
             name="password"
             size="small"
             fullWidth

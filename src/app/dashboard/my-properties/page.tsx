@@ -55,8 +55,7 @@ export default function MyProperties() {
           mt: 4,
           borderBottom: "1px solid lightgray",
           pb: 2,
-        }}
-      >
+        }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           List Of Properties
         </Typography>
@@ -68,8 +67,7 @@ export default function MyProperties() {
             color: "white",
             fontSize: "12px",
             p: 1,
-          }}
-        >
+          }}>
           <AddCircleOutline /> &nbsp;Add New Property
         </IconButton>
       </Box>

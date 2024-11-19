@@ -1,3 +1,5 @@
+"use client";
+
 import { Footer } from "@/sections/Footer";
 import { AdvertisementContainer } from "../sections/AdvertisementContainer";
 import { Blogs } from "../sections/Blogs";

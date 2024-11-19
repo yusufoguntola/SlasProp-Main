@@ -1,3 +1,5 @@
+"use client";
+
 import { MoreVert } from "@mui/icons-material";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
@@ -66,8 +68,7 @@ export default function RegisteredProperties() {
           mt: 4,
           borderBottom: "1px solid lightgray",
           pb: 2,
-        }}
-      >
+        }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           {checkHeading}
         </Typography>
@@ -79,8 +80,7 @@ export default function RegisteredProperties() {
             color: "white",
             fontSize: "12px",
             p: 1,
-          }}
-        >
+          }}>
           Register New Property
         </IconButton>
       </Box>
@@ -92,8 +92,7 @@ export default function RegisteredProperties() {
           pb: 2,
           display: "flex",
           flexDirection: "column",
-        }}
-      >
+        }}>
         {properties.map((property) => (
           <Box sx={{ border: "1px solid lightgray", mb: 4 }}>
             <Box sx={{ display: "flex", pl: 6 }}>
@@ -104,8 +103,7 @@ export default function RegisteredProperties() {
                   py: 2,
                   fontSize: "12px",
                   color: "grey",
-                }}
-              >
+                }}>
                 Property Owner Name
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property.name}
@@ -118,8 +116,7 @@ export default function RegisteredProperties() {
                   px: 4,
                   fontSize: "12px",
                   color: "grey",
-                }}
-              >
+                }}>
                 Type Of Land
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property.landType}
@@ -135,12 +132,10 @@ export default function RegisteredProperties() {
                     display: "flex",
                     flexDirection: "column",
                     flexGrow: 1,
-                  }}
-                >
+                  }}>
                   Registration Number
                   <Typography
-                    sx={{ color: "black", fontWeight: "bold", margin: "auto" }}
-                  >
+                    sx={{ color: "black", fontWeight: "bold", margin: "auto" }}>
                     {property.regNumber}
                   </Typography>
                 </Typography>
@@ -159,8 +154,7 @@ export default function RegisteredProperties() {
                   pr: 5.5,
                   fontSize: "12px",
                   color: "grey",
-                }}
-              >
+                }}>
                 Property Tax ID
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property.taxID}
@@ -174,16 +168,14 @@ export default function RegisteredProperties() {
                   pr: 7.25,
                   fontSize: "12px",
                   color: "grey",
-                }}
-              >
+                }}>
                 Area Of Land
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property.area}
                 </Typography>
               </Typography>
               <Typography
-                sx={{ py: 2, px: 4, fontSize: "12px", color: "grey" }}
-              >
+                sx={{ py: 2, px: 4, fontSize: "12px", color: "grey" }}>
                 Location
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property.location}
@@ -199,16 +191,14 @@ export default function RegisteredProperties() {
                   pr: 13.5,
                   fontSize: "12px",
                   color: "grey",
-                }}
-              >
+                }}>
                 ZIP/ PIN Code
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property.zip}
                 </Typography>
               </Typography>
               <Typography
-                sx={{ px: 4, py: 2, fontSize: "12px", color: "grey" }}
-              >
+                sx={{ px: 4, py: 2, fontSize: "12px", color: "grey" }}>
                 Registration Address
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property.address}
@@ -241,8 +231,7 @@ export default function RegisteredProperties() {
                 mb: 2,
                 ml: 2,
                 p: 1,
-              }}
-            >
+              }}>
               EMI: $2,109/mo
               <Typography
                 component="span"
@@ -251,8 +240,7 @@ export default function RegisteredProperties() {
                   fontSize: 11,
                   color: "blue",
                   textDecoration: "underline",
-                }}
-              >
+                }}>
                 DETAILS
               </Typography>
             </Typography>
@@ -265,13 +253,11 @@ export default function RegisteredProperties() {
                 mb: 2,
                 ml: 2,
                 p: 1,
-              }}
-            >
+              }}>
               Current Valuation
               <Typography
                 component="span"
-                sx={{ ml: 1, fontSize: 11, color: "#26a69a" }}
-              >
+                sx={{ ml: 1, fontSize: 11, color: "#26a69a" }}>
                 $565758
               </Typography>
             </Typography>

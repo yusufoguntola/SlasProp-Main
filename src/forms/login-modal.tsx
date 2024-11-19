@@ -17,16 +17,19 @@ import {
   Link,
   TextField,
 } from "@mui/material";
+import { useEffect } from "react";
 import { object, string } from "yup";
 
 import { useLogin } from "@/api/use-login";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
+import { showToast } from "@/utils/toast-style";
+
 import { SignUpModal } from "./sign-up-modal";
 
 const schema = object({
-  userID: string().required(),
+  username: string().required(),
   password: string()
     .required()
     .min(6, "Password must be at least 6 characters")
@@ -51,17 +54,25 @@ export function LoginModal() {
     validate: yupResolver(schema),
   });
 
-  const { loginIsOpen, loginToggle } = useMaterialMenu("login");
+  const { loginIsOpen, loginToggle, loginClose } = useMaterialMenu("login");
 
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
     login(values, {
       onSuccess: (response) => {
         setToken(response.data.access_token);
+        showToast("success", <p>Login Successful!</p>);
+      },
+      onError: () => {
+        showToast("error", <p> Login Failed! Please try again. </p>);
       },
     });
 
     setOption(false);
   }
+
+  useEffect(() => {
+    form.reset();
+  }, [loginIsOpen]);
 
   return (
     <>
@@ -82,7 +93,7 @@ export function LoginModal() {
           maxWidth: "500px",
           left: "28%",
         }}
-        onClose={close}
+        onClose={loginClose}
         PaperProps={{
           component: "form",
           onSubmit: form.onSubmit(handleSubmit),
@@ -102,7 +113,7 @@ export function LoginModal() {
             >
               Login
             </p>
-            <Button onClick={close} sx={{ marginRight: -4 }}>
+            <Button onClick={loginClose}>
               <Clear
                 sx={{
                   color: "red",
@@ -124,6 +135,8 @@ export function LoginModal() {
             size="small"
             margin="normal"
             sx={{ color: "grey", mb: 1.5 }}
+            error={Boolean(form.errors.username)}
+            helperText={form.errors.username}
           />
           <FormLabel sx={{ fontSize: 13 }}>Password</FormLabel>
           <TextField
@@ -151,6 +164,8 @@ export function LoginModal() {
                 </InputAdornment>
               ),
             }}
+            error={Boolean(form.errors.password)}
+            helperText={form.errors.password}
           />
 
           <Link
