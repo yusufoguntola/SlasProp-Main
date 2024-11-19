@@ -1,14 +1,60 @@
 "use client";
 
 import clsx from "clsx";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {
+  Id,
+  Slide,
+  ToastContainer,
+  ToastContent,
+  ToastOptions,
+  toast,
+} from "react-toastify";
+
+export const defaultOptions: ToastOptions = {
+  position: "top-center",
+  autoClose: 4000,
+  hideProgressBar: true,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "colored",
+  transition: Slide,
+};
+
+/**
+ * Display toast
+ *
+ * @param {ToastType} type
+ * @param {ToastContent} content
+ * @param {ToastOptions} [options=defaultToastOption]
+ * @return {Id}
+ */
+const toastStyles = {
+  success: "bg-green-500 text-white font-bold",
+  error: "bg-red-500 text-white font-bold",
+  info: "bg-blue-500 text-white font-bold",
+  warning: "bg-yellow-500 text-black font-bold",
+  default: "bg-gray-500 text-white font-bold",
+};
+
+export type ToastType = keyof typeof toastStyles;
+
+export const showToast = (
+  type: ToastType,
+  content: ToastContent,
+  options: Partial<ToastOptions> = {}
+): Id => {
+  const className = toastStyles[type];
+  const optionsOverride = { ...defaultOptions, ...options, className };
+  return toast(content, optionsOverride);
+};
 
 interface ToastProviderProps {
   children: React.ReactNode;
 }
 
-export default function ToastProvider({ children }: ToastProviderProps) {
+export function ToastProvider({ children }: ToastProviderProps) {
   const contextClass = {
     success: "bg-blue-600",
     error: "bg-red-600",
