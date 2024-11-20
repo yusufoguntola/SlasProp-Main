@@ -24,8 +24,7 @@ export default function Messages() {
           <Typography
             variant="h6"
             sx={{ fontWeight: "bold" }}
-            className="header-message"
-          >
+            className="header-message">
             Chat
           </Typography>
         </Grid>
@@ -33,11 +32,10 @@ export default function Messages() {
       <Grid
         container
         component={Paper}
-        sx={{ width: "100%", height: "80vh", mt: 1 }}
-      >
+        sx={{ width: "100%", height: "80vh", mt: 1 }}>
         <Grid item xs={3} sx={{ borderRight: "1px solid #e0e0e0" }}>
           <List>
-            <ListItem button key="RemySharp">
+            <ListItem key="RemySharp" component="button">
               <ListItemIcon>
                 <Avatar
                   alt="Remy Sharp"
@@ -52,8 +50,7 @@ export default function Messages() {
             item
             xs={12}
             sx={{ display: "flex" }}
-            style={{ padding: "10px" }}
-          >
+            style={{ padding: "10px" }}>
             <InputBase
               sx={{
                 border: "1px solid grey;",
@@ -72,14 +69,13 @@ export default function Messages() {
                 borderRadius: "0px",
                 "&:hover": { backgroundColor: "#52d6cf" },
               }}
-              aria-label="search"
-            >
+              aria-label="search">
               <Search />
             </Button>
           </Grid>
           <Divider />
           <List>
-            <ListItem button key="RemySharp">
+            <ListItem component="button" key="RemySharp">
               <ListItemIcon>
                 <Avatar
                   alt="Remy Sharp"
@@ -94,7 +90,7 @@ export default function Messages() {
                 }}
               />
             </ListItem>
-            <ListItem button key="Alice">
+            <ListItem component="button" key="Alice">
               <ListItemIcon>
                 <Avatar
                   alt="Alice"
@@ -103,7 +99,7 @@ export default function Messages() {
               </ListItemIcon>
               <ListItemText primary="Alice">Alice</ListItemText>
             </ListItem>
-            <ListItem button key="CindyBaker">
+            <ListItem component="button" key="CindyBaker">
               <ListItemIcon>
                 <Avatar
                   alt="Cindy Baker"
@@ -189,8 +185,7 @@ export default function Messages() {
             <Grid item xs={1} alignItems="right" sx={{ ml: 1 }}>
               <Fab
                 sx={{ backgroundColor: "#26a69a", color: "white" }}
-                aria-label="add"
-              >
+                aria-label="add">
                 <Send />
               </Fab>
             </Grid>

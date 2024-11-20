@@ -8,7 +8,7 @@ type LayoutProps = PropsWithChildren;
 export default function Layout({ children }: LayoutProps) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="min-h-screen flex flex-col">{children}</body>
     </html>
   );
 }

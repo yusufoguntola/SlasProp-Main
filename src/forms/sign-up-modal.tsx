@@ -3,27 +3,38 @@ import { Clear, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Checkbox,
-  checkboxClasses,
   Container,
   Dialog,
   DialogActions,
   DialogContent,
   FormControlLabel,
+  FormHelperText,
   FormLabel,
   Grid,
   IconButton,
   InputAdornment,
   TextField,
+  checkboxClasses,
 } from "@mui/material";
 import { boolean, object, ref, string } from "yup";
 
+import {
+  useActivateAccount,
+  useRegister,
+  useResendActivationOTP,
+} from "@/api/use-register";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
+import { showToast } from "@/utils/toast";
+import { MuiOtpInput } from "mui-one-time-password-input";
+import { useEffect, useState } from "react";
 
 const schema = object({
-  userID: string().required(),
+  userID: string().required().min(1, "First name is required"),
+  lastName: string().required().min(1, "Last name is required"),
+  username: string().required().min(2, "Username is required"),
   password: string()
     .required()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .matches(
       /(?=.*[a-z])(?=.*[A-Z])/,
       "Password must contain at least one uppercase and one lowercase letter"
@@ -36,13 +47,31 @@ const schema = object({
     .required(),
   phoneNumber: string().required(),
   email: string().email().required(),
-  username: string().required(),
 });
 
 export function SignUpModal() {
+  const { mutate: register } = useRegister();
+  const { mutate: activate_account } = useActivateAccount();
+  const { mutate: resend_otp } = useResendActivationOTP();
+  const [otp, setOtp] = useState("");
+  const [open, setOpen] = useState(false);
+  const [activationToken, setActivationToken] = useState("");
+  const [email, setEmail] = useState("");
+
+  console.log({ otp, activationToken, email });
+
+  const handleChange = (newValue: string) => {
+    setOtp(newValue);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+
   const form = useForm({
     initialValues: {
       userID: "",
+      lastName: "",
       acceptTermsConditions: false,
       password: "",
       phoneNumber: "",
@@ -67,193 +96,362 @@ export function SignUpModal() {
 
   const { dialogClose, dialogIsOpen, dialogToggle } = useMaterialMenu("dialog");
 
-  function handleSubmit() {}
+  useEffect(() => {
+    form.reset();
+  }, [dialogIsOpen]);
+
+  function handleSubmit(data: typeof form.values) {
+    const payload = {
+      email: data.email,
+      username: data.username,
+      password: data.password,
+      phoneNumber: data.phoneNumber,
+      firstName: data.userID,
+      lastName: data.lastName,
+    };
+
+    setEmail(data.email);
+    register(payload, {
+      onSuccess: (response) => {
+        console.log({ response });
+        setActivationToken(response.data.data.token);
+
+        setOpen(true);
+        dialogClose();
+        showToast("success", <p>{response.data.message}</p>);
+      },
+      onError: (error) => {
+        if (error instanceof Error && error.message) {
+          showToast("error", error.message);
+        } else {
+          showToast(
+            "error",
+            <p>User registration failed. Please try again.</p>
+          );
+        }
+      },
+    });
+  }
+
+  function handleActivateAccount() {
+    activate_account(
+      { token: activationToken, otp },
+      {
+        onSuccess: (response) => {
+          showToast("success", <p>{response.data.message}</p>);
+          dialogClose();
+          setOpen(false);
+        },
+        onError: () => {
+          showToast("error", "Failed to activate account");
+        },
+      }
+    );
+  }
+
+  function handleResendOTP() {
+    resend_otp(
+      { email },
+      {
+        onSuccess: (response) => {
+          showToast("success", <p>{response.data.message}</p>);
+        },
+        onError: (error) => {
+          if (error instanceof Error && error.message) {
+            showToast("error", error.message);
+          } else {
+            showToast("error", <p>Resend OTP failed. Please try again.</p>);
+          }
+        },
+      }
+    );
+  }
 
   return (
     <>
-      <Button
-        color="inherit"
-        sx={{
-          textTransform: "capitalize",
-          textDecoration: "none",
-          mt: 1,
-          textAlign: "center",
-          color: "#26a69a",
-          "&:hover": { backgroundColor: "white" },
-        }}
-        onClick={dialogToggle}
-      >
-        Don't have an account? Sign Up
-      </Button>
+      <>
+        <Button
+          color="inherit"
+          sx={{
+            textTransform: "capitalize",
+            textDecoration: "none",
+            mt: 1,
+            textAlign: "center",
+            color: "#26a69a",
+            "&:hover": { backgroundColor: "white" },
+          }}
+          onClick={dialogToggle}>
+          Don't have an account? Sign Up
+        </Button>
+
+        <Dialog
+          open={dialogIsOpen}
+          onClose={dialogClose}
+          PaperProps={{
+            component: "form",
+            onSubmit: form.onSubmit(handleSubmit),
+          }}>
+          <Container sx={{ borderBottom: 1 }}>
+            <DialogActions>
+              <p
+                style={{
+                  display: "inline-block",
+                  fontFamily: "monospace",
+                  fontSize: 17,
+                  fontWeight: "bold",
+                  marginRight: "auto",
+                }}>
+                Create New Account
+              </p>
+              <Button onClick={dialogClose} sx={{ marginRight: -4 }}>
+                <Clear
+                  sx={{ color: "red", fontSize: 20, fontWeight: "bold" }}
+                />
+              </Button>
+            </DialogActions>
+          </Container>
+
+          <DialogContent>
+            <p style={{ color: "#26a69a", fontSize: 15 }}>
+              Provide the following information to create an account.
+            </p>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <FormLabel>First Name</FormLabel>
+                <TextField
+                  fullWidth
+                  id="user ID"
+                  name="UserID"
+                  size="small"
+                  {...form.getInputProps("userID")}
+                  autoComplete="family-name"
+                  error={Boolean(form.errors.userID)}
+                  helperText={form.errors.userID}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormLabel>Last Name</FormLabel>
+                <TextField
+                  fullWidth
+                  id="user ID"
+                  name="lastName"
+                  size="small"
+                  {...form.getInputProps("lastName")}
+                  autoComplete="family-name"
+                  error={Boolean(form.errors.lastName)}
+                  helperText={form.errors.lastName}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormLabel>User Name</FormLabel>
+                <TextField
+                  autoComplete="given-name"
+                  name="userName"
+                  fullWidth
+                  id="userName"
+                  size="small"
+                  {...form.getInputProps("username")}
+                  error={Boolean(form.errors.username)}
+                  helperText={form.errors.username}
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormLabel>Email Address</FormLabel>
+                <TextField
+                  fullWidth
+                  id="email"
+                  name="email"
+                  autoComplete="email"
+                  {...form.getInputProps("email")}
+                  size="small"
+                  type="email"
+                  error={Boolean(form.errors.email)}
+                  helperText={form.errors.email}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6} style={{}}>
+                <FormLabel>Phone Number</FormLabel>
+                <TextField
+                  fullWidth
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  autoComplete="email"
+                  {...form.getInputProps("phoneNumber")}
+                  size="small"
+                  type="number"
+                  error={Boolean(form.errors.phoneNumber)}
+                  helperText={form.errors.phoneNumber}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormLabel>Password</FormLabel>
+                <TextField
+                  fullWidth
+                  name="password"
+                  type={form.values.showPassword ? "text" : "password"}
+                  id="password"
+                  size="small"
+                  autoComplete="new-password"
+                  margin="none"
+                  {...form.getInputProps("password")}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword}>
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={Boolean(form.errors.password)}
+                  helperText={form.errors.password}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormLabel>Confirm Password</FormLabel>
+                <TextField
+                  fullWidth
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  id="password"
+                  size="small"
+                  autoComplete="confirmPassword"
+                  margin="none"
+                  {...form.getInputProps("confirmPassword")}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowConfirmPassword}>
+                          {showConfirmPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={Boolean(form.errors.confirmPassword)}
+                  helperText={form.errors.confirmPassword}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="acceptTermsConditions"
+                      {...form.getInputProps("acceptTermsConditions", {
+                        type: "checkbox",
+                      })}
+                      sx={{
+                        [`&, &.${checkboxClasses.checked}`]: {
+                          color: "#26a69a",
+                        },
+                      }}
+                    />
+                  }
+                  label="I accept all terms and conditions"
+                />
+                <FormHelperText
+                  error={Boolean(form.errors.acceptTermsConditions)}>
+                  {form.errors.acceptTermsConditions}
+                </FormHelperText>
+              </Grid>
+            </Grid>
+            <Container sx={{ display: "flex", justifyContent: "center" }}>
+              <DialogActions>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="medium"
+                  sx={{
+                    backgroundColor: "#26a69a",
+                    "&:hover": { backgroundColor: "#26a69a" },
+                    borderRadius: "16px",
+                    boxShadow: "10px 10px 5px #269d91 inset",
+                  }}>
+                  Create Account
+                </Button>
+              </DialogActions>
+            </Container>
+          </DialogContent>
+        </Dialog>
+      </>
 
       <Dialog
-        open={dialogIsOpen}
-        onClose={dialogClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: form.onSubmit(handleSubmit),
+        open={open}
+        sx={{
+          maxWidth: "500px",
+          left: "28%",
         }}
-      >
+        onClose={handleCloseModal}>
         <Container sx={{ borderBottom: 1 }}>
           <DialogActions>
             <p
               style={{
                 display: "inline-block",
+                width: "250px",
                 fontFamily: "monospace",
                 fontSize: 17,
                 fontWeight: "bold",
                 marginRight: "auto",
-              }}
-            >
-              Create New Account
+              }}>
+              Enter OTP
             </p>
-            <Button onClick={dialogClose} sx={{ marginRight: -4 }}>
-              <Clear sx={{ color: "red", fontSize: 20, fontWeight: "bold" }} />
+            <Button onClick={handleCloseModal}>
+              <Clear
+                sx={{
+                  color: "red",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              />
             </Button>
           </DialogActions>
         </Container>
-
-        <DialogContent>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <p style={{ color: "#26a69a", fontSize: 15 }}>
-            Provide the following information to create an account.
+            Enter the OTP sent to your email to complete this process.
           </p>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <FormLabel>Your Name</FormLabel>
-              <TextField
-                autoComplete="given-name"
-                name="userName"
-                required
-                fullWidth
-                id="userName"
-                size="small"
-                {...form.getInputProps("userName")}
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormLabel>User ID</FormLabel>
-              <TextField
-                required
-                fullWidth
-                id="user ID"
-                name="UserID"
-                size="small"
-                {...form.getInputProps("userID")}
-                autoComplete="family-name"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormLabel>Email Address</FormLabel>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                name="email"
-                autoComplete="email"
-                {...form.getInputProps("email")}
-                size="small"
-                type="email"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormLabel>Phone Number</FormLabel>
-              <TextField
-                required
-                fullWidth
-                id="phoneNumber"
-                name="phoneNumber"
-                autoComplete="email"
-                {...form.getInputProps("phoneNumber")}
-                size="small"
-                type="number"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormLabel>Password</FormLabel>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                type={form.values.showPassword ? "text" : "password"}
-                id="password"
-                size="small"
-                autoComplete="new-password"
-                margin="normal"
-                {...form.getInputProps("password")}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleShowPassword}>
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormLabel>Confirm Password</FormLabel>
-              <TextField
-                required
-                fullWidth
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                id="password"
-                size="small"
-                autoComplete="confirmPassword"
-                margin="normal"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleShowConfirmPassword}>
-                        {showConfirmPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="acceptTermsConditions"
-                    {...form.getInputProps("acceptTermsConditions", {
-                      type: "checkbox",
-                    })}
-                    sx={{
-                      [`&, &.${checkboxClasses.checked}`]: {
-                        color: "#26a69a",
-                      },
-                    }}
-                  />
-                }
-                label="I accept all terms and conditions"
-              />
-            </Grid>
-          </Grid>
-          <Container sx={{ display: "flex", justifyContent: "center" }}>
-            <DialogActions>
-              <Button
-                type="submit"
-                variant="contained"
-                size="medium"
-                sx={{
-                  backgroundColor: "#26a69a",
-                  "&:hover": { backgroundColor: "#26a69a" },
-                  borderRadius: "16px",
-                  boxShadow: "10px 10px 5px #269d91 inset",
-                }}
-              >
-                Create Account
-              </Button>
-            </DialogActions>
-          </Container>
+          <article
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+              alignItems: "center",
+            }}>
+            <MuiOtpInput length={6} value={otp} onChange={handleChange} />
+            <button
+              style={{
+                paddingTop: 12,
+                background: "#26a69a",
+                width: "fit-content",
+                padding: "10px",
+                borderRadius: "5px",
+                fontSize: 15,
+                fontWeight: "bold",
+                cursor: "pointer",
+                border: "none",
+              }}
+              type="submit"
+              disabled={otp.length < 6}
+              onClick={() => handleActivateAccount()}>
+              submit
+            </button>
+          </article>
+          <button
+            type="button"
+            style={{
+              color: "green",
+              paddingBottom: "50px",
+            }}
+            onClick={handleResendOTP}>
+            Resend Activation OTP
+          </button>
         </DialogContent>
       </Dialog>
     </>

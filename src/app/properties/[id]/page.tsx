@@ -1,3 +1,5 @@
+"use client";
+
 import { useLocation } from "react-router";
 
 import { DetailsBox } from "@/components/DetailsBox";

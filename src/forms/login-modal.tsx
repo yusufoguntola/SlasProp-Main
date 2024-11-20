@@ -24,6 +24,7 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
 import { showToast } from "@/utils/toast";
+import { useRouter } from "next/navigation";
 import { SignUpModal } from "./sign-up-modal";
 
 import Link from "next/link";
@@ -43,6 +44,7 @@ export function LoginModal() {
   const setOption = useOptionStore((state) => state.setOption);
   const { mutate: login } = useLogin();
   const [, setToken] = useLocalStorage<string>("token");
+  const { push } = useRouter();
 
   const form = useForm({
     initialValues: {
@@ -61,6 +63,7 @@ export function LoginModal() {
       onSuccess: (response) => {
         setToken(response.data.access_token);
         showToast("success", <p>Login Successful!</p>);
+        push("/dashboard");
       },
       onError: () => {
         showToast("error", <p> Login Failed! Please try again. </p>);
@@ -79,8 +82,7 @@ export function LoginModal() {
       <Button
         color="inherit"
         style={{ textTransform: "capitalize" }}
-        onClick={loginToggle}
-      >
+        onClick={loginToggle}>
         Sign In / Login
         <ArrowCircleRightOutlined
           style={{ color: "#26a69a", paddingLeft: 4 }}
@@ -97,8 +99,7 @@ export function LoginModal() {
         PaperProps={{
           component: "form",
           onSubmit: form.onSubmit(handleSubmit),
-        }}
-      >
+        }}>
         <Container sx={{ borderBottom: 1 }}>
           <DialogActions>
             <p
@@ -109,8 +110,7 @@ export function LoginModal() {
                 fontSize: 17,
                 fontWeight: "bold",
                 marginRight: "auto",
-              }}
-            >
+              }}>
               Login
             </p>
             <Button onClick={loginClose}>
@@ -119,8 +119,7 @@ export function LoginModal() {
                   color: "red",
                   fontSize: 20,
                   fontWeight: "bold",
-                }}
-              ></Clear>
+                }}></Clear>
             </Button>
           </DialogActions>
         </Container>
@@ -153,8 +152,7 @@ export function LoginModal() {
                         "showPassword",
                         !form.values.showPassword
                       );
-                    }}
-                  >
+                    }}>
                     {form.values.showPassword ? (
                       <VisibilityOff />
                     ) : (
@@ -175,8 +173,7 @@ export function LoginModal() {
               color: "red",
               fontWeight: "bold",
               marginLeft: "auto",
-            }}
-          >
+            }}>
             Forgot Password?
           </Link>
           <Container sx={{ display: "flex", justifyContent: "center" }}>
@@ -192,8 +189,7 @@ export function LoginModal() {
                   borderRadius: "16px",
                   boxShadow: "10px 10px 5px #269d91 inset",
                   width: "150px",
-                }}
-              >
+                }}>
                 Login
               </Button>
             </DialogActions>

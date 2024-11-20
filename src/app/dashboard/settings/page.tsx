@@ -1,3 +1,5 @@
+"use client";
+
 import { useForm, yupResolver } from "@mantine/form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -11,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { object, string, ref, boolean } from "yup";
+import { boolean, object, ref, string } from "yup";
 
 const schema = object({
   userID: string().required(),
@@ -70,8 +72,7 @@ export default function Settings() {
           mt: 4,
           borderBottom: "1px solid lightgray",
           pb: 2,
-        }}
-      >
+        }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Edit Profile
         </Typography>
@@ -188,8 +189,7 @@ export default function Settings() {
               "&:hover": { backgroundColor: "#26a69a" },
               borderRadius: "16px",
               boxShadow: "10px 10px 5px #269d91 inset",
-            }}
-          >
+            }}>
             Update Profile
           </Button>
         </Container>

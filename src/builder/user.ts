@@ -19,13 +19,24 @@ export const login = (params: {
 
 export const register = (params: {
   email: string;
+  username: string;
+  lastName: string;
+  firstName: string;
   password: string;
-  name: string;
+  phoneNumber: string;
 }) => {
   return axiosInstance.post("/auth/register", params);
+};
+export const activate_account = (params: { token: string; otp: string }) => {
+  return axiosInstance.post("/auth/activate", params);
+};
+export const resend_activation_otp = (params: { email: string }) => {
+  return axiosInstance.post("/auth/activate/resend-otp", params);
 };
 
 export const user = {
   login,
   register,
+  activate_account,
+  resend_activation_otp,
 };

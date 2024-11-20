@@ -1,6 +1,7 @@
 "use client";
 
 import { Footer } from "@/sections/Footer";
+import { Suspense } from "react";
 import { AdvertisementContainer } from "../sections/AdvertisementContainer";
 import { Blogs } from "../sections/Blogs";
 import { FeatureProperties } from "../sections/FeatureProperties";
@@ -15,7 +16,7 @@ import { SubmitInquiry } from "../sections/SubmitInquiry";
 
 export default function Homepage() {
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <NavBarContainer />
       <HomeImageContainer />
       <RegisterProperty />
@@ -28,6 +29,6 @@ export default function Homepage() {
       <Blogs />
       <SubmitInquiry />
       <Footer />
-    </>
+    </Suspense>
   );
 }
