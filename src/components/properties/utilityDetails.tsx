@@ -1,15 +1,9 @@
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
 import {
   Box,
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
+  Button, FormControl, Grid,
+  IconButton, InputLabel, MenuItem,
+  Select, SelectChangeEvent, TextField
 } from "@mui/material";
 
 // Define the service interface for better type safety
@@ -34,12 +28,13 @@ interface UtilityDetailsFormProps {
     field: keyof Service
   ) => void;
 
+  
   handleAddService: () => void;
   handleRemoveService: (index: number) => void;
-
-  handleGreenEnergyInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleUtilityDropdownChange: (e: SelectChangeEvent<string>) => void;
+  handleUtilityEngergySourceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleUtilityGreenEnergyProviderInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDropdownChange: (e: SelectChangeEvent<string>) => void;
+  
 }
 
 export default function UtilityDetailsForm({
@@ -47,23 +42,30 @@ export default function UtilityDetailsForm({
   handleInputChange,
   handleAddService,
   handleRemoveService,
-  handleGreenEnergyInputChange,
-  handleDropdownChange,
+  // handleDropdownChange,
+  handleUtilityEngergySourceChange,
   handleUtilityGreenEnergyProviderInputChange,
+ handleUtilityDropdownChange,
+
 }: UtilityDetailsFormProps) {
+ 
+
+
+
   return (
     <Box sx={{ mt: 2 }}>
       {/* Green Energy Fields */}
       <Grid container spacing={2} sx={{ mb: 2 }}>
         {/* Is Green Energy Powered */}
         <Grid item xs={6}>
+       
           <FormControl fullWidth size="small" sx={{ my: 1 }}>
-            <InputLabel>Is Green Energy Powered?</InputLabel>
+            <InputLabel>   Is Green Energy Powered?</InputLabel>
             <Select
               name="isGreenEnergyPowered"
               value={String(formData.isGreenEnergyPowered)} // Ensure value is a string
-              onChange={handleDropdownChange}
-              label="Is Green Energy Powered?"
+              onChange={ handleUtilityDropdownChange}
+              label="is GreenEnergy Powered ?"
             >
               <MenuItem value="true">True</MenuItem>
               <MenuItem value="false">False</MenuItem>
@@ -77,7 +79,7 @@ export default function UtilityDetailsForm({
             label="Green Energy Provider"
             name="greenEnergyProvider"
             value={formData.greenEnergyProvider}
-            onChange={handleUtilityGreenEnergyProviderInputChange}
+             onChange={handleUtilityGreenEnergyProviderInputChange}
             fullWidth
             size="small"
           />
@@ -85,14 +87,19 @@ export default function UtilityDetailsForm({
 
         {/* Green Energy Sources */}
         <Grid item xs={12}>
-          <TextField
-            label="Green Energy Sources (comma-separated)"
-            name="greenEnergySources"
-            value={formData.greenEnergySources.join(", ")} // Join array into a comma-separated string for display
-            onChange={handleGreenEnergyInputChange} // Handle changes
-            fullWidth
-            size="small"
-          />
+        <TextField
+  label="Green Energy Sources (comma-separated)"
+  name="greenEnergySources"
+  value={formData.greenEnergySources.join(", ")} // Convert array to string for display
+  onChange={handleUtilityEngergySourceChange}
+  fullWidth
+  size="small"
+/>
+
+
+
+
+
         </Grid>
       </Grid>
 

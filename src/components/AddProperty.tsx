@@ -17,6 +17,7 @@ import {
 import { useState } from "react";
 import ConstructionDetailsForm from "./properties/constructionDetails";
 import HoaAndFinancialDetailsForm from "./properties/hoaAndFinancialDetails";
+import NeighbourhoodDetailsForm from "./properties/neighbourhoodDetails";
 import PropertyTypeSelector from "./properties/Properties";
 import PropertyDetailsForm from "./properties/propertyDetails";
 import UtilityDetailsForm from "./properties/utilityDetails";
@@ -27,6 +28,12 @@ interface Service {
   providerName: string;
   serviceCharge: number;
   frequency: string;
+}
+
+interface PublicPlace {
+  place: string;
+  type: string;
+  distance: string;
 }
 
 interface UtilitiesDetails {
@@ -63,6 +70,17 @@ interface FormData {
     isGreenEnergyPowered: boolean;
     greenEnergyProvider: string;
     greenEnergySources: string[];
+  };
+  neighbourhoodDetails: {
+    name: string;
+    description: string;
+    population: number;
+    locatedInGatedEstate: boolean;
+    proximityToPublicPlaces: {
+      place: string;
+      type: string;
+      distance: string;
+    }[];
   };
 
   hoaAndFinancialDetails: {
@@ -111,6 +129,20 @@ export default function AddProperty() {
       greenEnergyProvider: "",
       greenEnergySources: [],
     },
+
+    neighbourhoodDetails: {
+      name: "",
+      description: "",
+      population: 0,
+      locatedInGatedEstate: false,
+      proximityToPublicPlaces: [
+        {
+          place: "",
+          type: "",
+          distance: "",
+        },
+      ],
+    },
     hoaAndFinancialDetails: {
       name: "",
       hasDue: false,
@@ -130,6 +162,7 @@ export default function AddProperty() {
   const [showDetails, setShowDetails] = useState(false);
   const [showConstructionDetails, setShowConstructionDetails] = useState(false);
   const [showUtilityDetails, setShowUtilityDetails] = useState(false);
+  const [showNeighborhoodDetails, setShowNeighborhoodDetails] = useState(false);
   const [showHoaDetails, setShowHoaDetails] = useState(false);
 
   const handleHoaInputChange = (e: { target: { name: any; value: any } }) => {
@@ -145,23 +178,14 @@ export default function AddProperty() {
     setFormData((prev) => ({ ...prev, amenities }));
   };
 
-
-
-
-   const handlestructuralFeaturesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const structuralFeatures = e.target.value.split(",").map((item) => item.trim());
+  const handlestructuralFeaturesChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const structuralFeatures = e.target.value
+      .split(",")
+      .map((item) => item.trim());
     setFormData((prev) => ({ ...prev, structuralFeatures }));
   };
-
-
-  // const handlestructuralFeaturesChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const structuralFeaturesChange = e.target.value
-  //     .split(",")
-  //     .map((item) => item.trim());
-  //   setFormData((prev) => ({ ...prev,  structuralFeatures }));
-  // };
 
   const handlebuildingMaterialsChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -199,12 +223,6 @@ export default function AddProperty() {
     }));
   };
 
-  // Rename the general handleInputChange as well, if needed
-  const handleFormInputChange = (e: { target: { name: any; value: any } }) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleDropdownChange = (e: SelectChangeEvent) => {
     const { name, value } = e.target;
     // Convert 'true'/'false' to boolean
@@ -217,8 +235,17 @@ export default function AddProperty() {
     }));
   };
 
-
-
+  const handleUtilityDropdownChange = (e: SelectChangeEvent) => {
+    const { name, value } = e.target;
+    // Convert 'true'/'false' to boolean
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: {
+        ...prev.utilitiesDetails,
+        [name]: value === "true", // Boolean conversion
+      },
+    }));
+  };
 
   const handlehoaAndFinancialDetailsInputChange = (e: {
     target: { name: string; value: any };
@@ -233,48 +260,33 @@ export default function AddProperty() {
     }));
   };
 
-
-
-   const handleUtilityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const greenEnergySources = e.target.value.split(",").map((item) => item.trim());
-    setFormData((prev) => ({ ...prev, greenEnergySources }));
-  };
-
-
-
-    const handleUtilityDropdownChange = (e: SelectChangeEvent) => {
-    const { name, value } = e.target;
-    // Convert 'true'/'false' to boolean
+  const handleUtilityEngergySourceChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const greenEnergySources = e.target.value
+      .split(",")
+      .map((item) => item.trim());
     setFormData((prev) => ({
       ...prev,
       utilitiesDetails: {
         ...prev.utilitiesDetails,
-        [name]: value === "true", // Boolean conversion
+        greenEnergySources,
       },
     }));
   };
 
-
-
-   const handleUtilityGreenEnergyProviderInputChange = (e: { target: { name: any; value: any } }) => {
+  const handleUtilityGreenEnergyProviderInputChange = (e: {
+    target: { name: string; value: any };
+  }) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: {
+        ...prev.utilitiesDetails,
+        [name]: value,
+      },
+    }));
   };
-
-
-
-
-//   const handleGreenEnergySourcesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//   const sources = e.target.value.split(",").map((source) => source.trim());
-//   handleInputChange(
-//     {
-//       target: { name: "greenEnergySources", value: sources },
-//     } as unknown as React.ChangeEvent<HTMLInputElement>,
-//     -1, // No index needed for this field
-//     "greenEnergySources" as keyof Service
-//   );
-// };
-
 
   const handleAddService = () => {
     setFormData((prev) => ({
@@ -302,6 +314,74 @@ export default function AddProperty() {
     setFormData((prev) => ({
       ...prev,
       utilitiesDetails: { ...prev.utilitiesDetails, services: updatedServices },
+    }));
+  };
+
+  // Neighbourhood  Details
+
+  const handleNeighbourhoodInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    field?: keyof PublicPlace
+  ) => {
+    if (index !== undefined && field) {
+      // Update a specific public place
+      const updatedPlaces = [
+        ...formData.neighbourhoodDetails.proximityToPublicPlaces,
+      ];
+      updatedPlaces[index][field] = e.target.value;
+      setFormData((prev) => ({
+        ...prev,
+        neighbourhoodDetails: {
+          ...prev.neighbourhoodDetails,
+          proximityToPublicPlaces: updatedPlaces,
+        },
+      }));
+    } else {
+      // Update a general field
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        neighbourhoodDetails: { ...prev.neighbourhoodDetails, [name]: value },
+      }));
+    }
+  };
+
+  const handleNeighbourhoodAddPublicPlace = () => {
+    setFormData((prev) => ({
+      ...prev,
+      neighbourhoodDetails: {
+        ...prev.neighbourhoodDetails,
+        proximityToPublicPlaces: [
+          ...prev.neighbourhoodDetails.proximityToPublicPlaces,
+          { place: "", type: "", distance: "" },
+        ],
+      },
+    }));
+  };
+
+  const handleNeighbourhoodRemovePublicPlace = (index: number) => {
+    const updatedPlaces =
+      formData.neighbourhoodDetails.proximityToPublicPlaces.filter(
+        (_: any, i: number) => i !== index
+      );
+    setFormData((prev) => ({
+      ...prev,
+      neighbourhoodDetails: {
+        ...prev.neighbourhoodDetails,
+        proximityToPublicPlaces: updatedPlaces,
+      },
+    }));
+  };
+
+  const handleNeighbourhoodDropdownChange = (e: SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      neighbourhoodDetails: {
+        ...prev.neighbourhoodDetails,
+        [name!]: value === "true", // Boolean conversion
+      },
     }));
   };
 
@@ -528,9 +608,45 @@ export default function AddProperty() {
               handleInputChange={handleUtilityInputChange} // Updated handler name
               handleAddService={handleAddService}
               handleRemoveService={handleRemoveService}
-              handleDropdownChange={handleUtilityDropdownChange} 
-              handleGreenEnergyInputChange={handleUtilityChange}
-              handleUtilityGreenEnergyProviderInputChange={handleUtilityGreenEnergyProviderInputChange}
+              handleUtilityEngergySourceChange={
+                handleUtilityEngergySourceChange
+              }
+              handleUtilityGreenEnergyProviderInputChange={
+                handleUtilityGreenEnergyProviderInputChange
+              }
+              handleUtilityDropdownChange={handleUtilityDropdownChange}
+            />
+          )}
+
+          {/* Neighborhood  Details Section */}
+          <Button
+            sx={{
+              mt: 4,
+              pl: 2,
+              backgroundColor: "#EFFCF7",
+              color: "#26a69a",
+              justifyContent: "flex-start",
+              width: "600px",
+            }}
+            onClick={() => setShowNeighborhoodDetails(!showNeighborhoodDetails)}
+            endIcon={
+              showNeighborhoodDetails ? (
+                <KeyboardArrowDown />
+              ) : (
+                <KeyboardArrowUp />
+              )
+            }
+          >
+            Neighborhood Details
+          </Button>
+
+          {showNeighborhoodDetails && (
+            <NeighbourhoodDetailsForm
+              formData={formData.neighbourhoodDetails}
+              handleInputChange={handleNeighbourhoodInputChange}
+              handleAddPublicPlace={handleNeighbourhoodAddPublicPlace}
+              handleRemovePublicPlace={handleNeighbourhoodRemovePublicPlace}
+              handleDropdownChange={handleNeighbourhoodDropdownChange}
             />
           )}
 
