@@ -2,8 +2,10 @@ import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
 import {
   Box,
   Button,
+  FormControl,
   Grid,
   IconButton,
+  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -31,8 +33,13 @@ interface UtilityDetailsFormProps {
     index: number,
     field: keyof Service
   ) => void;
+
   handleAddService: () => void;
   handleRemoveService: (index: number) => void;
+
+  handleGreenEnergyInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleUtilityGreenEnergyProviderInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDropdownChange: (e: SelectChangeEvent<string>) => void;
 }
 
 export default function UtilityDetailsForm({
@@ -40,55 +47,28 @@ export default function UtilityDetailsForm({
   handleInputChange,
   handleAddService,
   handleRemoveService,
+  handleGreenEnergyInputChange,
+  handleDropdownChange,
+  handleUtilityGreenEnergyProviderInputChange,
 }: UtilityDetailsFormProps) {
-  // Handle input changes for boolean fields like 'isGreenEnergyPowered'
-  const handleGreenEnergyInputChange = (e: SelectChangeEvent<"Yes" | "No">) => {
-    const isGreenEnergy = e.target.value === "Yes";
-    handleInputChange(
-      {
-        target: { name: "isGreenEnergyPowered", value: isGreenEnergy },
-      } as unknown as React.ChangeEvent<HTMLInputElement>,
-      -1, // No index needed for this field
-      "provided" as keyof Service // Placeholder for compatibility
-    );
-  };
-
-  // Handle changes to the green energy sources (comma-separated input)
-  const handleGreenEnergySourcesChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    // Extract and split the input string by commas to create an array
-    const sources = e.target.value.split(",").map((source) => source.trim());
-
-    // Update only the greenEnergySources field
-    handleInputChange(
-      {
-        target: { name: "greenEnergySources", value: sources },
-      } as unknown as React.ChangeEvent<HTMLInputElement>,
-      -1, // No index needed for this field
-      "providerName" as keyof Service // Keep this for compatibility if needed
-    );
-  };
-
   return (
     <Box sx={{ mt: 2 }}>
       {/* Green Energy Fields */}
       <Grid container spacing={2} sx={{ mb: 2 }}>
         {/* Is Green Energy Powered */}
         <Grid item xs={6}>
-          <Select
-            value={formData.isGreenEnergyPowered ? "Yes" : "No"}
-            onChange={handleGreenEnergyInputChange}
-            fullWidth
-            size="small"
-            displayEmpty
-          >
-            <MenuItem value="Is Green Energy Powered?" disabled>
-              Is Green Energy Powered?
-            </MenuItem>
-            <MenuItem value="Yes">Yes</MenuItem>
-            <MenuItem value="No">No</MenuItem>
-          </Select>
+          <FormControl fullWidth size="small" sx={{ my: 1 }}>
+            <InputLabel>Is Green Energy Powered?</InputLabel>
+            <Select
+              name="isGreenEnergyPowered"
+              value={String(formData.isGreenEnergyPowered)} // Ensure value is a string
+              onChange={handleDropdownChange}
+              label="Is Green Energy Powered?"
+            >
+              <MenuItem value="true">True</MenuItem>
+              <MenuItem value="false">False</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
 
         {/* Green Energy Provider */}
@@ -97,9 +77,7 @@ export default function UtilityDetailsForm({
             label="Green Energy Provider"
             name="greenEnergyProvider"
             value={formData.greenEnergyProvider}
-            onChange={(e) =>
-              handleInputChange(e, -1, "providerName" as keyof Service)
-            }
+            onChange={handleUtilityGreenEnergyProviderInputChange}
             fullWidth
             size="small"
           />
@@ -111,7 +89,7 @@ export default function UtilityDetailsForm({
             label="Green Energy Sources (comma-separated)"
             name="greenEnergySources"
             value={formData.greenEnergySources.join(", ")} // Join array into a comma-separated string for display
-            onChange={handleGreenEnergySourcesChange} // Handle changes
+            onChange={handleGreenEnergyInputChange} // Handle changes
             fullWidth
             size="small"
           />

@@ -145,14 +145,23 @@ export default function AddProperty() {
     setFormData((prev) => ({ ...prev, amenities }));
   };
 
-  const handlestructuralFeaturesChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const structuralFeaturesChange = e.target.value
-      .split(",")
-      .map((item) => item.trim());
-    setFormData((prev) => ({ ...prev, structuralFeaturesChange }));
+
+
+
+   const handlestructuralFeaturesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const structuralFeatures = e.target.value.split(",").map((item) => item.trim());
+    setFormData((prev) => ({ ...prev, structuralFeatures }));
   };
+
+
+  // const handlestructuralFeaturesChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const structuralFeaturesChange = e.target.value
+  //     .split(",")
+  //     .map((item) => item.trim());
+  //   setFormData((prev) => ({ ...prev,  structuralFeatures }));
+  // };
 
   const handlebuildingMaterialsChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -208,6 +217,9 @@ export default function AddProperty() {
     }));
   };
 
+
+
+
   const handlehoaAndFinancialDetailsInputChange = (e: {
     target: { name: string; value: any };
   }) => {
@@ -220,6 +232,49 @@ export default function AddProperty() {
       },
     }));
   };
+
+
+
+   const handleUtilityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const greenEnergySources = e.target.value.split(",").map((item) => item.trim());
+    setFormData((prev) => ({ ...prev, greenEnergySources }));
+  };
+
+
+
+    const handleUtilityDropdownChange = (e: SelectChangeEvent) => {
+    const { name, value } = e.target;
+    // Convert 'true'/'false' to boolean
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: {
+        ...prev.utilitiesDetails,
+        [name]: value === "true", // Boolean conversion
+      },
+    }));
+  };
+
+
+
+   const handleUtilityGreenEnergyProviderInputChange = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+
+
+
+//   const handleGreenEnergySourcesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//   const sources = e.target.value.split(",").map((source) => source.trim());
+//   handleInputChange(
+//     {
+//       target: { name: "greenEnergySources", value: sources },
+//     } as unknown as React.ChangeEvent<HTMLInputElement>,
+//     -1, // No index needed for this field
+//     "greenEnergySources" as keyof Service
+//   );
+// };
+
 
   const handleAddService = () => {
     setFormData((prev) => ({
@@ -473,6 +528,9 @@ export default function AddProperty() {
               handleInputChange={handleUtilityInputChange} // Updated handler name
               handleAddService={handleAddService}
               handleRemoveService={handleRemoveService}
+              handleDropdownChange={handleUtilityDropdownChange} 
+              handleGreenEnergyInputChange={handleUtilityChange}
+              handleUtilityGreenEnergyProviderInputChange={handleUtilityGreenEnergyProviderInputChange}
             />
           )}
 
