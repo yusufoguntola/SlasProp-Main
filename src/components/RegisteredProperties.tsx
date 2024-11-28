@@ -1,11 +1,20 @@
 "use client";
 
+<<<<<<< HEAD
 import { axiosInstance } from "@/axios";
 import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
 import { SlasPayLogin } from "@/forms/SlasPayLogin";
 import { MoreVert } from "@mui/icons-material";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+=======
+import { MoreVert } from "@mui/icons-material";
+import { Box, Button, Container, IconButton, Typography } from "@mui/material";
+import { useState } from "react";
+
+import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
+import { SlasPayLogin } from "@/forms/SlasPayLogin";
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
 
 const properties = [
   {
@@ -43,6 +52,7 @@ const properties = [
   // }
 ];
 
+<<<<<<< HEAD
 
 interface Property {
   id: number;
@@ -58,14 +68,19 @@ interface Property {
 }
 
 
+=======
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
 export default function RegisteredProperties() {
   const [isPressed, setIsPressed] = useState(false);
   const [checkHeading, setCheckHeading] = useState("Registered Properties");
 
+<<<<<<< HEAD
   const [registeredData, setRegisteredData] = useState<Property[]>([]);
 
 
 
+=======
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
   const [isHeading, setIsHeading] = useState(false);
   const handleClick = () => {
     setIsPressed(!isPressed);
@@ -78,6 +93,7 @@ export default function RegisteredProperties() {
     }
   };
 
+<<<<<<< HEAD
 
   useEffect(() => {
     const fetchRegisteredData = async () => {
@@ -95,6 +111,9 @@ export default function RegisteredProperties() {
 
   return (
     // {registeredData?.length > 0 ? (
+=======
+  return (
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
     <Container>
       <Box
         sx={{
@@ -128,7 +147,11 @@ export default function RegisteredProperties() {
           display: "flex",
           flexDirection: "column",
         }}>
+<<<<<<< HEAD
         {registeredData.map((property) => (
+=======
+        {properties.map((property) => (
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
           <Box sx={{ border: "1px solid lightgray", mb: 4 }}>
             <Box sx={{ display: "flex", pl: 6 }}>
               <Typography
@@ -141,7 +164,11 @@ export default function RegisteredProperties() {
                 }}>
                 Property Owner Name
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
+<<<<<<< HEAD
                   {property?.ownerName}
+=======
+                  {property.name}
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                 </Typography>
               </Typography>
               <Typography
@@ -152,9 +179,15 @@ export default function RegisteredProperties() {
                   fontSize: "12px",
                   color: "grey",
                 }}>
+<<<<<<< HEAD
                Type Of Property
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.propertyType}
+=======
+                Type Of Land
+                <Typography sx={{ color: "black", fontWeight: "bold" }}>
+                  {property.landType}
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                 </Typography>
               </Typography>
               <Typography sx={{ display: "flex" }}>
@@ -171,7 +204,11 @@ export default function RegisteredProperties() {
                   Registration Number
                   <Typography
                     sx={{ color: "black", fontWeight: "bold", margin: "auto" }}>
+<<<<<<< HEAD
                     {property?.registrationNumber}
+=======
+                    {property.regNumber}
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                   </Typography>
                 </Typography>
                 <Button sx={{ color: "grey", ml: 15 }} onClick={handleClick}>
@@ -192,7 +229,11 @@ export default function RegisteredProperties() {
                 }}>
                 Property Tax ID
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
+<<<<<<< HEAD
                   {property?.propertyTaxId}
+=======
+                  {property.taxID}
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                 </Typography>
               </Typography>
               <Typography
@@ -206,14 +247,22 @@ export default function RegisteredProperties() {
                 }}>
                 Area Of Land
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
+<<<<<<< HEAD
                   {property?.areaOfLand}
+=======
+                  {property.area}
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                 </Typography>
               </Typography>
               <Typography
                 sx={{ py: 2, px: 4, fontSize: "12px", color: "grey" }}>
                 Location
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
+<<<<<<< HEAD
                   {property?.location?.name}
+=======
+                  {property.location}
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                 </Typography>
               </Typography>
             </Box>
@@ -229,14 +278,22 @@ export default function RegisteredProperties() {
                 }}>
                 ZIP/ PIN Code
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
+<<<<<<< HEAD
                  {property?.zipCode}
+=======
+                  {property.zip}
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                 </Typography>
               </Typography>
               <Typography
                 sx={{ px: 4, py: 2, fontSize: "12px", color: "grey" }}>
                 Registration Address
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
+<<<<<<< HEAD
                   {property?.registeredAddress}
+=======
+                  {property.address}
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                 </Typography>
               </Typography>
             </Box>
@@ -302,6 +359,7 @@ export default function RegisteredProperties() {
         )}
       </Box>
     </Container>
+<<<<<<< HEAD
 
       // ) : (
 
@@ -314,5 +372,7 @@ export default function RegisteredProperties() {
       // )
 
     // }
+=======
+>>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
   );
 }
