@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 
 import { ImageCardWelcome } from "@/components/ImageCardWelcome";
@@ -22,28 +21,3 @@ export default function WelcomePage() {
     </Suspense>
   );
 }
-=======
-"use client";
-
-import { ImageCardWelcome } from "@/components/ImageCardWelcome";
-import { ImageCardWelcomeSearched } from "@/components/ImageCardWelcomeSearched";
-import { useSearch } from "@/hooks/use-search";
-import { ProtectedRoute } from "@/routes/ProtectedRoute";
-import { NavBarContainer } from "@/sections/NavBarContainer";
-import { WelcomeImageContiner } from "@/sections/WelcomeImageContainer";
-import { Suspense } from "react";
-
-export default function WelcomePage() {
-  const { search } = useSearch();
-
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProtectedRoute>
-        <NavBarContainer />
-        <WelcomeImageContiner />
-        {search ? <ImageCardWelcomeSearched /> : <ImageCardWelcome />}
-      </ProtectedRoute>
-    </Suspense>
-  );
-}
->>>>>>> 7c674eb4792db008050cf342e46b7856b612697c

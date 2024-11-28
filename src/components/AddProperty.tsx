@@ -12,6 +12,425 @@ import {
   IconButton,
   InputAdornment,
   SelectChangeEvent,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import ConstructionDetailsForm from "./properties/constructionDetails";
+import HoaAndFinancialDetailsForm from "./properties/hoaAndFinancialDetails";
+import NeighbourhoodDetailsForm from "./properties/neighbourhoodDetails";
+import PropertyTypeSelector from "./properties/Properties";
+import PropertyDetailsForm from "./properties/propertyDetails";
+import UtilityDetailsForm from "./properties/utilityDetails";
+
+interface Service {
+  type: string;
+  provided: boolean;
+  providerName: string;
+  serviceCharge: number;
+  frequency: string;
+}
+
+interface PublicPlace {
+  place: string;
+  type: string;
+  distance: string;
+}
+
+interface UtilitiesDetails {
+  services: Service[];
+  isGreenEnergyPowered: boolean;
+  greenEnergyProvider: string;
+  greenEnergySources: string[];
+}
+
+interface FormData {
+  name: string;
+  price: string;
+  description: string;
+  city: string;
+  state: string;
+  country: string;
+  noOfBedrooms: string;
+  address: string;
+  squareFootage: string;
+  amenities: string[];
+  buildingMaterials: string[];
+  architecturalStyle: string;
+  condition: string;
+  structuralFeatures: string[];
+  buildYear: string;
+  utilitiesDetails: {
+    services: {
+      type: string;
+      provided: boolean;
+      providerName: string;
+      serviceCharge: string;
+      frequency: string;
+    }[];
+    isGreenEnergyPowered: boolean;
+    greenEnergyProvider: string;
+    greenEnergySources: string[];
+  };
+  neighbourhoodDetails: {
+    name: string;
+    description: string;
+    population: string;
+    locatedInGatedEstate: boolean;
+    proximityToPublicPlaces: {
+      place: string;
+      type: string;
+      distance: string;
+    }[];
+  };
+
+  hoaAndFinancialDetails: {
+    name: string;
+    hasDue: boolean;
+    dueFrequency: string;
+    dueAmount: string;
+    isPropertyInMortgage: boolean;
+    mortgageProvider: string;
+    outstandingBalance: string;
+    monthlyPayment: string;
+    mortgageEndDate: string;
+    otherFinancialDetails: string;
+  };
+}
+
+export default function AddProperty() {
+  // State variables for the main form
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    price: "",
+    description: "",
+    city: "",
+    state: "",
+    country: "",
+    address: "",
+    noOfBedrooms: "",
+    squareFootage: "",
+    amenities: [],
+    buildingMaterials: [],
+    architecturalStyle: "",
+    condition: "",
+    structuralFeatures: [],
+    buildYear: "",
+    utilitiesDetails: {
+      services: [
+        {
+          type: "",
+          provided: true,
+          providerName: "",
+          serviceCharge: "",
+          frequency: "",
+        },
+      ],
+      isGreenEnergyPowered: false,
+      greenEnergyProvider: "",
+      greenEnergySources: [],
+    },
+
+    neighbourhoodDetails: {
+      name: "",
+      description: "",
+      population: "",
+      locatedInGatedEstate: false,
+      proximityToPublicPlaces: [
+        {
+          place: "",
+          type: "",
+          distance: "",
+        },
+      ],
+    },
+    hoaAndFinancialDetails: {
+      name: "",
+      hasDue: false,
+      dueFrequency: "",
+      dueAmount: "",
+      isPropertyInMortgage: false,
+      mortgageProvider: "",
+      outstandingBalance: "",
+      monthlyPayment: "",
+      mortgageEndDate: "",
+      otherFinancialDetails: "",
+    },
+  });
+
+  const [propertyType, setPropertyType] = useState("");
+  const [propertySubType, setPropertySubType] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
+  const [showConstructionDetails, setShowConstructionDetails] = useState(false);
+  const [showUtilityDetails, setShowUtilityDetails] = useState(false);
+  const [showNeighborhoodDetails, setShowNeighborhoodDetails] = useState(false);
+  const [showHoaDetails, setShowHoaDetails] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
+    const router = useRouter();
+  
+  const handleHoaInputChange = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      hoaAndFinancialDetails: { ...prev.hoaAndFinancialDetails, [name]: value },
+    }));
+  };
+
+  const handleCountryChange = (country: string) => {
+  setFormData((prev) => ({ ...prev, country }));
+};
+
+  const handleAmenitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const amenities = e.target.value.split(",").map((item) => item.trim());
+    setFormData((prev) => ({ ...prev, amenities }));
+  };
+
+  const handlestructuralFeaturesChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const structuralFeatures = e.target.value
+      .split(",")
+      .map((item) => item.trim());
+    setFormData((prev) => ({ ...prev, structuralFeatures }));
+  };
+
+  const handlebuildingMaterialsChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const buildingMaterials = e.target.value
+      .split(",")
+      .map((item) => item.trim());
+    setFormData((prev) => ({ ...prev, buildingMaterials }));
+  };
+
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+ const handleUtilityInputChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  index: number,
+  field: keyof Service
+) => {
+  const updatedServices = [...formData.utilitiesDetails.services];
+
+  // Handle type conversion for specific fields
+  if (field === "provided") {
+    updatedServices[index][field] = e.target.value === "true"; // Convert to boolean
+  } else {
+    updatedServices[index][field] = e.target.value; // Default to string
+  }
+
+  setFormData((prev) => ({
+    ...prev,
+    utilitiesDetails: { ...prev.utilitiesDetails, services: updatedServices },
+  }));
+};
+
+
+  const handleDropdownChange = (e: SelectChangeEvent) => {
+    const { name, value } = e.target;
+    // Convert 'true'/'false' to boolean
+    setFormData((prev) => ({
+      ...prev,
+      hoaAndFinancialDetails: {
+        ...prev.hoaAndFinancialDetails,
+        [name]: value === "true", // Boolean conversion
+      },
+    }));
+  };
+
+  const handleUtilityDropdownChange = (e: SelectChangeEvent) => {
+    const { name, value } = e.target;
+    // Convert 'true'/'false' to boolean
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: {
+        ...prev.utilitiesDetails,
+        [name]: value === "true", // Boolean conversion
+      },
+    }));
+  };
+
+  const handlehoaAndFinancialDetailsInputChange = (e: {
+    target: { name: string; value: any };
+  }) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      hoaAndFinancialDetails: {
+        ...prev.hoaAndFinancialDetails,
+        [name]: value,
+      },
+    }));
+  };
+
+ const handleUtilityEngergySourceChange = (
+  e: SelectChangeEvent<string[]>
+) => {
+  const greenEnergySources = e.target.value as string[]; // Directly use the array of selected options
+  setFormData((prev) => ({
+    ...prev,
+    utilitiesDetails: {
+      ...prev.utilitiesDetails,
+      greenEnergySources,
+    },
+  }));
+};
+
+
+
+  const handleGreenEnergySourcesChange = (e: SelectChangeEvent<string[]>) => {
+  const value = e.target.value;
+  setFormData((prev) => ({
+    ...prev,
+    greenEnergySources: typeof value === "string" ? value.split(",") : value,
+  }));
+};
+
+  const handleUtilityGreenEnergyProviderInputChange = (e: {
+    target: { name: string; value: any };
+  }) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: {
+        ...prev.utilitiesDetails,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleAddService = () => {
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: {
+        ...prev.utilitiesDetails,
+        services: [
+          ...prev.utilitiesDetails.services,
+          {
+            type: "",
+            provided: true,
+            providerName: "",
+            serviceCharge: "",
+            frequency: "",
+          },
+        ],
+      },
+    }));
+  };
+
+  const handleRemoveService = (index: number) => {
+    const updatedServices = formData.utilitiesDetails.services.filter(
+      (_, i) => i !== index
+    );
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: { ...prev.utilitiesDetails, services: updatedServices },
+    }));
+  };
+
+  // Neighbourhood  Details
+
+  const handleNeighbourhoodInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    field?: keyof PublicPlace
+  ) => {
+    if (index !== undefined && field) {
+      // Update a specific public place
+      const updatedPlaces = [
+        ...formData.neighbourhoodDetails.proximityToPublicPlaces,
+      ];
+      updatedPlaces[index][field] = e.target.value;
+      setFormData((prev) => ({
+        ...prev,
+        neighbourhoodDetails: {
+          ...prev.neighbourhoodDetails,
+          proximityToPublicPlaces: updatedPlaces,
+        },
+      }));
+    } else {
+      // Update a general field
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        neighbourhoodDetails: { ...prev.neighbourhoodDetails, [name]: value },
+      }));
+    }
+  };
+
+  const handleNeighbourhoodAddPublicPlace = () => {
+    setFormData((prev) => ({
+      ...prev,
+      neighbourhoodDetails: {
+        ...prev.neighbourhoodDetails,
+        proximityToPublicPlaces: [
+          ...prev.neighbourhoodDetails.proximityToPublicPlaces,
+          { place: "", type: "", distance: "" },
+        ],
+      },
+    }));
+  };
+
+  const handleNeighbourhoodRemovePublicPlace = (index: number) => {
+    const updatedPlaces =
+      formData.neighbourhoodDetails.proximityToPublicPlaces.filter(
+        (_: any, i: number) => i !== index
+      );
+    setFormData((prev) => ({
+      ...prev,
+      neighbourhoodDetails: {
+        ...prev.neighbourhoodDetails,
+        proximityToPublicPlaces: updatedPlaces,
+      },
+    }));
+  };
+
+  const handleNeighbourhoodDropdownChange = (e: SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      neighbourhoodDetails: {
+        ...prev.neighbourhoodDetails,
+        [name!]: value === "true", // Boolean conversion
+      },
+    }));
+  };
+
+ const handleAddProperty = async () => {
+    try {
+    
+      // Prepare data
+      const propertyData = {
+        ...formData,
+        propertyType,
+        propertySubType,
+        images,
+      };
+
+      const response = await createProperty(propertyData); // Call your API function
+      if (response?.message) {
+        showToast("success", <p>{response.message}</p>);  // Assuming `dmessage` is part of the response
+      }
+         router.push('/dashboard/my-properties');
+    } catch (err) {
+      console.error("Error adding property:", err);
+      // setError("Failed to add property. Please try again.");
+    } finally {
+      // setLoading(false); // Hide loading state
+    }
+  };
+
+  return (
+    <Container  sx={{
+        // maxHeight: "1000px", 
+        // overflowY: "auto",  
+        // overflowX: "hidden", 
+    }}>
       <Box
         sx={{
           display: "flex",
@@ -20,12 +439,8 @@ import {
           borderBottom: "1px solid lightgray",
           pl: 2,
           pb: 2,
-<<<<<<< HEAD
         }}
       >
-=======
-        }}>
->>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Add New Property
         </Typography>
@@ -37,13 +452,9 @@ import {
             color: "white",
             fontSize: "12px",
             p: 1,
-<<<<<<< HEAD
           }}
           onClick={handleAddProperty}
         >
-=======
-          }}>
->>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
           Add Property
         </IconButton>
       </Box>
@@ -55,7 +466,6 @@ import {
           flexDirection: "row",
           mt: 2,
           pl: 2,
-<<<<<<< HEAD
         }}
       >
         <Box component="form">
@@ -121,26 +531,6 @@ import {
               placeholder="Enter price"
               value={formData.price}
               onChange={handleInputChange}
-=======
-        }}>
-        <Box component="form">
-          <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
-            Name Of Property
-          </FormLabel>
-          <TextField size="small" fullWidth label="Enter data" sx={{ my: 1 }} />
-          <Stack spacing={38} direction="row" sx={{ my: 1 }}>
-            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-              Price
-            </FormLabel>
-            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-              Property Type
-            </FormLabel>
-          </Stack>
-          <Stack spacing={4} direction="row" sx={{ my: 1 }}>
-            <TextField
-              size="small"
-              label="Enter data"
->>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -149,26 +539,14 @@ import {
                         color: "#26a69a",
                         fontSize: "14px",
                         borderRight: "1px solid lightgrey",
-<<<<<<< HEAD
                       }}
                     >
-=======
-                      }}>
->>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
                       $
                     </Button>
                   </InputAdornment>
                 ),
               }}
             />
-import { Typography, TextField, Stack } from "@mui/material";
-import ConstructionDetailsForm from "./properties/constructionDetails";
-import HoaAndFinancialDetailsForm from "./properties/hoaAndFinancialDetails";
-import NeighbourhoodDetailsForm from "./properties/neighbourhoodDetails";
-import PropertyTypeSelector from "./properties/Properties";
-import PropertyDetailsForm from "./properties/propertyDetails";
-import UtilityDetailsForm from "./properties/utilityDetails";
-<<<<<<< HEAD
           </Stack>
 
           {/* Additional Fields */}
@@ -349,169 +727,6 @@ import UtilityDetailsForm from "./properties/utilityDetails";
 
         <MultipleFileUpload setImages={setImages}/>
       </Box>
-=======
-            <FormControl sx={{ mx: 2, minWidth: 220 }} size="small">
-              <Select
-                defaultValue=""
-                value={propertyType || null}
-                sx={{ fontSize: "12px" }}
-                name="propertyType"
-                onChange={(e) => setPropertyType(e.target.value)}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}>
-                <MenuItem value="" sx={{ fontSize: "12px" }}>
-                  <em>Property Type</em>
-                </MenuItem>
-                <MenuItem value={10} sx={{ fontSize: "12px" }}>
-                  Ten
-                </MenuItem>
-                <MenuItem value={20} sx={{ fontSize: "12px" }}>
-                  Twenty
-                </MenuItem>
-                <MenuItem value={30} sx={{ fontSize: "12px" }}>
-                  Thirty
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Stack>
-          <Stack spacing={34} direction="row" sx={{ my: 1 }}>
-            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-              Build Year
-            </FormLabel>
-            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-              Total Sqft
-            </FormLabel>
-          </Stack>
-          <Stack spacing={13} direction="row" sx={{ my: 1 }}>
-            <TextField size="small" label="Enter data" />
-            <TextField
-              size="small"
-              label="Enter data"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Button
-                      sx={{
-                        color: "#26a69a",
-                        fontSize: "12px",
-                        borderRight: "1px solid lightgrey",
-                        pl: -1,
-                      }}>
-                      Sqft
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Stack>
-          <Stack spacing={38} direction="row" sx={{ my: 1 }}>
-            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-              Rate
-            </FormLabel>
-            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-              Garage
-            </FormLabel>
-          </Stack>
-          <Stack spacing={14} direction="row" sx={{ my: 1 }}>
-            <TextField size="small" label="Enter data" />
-            <TextField
-              size="small"
-              label="Enter data"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Button
-                      sx={{
-                        color: "#26a69a",
-                        fontSize: "12px",
-                        borderLeft: "1px solid lightgrey",
-                        pl: -1,
-                      }}>
-                      Garage Type
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Stack>
-          <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
-            Property Description
-          </FormLabel>
-          <TextField
-            fullWidth
-            label="Enter Data"
-            multiline
-            maxRows={5}
-            sx={{ my: 1 }}
-          />
-        </Box>
-
-        <MultipleFileUpload />
-      </Box>
-
-      <Button
-        sx={{
-          marginLeft: "31%",
-          mt: 4,
-          pl: 2,
-          backgroundColor: "#EFFCF7",
-          justifyContent: "flex-start",
-          width: "600px",
-      </Button>
-      <Button
-        sx={{
-          marginLeft: "31%",
-          mt: 2,
-          pl: 2,
-          backgroundColor: "#EFFCF7",
-          color: "#26a69a",
-          justifyContent: "flex-start",
-          width: "600px",
-        }}
-        endIcon={<KeyboardArrowUp />}>
-        Construction Details
-      </Button>
-      <Button
-        sx={{
-          marginLeft: "31%",
-          mt: 2,
-          pl: 2,
-          backgroundColor: "#EFFCF7",
-          color: "#26a69a",
-          justifyContent: "flex-start",
-          width: "600px",
-        }}
-        endIcon={<KeyboardArrowUp />}>
-        Utilities / Green Energy Details
-      </Button>
-      <Button
-        sx={{
-          marginLeft: "31%",
-          mt: 2,
-          pl: 2,
-          backgroundColor: "#EFFCF7",
-          color: "#26a69a",
-          justifyContent: "flex-start",
-          width: "600px",
-        }}
-        endIcon={<KeyboardArrowUp />}>
-        Community and Neighborhood Details
-      </Button>
-      <Button
-        sx={{
-          marginLeft: "31%",
-          mt: 2,
-          pl: 2,
-          backgroundColor: "#EFFCF7",
-          mb: 3,
-          color: "#26a69a",
-          justifyContent: "flex-start",
-          width: "600px",
-        }}
-        endIcon={<KeyboardArrowUp />}>
-        HOA and Financial Details
-      </Button>
->>>>>>> 7c674eb4792db008050cf342e46b7856b612697c
     </Container>
   );
 }
