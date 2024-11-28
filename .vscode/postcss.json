@@ -1,0 +1,35 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@for",
+      "description": "The @for directive is used to iterate over a list of items.",
+      "references": [
+        {
+          "name": "postcss-for",
+          "url": "https://github.com/antyakushev/postcss-for"
+        }
+      ]
+    },
+    {
+      "name": "@if",
+      "description": "The @if directive is used to conditionally include a block of styles.",
+      "references": [
+        {
+          "name": "postcss-conditionals-renewed",
+          "url": "https://github.com/Havunen/postcss-conditionals"
+        }
+      ]
+    },
+    {
+      "name": "@else",
+      "description": "The @else directive is used to conditionally include a block of styles.",
+      "references": [
+        {
+          "name": "postcss-conditionals-renewed",
+          "url": "https://github.com/Havunen/postcss-conditionals"
+        }
+      ]
+    }
+  ]
+}
