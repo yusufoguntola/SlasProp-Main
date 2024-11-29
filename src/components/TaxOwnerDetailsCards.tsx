@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
 
-import { OwnerDetails } from "./OwnerDetails";
-import { PropertyCardProps } from "./PropertyCard";
-import { TaxDetails } from "./TaxDetails";
+import { OwnerDetails, OwnerDetailsProps } from "./OwnerDetails";
+import { TaxDetails, TaxDetailsProps } from "./TaxDetails";
 
 export interface TaxOwnerDetailsCardProps {
-  taxDetails: PropertyCardProps["taxDetails"];
-  ownerDetails: PropertyCardProps["ownerDetails"];
+  taxDetails: TaxDetailsProps;
+  // taxDetails: PropertyCardProps["taxDetails"];
+  // ownerDetails: PropertyCardProps["ownerDetails"];
+  ownerDetails: OwnerDetailsProps;
 }
 
 export function TaxOwnerDetailsCard({

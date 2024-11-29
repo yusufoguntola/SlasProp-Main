@@ -6,6 +6,7 @@ import { SlasPayLogin } from "@/forms/SlasPayLogin";
 import { MoreVert } from "@mui/icons-material";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { OwnerDetailsProps } from "./OwnerDetails";
 
 const properties = [
   {
@@ -43,7 +44,6 @@ const properties = [
   // }
 ];
 
-
 interface Property {
   id: number;
   ownerName: string;
@@ -57,14 +57,11 @@ interface Property {
   name: string;
 }
 
-
 export default function RegisteredProperties() {
   const [isPressed, setIsPressed] = useState(false);
   const [checkHeading, setCheckHeading] = useState("Registered Properties");
 
   const [registeredData, setRegisteredData] = useState<Property[]>([]);
-
-
 
   const [isHeading, setIsHeading] = useState(false);
   const handleClick = () => {
@@ -78,7 +75,6 @@ export default function RegisteredProperties() {
     }
   };
 
-
   useEffect(() => {
     const fetchRegisteredData = async () => {
       try {
@@ -90,8 +86,6 @@ export default function RegisteredProperties() {
     };
     fetchRegisteredData();
   }, []);
-
-
 
   return (
     // {registeredData?.length > 0 ? (
@@ -152,7 +146,7 @@ export default function RegisteredProperties() {
                   fontSize: "12px",
                   color: "grey",
                 }}>
-               Type Of Property
+                Type Of Property
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.propertyType}
                 </Typography>
@@ -213,7 +207,7 @@ export default function RegisteredProperties() {
                 sx={{ py: 2, px: 4, fontSize: "12px", color: "grey" }}>
                 Location
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                  {property?.location?.name}
+                  {property?.name}
                 </Typography>
               </Typography>
             </Box>
@@ -229,7 +223,7 @@ export default function RegisteredProperties() {
                 }}>
                 ZIP/ PIN Code
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                 {property?.zipCode}
+                  {property?.zipCode}
                 </Typography>
               </Typography>
               <Typography
@@ -249,7 +243,8 @@ export default function RegisteredProperties() {
           properties.map((property) => (
             <TaxOwnerDetailsCard
               taxDetails={property.taxDetails}
-              ownerDetails={property.ownerDetails}
+              //You should update the type here. I just used coercion
+              ownerDetails={property.ownerDetails as OwnerDetailsProps}
             />
           ))
         ) : (
@@ -303,15 +298,15 @@ export default function RegisteredProperties() {
       </Box>
     </Container>
 
-      // ) : (
+    // ) : (
 
-      //   <Container >
-        
-      //   <Typography className="flex items-center justify-center h-screen text-lg font-semibold">
-      //       No properties found.
-      //     </Typography>
-      //   </Container>
-      // )
+    //   <Container >
+
+    //   <Typography className="flex items-center justify-center h-screen text-lg font-semibold">
+    //       No properties found.
+    //     </Typography>
+    //   </Container>
+    // )
 
     // }
   );

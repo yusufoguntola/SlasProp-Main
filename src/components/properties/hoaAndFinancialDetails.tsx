@@ -18,8 +18,8 @@ interface HoaAndFinancialDetailsProps {
     dueAmount: string;
     isPropertyInMortgage: boolean;
     mortgageProvider: string;
-    outstandingBalance: strin;
-    monthlyPayment: strin;
+    outstandingBalance: string;
+    monthlyPayment: string;
     mortgageEndDate: string;
     otherFinancialDetails: string;
   };
@@ -33,43 +33,53 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
   handleDropdownChange,
 }) => {
   const fields = [
-    { label: "Enter HOA Name", name: "name", value: formData.name, header: "HOA Name"},
+    {
+      label: "Enter HOA Name",
+      name: "name",
+      value: formData.name,
+      header: "HOA Name",
+    },
     {
       label: "Enter Due Frequency",
       name: "dueFrequency",
       value: formData.dueFrequency,
-      header: "Due Frequency"
+      header: "Due Frequency",
     },
-    { label: "Enter Due Amount", name: "dueAmount", value: formData.dueAmount, header: "Due Amount" },
+    {
+      label: "Enter Due Amount",
+      name: "dueAmount",
+      value: formData.dueAmount,
+      header: "Due Amount",
+    },
     {
       label: " Enter Mortgage Provider",
       name: "mortgageProvider",
       value: formData.mortgageProvider,
-      header: "Mortgage Provider"
+      header: "Mortgage Provider",
     },
     {
       label: "Enter Outstanding Balance",
       name: "outstandingBalance",
       value: formData.outstandingBalance,
-      header: "Outstanding Balance"
+      header: "Outstanding Balance",
     },
     {
       label: "Enter Monthly Payment",
       name: "monthlyPayment",
       value: formData.monthlyPayment,
-      header: "Monthly Payment"
+      header: "Monthly Payment",
     },
     {
       label: "Enter Mortgage End Date",
       name: "mortgageEndDate",
       value: formData.mortgageEndDate,
-      header: "Mortgage End Date"
+      header: "Mortgage End Date",
     },
     {
       label: "Enter Other Financial Details",
       name: "otherFinancialDetails",
       value: formData.otherFinancialDetails,
-       header: "Other Financial Details"
+      header: "Other Financial Details",
     },
   ];
 
@@ -92,24 +102,24 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
               type={field.name === "mortgageEndDate" ? "date" : "text"} // Add date type for mortgageEndDate
             /> */}
 
-
-
             <TextField
-            label={field.label}
-            size="small"
-            name={field.name}
-            value={field.value}
-            onChange={handleInputChange}
-            fullWidth
-            sx={{ my: 1 }}
-            type={
-              ["monthlyPayment", "outstandingBalance", "dueAmount"].includes(field.name)
-                ? "number"
-                : field.name === "mortgageEndDate"
-                ? "date"
-                : "text"
-            }
-          />
+              label={field.label}
+              size="small"
+              name={field.name}
+              value={field.value}
+              onChange={handleInputChange}
+              fullWidth
+              sx={{ my: 1 }}
+              type={
+                ["monthlyPayment", "outstandingBalance", "dueAmount"].includes(
+                  field.name
+                )
+                  ? "number"
+                  : field.name === "mortgageEndDate"
+                  ? "date"
+                  : "text"
+              }
+            />
           </Grid>
         ))}
       </Grid>
@@ -124,23 +134,23 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
               name="hasDue"
               value={String(formData.hasDue)} // Ensure value is a string
               onChange={handleDropdownChange}
-              label="Has Due"
-            >
+              label="Has Due">
               <MenuItem value="true">Yes</MenuItem>
               <MenuItem value="false">No</MenuItem>
             </Select>
           </FormControl>
         </Grid>
         <Grid item xs={6}>
-          <p className="mb-1 text-[12px] text-[#000000]">Property in Mortgage?</p>
+          <p className="mb-1 text-[12px] text-[#000000]">
+            Property in Mortgage?
+          </p>
           <FormControl fullWidth size="small" sx={{ my: 1 }}>
             <InputLabel>Property in Mortgage</InputLabel>
             <Select
               name="isPropertyInMortgage"
               value={String(formData.isPropertyInMortgage)} // Ensure value is a string
               onChange={handleDropdownChange}
-              label="Property in Mortgage"
-            >
+              label="Property in Mortgage">
               <MenuItem value="true">Yes</MenuItem>
               <MenuItem value="false">No</MenuItem>
             </Select>

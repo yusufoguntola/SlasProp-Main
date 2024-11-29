@@ -18,10 +18,10 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import PropertyTypeSelector from "./properties/Properties";
 import ConstructionDetailsForm from "./properties/constructionDetails";
 import HoaAndFinancialDetailsForm from "./properties/hoaAndFinancialDetails";
 import NeighbourhoodDetailsForm from "./properties/neighbourhoodDetails";
-import PropertyTypeSelector from "./properties/Properties";
 import PropertyDetailsForm from "./properties/propertyDetails";
 import UtilityDetailsForm from "./properties/utilityDetails";
 
@@ -39,12 +39,12 @@ interface PublicPlace {
   distance: string;
 }
 
-interface UtilitiesDetails {
-  services: Service[];
-  isGreenEnergyPowered: boolean;
-  greenEnergyProvider: string;
-  greenEnergySources: string[];
-}
+// interface UtilitiesDetails {
+//   services: Service[];
+//   isGreenEnergyPowered: boolean;
+//   greenEnergyProvider: string;
+//   greenEnergySources: string[];
+// }
 
 interface FormData {
   name: string;
@@ -168,19 +168,19 @@ export default function AddProperty() {
   const [showNeighborhoodDetails, setShowNeighborhoodDetails] = useState(false);
   const [showHoaDetails, setShowHoaDetails] = useState(false);
   const [images, setImages] = useState<string[]>([]);
-    const router = useRouter();
-  
-  const handleHoaInputChange = (e: { target: { name: any; value: any } }) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      hoaAndFinancialDetails: { ...prev.hoaAndFinancialDetails, [name]: value },
-    }));
-  };
+  const router = useRouter();
+
+  // const handleHoaInputChange = (e: { target: { name: any; value: any } }) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     hoaAndFinancialDetails: { ...prev.hoaAndFinancialDetails, [name]: value },
+  //   }));
+  // };
 
   const handleCountryChange = (country: string) => {
-  setFormData((prev) => ({ ...prev, country }));
-};
+    setFormData((prev) => ({ ...prev, country }));
+  };
 
   const handleAmenitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const amenities = e.target.value.split(",").map((item) => item.trim());
@@ -210,26 +210,25 @@ export default function AddProperty() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
- const handleUtilityInputChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  index: number,
-  field: keyof Service
-) => {
-  const updatedServices = [...formData.utilitiesDetails.services];
+  const handleUtilityInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number,
+    field: keyof Service
+  ) => {
+    const updatedServices = [...formData.utilitiesDetails.services];
 
-  // Handle type conversion for specific fields
-  if (field === "provided") {
-    updatedServices[index][field] = e.target.value === "true"; // Convert to boolean
-  } else {
-    updatedServices[index][field] = e.target.value; // Default to string
-  }
+    // Handle type conversion for specific fields
+    if (field === "provided") {
+      updatedServices[index][field] = e.target.value === "true"; // Convert to boolean
+    } else {
+      updatedServices[index][field] = e.target.value; // Default to string
+    }
 
-  setFormData((prev) => ({
-    ...prev,
-    utilitiesDetails: { ...prev.utilitiesDetails, services: updatedServices },
-  }));
-};
-
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: { ...prev.utilitiesDetails, services: updatedServices },
+    }));
+  };
 
   const handleDropdownChange = (e: SelectChangeEvent) => {
     const { name, value } = e.target;
@@ -268,28 +267,24 @@ export default function AddProperty() {
     }));
   };
 
- const handleUtilityEngergySourceChange = (
-  e: SelectChangeEvent<string[]>
-) => {
-  const greenEnergySources = e.target.value as string[]; // Directly use the array of selected options
-  setFormData((prev) => ({
-    ...prev,
-    utilitiesDetails: {
-      ...prev.utilitiesDetails,
-      greenEnergySources,
-    },
-  }));
-};
+  const handleUtilityEngergySourceChange = (e: SelectChangeEvent<string[]>) => {
+    const greenEnergySources = e.target.value as string[]; // Directly use the array of selected options
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: {
+        ...prev.utilitiesDetails,
+        greenEnergySources,
+      },
+    }));
+  };
 
-
-
-  const handleGreenEnergySourcesChange = (e: SelectChangeEvent<string[]>) => {
-  const value = e.target.value;
-  setFormData((prev) => ({
-    ...prev,
-    greenEnergySources: typeof value === "string" ? value.split(",") : value,
-  }));
-};
+  // const handleGreenEnergySourcesChange = (e: SelectChangeEvent<string[]>) => {
+  //   const value = e.target.value;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     greenEnergySources: typeof value === "string" ? value.split(",") : value,
+  //   }));
+  // };
 
   const handleUtilityGreenEnergyProviderInputChange = (e: {
     target: { name: string; value: any };
@@ -336,7 +331,9 @@ export default function AddProperty() {
   // Neighbourhood  Details
 
   const handleNeighbourhoodInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent<string>,
     index?: number,
     field?: keyof PublicPlace
   ) => {
@@ -401,9 +398,8 @@ export default function AddProperty() {
     }));
   };
 
- const handleAddProperty = async () => {
+  const handleAddProperty = async () => {
     try {
-    
       // Prepare data
       const propertyData = {
         ...formData,
@@ -414,9 +410,9 @@ export default function AddProperty() {
 
       const response = await createProperty(propertyData); // Call your API function
       if (response?.message) {
-        showToast("success", <p>{response.message}</p>);  // Assuming `dmessage` is part of the response
+        showToast("success", <p>{response.message}</p>); // Assuming `dmessage` is part of the response
       }
-         router.push('/dashboard/my-properties');
+      router.push("/dashboard/my-properties");
     } catch (err) {
       console.error("Error adding property:", err);
       // setError("Failed to add property. Please try again.");
@@ -426,11 +422,14 @@ export default function AddProperty() {
   };
 
   return (
-    <Container  sx={{
-        // maxHeight: "1000px", 
-        // overflowY: "auto",  
-        // overflowX: "hidden", 
-    }}>
+    <Container
+      sx={
+        {
+          // maxHeight: "1000px",
+          // overflowY: "auto",
+          // overflowX: "hidden",
+        }
+      }>
       <Box
         sx={{
           display: "flex",
@@ -439,8 +438,7 @@ export default function AddProperty() {
           borderBottom: "1px solid lightgray",
           pl: 2,
           pb: 2,
-        }}
-      >
+        }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Add New Property
         </Typography>
@@ -453,8 +451,7 @@ export default function AddProperty() {
             fontSize: "12px",
             p: 1,
           }}
-          onClick={handleAddProperty}
-        >
+          onClick={handleAddProperty}>
           Add Property
         </IconButton>
       </Box>
@@ -466,8 +463,7 @@ export default function AddProperty() {
           flexDirection: "row",
           mt: 2,
           pl: 2,
-        }}
-      >
+        }}>
         <Box component="form">
           <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
             Property name
@@ -490,11 +486,15 @@ export default function AddProperty() {
             setPropertySubType={setPropertySubType}
           />
 
-          <Stack spacing={34} direction="row" sx={{ my: 1, }} className="mt-[2rem] ">
+          <Stack
+            spacing={34}
+            direction="row"
+            sx={{ my: 1 }}
+            className="mt-[2rem] ">
             <FormLabel sx={{ color: "black", fontSize: "12px" }}>
               Square Footage
             </FormLabel>
-            <FormLabel sx={{ color: "black", fontSize: "12px", pl:3 }}>
+            <FormLabel sx={{ color: "black", fontSize: "12px", pl: 3 }}>
               Price
             </FormLabel>
           </Stack>
@@ -515,8 +515,7 @@ export default function AddProperty() {
                         fontSize: "12px",
                         borderRight: "1px solid lightgrey",
                         // pl: -1,
-                      }}
-                    >
+                      }}>
                       Sqft
                     </Button>
                   </InputAdornment>
@@ -539,8 +538,7 @@ export default function AddProperty() {
                         color: "#26a69a",
                         fontSize: "14px",
                         borderRight: "1px solid lightgrey",
-                      }}
-                    >
+                      }}>
                       $
                     </Button>
                   </InputAdornment>
@@ -552,25 +550,21 @@ export default function AddProperty() {
           {/* Additional Fields */}
 
           <div className="mt-[2rem]">
-          <FormLabel
-  sx={{ color: "black", fontSize: "12px", }} 
- 
->
-  Property Description
-</FormLabel>
-<TextField
-  fullWidth
-  label="Enter description"
-  size="small"
-  multiline
-  maxRows={5}
-  sx={{ my: 1 }}
-  name="description"
-  value={formData.description}
-  onChange={handleInputChange}
-/>
-</div>
-
+            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
+              Property Description
+            </FormLabel>
+            <TextField
+              fullWidth
+              label="Enter description"
+              size="small"
+              multiline
+              maxRows={5}
+              sx={{ my: 1 }}
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+            />
+          </div>
 
           <Button
             sx={{
@@ -582,19 +576,18 @@ export default function AddProperty() {
               width: "700px",
             }}
             onClick={() => setShowDetails(!showDetails)}
-            endIcon={showDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
-          >
+            endIcon={showDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>
             Property Details
           </Button>
 
           {/* Conditionally Render Form Component */}
           {showDetails && (
-               <PropertyDetailsForm
-    formData={formData}
-    handleInputChange={handleInputChange}
-    handleAmenitiesChange={handleAmenitiesChange}
-    handleCountryChange={handleCountryChange} // Pass it here
-  />
+            <PropertyDetailsForm
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleAmenitiesChange={handleAmenitiesChange}
+              handleCountryChange={handleCountryChange} // Pass it here
+            />
           )}
 
           {/* FOR CONSTRUCTION DETAILS */}
@@ -616,8 +609,7 @@ export default function AddProperty() {
               ) : (
                 <KeyboardArrowUp />
               )
-            }
-          >
+            }>
             Construction Details
           </Button>
 
@@ -644,8 +636,7 @@ export default function AddProperty() {
             onClick={() => setShowUtilityDetails(!showUtilityDetails)}
             endIcon={
               showUtilityDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
-            }
-          >
+            }>
             Utility Details
           </Button>
 
@@ -683,8 +674,7 @@ export default function AddProperty() {
               ) : (
                 <KeyboardArrowUp />
               )
-            }
-          >
+            }>
             Neighborhood Details
           </Button>
 
@@ -711,8 +701,7 @@ export default function AddProperty() {
             onClick={() => setShowHoaDetails(!showHoaDetails)}
             endIcon={
               showHoaDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
-            }
-          >
+            }>
             HOA and Financial Details
           </Button>
 
@@ -725,7 +714,7 @@ export default function AddProperty() {
           )}
         </Box>
 
-        <MultipleFileUpload setImages={setImages}/>
+        <MultipleFileUpload setImages={setImages} />
       </Box>
     </Container>
   );

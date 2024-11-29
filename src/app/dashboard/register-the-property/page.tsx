@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { axiosInstance } from "@/axios";
 import { RegisterProperty } from "@/builder/addProperty";
 import { showToast } from "@/utils/toast";
@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Define the type for form fields
-type FormFieldNames = keyof ReturnType<typeof useForm>['values'];
+type FormFieldNames = keyof ReturnType<typeof useForm>["values"];
 
 export default function RegisterTheProperty() {
   const registerForm = useForm({
@@ -31,27 +31,35 @@ export default function RegisterTheProperty() {
       registrationNumber: "",
       propertyTaxId: "",
       areaOfLand: "",
-      locationId: "",  // locationId is now a dropdown
+      locationId: "", // locationId is now a dropdown
       zipCode: "",
       registeredAddress: "",
     },
   });
 
   const [loading, setLoading] = useState(false);
-  const [locations, setLocations] = useState([]);  // New state for location data
+  const [locations, setLocations] = useState([]); // New state for location data
   const router = useRouter();
 
   // Dropdown options
   const requestTypeOptions = ["Certificate of Occupancy", "Claim/Query"];
-  const propertyTypeOptions = ["Residential", "Commercial", "⁠⁠Industrial", "Land", "Special purpose"];
+  const propertyTypeOptions = [
+    "Residential",
+    "Commercial",
+    "⁠⁠Industrial",
+    "Land",
+    "Special purpose",
+  ];
 
   useEffect(() => {
     // Fetch locations on component mount
     async function fetchLocations() {
       try {
-        const response = await axiosInstance.get("https://slas-prop.ganafsmas.com/api/v1/locations");
+        const response = await axiosInstance.get(
+          "https://slas-prop.ganafsmas.com/api/v1/locations"
+        );
         console.log("response", response.data);
-        setLocations(response?.data?.data);  // Assuming response.data is an array of locations
+        setLocations(response?.data?.data); // Assuming response.data is an array of locations
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
@@ -60,22 +68,14 @@ export default function RegisterTheProperty() {
     fetchLocations();
   }, []);
 
-
-
- 
-
   async function handleProfileSubmit(values: any) {
     try {
       setLoading(true);
       const response = await RegisterProperty(values);
       if (response?.message) {
-        showToast("success", <p>{response.message}</p>);  // Assuming `dmessage` is part of the response
+        showToast("success", <p>{response.message}</p>); // Assuming `dmessage` is part of the response
       }
       router.push("/dashboard/registered-properties");
-
-
-      
-
     } catch (err) {
       console.error("Error adding property:", err);
     } finally {
@@ -93,8 +93,7 @@ export default function RegisterTheProperty() {
           borderBottom: "1px solid lightgray",
           pl: 2,
           pb: 2,
-        }}
-      >
+        }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Register New Property
         </Typography>
@@ -106,8 +105,7 @@ export default function RegisterTheProperty() {
             color: "white",
             fontSize: "12px",
             p: 1,
-          }}
-        >
+          }}>
           Register Property
         </IconButton>
       </Box>
@@ -115,44 +113,86 @@ export default function RegisterTheProperty() {
       <form onSubmit={registerForm.onSubmit(handleProfileSubmit)}>
         <Box sx={{ ml: "30%", mt: 4 }}>
           <Grid container spacing={2}>
-            {[{
-              name: "ownerName", placeholder: "Enter name of the owner", label: "Name of Current Owner"
-            }, {
-              name: "requestType", label: "Request Type", options: requestTypeOptions
-            }, {
-              name: "registrantName", placeholder: "Enter name of the Registrant", label: "Name of the Registrant"
-            }, {
-              name: "propertyType", label: "Type of Property", options: propertyTypeOptions
-            }, {
-              name: "registrationNumber", placeholder: "Enter registration number", label: "Registration Number"
-            }, {
-              name: "propertyTaxId", placeholder: "Enter property tax ID", label: "Property Tax ID"
-            }, {
-              name: "areaOfLand", placeholder: "Enter Area of Land", label: "Area of Land"
-            }, {
-              name: "locationId", label: "Location", options: locations // locations fetched from the API
-            }, {
-              name: "zipCode", placeholder: "Enter ZIP/PIN Code", label: "ZIP/PIN Code"
-            }, {
-              name: "registeredAddress", placeholder: "Enter registered address", label: "Registered Address"
-            }].map((field) => (
-              <Grid item xs={12} sm={6} key={field.name}>
-                <FormLabel>{field.label}</FormLabel>
-                {field.options ? (
+            {[
+              {
+                name: "ownerName",
+                placeholder: "Enter name of the owner",
+                label: "Name of Current Owner",
+              },
+              {
+                name: "requestType",
+                label: "Request Type",
+                options: requestTypeOptions,
+              },
+              {
+                name: "registrantName",
+                placeholder: "Enter name of the Registrant",
+                label: "Name of the Registrant",
+              },
+              {
+                name: "propertyType",
+                label: "Type of Property",
+                options: propertyTypeOptions,
+              },
+              {
+                name: "registrationNumber",
+                placeholder: "Enter registration number",
+                label: "Registration Number",
+              },
+              {
+                name: "propertyTaxId",
+                placeholder: "Enter property tax ID",
+                label: "Property Tax ID",
+              },
+              {
+                name: "areaOfLand",
+                placeholder: "Enter Area of Land",
+                label: "Area of Land",
+              },
+              {
+                name: "locationId",
+                label: "Location",
+                options: locations, // locations fetched from the API
+              },
+              {
+                name: "zipCode",
+                placeholder: "Enter ZIP/PIN Code",
+                label: "ZIP/PIN Code",
+              },
+              {
+                name: "registeredAddress",
+                placeholder: "Enter registered address",
+                label: "Registered Address",
+              },
+            ].map(({ name, label, options, placeholder }) => (
+              <Grid item xs={12} sm={6} key={name}>
+                <FormLabel>{label}</FormLabel>
+                {options ? (
                   // Dropdown field for requestType, propertyType, location
                   <TextField
                     select
                     fullWidth
-                    id={field.name}
-                    name={field.name}
+                    id={name}
+                    name={name}
                     size="small"
-                    value={registerForm.values[field.name as FormFieldNames]}
-                    onChange={(e) => registerForm.setFieldValue(field.name as FormFieldNames, e.target.value)}
-                  >
-                    {field.options.length > 0 ? (
-                      field.options.map((option: any) => (
-                        <MenuItem key={option.id || option} value={option.id || option}>
-                          {option.name || option} {/* Adjust based on your API response */}
+                    value={
+                      registerForm.values[
+                        name as keyof typeof registerForm.values
+                      ]
+                    }
+                    onChange={(e) =>
+                      registerForm.setFieldValue(
+                        name as FormFieldNames,
+                        e.target.value
+                      )
+                    }>
+                    {options.length > 0 ? (
+                      options.map((option: any) => (
+                        <MenuItem
+                          key={option.id || option}
+                          value={option.id || option}>
+                          {option.name || option}{" "}
+                          {/* Adjust based on your API response */}
                         </MenuItem>
                       ))
                     ) : (
@@ -163,12 +203,21 @@ export default function RegisterTheProperty() {
                   // Regular text field for other fields
                   <TextField
                     fullWidth
-                    id={field.name}
-                    name={field.name}
+                    id={name}
+                    name={name}
                     size="small"
-                    placeholder={field.placeholder}
-                    value={registerForm.values[field.name as FormFieldNames]}
-                    onChange={(e) => registerForm.setFieldValue(field.name as FormFieldNames, e.target.value)}
+                    placeholder={placeholder}
+                    value={
+                      registerForm.values[
+                        name as keyof typeof registerForm.values
+                      ]
+                    }
+                    onChange={(e) =>
+                      registerForm.setFieldValue(
+                        name as FormFieldNames,
+                        e.target.value
+                      )
+                    }
                   />
                 )}
               </Grid>
@@ -186,9 +235,12 @@ export default function RegisterTheProperty() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
-              disabled={loading}
-            >
-              {loading ? <CircularProgress size={24} color="inherit" /> : "Submit & Pay"}
+              disabled={loading}>
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Submit & Pay"
+              )}
             </Button>
           </Container>
         </Box>

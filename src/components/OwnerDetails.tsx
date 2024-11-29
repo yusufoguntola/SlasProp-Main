@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { PropertyCardProps } from "./PropertyCard";
 
-type OwnerDetailsProps = PropertyCardProps["owner"];
+export type OwnerDetailsProps = Partial<PropertyCardProps["owner"]>;
 
 export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
   return (
@@ -26,41 +26,39 @@ export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
       </Typography>
       <Box sx={{ display: "flex", mt: 1 }}>
         <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
-            <Typography
-              sx={{
-                mb: 1,
-                color: "#26a69a",
-                fontSize: "12px",
-                fontWeight: "bold",
-              }}>
-           {ownerDetails?.firstName}
-            </Typography>
-      
+          <Typography
+            sx={{
+              mb: 1,
+              color: "#26a69a",
+              fontSize: "12px",
+              fontWeight: "bold",
+            }}>
+            {ownerDetails?.firstName}
+          </Typography>
         </Box>
 
         <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
-
-            <Typography
-              sx={{
-                mb: 1,
-                color: "gray",
-                fontSize: "12px",
-                fontWeight: "bold",
-              }}>
-             {ownerDetails?.lastName}
-            </Typography>
+          <Typography
+            sx={{
+              mb: 1,
+              color: "gray",
+              fontSize: "12px",
+              fontWeight: "bold",
+            }}>
+            {ownerDetails?.lastName}
+          </Typography>
         </Box>
 
         <Box sx={{ display: "flex", mx: 2.5, flexDirection: "column" }}>
-            <Typography
-              sx={{
-                mb: 1.5,
-                color: "#26a69a",
-                fontSize: "10px",
-                display: "flex",
-              }}>
-             {ownerDetails?.id}
-            </Typography>
+          <Typography
+            sx={{
+              mb: 1.5,
+              color: "#26a69a",
+              fontSize: "10px",
+              display: "flex",
+            }}>
+            {ownerDetails?.id}
+          </Typography>
         </Box>
       </Box>
     </Box>

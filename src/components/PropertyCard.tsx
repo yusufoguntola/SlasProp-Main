@@ -7,11 +7,10 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 export interface PropertyCardProps {
-  id: string; 
+  id: string;
   propertyType: string;
-  propertyId: string; 
-  images: string[]; 
-
+  propertyId: string;
+  images: string[];
   name: string;
   price: string;
   description: string;
@@ -72,17 +71,13 @@ export interface PropertyCardProps {
   };
 }
 
-
-
-
 export function PropertyCard(property: PropertyCardProps) {
   return (
     <Card sx={{ width: 390, border: "1px solid #26a69a", mb: 3, px: 2, py: 1 }}>
       <CardActionArea
         sx={{ display: "flex" }}
         component={Link}
-        href={`/properties/${property?.id}`}
-      >
+        href={`/properties/${property?.id}`}>
         <CardMedia
           component="img"
           image={property.images[0]}
@@ -94,8 +89,7 @@ export function PropertyCard(property: PropertyCardProps) {
           <Typography
             gutterBottom
             sx={{ fontWeight: "bold", fontSize: "20px" }}
-            component="div"
-          >
+            component="div">
             {property?.propertyType}
           </Typography>
           <Typography sx={{ color: "#26a69a", fontSize: "12px" }}>
@@ -110,6 +104,5 @@ export function PropertyCard(property: PropertyCardProps) {
         </CardContent>
       </CardActionArea>
     </Card>
-
   );
 }

@@ -54,7 +54,7 @@ export default function PropertyDetailsForm({
             options={countries}
             getOptionLabel={(option) => option}
             value={formData.country}
-            onChange={(event, newValue) => handleCountryChange(newValue || "")}
+            onChange={(_, newValue) => handleCountryChange(newValue || "")}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -96,7 +96,6 @@ export default function PropertyDetailsForm({
           <TextField
             label="Enter City"
             size="small"
-
             name="city"
             value={formData.city}
             onChange={handleInputChange}
@@ -104,7 +103,9 @@ export default function PropertyDetailsForm({
           />
         </Grid>
         <Grid item xs={6} sx={{ mt: 3 }}>
-          <p className="mb-2 text-[12px] text-[#000000]">Number of Bedroom(s)</p>
+          <p className="mb-2 text-[12px] text-[#000000]">
+            Number of Bedroom(s)
+          </p>
           <TextField
             label="Enter Number of Bedrooms"
             size="small"
@@ -119,7 +120,9 @@ export default function PropertyDetailsForm({
         {/* Third row: Amenities */}
         <Grid item xs={6} sx={{ mt: 2 }}>
           <p className="text-[12px] text-[#000000]">Amenities</p>
-          <p className="text-[10px]">Enter as many as possible separated with commas.</p>
+          <p className="text-[10px]">
+            Enter as many as possible separated with commas.
+          </p>
           <TextField
             label="Enter Amenities (comma-separated)"
             size="small"

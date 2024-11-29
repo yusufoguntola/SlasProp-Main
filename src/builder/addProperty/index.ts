@@ -24,7 +24,7 @@ export const createProperty = async (payload: {
       type: string;
       provided: boolean;
       providerName: string;
-      serviceCharge: number;
+      serviceCharge: string;
       frequency: string;
     }[];
     isGreenEnergyPowered: boolean;
@@ -34,7 +34,7 @@ export const createProperty = async (payload: {
   neighbourhoodDetails: {
     name: string;
     description: string;
-    population: number;
+    population: string;
     locatedInGatedEstate: boolean;
     proximityToPublicPlaces: {
       place: string;
@@ -46,11 +46,11 @@ export const createProperty = async (payload: {
     name: string;
     hasDue: boolean;
     dueFrequency: string;
-    dueAmount: number;
+    dueAmount: string;
     isPropertyInMortgage: boolean;
     mortgageProvider: string;
-    outstandingBalance: number;
-    monthlyPayment: number;
+    outstandingBalance: string;
+    monthlyPayment: string;
     mortgageEndDate: string;
     otherFinancialDetails: string;
   };

@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import sampleImage from "../assets/register-property.png";
 
-export function RegisterProperty(values: any) {
+export function RegisterProperty() {
   return (
     <Container sx={{ display: "flex", padding: 8, justifyContent: "center" }}>
       <CardMedia
@@ -88,8 +88,7 @@ export function RegisterProperty(values: any) {
             "&:hover": { backgroundColor: "#26a69a" },
             padding: 2,
             mt: 2,
-          }}
-        >
+          }}>
           Register Now
         </Button>
       </Box>

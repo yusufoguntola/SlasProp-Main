@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-interface TaxDetailsProps {
+export interface TaxDetailsProps {
   year: number[];
   propertyTax: string[];
   taxAssessment: string[];
