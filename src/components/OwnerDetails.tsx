@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { PropertyCardProps } from "./PropertyCard";
 
-type OwnerDetailsProps = PropertyCardProps["ownerDetails"];
+type OwnerDetailsProps = PropertyCardProps["owner"];
 
 export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
   return (
@@ -26,7 +26,6 @@ export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
       </Typography>
       <Box sx={{ display: "flex", mt: 1 }}>
         <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
-          {ownerDetails.initials.map((initial) => (
             <Typography
               sx={{
                 mb: 1,
@@ -34,13 +33,13 @@ export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
                 fontSize: "12px",
                 fontWeight: "bold",
               }}>
-              {initial}
+           {ownerDetails?.firstName}
             </Typography>
-          ))}
+      
         </Box>
 
         <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
-          {ownerDetails.owner.map((owner) => (
+
             <Typography
               sx={{
                 mb: 1,
@@ -48,13 +47,11 @@ export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
                 fontSize: "12px",
                 fontWeight: "bold",
               }}>
-              {owner}
+             {ownerDetails?.lastName}
             </Typography>
-          ))}
         </Box>
 
         <Box sx={{ display: "flex", mx: 2.5, flexDirection: "column" }}>
-          {ownerDetails.totalYears.map((totalYear) => (
             <Typography
               sx={{
                 mb: 1.5,
@@ -62,9 +59,8 @@ export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
                 fontSize: "10px",
                 display: "flex",
               }}>
-              {totalYear}
+             {ownerDetails?.id}
             </Typography>
-          ))}
         </Box>
       </Box>
     </Box>

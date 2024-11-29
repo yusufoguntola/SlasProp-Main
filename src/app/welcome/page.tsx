@@ -12,7 +12,7 @@ export default function WelcomePage() {
   const { search } = useSearch();
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading.......</div>}>
       <ProtectedRoute>
         <NavBarContainer />
         <WelcomeImageContiner />

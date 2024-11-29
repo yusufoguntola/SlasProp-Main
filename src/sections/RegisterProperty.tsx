@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import sampleImage from "../assets/register-property.png";
 
-export function RegisterProperty() {
+export function RegisterProperty(values: any) {
   return (
     <Container sx={{ display: "flex", padding: 8, justifyContent: "center" }}>
       <CardMedia

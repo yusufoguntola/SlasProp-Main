@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useAuthStore } from "../stores/useAuthStore";
 
 export const axiosInstance = axios.create({
   baseURL:
@@ -13,12 +12,29 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const { token } = useAuthStore.getState();
+    const token = localStorage.getItem("token")?.replace(/^"|"$/g, "").trim(); // Remove surrounding quotes and trim whitespace
 
     if (token) {
+      console.log("there is token======", token);
       config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      console.warn("No token found, proceeding without authorization.");
     }
     return config;
   },
   (error) => Promise.reject(error)
 );
+
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const { token } = useAuthStore.getState();
+
+//     if (token) {
+
+//       console.log('there is token======', token)
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );

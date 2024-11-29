@@ -34,15 +34,22 @@ const ProfileMainBar = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, boxShadow: "0 4px 2px -2px gray" }}>
+    <Box sx={{
+      marginLeft: "270px", // Width of the fixed sidebar
+    marginTop: "30px", // Height of the fixed header (adjust as needed)
+    padding: "16px", // Optional: add padding for spacing
+    // overflowY: "auto", // Enable scrolling for the main content
+    backgroundColor: "#f5f5f5",}}>
       <AppBar
-        position="sticky"
+        position="fixed"
         style={{
-          backgroundColor: "white",
-          color: "black",
-          maxHeight: "80px",
-          minHeight: "80px",
-          boxShadow: "none",
+        top: 0,
+    left: 0,
+    width: "100%",
+    backgroundColor: "white",
+    color: "black",
+    boxShadow: "0 4px 2px -2px gray",
+
         }}
       >
         <Toolbar>

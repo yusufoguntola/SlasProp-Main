@@ -1,10 +1,10 @@
 "use client";
 
-import { MyPropertyCard } from "@/components/MyPropertyCard";
 import { AddCircleOutline } from "@mui/icons-material";
 import { Box, Container, IconButton, Typography } from "@mui/material";
 
 import landImage from "@/assets/land-image.jpg";
+import { MyPropertyCard } from "./MyPropertyCard";
 
 const properties = [
   {

@@ -1,11 +1,11 @@
 "use client";
 
-import { MoreVert } from "@mui/icons-material";
-import { Box, Button, Container, IconButton, Typography } from "@mui/material";
-import { useState } from "react";
-
+import { axiosInstance } from "@/axios";
 import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
 import { SlasPayLogin } from "@/forms/SlasPayLogin";
+import { MoreVert } from "@mui/icons-material";
+import { Box, Button, Container, IconButton, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 const properties = [
   {
@@ -43,9 +43,28 @@ const properties = [
   // }
 ];
 
+
+interface Property {
+  id: number;
+  ownerName: string;
+  propertyType: string;
+  registrationNumber: string;
+  propertyTaxId: string;
+  areaOfLand: number;
+  location: string;
+  zipCode: string;
+  registeredAddress: string;
+  name: string;
+}
+
+
 export default function RegisteredProperties() {
   const [isPressed, setIsPressed] = useState(false);
   const [checkHeading, setCheckHeading] = useState("Registered Properties");
+
+  const [registeredData, setRegisteredData] = useState<Property[]>([]);
+
+
 
   const [isHeading, setIsHeading] = useState(false);
   const handleClick = () => {
@@ -59,7 +78,23 @@ export default function RegisteredProperties() {
     }
   };
 
+
+  useEffect(() => {
+    const fetchRegisteredData = async () => {
+      try {
+        const response = await axiosInstance.get("/property-queries");
+        setRegisteredData(response?.data?.data || []);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+    fetchRegisteredData();
+  }, []);
+
+
+
   return (
+    // {registeredData?.length > 0 ? (
     <Container>
       <Box
         sx={{
@@ -93,7 +128,7 @@ export default function RegisteredProperties() {
           display: "flex",
           flexDirection: "column",
         }}>
-        {properties.map((property) => (
+        {registeredData.map((property) => (
           <Box sx={{ border: "1px solid lightgray", mb: 4 }}>
             <Box sx={{ display: "flex", pl: 6 }}>
               <Typography
@@ -106,7 +141,7 @@ export default function RegisteredProperties() {
                 }}>
                 Property Owner Name
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                  {property.name}
+                  {property?.ownerName}
                 </Typography>
               </Typography>
               <Typography
@@ -117,9 +152,9 @@ export default function RegisteredProperties() {
                   fontSize: "12px",
                   color: "grey",
                 }}>
-                Type Of Land
+               Type Of Property
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                  {property.landType}
+                  {property?.propertyType}
                 </Typography>
               </Typography>
               <Typography sx={{ display: "flex" }}>
@@ -136,7 +171,7 @@ export default function RegisteredProperties() {
                   Registration Number
                   <Typography
                     sx={{ color: "black", fontWeight: "bold", margin: "auto" }}>
-                    {property.regNumber}
+                    {property?.registrationNumber}
                   </Typography>
                 </Typography>
                 <Button sx={{ color: "grey", ml: 15 }} onClick={handleClick}>
@@ -157,7 +192,7 @@ export default function RegisteredProperties() {
                 }}>
                 Property Tax ID
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                  {property.taxID}
+                  {property?.propertyTaxId}
                 </Typography>
               </Typography>
               <Typography
@@ -171,14 +206,14 @@ export default function RegisteredProperties() {
                 }}>
                 Area Of Land
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                  {property.area}
+                  {property?.areaOfLand}
                 </Typography>
               </Typography>
               <Typography
                 sx={{ py: 2, px: 4, fontSize: "12px", color: "grey" }}>
                 Location
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                  {property.location}
+                  {property?.location?.name}
                 </Typography>
               </Typography>
             </Box>
@@ -194,14 +229,14 @@ export default function RegisteredProperties() {
                 }}>
                 ZIP/ PIN Code
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                  {property.zip}
+                 {property?.zipCode}
                 </Typography>
               </Typography>
               <Typography
                 sx={{ px: 4, py: 2, fontSize: "12px", color: "grey" }}>
                 Registration Address
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                  {property.address}
+                  {property?.registeredAddress}
                 </Typography>
               </Typography>
             </Box>
@@ -267,5 +302,17 @@ export default function RegisteredProperties() {
         )}
       </Box>
     </Container>
+
+      // ) : (
+
+      //   <Container >
+        
+      //   <Typography className="flex items-center justify-center h-screen text-lg font-semibold">
+      //       No properties found.
+      //     </Typography>
+      //   </Container>
+      // )
+
+    // }
   );
 }

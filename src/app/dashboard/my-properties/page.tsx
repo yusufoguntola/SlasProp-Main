@@ -1,84 +1,108 @@
-
-
+"use client";
+import { axiosInstance } from "@/axios";
+import { MyPropertyCard } from "@/components/MyPropertyCard";
 import { AddCircleOutline } from "@mui/icons-material";
 import { Box, Container, IconButton, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { StaticImageData } from "next/image";
+// import Empty from "../assets/Empty.jpg";
 
-import landImage from "@/assets/land-image.jpg";
-import { MyPropertyCard } from "@/components/MyPropertyCard";
+
 
 export interface PropertyData {
-  id: number;
-  imageUrl: StaticImageData;
-  heading: string;
-  desc: string;
-  area: number;
-  beds: number;
-  baths: number;
-  price: string;
-  location: string;
-  status: string;
+	id: number;
+	imageUrl: StaticImageData;
+	heading: string;
+	desc: string;
+	area: number;
+	beds: number;
+	baths: number;
+	price: string;
+	location: string;
+	status: string;
 }
 
-const properties: PropertyData[] = [
-  {
-    id: 1,
-    imageUrl: landImage,
-    heading: "Lore Epsom Property",
-    desc: "Rare Opportunity in highly desirable SpringBrook. Popular Scott Felder built floorplan. Showcasing easy living",
-    area: 2345,
-    beds: 4,
-    baths: 3,
-    price: "$319,000",
-    location: "17917 Holderness Ln, Pflugerville, TX 78660",
-    status: "active",
-  },
-  {
-    id: 2,
-    imageUrl: landImage,
-    heading: "Lore Epsom Property",
-    desc: "Rare Opportunity in highly desirable SpringBrook. Popular Scott Felder built floorplan. Showcasing easy living",
-    area: 2345,
-    beds: 4,
-    baths: 3,
-    price: "$319,000",
-    location: "17917 Holderness Ln, Pflugerville, TX 78660",
-    status: "active",
-  },
-];
+
+
+const fetchProperties = async () => {
+	const response = await axiosInstance.get("/properties"); // Await the response
+	console.log(response);
+	return response.data; // Return the data from the response
+};
 
 export default function MyProperties() {
-  return (
-    <Container>
-      <Box
-        sx={{
-          display: "flex",
-          marginLeft: "30%",
-          mt: 4,
-          borderBottom: "1px solid lightgray",
-          pb: 2,
-        }}>
-        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
-          List Of Properties
-        </Typography>
-        <IconButton
-          sx={{
-            backgroundColor: "#DF593D",
-            "&:hover": { backgroundColor: "#DF593D" },
-            borderRadius: "16px",
-            color: "white",
-            fontSize: "12px",
-            p: 1,
-          }}>
-          <AddCircleOutline /> &nbsp;Add New Property
-        </IconButton>
-      </Box>
+	const { data, error, isLoading } = useQuery({
+		queryKey: ["properties"],
+		queryFn: fetchProperties,
+	});
 
-      <Box sx={{ display: "flex", marginLeft: "30%", flexDirection: "column" }}>
-        {properties.map((property) => (
-          <MyPropertyCard key={property.id} {...property} />
+	console.log(data);
+
+	// if (isLoading) {
+	// 	return <div>Loading...</div>;
+	// }
+
+	// if (error) {
+	// 	return <div>Error loading properties</div>;
+	// }
+  return (
+    
+
+    <Container>
+      
+      {data?.total === 0 ? (
+        <div>
+         {/* <img src ={Empty.src} alt=" empty-space" /> */}
+          <h1 className="flex items-center justify-center h-screen text-lg font-semibold">Sorry you have not created a property</h1>
+        </div>
+      ) : (
+          <>
+       <Box
+				sx={{
+					display: "flex",
+					marginLeft: "30%",
+					mt: 4,
+					borderBottom: "1px solid lightgray",
+					pb: 2,
+				}}
+			>
+				<Typography
+					variant="h6"
+					sx={{ fontWeight: "bold", flexGrow: 1 }}
+				>
+					List Of Properties
+				</Typography>
+				<IconButton
+					sx={{
+						backgroundColor: "#DF593D",
+						"&:hover": { backgroundColor: "#DF593D" },
+						borderRadius: "16px",
+						color: "white",
+						fontSize: "12px",
+						p: 1,
+					}}
+				>
+					<AddCircleOutline /> &nbsp;Add New Property
+				</IconButton>
+			</Box>
+
+			<Box sx={{ display: "flex", marginLeft: "30%", flexDirection: "column" }}>
+				{data?.data?.map((property: any) => (
+					<MyPropertyCard
+						key={property.id}
+						{...property}
+					/>
         ))}
-      </Box>
-    </Container>
-  );
+              
+            
+            </Box> 
+        </>      
+          
+) }
+
+
+			
+		</Container>
+	);
 }
+

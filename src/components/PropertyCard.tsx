@@ -5,31 +5,75 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
 import Link from "next/link";
-import sampleImage from "../assets/property-image.jpg";
 
 export interface PropertyCardProps {
-  type: string;
-  regNo: string;
-  taxID: string;
-  desc: string;
-  area: number;
-  beds: number;
-  baths: number;
+  id: string; 
+  propertyType: string;
+  propertyId: string; 
+  images: string[]; 
+
+  name: string;
   price: string;
-  location: string;
-  status: string;
-  taxDetails: {
-    year: number[];
-    propertyTax: string[];
-    taxAssessment: string[];
-    status: string[];
+  description: string;
+  city: string;
+  state: string;
+  country: string;
+  noOfBedrooms: string;
+  address: string;
+  squareFootage: string;
+  amenities: string[];
+  buildingMaterials: string[];
+  architecturalStyle: string;
+  condition: string;
+  structuralFeatures: string[];
+  buildYear: string;
+  utilitiesDetails: {
+    services: {
+      type: string;
+      provided: boolean;
+      providerName: string;
+      serviceCharge: string;
+      frequency: string;
+    }[];
+    isGreenEnergyPowered: boolean;
+    greenEnergyProvider: string;
+    greenEnergySources: string[];
   };
-  ownerDetails: {
-    owner: string[];
-    totalYears: string[];
-    initials: string[];
+  neighbourhoodDetails: {
+    name: string;
+    description: string;
+    population: string;
+    locatedInGatedEstate: boolean;
+    proximityToPublicPlaces: {
+      place: string;
+      type: string;
+      distance: string;
+    }[];
+  };
+
+  hoaAndFinancialDetails: {
+    name: string;
+    hasDue: boolean;
+    dueFrequency: string;
+    dueAmount: string;
+    isPropertyInMortgage: boolean;
+    mortgageProvider: string;
+    outstandingBalance: string;
+    monthlyPayment: string;
+    mortgageEndDate: string;
+    otherFinancialDetails: string;
+  };
+
+  owner: {
+    firstName: string;
+    lastName: string;
+    id: number;
+    imageUrl: string | null;
   };
 }
+
+
+
 
 export function PropertyCard(property: PropertyCardProps) {
   return (
@@ -37,11 +81,11 @@ export function PropertyCard(property: PropertyCardProps) {
       <CardActionArea
         sx={{ display: "flex" }}
         component={Link}
-        href={`/property-details/${property.taxID}`}
+        href={`/properties/${property?.id}`}
       >
         <CardMedia
           component="img"
-          image={sampleImage.src}
+          image={property.images[0]}
           height="150px"
           sx={{ maxWidth: "200px" }}
           alt="property-image"
@@ -52,19 +96,20 @@ export function PropertyCard(property: PropertyCardProps) {
             sx={{ fontWeight: "bold", fontSize: "20px" }}
             component="div"
           >
-            {property.type}
+            {property?.propertyType}
           </Typography>
           <Typography sx={{ color: "#26a69a", fontSize: "12px" }}>
-            Location: {property.location}
+            Location: {property?.address}
           </Typography>
           <Typography sx={{ color: "#DF593D" }}>
-            Reg No. {property.regNo}
+            Square Footage. {property?.squareFootage}
           </Typography>
           <Typography color="text.secondary" sx={{ fontSize: "12px" }}>
-            {`Prop Tax ID: ${property.taxID}`}
+            {`Prop  ID: ${property?.propertyId}`}
           </Typography>
         </CardContent>
       </CardActionArea>
     </Card>
+
   );
 }

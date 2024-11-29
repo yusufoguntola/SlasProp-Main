@@ -1,8 +1,8 @@
 import { SearchLoader } from "@/components/SearchLoader";
 import { CardMedia, Container, Typography } from "@mui/material";
 
-import sampleImage from "../assets/aerial-view.png";
 import { Suspense } from "react";
+import sampleImage from "../assets/aerial-view.png";
 
 export function WelcomeImageContiner() {
   return (

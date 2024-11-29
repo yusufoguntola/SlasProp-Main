@@ -1,81 +1,48 @@
+import { axiosInstance } from "@/axios";
 import { CardMedia, Container } from "@mui/material";
-import { PropertyCard } from "./PropertyCard";
-
+import { useEffect, useState } from "react";
 import sampleImage from "../assets/land-view.png";
+import { PropertyCard, PropertyCardProps } from "./PropertyCard";
 
-const properties = [
-  {
-    type: "Flat",
-    regNo: "7654890321",
-    taxID: "HFK8679011",
-    desc: "Rare opportunity in highly desirable Springbrook. Popular Scott Felder built floorplan. Showcasing easy living, 4 spacious bedrooms, 3 FULL baths, bright open multiple living spaces, expansive back patio and surrounded by a tree covered paradise. Super convenient location. Easy walk to community park that has a sports field, playground, picnic area, BBQ grills, and a running/walking track. Numerous nearby parks, hike/bike trails and great access to IH35, 130 and 45. All this plus outstanding schools, shopping, dining and major employment including Tech Ridge, Dell, Samsung, Tesla, Apple, Amazon and The Domain. Truly a rare gem.",
-    area: 2345,
-    beds: 4,
-    baths: 3,
-    price: "$319,000",
-    location: "17917 Holderness Ln, Pflugerville, TX 78660",
-    status: "active",
-    taxDetails: {
-      year: [2022, 2021, 2020, 2019],
-      propertyTax: ["$9246", "$9426", "$9246", "$9246"],
-      taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
-      status: ["pending"],
-    },
-    ownerDetails: {
-      owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
-      totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
-      initials: ["IS", "AD", "CD"],
-    },
-  },
-  {
-    type: "Villa",
-    regNo: "7654822321",
-    taxID: "JFK4679011",
-    desc: "Rare opportunity in highly desirable Springbrook. Popular Scott Felder built floorplan. Showcasing easy living, 4 spacious bedrooms, 3 FULL baths, bright open multiple living spaces, expansive back patio and surrounded by a tree covered paradise. Super convenient location. Easy walk to community park that has a sports field, playground, picnic area, BBQ grills, and a running/walking track. Numerous nearby parks, hike/bike trails and great access to IH35, 130 and 45. All this plus outstanding schools, shopping, dining and major employment including Tech Ridge, Dell, Samsung, Tesla, Apple, Amazon and The Domain. Truly a rare gem.",
-    area: 2345,
-    beds: 4,
-    baths: 3,
-    price: "$319,000",
-    location: "17917 Holderness Ln, Pflugerville, TX 78660",
-    status: "active",
-    taxDetails: {
-      year: [2022, 2021, 2020, 2019],
-      propertyTax: ["$9246", "$9426", "$9246", "$9246"],
-      taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
-      status: ["pending"],
-    },
-    ownerDetails: {
-      owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
-      totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
-      initials: ["IS", "AD", "CD"],
-    },
-  },
-  {
-    type: "Bungalow",
-    regNo: "7651890311",
-    taxID: "2FK8679011",
-    desc: "Rare opportunity in highly desirable Springbrook. Popular Scott Felder built floorplan. Showcasing easy living, 4 spacious bedrooms, 3 FULL baths, bright open multiple living spaces, expansive back patio and surrounded by a tree covered paradise. Super convenient location. Easy walk to community park that has a sports field, playground, picnic area, BBQ grills, and a running/walking track. Numerous nearby parks, hike/bike trails and great access to IH35, 130 and 45. All this plus outstanding schools, shopping, dining and major employment including Tech Ridge, Dell, Samsung, Tesla, Apple, Amazon and The Domain. Truly a rare gem.",
-    area: 2345,
-    beds: 4,
-    baths: 3,
-    price: "$319,000",
-    location: "17917 Holderness Ln, Pflugerville, TX 78660",
-    status: "active",
-    taxDetails: {
-      year: [2022, 2021, 2020, 2019],
-      propertyTax: ["$9246", "$9426", "$9246", "$9246"],
-      taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
-      status: ["pending"],
-    },
-    ownerDetails: {
-      owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
-      totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
-      initials: ["IS", "AD", "CD"],
-    },
-  },
-];
+
+
+
+
+
 
 export function ImageCardWelcomeSearched() {
+
+  const [properties, setProperties] = useState<PropertyCardProps[]>([]);
+   const [currentPage, setCurrentPage] = useState(1); // Track current page
+  const [lastPage, setLastPage] = useState(1);
+
+
+  
+  const fetchRegisteredData = async (page: number) => {
+    try {
+      const response = await axiosInstance.get(`/search?page=${page}&limit=3`); // Pass page number
+      setProperties(response.data.data || []);
+      setCurrentPage(response.data.currentPage || 1); // Update current page
+      setLastPage(response.data.lastPage || 1); // Update last page
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    }
+  };
+
+
+
+   useEffect(() => {
+    fetchRegisteredData(currentPage);
+  }, [currentPage]);
+
+  // Function to handle page changes
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= lastPage) {
+      setCurrentPage(page); // Set the new page
+    }
+  };
+
+
   return (
     <Container
       sx={{
@@ -106,12 +73,78 @@ export function ImageCardWelcomeSearched() {
           overflow: "auto",
           marginTop: "100px",
           mb: 3,
+          
         }}
       >
         {properties.map((property) => (
-          <PropertyCard key={property.taxID} {...property} />
+          <PropertyCard key={property?.id} {...property} />
         ))}
-      </Container>
+    
+  {/* Pagination Controls */}
+  <Container
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 2, // Adds space between buttons and page numbers
+      mt: 3, // Adds margin-top for separation from the content
+    }}
+  >
+    <button
+      type="button"
+      onClick={() => handlePageChange(currentPage - 1)}
+      disabled={currentPage === 1}
+      style={{
+        padding: "8px 16px",
+        marginRight: "10px",
+        backgroundColor: "#26a69a",
+        color: "#fff",
+        border: "none",
+        borderRadius: "4px",
+        cursor: currentPage === 1 ? "default" : "pointer",
+      }}
+    >
+      Previous
+    </button>
+
+    {/* Page Numbers */}
+    <div style={{ display: "flex", gap: "8px" }}>
+      {[...Array(lastPage)].map((_, index) => (
+        <p
+          key={index}
+          onClick={() => handlePageChange(index + 1)}
+          style={{
+            cursor: "pointer",
+            padding: "6px 10px",
+            borderRadius: "4px",
+            backgroundColor: currentPage === index + 1 ? "#26a69a" : "#f0f0f0",
+            color: currentPage === index + 1 ? "#fff" : "#000",
+            fontWeight: currentPage === index + 1 ? "bold" : "normal",
+          }}
+        >
+          {index + 1}
+        </p>
+      ))}
+    </div>
+
+    <button
+      type="button"
+      onClick={() => handlePageChange(currentPage + 1)}
+      disabled={currentPage === lastPage}
+      style={{
+        padding: "8px 16px",
+        marginLeft: "10px",
+        backgroundColor: "#26a69a",
+        color: "#fff",
+        border: "none",
+        borderRadius: "4px",
+        cursor: currentPage === lastPage ? "default" : "pointer",
+      }}
+    >
+      Next
+    </button>
+  </Container>
+  </Container>
     </Container>
   );
 }

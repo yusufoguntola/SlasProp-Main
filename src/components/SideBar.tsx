@@ -35,11 +35,14 @@ const RegisterOptions = [
   },
   {
     name: "Register Property",
-    address: "register-property",
+    address: "register-the-property",
   },
 ];
 
 export function SideBar() {
+
+
+ 
   const form = useForm({
     initialValues: {
       slider: true,
@@ -51,9 +54,11 @@ export function SideBar() {
       <Box
         sx={{
           width: 270,
-          position: "absolute",
+          position: "fixed",
           boxSizing: "border-box",
-          left: "4%",
+          // left: "4%",
+        height: "100vh", // Full viewport height
+    overflowY: "auto", // Enable scrolling within the sidebar if content overflows
           boxShadow: "10px 0px 10px rgba(108, 122, 137, 0.5)",
         }}
       >
@@ -61,7 +66,7 @@ export function SideBar() {
           <Box
             sx={{
               backgroundColor: "#26a69a",
-              minHeight: "80px",
+               minHeight: "60px",
               ml: -3,
               mr: -3,
             }}
@@ -135,7 +140,7 @@ export function SideBar() {
           </ListItem>
 
           {form.values.slider
-            ? ListOptions.map((option) => (
+            ? RegisterOptions.map((option) => (
                 <ListItem disablePadding>
                   <ListItemButton
                     sx={{ borderBottom: "1px solid lightgrey" }}
@@ -153,8 +158,7 @@ export function SideBar() {
                     />
                   </ListItemButton>
                 </ListItem>
-              ))
-            : RegisterOptions.map((option) => (
+              )) : ListOptions.map((option) => (
                 <ListItem disablePadding>
                   <ListItemButton
                     sx={{ borderBottom: "1px solid lightgrey" }}
@@ -173,6 +177,7 @@ export function SideBar() {
                   </ListItemButton>
                 </ListItem>
               ))}
+            
           <ListItem disablePadding>
             <ListItemButton
               sx={{ borderBottom: "1px solid lightgrey" }}

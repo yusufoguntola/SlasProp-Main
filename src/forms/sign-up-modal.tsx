@@ -58,7 +58,7 @@ export function SignUpModal() {
   const [activationToken, setActivationToken] = useState("");
   const [email, setEmail] = useState("");
 
-  console.log({ otp, activationToken, email });
+  // console.log({ otp, activationToken, email });
 
   const handleChange = (newValue: string) => {
     setOtp(newValue);
