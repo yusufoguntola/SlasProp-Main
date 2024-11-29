@@ -29,7 +29,7 @@ export function SearchBar() {
       <Button
         type="button"
         component={Link}
-        href="/property-details"
+        href="/properties"
         className="SearchButton"
         sx={{
           bgcolor: "#26a69a",

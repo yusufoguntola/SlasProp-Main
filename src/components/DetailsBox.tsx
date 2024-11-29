@@ -7,90 +7,15 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Box, Button, Container, Typography } from "@mui/material";
 
 import { PropertyCardProps } from "./PropertyCard";
+import { OwnerDetails } from "./OwnerDetails";
 
-// "data": {
-//         "id": 1,
-//         "propertyId": "PRP-00003-0001",
-//         "propertyType": "Residential",
-//         "propertySubType": "Multifamily",
-//         "address": "Lagos Island",
-//         "city": "Lagos",
-//         "state": "Ohio",
-//         "country": "United States",
-//         "price": "25000.00",
-//         "description": "Descript",
-//         "noOfBedrooms": "4",
-//         "squareFootage": "300",
-//         "amenities": [
-//             "Light"
-//         ],
-//         "buildYear": "2000",
-//         "listingStatus": null,
-//         "listingDate": "2024-11-28T06:56:00.883Z",
-//         "longitude": null,
-//         "latitude": null,
-//         "ownershipStatus": null,
-//         "constructionDetails": {},
-//         "utilitiesDetails": {
-//             "services": [
-//                 {
-//                     "type": "Power (Electricity)",
-//                     "provided": false,
-//                     "providerName": "fgfgfgfg",
-//                     "serviceCharge": 400,
-//                     "frequency": "2"
-//                 }
-//             ],
-//             "isGreenEnergyPowered": true,
-//             "greenEnergyProvider": "Greener",
-//             "greenEnergySources": [
-//                 "Wind Power",
-//                 "Biomass"
-//             ]
-//         },
-//         "neighbourhoodDetails": {
-//             "name": "Tiptap",
-//             "description": "descr",
-//             "population": 4000,
-//             "locatedInGatedEstate": true,
-//             "proximityToPublicPlaces": [
-//                 {
-//                     "place": "Shopping Malls",
-//                     "type": "Audio",
-//                     "distance": "3000"
-//                 }
-//             ]
-//         },
-//         "hoaAndFinancialDetails": {
-//             "name": "Gbenga Akinnukawe",
-//             "hasDue": true,
-//             "dueFrequency": "12/03/2024",
-//             "dueAmount": 400,
-//             "isPropertyInMortgage": true,
-//             "mortgageProvider": "sdsds",
-//             "outstandingBalance": 0,
-//             "monthlyPayment": 100,
-//             "mortgageEndDate": "2024-11-30",
-//             "otherFinancialDetails": "aaaasas"
-//         },
-//         "images": [
-//             "https://slas-prop.ganafsmas.com/uploads/1732776942790_cards.jpg"
-//         ],
-//         "createdById": null,
-//         "updatedById": null,
-//         "ownerId": 3,
-//         "owner": {
-//             "firstName": "Chidi",
-//             "lastName": "Confidence",
-//             "imageUrl": null,
-//             "id": 3
-//         },
-//         "createdAt": "2024-11-28T06:56:00.890Z",
-//         "updatedAt": "2024-11-28T06:56:00.890Z"
-//     }
-// }
 
-export function DetailsBox({ property }: { property: PropertyCardProps }) {
+
+type DetailsBoxProps = {
+  property: PropertyCardProps[];  // Change this to accept an array of properties
+};
+
+export function DetailsBox({ property }: DetailsBoxProps) {
 	const [isInterior, setIsInterior] = useState(false);
 	const [isPropDetails, setIsPropDetails] = useState(false);
 	const [isConstDetails, setIsConstDetails] = useState(false);
@@ -141,7 +66,7 @@ export function DetailsBox({ property }: { property: PropertyCardProps }) {
 							fontSize: "20px",
 						}}
 					>
-						{property.price}
+						{property?.price}
 					</Typography>
 					<Typography sx={{ color: "grey", mr: 6 }}>
 						<LocationOnIcon sx={{ color: "#DF593D", fontSize: "14px" }} />
@@ -198,13 +123,13 @@ export function DetailsBox({ property }: { property: PropertyCardProps }) {
 						}}
 					>
 						<Typography sx={{ color: "#26a69a", fontWeight: "bold" }}>
-							{property.squareFootage}
+							{property?.squareFootage}
 						</Typography>
 						<Typography sx={{ color: "black" }}>Sqft</Typography>
 					</Box>
 				</Box>
 
-				{/* <OwnerDetails {...property.ownerDetails} /> */}
+				<OwnerDetails {...property?.owner} />
 			</Container>
 
 			<Container sx={{ mt: -2 }}>
@@ -221,7 +146,7 @@ export function DetailsBox({ property }: { property: PropertyCardProps }) {
 						>
 							<Typography sx={{ color: "gray", fontSize: 12 }}>Type</Typography>
 							<Typography sx={{ color: "black", fontWeight: "bold" }}>
-								{property.propertyType}
+								{property?.propertyType}
 							</Typography>
 						</Box>
 						<Box
@@ -231,7 +156,7 @@ export function DetailsBox({ property }: { property: PropertyCardProps }) {
 								Built Year
 							</Typography>
 							<Typography sx={{ color: "black", fontWeight: "bold" }}>
-								{property.buildYear}
+								{property?.buildYear}
 							</Typography>
 						</Box>
 					</Box>
@@ -304,7 +229,7 @@ export function DetailsBox({ property }: { property: PropertyCardProps }) {
 						Description
 					</Typography>
 					<Typography sx={{ color: "grey", fontSize: 14, mt: 0.5 }}>
-						{property.description}
+						{property?.description}
 					</Typography>
 				</Box>
 			</Container>

@@ -1,10 +1,11 @@
 "use client"
 
-import { ImageCardWelcomeSearched } from "@/components/ImageCardWelcomeSearched";
 import { NavBarContainer } from "@/sections/NavBarContainer";
 import { CardMedia, Typography } from "@mui/material";
 
 import sampleImage from "@/assets/aerial-view.png";
+import { ImageCardWelcomeSearched } from "@/components/ImageCardWelcomeSearched";
+import { Footer } from "@/sections/Footer";
 
 export default function Properties() {
   return (
@@ -59,6 +60,7 @@ export default function Properties() {
         </Typography>
       </div>
       <ImageCardWelcomeSearched />
+      <Footer />
     </>
   );
 }
