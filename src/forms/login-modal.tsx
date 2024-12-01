@@ -1,3 +1,12 @@
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { object, string } from "yup";
+
+import { useLogin } from "@/api/use-login";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { useMaterialMenu } from "@/hooks/use-material-menu";
+import { useOptionStore } from "@/stores/useOptionStore";
+import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import {
   ArrowCircleRightOutlined,
@@ -16,18 +25,8 @@ import {
   InputAdornment,
   TextField,
 } from "@mui/material";
-import { useEffect } from "react";
-import { object, string } from "yup";
 
-import { useLogin } from "@/api/use-login";
-import { useLocalStorage } from "@/hooks/use-local-storage";
-import { useMaterialMenu } from "@/hooks/use-material-menu";
-import { useOptionStore } from "@/stores/useOptionStore";
-import { showToast } from "@/utils/toast";
-import { useRouter } from "next/navigation";
 import { SignUpModal } from "./sign-up-modal";
-
-import Link from "next/link";
 
 const schema = object({
   username: string().required(),
@@ -61,7 +60,7 @@ export function LoginModal() {
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
     login(values, {
       onSuccess: (response) => {
-        setToken(response.data.access_token);
+        setToken(response.data.data.access_token);
         showToast("success", <p>Login Successful!</p>);
         push("/dashboard");
       },
@@ -73,9 +72,10 @@ export function LoginModal() {
     setOption(false);
   }
 
-  useEffect(() => {
+  const closeLoginModal = () => {
+    loginClose();
     form.reset();
-  }, [loginIsOpen]);
+  };
 
   return (
     <>
@@ -91,35 +91,25 @@ export function LoginModal() {
 
       <Dialog
         open={loginIsOpen}
-        sx={{
-          maxWidth: "500px",
-          left: "28%",
-        }}
-        onClose={loginClose}
+        maxWidth="lg"
+        onClose={closeLoginModal}
         PaperProps={{
           component: "form",
           onSubmit: form.onSubmit(handleSubmit),
         }}>
         <Container sx={{ borderBottom: 1 }}>
           <DialogActions>
-            <p
-              style={{
-                display: "inline-block",
-                width: "250px",
-                fontFamily: "monospace",
-                fontSize: 17,
-                fontWeight: "bold",
-                marginRight: "auto",
-              }}>
+            <p className="inline-block font-mono mr-auto w-64 font-bold">
               Login
             </p>
-            <Button onClick={loginClose}>
+            <Button onClick={closeLoginModal}>
               <Clear
                 sx={{
                   color: "red",
                   fontSize: 20,
                   fontWeight: "bold",
-                }}></Clear>
+                }}
+              />
             </Button>
           </DialogActions>
         </Container>
@@ -143,24 +133,26 @@ export function LoginModal() {
             {...form.getInputProps("password")}
             size="small"
             margin="normal"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => {
-                      form.setFieldValue(
-                        "showPassword",
-                        !form.values.showPassword
-                      );
-                    }}>
-                    {form.values.showPassword ? (
-                      <VisibilityOff />
-                    ) : (
-                      <Visibility />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => {
+                        form.setFieldValue(
+                          "showPassword",
+                          !form.values.showPassword
+                        );
+                      }}>
+                      {form.values.showPassword ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
             }}
             error={Boolean(form.errors.password)}
             helperText={form.errors.password}

@@ -5,9 +5,6 @@ export const axiosInstance = axios.create({
     process.env.REACT_APP_API_BASE_URL ||
     "https://slas-prop.ganafsmas.com/api/v1",
   timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 axiosInstance.interceptors.request.use(
@@ -15,7 +12,6 @@ axiosInstance.interceptors.request.use(
     const token = localStorage.getItem("token")?.replace(/^"|"$/g, "").trim(); // Remove surrounding quotes and trim whitespace
 
     if (token) {
-      console.log("there is token======", token);
       config.headers.Authorization = `Bearer ${token}`;
     } else {
       console.warn("No token found, proceeding without authorization.");

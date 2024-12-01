@@ -1,3 +1,14 @@
+import { MuiOtpInput } from "mui-one-time-password-input";
+import { useState } from "react";
+import { boolean, object, ref, string } from "yup";
+
+import {
+  useActivateAccount,
+  useRegister,
+  useResendActivationOTP,
+} from "@/api/use-register";
+import { useMaterialMenu } from "@/hooks/use-material-menu";
+import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import { Clear, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -10,23 +21,12 @@ import {
   FormControlLabel,
   FormHelperText,
   FormLabel,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   InputAdornment,
   TextField,
   checkboxClasses,
 } from "@mui/material";
-import { boolean, object, ref, string } from "yup";
-
-import {
-  useActivateAccount,
-  useRegister,
-  useResendActivationOTP,
-} from "@/api/use-register";
-import { useMaterialMenu } from "@/hooks/use-material-menu";
-import { showToast } from "@/utils/toast";
-import { MuiOtpInput } from "mui-one-time-password-input";
-import { useEffect, useState } from "react";
 
 const schema = object({
   userID: string().required().min(1, "First name is required"),
@@ -96,9 +96,10 @@ export function SignUpModal() {
 
   const { dialogClose, dialogIsOpen, dialogToggle } = useMaterialMenu("dialog");
 
-  useEffect(() => {
+  const closeSignupModal = () => {
+    dialogClose();
     form.reset();
-  }, [dialogIsOpen]);
+  };
 
   function handleSubmit(data: typeof form.values) {
     const payload = {
@@ -113,7 +114,6 @@ export function SignUpModal() {
     setEmail(data.email);
     register(payload, {
       onSuccess: (response) => {
-        console.log({ response });
         setActivationToken(response.data.data.token);
 
         setOpen(true);
@@ -139,7 +139,7 @@ export function SignUpModal() {
       {
         onSuccess: (response) => {
           showToast("success", <p>{response.data.message}</p>);
-          dialogClose();
+          closeSignupModal();
           setOpen(false);
         },
         onError: () => {
@@ -186,7 +186,7 @@ export function SignUpModal() {
 
         <Dialog
           open={dialogIsOpen}
-          onClose={dialogClose}
+          onClose={closeSignupModal}
           PaperProps={{
             component: "form",
             onSubmit: form.onSubmit(handleSubmit),
@@ -203,7 +203,9 @@ export function SignUpModal() {
                 }}>
                 Create New Account
               </p>
-              <Button onClick={dialogClose} sx={{ marginRight: -4 }}>
+              <Button
+                onClick={closeSignupModal}
+                sx={{ marginRight: -4 }}>
                 <Clear
                   sx={{ color: "red", fontSize: 20, fontWeight: "bold" }}
                 />
@@ -215,25 +217,27 @@ export function SignUpModal() {
             <p style={{ color: "#26a69a", fontSize: 15 }}>
               Provide the following information to create an account.
             </p>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+            <Grid
+              container
+              spacing={2}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <FormLabel>First Name</FormLabel>
                 <TextField
                   fullWidth
-                  id="user ID"
+                  id="firstName"
                   name="UserID"
                   size="small"
                   {...form.getInputProps("userID")}
-                  autoComplete="family-name"
+                  autoComplete="given-name"
                   error={Boolean(form.errors.userID)}
                   helperText={form.errors.userID}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <FormLabel>Last Name</FormLabel>
                 <TextField
                   fullWidth
-                  id="user ID"
+                  id="lastName"
                   name="lastName"
                   size="small"
                   {...form.getInputProps("lastName")}
@@ -242,10 +246,10 @@ export function SignUpModal() {
                   helperText={form.errors.lastName}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <FormLabel>User Name</FormLabel>
                 <TextField
-                  autoComplete="given-name"
+                  autoComplete="nickname"
                   name="userName"
                   fullWidth
                   id="userName"
@@ -253,10 +257,25 @@ export function SignUpModal() {
                   {...form.getInputProps("username")}
                   error={Boolean(form.errors.username)}
                   helperText={form.errors.username}
-                  autoFocus
+                  type="text"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
+                <FormLabel>Phone Number</FormLabel>
+                <TextField
+                  fullWidth
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  autoComplete="tel"
+                  {...form.getInputProps("phoneNumber")}
+                  size="small"
+                  type="tel"
+                  error={Boolean(form.errors.phoneNumber)}
+                  helperText={form.errors.phoneNumber}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12 }}>
                 <FormLabel>Email Address</FormLabel>
                 <TextField
                   fullWidth
@@ -271,22 +290,7 @@ export function SignUpModal() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} style={{}}>
-                <FormLabel>Phone Number</FormLabel>
-                <TextField
-                  fullWidth
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  autoComplete="email"
-                  {...form.getInputProps("phoneNumber")}
-                  size="small"
-                  type="number"
-                  error={Boolean(form.errors.phoneNumber)}
-                  helperText={form.errors.phoneNumber}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <FormLabel>Password</FormLabel>
                 <TextField
                   fullWidth
@@ -297,20 +301,22 @@ export function SignUpModal() {
                   autoComplete="new-password"
                   margin="none"
                   {...form.getInputProps("password")}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleShowPassword}>
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleShowPassword}>
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                   error={Boolean(form.errors.password)}
                   helperText={form.errors.password}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <FormLabel>Confirm Password</FormLabel>
                 <TextField
                   fullWidth
@@ -321,24 +327,26 @@ export function SignUpModal() {
                   autoComplete="confirmPassword"
                   margin="none"
                   {...form.getInputProps("confirmPassword")}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleShowConfirmPassword}>
-                          {showConfirmPassword ? (
-                            <VisibilityOff />
-                          ) : (
-                            <Visibility />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleShowConfirmPassword}>
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                   error={Boolean(form.errors.confirmPassword)}
                   helperText={form.errors.confirmPassword}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -383,10 +391,7 @@ export function SignUpModal() {
 
       <Dialog
         open={open}
-        sx={{
-          maxWidth: "500px",
-          left: "28%",
-        }}
+        maxWidth="xs"
         onClose={handleCloseModal}>
         <Container sx={{ borderBottom: 1 }}>
           <DialogActions>
@@ -424,7 +429,11 @@ export function SignUpModal() {
               gap: "16px",
               alignItems: "center",
             }}>
-            <MuiOtpInput length={6} value={otp} onChange={handleChange} />
+            <MuiOtpInput
+              length={6}
+              value={otp}
+              onChange={handleChange}
+            />
             <button
               style={{
                 paddingTop: 12,

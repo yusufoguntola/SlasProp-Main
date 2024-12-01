@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PropsWithChildren, Suspense } from "react";
+import { type PropsWithChildren, Suspense } from "react";
 
 import { AuthProvider } from "@/hooks/use-auth";
 import { ToastProvider } from "@/utils/toast";
