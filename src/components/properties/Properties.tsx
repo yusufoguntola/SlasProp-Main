@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "@mantine/form";
 import {
   FormControl,
   FormHelperText,
@@ -8,8 +8,7 @@ import {
   Stack,
   type SelectChangeEvent,
 } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import * as yup from "yup";
+import { errors } from "node_modules/nuqs/dist/_tsup-dts-rollup";
 
 // Define the prop types using TypeScript interfaces
 interface PropertyTypeSelectorProps {
@@ -18,14 +17,6 @@ interface PropertyTypeSelectorProps {
   propertySubType: string; // Selected property subtype
   setPropertySubType: (subType: string) => void; // Function to set property subtype
 }
-
-const schema = yup.object({
-  propertyType: yup.string().required("Property type is required"),
-  propertySubType: yup.string().when("propertyType", {
-    is: (type: string) => type !== "",
-    then: (schema) => schema.required("Property subtype is required"),
-  }),
-});
 
 export default function PropertyTypeSelector({
   propertyType,
@@ -84,16 +75,7 @@ export default function PropertyTypeSelector({
     setPropertySubType(""); // Reset subtype when type changes
   };
 
-  const {
-    control,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      propertyType: "",
-      propertySubType: "",
-    },
-  });
+  const form = useForm();
 
   return (
     <>
@@ -181,11 +163,7 @@ export default function PropertyTypeSelector({
             render={({ field }) => (
               <Select
                 {...field}
-                value={propertySubType}
-                onChange={(e) => {
-                  setPropertySubType(e.target.value);
-                  field.onChange(e);
-                }}
+                {...form.getInputProps("propertySubType")}
                 displayEmpty
                 sx={{
                   "& .MuiSelect-select": { padding: "10px" },
@@ -205,7 +183,9 @@ export default function PropertyTypeSelector({
               </Select>
             )}
           />
-          <FormHelperText>{errors.propertySubType?.message}</FormHelperText>
+          <FormHelperText>
+            {form.errors.propertySubType?.message}
+          </FormHelperText>
         </FormControl>
       </Stack>
     </>
