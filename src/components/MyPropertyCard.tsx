@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
+
 import { ArrowForward, LocationOn } from "@mui/icons-material";
 import { Box, Button, IconButton, Typography } from "@mui/material";
-import Link from "next/link";
 
 type MyPropertyCardProps = Partial<{
   city: any;
@@ -17,7 +18,6 @@ type MyPropertyCardProps = Partial<{
 }>;
 
 export function MyPropertyCard(property: MyPropertyCardProps) {
-  console.log(property, "property");
   return (
     <Box
       sx={{
@@ -35,7 +35,7 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
 
       <img
         src={property?.images?.[0]}
-        alt="land image"
+        alt="land"
         height={150}
         width={200}
       />

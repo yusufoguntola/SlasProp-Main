@@ -1,10 +1,13 @@
 "use client";
+
+import type { StaticImageData } from "next/image";
+
 import { axiosInstance } from "@/axios";
 import { MyPropertyCard } from "@/components/MyPropertyCard";
 import { AddCircleOutline } from "@mui/icons-material";
 import { Box, Container, IconButton, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { StaticImageData } from "next/image";
+
 // import Empty from "../assets/Empty.jpg";
 
 export interface PropertyData {
@@ -22,7 +25,7 @@ export interface PropertyData {
 
 const fetchProperties = async () => {
   const response = await axiosInstance.get("/properties"); // Await the response
-  console.log(response);
+
   return response.data; // Return the data from the response
 };
 
@@ -31,8 +34,6 @@ export default function MyProperties() {
     queryKey: ["properties"],
     queryFn: fetchProperties,
   });
-
-  console.log(data);
 
   // if (isLoading) {
   // 	return <div>Loading...</div>;

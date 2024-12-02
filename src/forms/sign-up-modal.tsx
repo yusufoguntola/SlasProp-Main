@@ -6,7 +6,7 @@ import {
   useActivateAccount,
   useRegister,
   useResendActivationOTP,
-} from "@/api/use-register";
+} from "@/api/auth/mutations";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
@@ -58,7 +58,6 @@ export function SignUpModal() {
   const [activationToken, setActivationToken] = useState("");
   const [email, setEmail] = useState("");
 
-  // console.log({ otp, activationToken, email });
 
   const handleChange = (newValue: string) => {
     setOtp(newValue);

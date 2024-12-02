@@ -4,7 +4,7 @@ const nextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "slas-prop.ganafsmas.com/**",
+				hostname: "slas-prop.ganafsmas.com",
 			},
 		],
 	},

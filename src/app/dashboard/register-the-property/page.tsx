@@ -1,4 +1,8 @@
 "use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import { axiosInstance } from "@/axios";
 import { RegisterProperty } from "@/builder/addProperty";
 import { showToast } from "@/utils/toast";
@@ -15,8 +19,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 // Define the type for form fields
 type FormFieldNames = keyof ReturnType<typeof useForm>["values"];
@@ -58,7 +60,6 @@ export default function RegisterTheProperty() {
         const response = await axiosInstance.get(
           "https://slas-prop.ganafsmas.com/api/v1/locations"
         );
-        console.log("response", response.data);
         setLocations(response?.data?.data); // Assuming response.data is an array of locations
       } catch (error) {
         console.error("Error fetching locations:", error);

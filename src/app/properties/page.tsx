@@ -1,11 +1,10 @@
 "use client"
 
-import { NavBarContainer } from "@/sections/NavBarContainer";
-import { CardMedia, Typography } from "@mui/material";
-
 import sampleImage from "@/assets/aerial-view.png";
 import { ImageCardWelcomeSearched } from "@/components/ImageCardWelcomeSearched";
 import { Footer } from "@/sections/Footer";
+import { NavBarContainer } from "@/sections/NavBarContainer";
+import { CardMedia, Typography } from "@mui/material";
 
 export default function Properties() {
   return (
@@ -15,8 +14,6 @@ export default function Properties() {
         <CardMedia
           component="img"
           image={sampleImage.src}
-          // onLoad={() => console.log("this is loading")}
-          // onError={() => console.log("this is error")}
           alt="This is a land image"
           sx={{
             marginTop: "-50px",

@@ -17,6 +17,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+
 import sampleImage from "../assets/register-property.png";
 
 export function RegisterProperty() {
@@ -25,8 +26,6 @@ export function RegisterProperty() {
       <CardMedia
         component="img"
         image={sampleImage.src}
-        onLoad={() => console.log("this is loading")}
-        onError={() => console.log("this is error")}
         alt="This is a property image"
         sx={{
           maxWidth: "40%",

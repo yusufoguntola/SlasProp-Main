@@ -1,5 +1,7 @@
-import Logo from "../assets/Logo.png";
+import Link from "next/link";
 
+import { useLogout } from "@/api/auth/mutations";
+import { useOptionStore } from "@/stores/useOptionStore";
 import {
   ArrowCircleRightOutlined,
   ChatBubbleOutlineOutlined,
@@ -18,15 +20,12 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useAuth } from "@/hooks/use-auth";
-import { useOptionStore } from "@/stores/useOptionStore";
-
-import Link from "next/link";
+import Logo from "../assets/Logo.png";
 
 const ProfileMainBar = () => {
   const setOption = useOptionStore((state) => state.setOption);
 
-  const { logout } = useAuth();
+  const logout = useLogout();
 
   const handleLogOut = () => {
     setOption(true);
@@ -34,26 +33,29 @@ const ProfileMainBar = () => {
   };
 
   return (
-    <Box sx={{
-      marginLeft: "270px", // Width of the fixed sidebar
-    marginTop: "30px", // Height of the fixed header (adjust as needed)
-    padding: "16px", // Optional: add padding for spacing
-    // overflowY: "auto", // Enable scrolling for the main content
-    backgroundColor: "#f5f5f5",}}>
+    <Box
+      sx={{
+        marginLeft: "270px", // Width of the fixed sidebar
+        marginTop: "30px", // Height of the fixed header (adjust as needed)
+        padding: "16px", // Optional: add padding for spacing
+        // overflowY: "auto", // Enable scrolling for the main content
+        backgroundColor: "#f5f5f5",
+      }}>
       <AppBar
         position="fixed"
         style={{
-        top: 0,
-    left: 0,
-    width: "100%",
-    backgroundColor: "white",
-    color: "black",
-    boxShadow: "0 4px 2px -2px gray",
-
-        }}
-      >
+          top: 0,
+          left: 0,
+          width: "100%",
+          backgroundColor: "white",
+          color: "black",
+          boxShadow: "0 4px 2px -2px gray",
+        }}>
         <Toolbar>
-          <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="body1"
+            component="div"
+            sx={{ flexGrow: 1 }}>
             <Box
               src={Logo.src}
               component="img"
@@ -82,21 +84,25 @@ const ProfileMainBar = () => {
               "&:hover": { backgroundColor: "#52d6cf" },
               marginRight: 3,
             }}
-            aria-label="search"
-          >
+            aria-label="search">
             <Search />
           </Button>
 
-          <Divider sx={{ color: "#26a69a" }} orientation="vertical" flexItem />
+          <Divider
+            sx={{ color: "#26a69a" }}
+            orientation="vertical"
+            flexItem
+          />
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               color="inherit"
               component={Link}
-              href="/dashboard/messages"
-            >
-              <Badge badgeContent={1} color="error">
+              href="/dashboard/messages">
+              <Badge
+                badgeContent={1}
+                color="error">
                 <ChatBubbleOutlineOutlined
                   fontSize="medium"
                   sx={{ color: "#26a69a" }}
@@ -114,9 +120,10 @@ const ProfileMainBar = () => {
               size="large"
               color="inherit"
               component={Link}
-              href="/dashboard/notifications"
-            >
-              <Badge badgeContent={1} color="error">
+              href="/dashboard/notifications">
+              <Badge
+                badgeContent={1}
+                color="error">
                 <NotificationsNoneOutlined
                   fontSize="large"
                   sx={{ color: "#26a69a" }}
@@ -132,8 +139,7 @@ const ProfileMainBar = () => {
 
             <IconButton
               sx={{ fontSize: "18px", fontWeight: "bold", color: "black" }}
-              onClick={handleLogOut}
-            >
+              onClick={handleLogOut}>
               Log out
               <ArrowCircleRightOutlined
                 fontSize="large"

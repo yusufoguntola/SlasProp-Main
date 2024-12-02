@@ -7,7 +7,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Box, Button, Container, Typography } from "@mui/material";
 
 import { OwnerDetails } from "./OwnerDetails";
-import { PropertyCardProps } from "./PropertyCard";
+import type { PropertyCardProps } from "./PropertyCard";
 
 type DetailsBoxProps = {
   property: PropertyCardProps | null; // Change this to accept an array of properties
@@ -20,8 +20,6 @@ export function DetailsBox({ property }: DetailsBoxProps) {
   const [isUtil, setIsUtil] = useState(false);
   const [isComm, setIsComm] = useState(false);
   const [isHOA, setIsHOA] = useState(false);
-
-  console.log(property);
 
   // const form = useForm({
   //   initialValues: {

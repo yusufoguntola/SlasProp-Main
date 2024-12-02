@@ -2,11 +2,11 @@
 
 import clsx from "clsx";
 import {
-  Id,
+  type Id,
   Slide,
   ToastContainer,
-  ToastContent,
-  ToastOptions,
+  type ToastContent,
+  type ToastOptions,
   toast,
 } from "react-toastify";
 

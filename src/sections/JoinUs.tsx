@@ -1,4 +1,5 @@
 import { Box, Button, CardMedia, Container, Typography } from "@mui/material";
+
 import sampleImage from "../assets/join-us.png";
 
 export function JoinUs() {
@@ -34,8 +35,6 @@ export function JoinUs() {
       <CardMedia
         component="img"
         image={sampleImage.src}
-        onLoad={() => console.log("this is loading")}
-        onError={() => console.log("this is error")}
         alt="This is a join us image"
         sx={{
           objectFit: "fit",

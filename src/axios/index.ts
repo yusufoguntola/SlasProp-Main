@@ -1,4 +1,7 @@
 import axios from "axios";
+import { getCookie } from "cookies-next";
+
+import { COOKIES } from "@/constants";
 
 export const axiosInstance = axios.create({
   baseURL:
@@ -9,7 +12,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token")?.replace(/^"|"$/g, "").trim(); // Remove surrounding quotes and trim whitespace
+    const token = getCookie(COOKIES.token)
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -20,17 +23,3 @@ axiosInstance.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     const { token } = useAuthStore.getState();
-
-//     if (token) {
-
-//       console.log('there is token======', token)
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );

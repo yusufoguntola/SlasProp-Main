@@ -2,8 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
 
-import { useLogin } from "@/api/use-login";
-import { useLocalStorage } from "@/hooks/use-local-storage";
+import { useLogin } from "@/api/auth/mutations";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
 import { showToast } from "@/utils/toast";
@@ -42,7 +41,6 @@ const schema = object({
 export function LoginModal() {
   const setOption = useOptionStore((state) => state.setOption);
   const { mutate: login } = useLogin();
-  const [, setToken] = useLocalStorage<string>("token");
   const { push } = useRouter();
 
   const form = useForm({
@@ -59,12 +57,11 @@ export function LoginModal() {
 
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
     login(values, {
-      onSuccess: (response) => {
-        setToken(response.data.data.access_token);
+      onSuccess: () => {
         showToast("success", <p>Login Successful!</p>);
         push("/dashboard");
       },
-      onError: () => {
+      onError: (error) => {
         showToast("error", <p> Login Failed! Please try again. </p>);
       },
     });

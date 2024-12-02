@@ -1,5 +1,8 @@
 "use client"; // Ensures this is treated as a client-side component
 
+import { useState } from "react";
+import { object, string } from "yup";
+
 import { UpdateProfile, UserResetPassword } from "@/builder/addProperty";
 import { useForm, yupResolver } from "@mantine/form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -15,8 +18,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { object, string } from "yup";
+
 import ProfilePhoto from "./ProfilePhoto";
 
 const profileSchema = object({
@@ -58,7 +60,7 @@ export default function Settings() {
   const passwordForm = useForm({
     initialValues: {
       password: "",
-     newPassword: "",
+      newPassword: "",
     },
     // validate: yupResolver(passwordSchema),
   });
@@ -68,32 +70,26 @@ export default function Settings() {
     setShowConfirmPassword((prev) => !prev);
 
   async function handleProfileSubmit(values: any) {
-   
-  try {
-   setLoadingProfile(true);
-      const response = await UpdateProfile(values); 
-    console.log(response);
-  setLoadingProfile(false);
-  profileForm.reset(); 
-      alert(response?.data?.message);
+    try {
+      setLoadingProfile(true);
+      const response = await UpdateProfile(values);
 
+      setLoadingProfile(false);
+      profileForm.reset();
+      alert(response?.data?.message);
     } catch (err) {
       console.error("Error adding property:", err);
       // setError("Failed to add property. Please try again.");
     } finally {
       // setLoading(false); // Hide loading state
     }
-    
   }
 
-
-
   async function handlePasswordSubmit(values: any) {
-
     try {
       setLoadingPassword(true);
       const response = await UserResetPassword(values);
-       profileForm.reset(); 
+      profileForm.reset();
       alert(response?.data?.message);
     } catch (err) {
       console.error("Error updating profile:", err);
@@ -112,23 +108,32 @@ export default function Settings() {
           mt: 4,
           borderBottom: "1px solid lightgray",
           pb: 2,
-        }}
-      >
-        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
+        }}>
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Edit Profile
         </Typography>
       </Box>
 
       {/* Profile Photo */}
       <Box sx={{ ml: "30%", mt: 4 }}>
-        <ProfilePhoto form={profileForm} fieldName="imageUrl" />
+        <ProfilePhoto
+          form={profileForm}
+          fieldName="imageUrl"
+        />
       </Box>
 
       {/* Profile Form */}
       <form onSubmit={profileForm.onSubmit(handleProfileSubmit)}>
         <Box sx={{ ml: "30%", mt: 4 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Grid
+            container
+            spacing={2}>
+            <Grid
+              item
+              xs={12}
+              sm={6}>
               <FormLabel>First Name</FormLabel>
               <TextField
                 autoComplete="given-name"
@@ -141,7 +146,10 @@ export default function Settings() {
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              item
+              xs={12}
+              sm={6}>
               <FormLabel>Last Name</FormLabel>
               <TextField
                 required
@@ -153,7 +161,10 @@ export default function Settings() {
                 autoComplete="family-name"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              item
+              xs={12}
+              sm={6}>
               <FormLabel>Email Address</FormLabel>
               <TextField
                 required
@@ -166,7 +177,10 @@ export default function Settings() {
                 type="email"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              item
+              xs={12}
+              sm={6}>
               <FormLabel>Phone Number</FormLabel>
               <TextField
                 required
@@ -192,10 +206,12 @@ export default function Settings() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
-              disabled={loadingProfile}
-            >
+              disabled={loadingProfile}>
               {loadingProfile ? (
-                <CircularProgress size={24} color="inherit" />
+                <CircularProgress
+                  size={24}
+                  color="inherit"
+                />
               ) : (
                 "Update Profile"
               )}
@@ -207,8 +223,13 @@ export default function Settings() {
       {/* Password Form */}
       <form onSubmit={passwordForm.onSubmit(handlePasswordSubmit)}>
         <Box sx={{ ml: "30%", mt: 4 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Grid
+            container
+            spacing={2}>
+            <Grid
+              item
+              xs={12}
+              sm={6}>
               <FormLabel>Current Password</FormLabel>
               <TextField
                 required
@@ -231,7 +252,10 @@ export default function Settings() {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              item
+              xs={12}
+              sm={6}>
               <FormLabel>New Password</FormLabel>
               <TextField
                 required
@@ -271,10 +295,12 @@ export default function Settings() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
-              disabled={loadingPassword}
-            >
+              disabled={loadingPassword}>
               {loadingPassword ? (
-                <CircularProgress size={24} color="inherit" />
+                <CircularProgress
+                  size={24}
+                  color="inherit"
+                />
               ) : (
                 "Reset Password"
               )}

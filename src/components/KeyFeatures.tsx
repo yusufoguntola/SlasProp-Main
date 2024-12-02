@@ -54,8 +54,6 @@ export function KeyFeatures() {
         <CardMedia
           component="img"
           image={sampleImage.src}
-          onLoad={() => console.log("this is loading")}
-          onError={() => console.log("this is error")}
           alt="This is a property image"
           sx={{
             maxWidth: "45%",
