@@ -15,20 +15,20 @@ import { RegisterProperty } from "../sections/RegisterProperty";
 import { SubmitInquiry } from "../sections/SubmitInquiry";
 
 export default function Homepage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <NavBarContainer />
-      <HomeImageContainer />
-      <RegisterProperty />
-      <ListProperty />
-      <ManageProperty />
-      <AdvertisementContainer />
-      <FeatureProperties />
-      <KnowAboutSlasProp />
-      <JoinUs />
-      <Blogs />
-      <SubmitInquiry />
-      <Footer />
-    </Suspense>
-  );
+	return (
+		<Suspense fallback={<div>Loading...</div>}>
+			<NavBarContainer />
+			<HomeImageContainer />
+			<RegisterProperty />
+			<ListProperty />
+			<ManageProperty />
+			<AdvertisementContainer />
+			<FeatureProperties />
+			<KnowAboutSlasProp />
+			<JoinUs />
+			<Blogs />
+			<SubmitInquiry />
+			<Footer />
+		</Suspense>
+	);
 }

@@ -9,42 +9,42 @@ import landImage3 from "@/assets/land-image-3.jpg";
 import landImage from "@/assets/land-image.jpg";
 
 const images = [
-  {
-    original: landImage.src,
-    thumbnail: landImage.src,
-    bnailWidth: 200,
-    thumbnailHeight: 100,
-  },
-  {
-    original: landImage1.src,
-    thumbnail: landImage1.src,
-    thumbnailWidth: 200,
-    thumbnailHeight: 100,
-  },
-  {
-    original: landImage2.src,
-    thumbnail: landImage2.src,
-    thumbnailWidth: 200,
-    thumbnailHeight: 100,
-  },
-  {
-    original: landImage3.src,
-    thumbnail: landImage3.src,
-    thumbnailWidth: 200,
-    thumbnailHeight: 100,
-  },
+	{
+		original: landImage.src,
+		thumbnail: landImage.src,
+		bnailWidth: 200,
+		thumbnailHeight: 100,
+	},
+	{
+		original: landImage1.src,
+		thumbnail: landImage1.src,
+		thumbnailWidth: 200,
+		thumbnailHeight: 100,
+	},
+	{
+		original: landImage2.src,
+		thumbnail: landImage2.src,
+		thumbnailWidth: 200,
+		thumbnailHeight: 100,
+	},
+	{
+		original: landImage3.src,
+		thumbnail: landImage3.src,
+		thumbnailWidth: 200,
+		thumbnailHeight: 100,
+	},
 ];
 
 export function ImageGallery() {
-  return (
-    <Container sx={{ mt: 1, mb: 1 }}>
-      <ReactImageGallery
-        items={images}
-        showPlayButton={false}
-        showFullscreenButton={false}
-        thumbnailPosition="right"
-        lazyLoad={true}
-      />
-    </Container>
-  );
+	return (
+		<Container sx={{ mt: 1, mb: 1 }}>
+			<ReactImageGallery
+				items={images}
+				showPlayButton={false}
+				showFullscreenButton={false}
+				thumbnailPosition="right"
+				lazyLoad={true}
+			/>
+		</Container>
+	);
 }

@@ -2,12 +2,14 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 
 import { uploadFiles } from "@/builder/upload";
+import type { UseFormReturnType } from "@mantine/form";
 import { Button } from "@mui/material";
 
 import sampleImage from "../../../assets/profile-picture.png";
 
 interface ProfilePhotoProps {
-  form: any;
+  // biome-ignore lint/suspicious/noExplicitAny: TODO: will be removed
+  form: UseFormReturnType<any>;
   fieldName: string; // Accept the field name for the image
 }
 

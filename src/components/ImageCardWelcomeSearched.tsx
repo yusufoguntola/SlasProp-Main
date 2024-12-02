@@ -1,37 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { axiosInstance } from "@/axios";
 import { CardMedia, Container } from "@mui/material";
 
+import { useQuery } from "@tanstack/react-query";
 import sampleImage from "../assets/land-view.png";
 import { PropertyCard, type PropertyCardProps } from "./PropertyCard";
 
 export function ImageCardWelcomeSearched() {
-  const [properties, setProperties] = useState<PropertyCardProps[]>([]);
-  const [currentPage, setCurrentPage] = useState(1); // Track current page
-  const [lastPage, setLastPage] = useState(1);
+  const [currentPage] = useState(1); // Track current page
 
-  const fetchRegisteredData = async (page: number) => {
-    try {
-      const response = await axiosInstance.get(`/search?page=${page}&limit=3`); // Pass page number
-      setProperties(response.data.data || []);
-      setCurrentPage(response.data.currentPage || 1); // Update current page
-      setLastPage(response.data.lastPage || 1); // Update last page
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchRegisteredData(currentPage);
-  }, [currentPage]);
+  const { data } = useQuery({
+    queryKey: ["search", "page", currentPage],
+    queryFn: () => axiosInstance.get(`/search/?page=${currentPage}`),
+  });
 
   // Function to handle page changes
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= lastPage) {
-      setCurrentPage(page); // Set the new page
-    }
-  };
 
   return (
     <Container
@@ -61,15 +45,15 @@ export function ImageCardWelcomeSearched() {
           marginTop: "100px",
           mb: 3,
         }}>
-        {properties.map((property) => (
+        {data?.data.data.map((property: PropertyCardProps) => (
           <PropertyCard
             key={property?.id}
             {...property}
           />
         ))}
 
-        {/* Pagination Controls */}
-        <Container
+        {/* TODO: Pagination Controls */}
+        {/* <Container
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -93,7 +77,6 @@ export function ImageCardWelcomeSearched() {
             Previous
           </button>
 
-          {/* Page Numbers */}
           <div style={{ display: "flex", gap: "8px" }}>
             {[...Array(lastPage)].map((_, index) => (
               <button
@@ -129,7 +112,7 @@ export function ImageCardWelcomeSearched() {
             }}>
             Next
           </button>
-        </Container>
+        </Container> */}
       </Container>
     </Container>
   );

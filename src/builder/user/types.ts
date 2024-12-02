@@ -1,14 +1,14 @@
 interface LoginPayload {
-  username: string;
-  password: string;
-  type: string;
+	username: string;
+	password: string;
+	type: string;
 }
 
 interface SignupPayload {
-  email: string;
-  username: string;
-  lastName: string;
-  firstName: string;
-  password: string;
-  phoneNumber: string;
+	email: string;
+	username: string;
+	lastName: string;
+	firstName: string;
+	password: string;
+	phoneNumber: string;
 }
