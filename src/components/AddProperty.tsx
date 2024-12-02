@@ -9,12 +9,10 @@ import {
   Button,
   Container,
   FormLabel,
-  IconButton,
   InputAdornment,
   type SelectChangeEvent,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -38,13 +36,6 @@ interface PublicPlace {
   type: string;
   distance: string;
 }
-
-// interface UtilitiesDetails {
-//   services: Service[];
-//   isGreenEnergyPowered: boolean;
-//   greenEnergyProvider: string;
-//   greenEnergySources: string[];
-// }
 
 interface FormData {
   name: string;
@@ -168,15 +159,10 @@ export default function AddProperty() {
   const [showNeighborhoodDetails, setShowNeighborhoodDetails] = useState(false);
   const [showHoaDetails, setShowHoaDetails] = useState(false);
   const [images, setImages] = useState<string[]>([]);
-  const router = useRouter();
 
-  // const handleHoaInputChange = (e: { target: { name: any; value: any } }) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     hoaAndFinancialDetails: { ...prev.hoaAndFinancialDetails, [name]: value },
-  //   }));
-  // };
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleCountryChange = (country: string) => {
     setFormData((prev) => ({ ...prev, country }));
@@ -188,7 +174,7 @@ export default function AddProperty() {
   };
 
   const handlestructuralFeaturesChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const structuralFeatures = e.target.value
       .split(",")
@@ -197,7 +183,7 @@ export default function AddProperty() {
   };
 
   const handlebuildingMaterialsChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const buildingMaterials = e.target.value
       .split(",")
@@ -215,7 +201,7 @@ export default function AddProperty() {
   const handleUtilityInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number,
-    field: keyof Service,
+    field: keyof Service
   ) => {
     const updatedServices = [...formData.utilitiesDetails.services];
 
@@ -280,14 +266,6 @@ export default function AddProperty() {
     }));
   };
 
-  // const handleGreenEnergySourcesChange = (e: SelectChangeEvent<string[]>) => {
-  //   const value = e.target.value;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     greenEnergySources: typeof value === "string" ? value.split(",") : value,
-  //   }));
-  // };
-
   const handleUtilityGreenEnergyProviderInputChange = (e: {
     target: { name: string; value: unknown };
   }) => {
@@ -322,7 +300,7 @@ export default function AddProperty() {
 
   const handleRemoveService = (index: number) => {
     const updatedServices = formData.utilitiesDetails.services.filter(
-      (_, i) => i !== index,
+      (_, i) => i !== index
     );
     setFormData((prev) => ({
       ...prev,
@@ -337,7 +315,7 @@ export default function AddProperty() {
       | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
       | SelectChangeEvent<string>,
     index?: number,
-    field?: keyof PublicPlace,
+    field?: keyof PublicPlace
   ) => {
     if (index !== undefined && field) {
       // Update a specific public place
@@ -378,7 +356,7 @@ export default function AddProperty() {
   const handleNeighbourhoodRemovePublicPlace = (index: number) => {
     const updatedPlaces =
       formData.neighbourhoodDetails.proximityToPublicPlaces.filter(
-        (_, i: number) => i !== index,
+        (_, i: number) => i !== index
       );
     setFormData((prev) => ({
       ...prev,
@@ -401,6 +379,8 @@ export default function AddProperty() {
   };
 
   const handleAddProperty = async () => {
+    setLoading(true);
+    setError(null);
     try {
       // Prepare data
       const propertyData = {
@@ -410,76 +390,73 @@ export default function AddProperty() {
         images,
       };
 
-      const response = await createProperty(propertyData); // Call your API function
+      console.log(propertyData);
+
+      const response = await createProperty(propertyData);
       if (response?.message) {
         showToast("success", <p>{response.message}</p>); // Assuming `dmessage` is part of the response
       }
       router.push("/dashboard/my-properties");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error adding property:", err);
-      // setError("Failed to add property. Please try again.");
+
+      if (err?.response?.data.error) {
+        const error = err.response.data.error;
+
+        if (Array.isArray(error)) {
+          setError(error.join(", "));
+        } else {
+          setError("An unexpected error occurred. Please try again.");
+        }
+      }
     } finally {
-      // setLoading(false); // Hide loading state
+      setLoading(false);
     }
   };
 
   return (
     <Container
-      sx={
-        {
-          // maxHeight: "1000px",
-          // overflowY: "auto",
-          // overflowX: "hidden",
-        }
-      }
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        pl: 2,
+        gap: 2,
+      }}
     >
       <Box
         sx={{
           display: "flex",
-          marginLeft: "30%",
-          mt: 4,
-          borderBottom: "1px solid lightgray",
+          flexDirection: "column",
           pl: 2,
-          pb: 2,
+          gap: 2,
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
-          Add New Property
-        </Typography>
-        <IconButton
+        <Box
+          component='form'
           sx={{
-            backgroundColor: "#DF593D",
-            "&:hover": { backgroundColor: "#DF593D" },
-            borderRadius: "16px",
-            color: "white",
-            fontSize: "12px",
-            p: 1,
+            // maxHeight: { xs: "100%", sm: "900px" },
+            overflowY: "auto",
+            width: "100%",
+            mt: 6,
           }}
-          onClick={handleAddProperty}
         >
-          Add Property
-        </IconButton>
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          marginLeft: "30%",
-          flexDirection: "row",
-          mt: 2,
-          pl: 2,
-        }}
-      >
-        <Box component="form">
-          <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
+          <FormLabel
+            sx={{
+              color: "black",
+              fontSize: "14px",
+              fontWeight: "bold",
+              display: "block",
+              mb: 1,
+            }}
+          >
             Property name
           </FormLabel>
           <TextField
             fullWidth
-            size="small"
-            label="Enter the name of the propert"
+            size='small'
+            label='Enter the name of the property'
             sx={{ my: 1 }}
-            name="name"
+            name='name'
             value={formData.name}
             onChange={handleInputChange}
           />
@@ -491,85 +468,112 @@ export default function AddProperty() {
             propertySubType={propertySubType}
             setPropertySubType={setPropertySubType}
           />
-
           <Stack
-            spacing={34}
-            direction="row"
-            sx={{ my: 1 }}
-            className="mt-[2rem] "
+            spacing={{ xs: 2, sm: 10 }}
+            direction={{ xs: "column", sm: "row" }}
+            sx={{ my: 1, mt: 2 }}
           >
-            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-              Square Footage
-            </FormLabel>
-            <FormLabel sx={{ color: "black", fontSize: "12px", pl: 3 }}>
-              Price
-            </FormLabel>
-          </Stack>
-          <Stack spacing={6} direction="row" sx={{ my: 1 }}>
-            <TextField
-              size="small"
-              placeholder="Enter square footage"
-              name="squareFootage"
-              fullWidth
-              value={formData.squareFootage}
-              onChange={handleInputChange}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Button
-                      sx={{
-                        color: "#26a69a",
-                        fontSize: "12px",
-                        borderRight: "1px solid lightgrey",
-                        // pl: -1,
-                      }}
-                    >
-                      Sqft
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            {/* Square Footage Label and Input */}
+            <Box sx={{ flex: 1 }}>
+              <FormLabel
+                sx={{
+                  color: "black",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  display: "block",
+                  mb: 1,
+                }}
+              >
+                Square Footage
+              </FormLabel>
+              <TextField
+                size='small'
+                placeholder='Enter square footage'
+                name='squareFootage'
+                fullWidth
+                value={formData.squareFootage}
+                onChange={handleInputChange}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <Button
+                        sx={{
+                          color: "#26a69a",
+                          fontSize: "12px",
+                          borderRight: "1px solid lightgrey",
+                        }}
+                      >
+                        Sqft
+                      </Button>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ backgroundColor: "white", borderRadius: 1 }}
+              />
+            </Box>
 
-            <TextField
-              size="small"
-              fullWidth
-              name="price"
-              placeholder="Enter price"
-              value={formData.price}
-              onChange={handleInputChange}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Button
-                      sx={{
-                        color: "#26a69a",
-                        fontSize: "14px",
-                        borderRight: "1px solid lightgrey",
-                      }}
-                    >
-                      $
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            {/* Price Label and Input */}
+            <Box sx={{ flex: 1 }}>
+              <FormLabel
+                sx={{
+                  color: "black",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  display: "block",
+                  mb: 1,
+                }}
+              >
+                Price
+              </FormLabel>
+              <TextField
+                size='small'
+                fullWidth
+                name='price'
+                placeholder='Enter price'
+                value={formData.price}
+                onChange={handleInputChange}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <Button
+                        sx={{
+                          color: "#26a69a",
+                          fontSize: "14px",
+                          borderRight: "1px solid lightgrey",
+                        }}
+                      >
+                        $
+                      </Button>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ backgroundColor: "white", borderRadius: 1 }}
+              />
+            </Box>
           </Stack>
 
           {/* Additional Fields */}
 
-          <div className="mt-[2rem]">
-            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
+          <div className='mt-[2rem]'>
+            <FormLabel
+              sx={{
+                color: "black",
+                fontSize: "14px",
+                fontWeight: "bold",
+                display: "block",
+                mb: 1,
+              }}
+            >
               Property Description
             </FormLabel>
             <TextField
               fullWidth
-              label="Enter description"
-              size="small"
+              label='Enter description'
+              size='small'
               multiline
               maxRows={5}
               sx={{ my: 1 }}
-              name="description"
+              name='description'
               value={formData.description}
               onChange={handleInputChange}
             />
@@ -582,10 +586,10 @@ export default function AddProperty() {
               backgroundColor: "#EFFCF7",
               color: "#26a69a",
               justifyContent: "flex-start",
-              width: "700px",
+              width: "100%",
             }}
             onClick={() => setShowDetails(!showDetails)}
-            endIcon={showDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+            endIcon={showDetails ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           >
             Property Details
           </Button>
@@ -615,9 +619,9 @@ export default function AddProperty() {
             onClick={() => setShowConstructionDetails(!showConstructionDetails)}
             endIcon={
               showConstructionDetails ? (
-                <KeyboardArrowDown />
-              ) : (
                 <KeyboardArrowUp />
+              ) : (
+                <KeyboardArrowDown />
               )
             }
           >
@@ -646,7 +650,7 @@ export default function AddProperty() {
             }}
             onClick={() => setShowUtilityDetails(!showUtilityDetails)}
             endIcon={
-              showUtilityDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
+              showUtilityDetails ? <KeyboardArrowUp /> : <KeyboardArrowDown />
             }
           >
             Utility Details
@@ -682,9 +686,9 @@ export default function AddProperty() {
             onClick={() => setShowNeighborhoodDetails(!showNeighborhoodDetails)}
             endIcon={
               showNeighborhoodDetails ? (
-                <KeyboardArrowDown />
-              ) : (
                 <KeyboardArrowUp />
+              ) : (
+                <KeyboardArrowDown />
               )
             }
           >
@@ -713,7 +717,7 @@ export default function AddProperty() {
             }}
             onClick={() => setShowHoaDetails(!showHoaDetails)}
             endIcon={
-              showHoaDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
+              showHoaDetails ? <KeyboardArrowUp /> : <KeyboardArrowDown />
             }
           >
             HOA and Financial Details
@@ -729,6 +733,34 @@ export default function AddProperty() {
         </Box>
 
         <MultipleFileUpload setImages={setImages} />
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          my: 4,
+          width: "100%",
+        }}
+      >
+        {error && <Box sx={{ color: "red" }}>{error}</Box>}
+        <Button
+          variant='contained'
+          sx={{
+            backgroundColor: "#DF593D",
+            "&:hover": { backgroundColor: "#C84D34" },
+            borderRadius: "8px",
+            textTransform: "none",
+            width: "100%",
+            py: 1,
+            fontWeight: "bold",
+          }}
+          onClick={handleAddProperty}
+          disabled={loading}
+        >
+          {loading ? "Submitting..." : "Add Property"}
+        </Button>
       </Box>
     </Container>
   );

@@ -1,11 +1,15 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   FormControl,
+  FormHelperText,
   FormLabel,
   MenuItem,
   Select,
-  type SelectChangeEvent,
   Stack,
-} from "@mui/material"; // Import SelectChangeEvent
+  type SelectChangeEvent,
+} from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
 
 // Define the prop types using TypeScript interfaces
 interface PropertyTypeSelectorProps {
@@ -14,6 +18,14 @@ interface PropertyTypeSelectorProps {
   propertySubType: string; // Selected property subtype
   setPropertySubType: (subType: string) => void; // Function to set property subtype
 }
+
+const schema = yup.object({
+  propertyType: yup.string().required("Property type is required"),
+  propertySubType: yup.string().when("propertyType", {
+    is: (type: string) => type !== "",
+    then: (schema) => schema.required("Property subtype is required"),
+  }),
+});
 
 export default function PropertyTypeSelector({
   propertyType,
@@ -72,61 +84,129 @@ export default function PropertyTypeSelector({
     setPropertySubType(""); // Reset subtype when type changes
   };
 
+  const {
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      propertyType: "",
+      propertySubType: "",
+    },
+  });
+
   return (
     <>
-      <Stack spacing={38} direction="row" sx={{ my: 1, mt: 2 }}>
-        <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-          Property Type
-        </FormLabel>
-        <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-          Property SubType
-        </FormLabel>
-      </Stack>
-
-      <Stack spacing={6} direction="row" sx={{ my: 1 }}>
-        {/* Property Type Dropdown */}
-        <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
-          <Select
-            value={propertyType || ""}
-            onChange={handleTypeChange}
-            displayEmpty
+      <Stack
+        spacing={4}
+        direction={{ xs: "column", sm: "row" }}
+        alignItems='flex-start'
+        gap={2}
+      >
+        {/* Property Type */}
+        <FormControl
+          sx={{
+            minWidth: { xs: "100%", sm: 300 },
+            backgroundColor: "transparent",
+            borderRadius: 1,
+            flex: 1,
+          }}
+          size='small'
+          error={!!errors.propertyType}
+        >
+          <FormLabel
+            sx={{
+              color: "black",
+              fontSize: "14px",
+              fontWeight: "bold",
+              mb: 1,
+            }}
           >
-            <MenuItem value="">
-              <FormLabel sx={{ color: "black", fontSize: "14px" }}>
-                Select type of property
-              </FormLabel>
-            </MenuItem>
-            {Object.keys(subTypes).map((type) => (
-              <MenuItem key={type} value={type}>
-                {type}
-              </MenuItem>
-            ))}
-          </Select>
+            Property Type
+          </FormLabel>
+          <Controller
+            name='propertyType'
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                value={propertyType}
+                onChange={(e) => {
+                  handleTypeChange(e);
+                  field.onChange(e);
+                }}
+                displayEmpty
+                sx={{
+                  "& .MuiSelect-select": { padding: "10px" },
+                  fontSize: "14px",
+                }}
+              >
+                <MenuItem value=''>
+                  <span style={{ color: "#888" }}>Select type of property</span>
+                </MenuItem>
+                {Object.keys(subTypes).map((type) => (
+                  <MenuItem key={type} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+          />
+          <FormHelperText>{errors.propertyType?.message}</FormHelperText>
         </FormControl>
 
-        {/* Property SubType Dropdown */}
-        {/* {propertyType && ( */}
-        <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
-          <Select
-            value={propertySubType || ""}
-            onChange={(e: SelectChangeEvent<string>) =>
-              setPropertySubType(e.target.value)
-            }
-            displayEmpty
+        {/* Property SubType */}
+        <FormControl
+          sx={{
+            backgroundColor: "transparent",
+            borderRadius: 1,
+            flex: 1,
+          }}
+          size='small'
+          error={!!errors.propertySubType}
+        >
+          <FormLabel
+            sx={{
+              color: "black",
+              fontSize: "14px",
+              fontWeight: "bold",
+              mb: 1,
+            }}
           >
-            <MenuItem value="">
-              <FormLabel sx={{ color: "black", fontSize: "14px" }}>
-                Select sub property type
-              </FormLabel>
-            </MenuItem>
-            {subTypes[propertyType]?.map((subType) => (
-              <MenuItem key={subType} value={subType}>
-                {subType}
-              </MenuItem>
-            ))}
-          </Select>
+            Property SubType
+          </FormLabel>
+          <Controller
+            name='propertySubType'
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                value={propertySubType}
+                onChange={(e) => {
+                  setPropertySubType(e.target.value);
+                  field.onChange(e);
+                }}
+                displayEmpty
+                sx={{
+                  "& .MuiSelect-select": { padding: "10px" },
+                  fontSize: "14px",
+                }}
+              >
+                <MenuItem value=''>
+                  <span style={{ color: "#888" }}>
+                    Select sub property type
+                  </span>
+                </MenuItem>
+                {subTypes[propertyType]?.map((subType) => (
+                  <MenuItem key={subType} value={subType}>
+                    {subType}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+          />
+          <FormHelperText>{errors.propertySubType?.message}</FormHelperText>
         </FormControl>
-        {/* )} */}
       </Stack>
     </>
   );

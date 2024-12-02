@@ -55,37 +55,54 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
   return (
     <Box
       p={3}
-      border="1px dashed #ccc"
-      borderRadius={8}
-      textAlign="center"
-      sx={{ maxHeight: "230px", ml: 2, backgroundColor: "lightgrey" }}
+      border='1px dashed #ccc'
+      borderRadius={2}
+      textAlign='center'
+      sx={{
+        ml: 2,
+        minWidth: "300px",
+        maxHeight: "100px",
+        backgroundColor: "#f5f5f5",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        overflowY: "auto",
+      }}
     >
       {/* Display the uploaded images as thumbnails */}
-      <Grid container spacing={2} justifyContent="center">
+      <Grid
+        container
+        spacing={2}
+        justifyContent='flex-start'
+        alignItems='center'
+      >
         {uploadedImages.map((url, index) => (
           <Grid key={url}>
-            <Box sx={{ position: "relative" }}>
+            <Box
+              sx={{ position: "relative", borderRadius: 1, overflow: "hidden" }}
+            >
               <img
                 src={url}
-                alt={`Uploaded thumbnail ${index}`}
+                alt={`Thumbnail ${index}`}
                 style={{
-                  width: "80px",
+                  width: "100%",
                   height: "80px",
                   objectFit: "cover",
-                  borderRadius: "8px",
                 }}
               />
               <IconButton
                 onClick={() => handleRemoveImage(url)}
                 sx={{
                   position: "absolute",
-                  top: 0,
-                  right: 0,
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  top: "4px",
+                  right: "4px",
+                  backgroundColor: "rgba(0, 0, 0, 0.7)",
                   color: "white",
+                  fontSize: "10px",
+                  "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.9)" },
                 }}
               >
-                <Delete />
+                <Delete fontSize='small' />
               </IconButton>
             </Box>
           </Grid>
@@ -93,28 +110,31 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
       </Grid>
 
       {/* Upload input */}
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        onChange={handleUpload}
-        style={{ display: "none" }}
-        id="multiple-file-input"
-      />
-      <label htmlFor="multiple-file-input">
-        <Button
-          component="span"
-          sx={{
-            fontSize: "12px",
-            color: "#5B5B5B",
-            textTransform: "capitalize",
-            border: "1px solid black",
-            mt: 2,
-          }}
-        >
-          <span>{loading ? "Loading..." : "Upload Files"}</span>
-        </Button>
-      </label>
+      <Box mt={2} display='flex' justifyContent='center'>
+        <input
+          type='file'
+          accept='image/*'
+          multiple
+          onChange={handleUpload}
+          style={{ display: "none" }}
+          id='upload-input'
+        />
+        <label htmlFor='upload-input'>
+          <Button
+            component='span'
+            variant='contained'
+            sx={{
+              backgroundColor: "#1976d2",
+              color: "white",
+              textTransform: "capitalize",
+              fontSize: "14px",
+              "&:hover": { backgroundColor: "#125aa1" },
+            }}
+          >
+            {loading ? "Uploading..." : "Upload Images"}
+          </Button>
+        </label>
+      </Box>
     </Box>
   );
 }

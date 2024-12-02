@@ -1,7 +1,4 @@
 import axios from "axios";
-import { getCookie } from "cookies-next";
-
-import { COOKIES } from "@/constants";
 
 export const axiosInstance = axios.create({
   baseURL:
@@ -12,14 +9,17 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = getCookie(COOKIES.token);
+    // const token = getCookie(COOKIES.token);
+    const localToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzMzMTU2MDU3LCJleHAiOjE3MzMzMjg4NTd9.PKNgl5NU5UxjMvPwHGBcS0NoA3jz2RCODBw6dIfoo70";
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    console.log(localToken);
+    if (localToken) {
+      config.headers.Authorization = `Bearer ${localToken}`;
     } else {
       console.warn("No token found, proceeding without authorization.");
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
