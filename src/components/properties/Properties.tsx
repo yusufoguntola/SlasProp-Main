@@ -3,7 +3,7 @@ import {
   FormLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   Stack,
 } from "@mui/material"; // Import SelectChangeEvent
 
@@ -83,7 +83,7 @@ export default function PropertyTypeSelector({
         </FormLabel>
       </Stack>
 
-      <Stack spacing={6} direction="row" sx={{ my: 1,  }}>
+      <Stack spacing={6} direction="row" sx={{ my: 1 }}>
         {/* Property Type Dropdown */}
         <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
           <Select
@@ -92,10 +92,9 @@ export default function PropertyTypeSelector({
             displayEmpty
           >
             <MenuItem value="">
-              
-               <FormLabel sx={{ color: "black", fontSize: "14px" }}>
-         Select type of property
-        </FormLabel>
+              <FormLabel sx={{ color: "black", fontSize: "14px" }}>
+                Select type of property
+              </FormLabel>
             </MenuItem>
             {Object.keys(subTypes).map((type) => (
               <MenuItem key={type} value={type}>
@@ -107,27 +106,26 @@ export default function PropertyTypeSelector({
 
         {/* Property SubType Dropdown */}
         {/* {propertyType && ( */}
-          <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
-            <Select
-              value={propertySubType || ""}
-              onChange={(e: SelectChangeEvent<string>) =>
-                setPropertySubType(e.target.value)
-              }
-              displayEmpty
-            >
-              <MenuItem value="">
-           
-                 <FormLabel sx={{ color: "black", fontSize: "14px" }}>
-         Select sub property type
-        </FormLabel>
+        <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
+          <Select
+            value={propertySubType || ""}
+            onChange={(e: SelectChangeEvent<string>) =>
+              setPropertySubType(e.target.value)
+            }
+            displayEmpty
+          >
+            <MenuItem value="">
+              <FormLabel sx={{ color: "black", fontSize: "14px" }}>
+                Select sub property type
+              </FormLabel>
+            </MenuItem>
+            {subTypes[propertyType]?.map((subType) => (
+              <MenuItem key={subType} value={subType}>
+                {subType}
               </MenuItem>
-              {subTypes[propertyType]?.map((subType) => (
-                <MenuItem key={subType} value={subType}>
-                  {subType}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+            ))}
+          </Select>
+        </FormControl>
         {/* )} */}
       </Stack>
     </>

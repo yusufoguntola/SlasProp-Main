@@ -1,5 +1,7 @@
+import type React from "react";
+import { useEffect, useState } from "react";
+
 import { Autocomplete, Box, Grid, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
 
 interface PropertyDetailsFormProps {
   formData: {
@@ -29,10 +31,12 @@ export default function PropertyDetailsForm({
     const fetchCountries = async () => {
       try {
         const response = await fetch(
-          "https://countriesnow.space/api/v0.1/countries"
+          "https://countriesnow.space/api/v0.1/countries",
         );
         const data = await response.json();
-        const countryNames = data.data.map((item: any) => item.country);
+        const countryNames = data.data.map(
+          (item: Record<string, unknown>) => item.country,
+        );
         setCountries(countryNames.sort());
         setLoading(false);
       } catch (error) {

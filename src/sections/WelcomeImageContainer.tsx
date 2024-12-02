@@ -1,7 +1,8 @@
+import { Suspense } from "react";
+
 import { SearchLoader } from "@/components/SearchLoader";
 import { CardMedia, Container, Typography } from "@mui/material";
 
-import { Suspense } from "react";
 import sampleImage from "../assets/aerial-view.png";
 
 export function WelcomeImageContiner() {
@@ -11,8 +12,6 @@ export function WelcomeImageContiner() {
         <CardMedia
           component="img"
           image={sampleImage.src}
-          onLoad={() => console.log("this is loading")}
-          onError={() => console.log("this is error")}
           alt="This is a land image"
           sx={{
             marginTop: "-50px",
@@ -34,7 +33,8 @@ export function WelcomeImageContiner() {
             left: "5%",
             color: "white",
             fontWeight: "bold",
-          }}>
+          }}
+        >
           Welcome To SlasProp
         </Typography>
 
@@ -50,7 +50,8 @@ export function WelcomeImageContiner() {
             fontSize: "12px",
             left: "5%",
             color: "white",
-          }}>
+          }}
+        >
           Where Innovation meets Real Estate. You property adventure starts
           here.
         </Typography>
@@ -67,7 +68,8 @@ export function WelcomeImageContiner() {
             left: "3.25%",
             color: "white",
             zIndex: 1300,
-          }}>
+          }}
+        >
           <SearchLoader />
         </Container>
       </div>

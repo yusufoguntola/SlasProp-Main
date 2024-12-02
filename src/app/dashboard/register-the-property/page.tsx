@@ -1,4 +1,8 @@
 "use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import { axiosInstance } from "@/axios";
 import { RegisterProperty } from "@/builder/addProperty";
 import { showToast } from "@/utils/toast";
@@ -9,14 +13,12 @@ import {
   CircularProgress,
   Container,
   FormLabel,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 // Define the type for form fields
 type FormFieldNames = keyof ReturnType<typeof useForm>["values"];
@@ -56,9 +58,8 @@ export default function RegisterTheProperty() {
     async function fetchLocations() {
       try {
         const response = await axiosInstance.get(
-          "https://slas-prop.ganafsmas.com/api/v1/locations"
+          "https://slas-prop.ganafsmas.com/api/v1/locations",
         );
-        console.log("response", response.data);
         setLocations(response?.data?.data); // Assuming response.data is an array of locations
       } catch (error) {
         console.error("Error fetching locations:", error);
@@ -68,7 +69,7 @@ export default function RegisterTheProperty() {
     fetchLocations();
   }, []);
 
-  async function handleProfileSubmit(values: any) {
+  async function handleProfileSubmit(values: unknown) {
     try {
       setLoading(true);
       const response = await RegisterProperty(values);
@@ -93,7 +94,8 @@ export default function RegisterTheProperty() {
           borderBottom: "1px solid lightgray",
           pl: 2,
           pb: 2,
-        }}>
+        }}
+      >
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Register New Property
         </Typography>
@@ -105,7 +107,8 @@ export default function RegisterTheProperty() {
             color: "white",
             fontSize: "12px",
             p: 1,
-          }}>
+          }}
+        >
           Register Property
         </IconButton>
       </Box>
@@ -165,7 +168,7 @@ export default function RegisterTheProperty() {
                 label: "Registered Address",
               },
             ].map(({ name, label, options, placeholder }) => (
-              <Grid item xs={12} sm={6} key={name}>
+              <Grid size={{ xs: 12, sm: 6 }} key={name}>
                 <FormLabel>{label}</FormLabel>
                 {options ? (
                   // Dropdown field for requestType, propertyType, location
@@ -183,16 +186,14 @@ export default function RegisterTheProperty() {
                     onChange={(e) =>
                       registerForm.setFieldValue(
                         name as FormFieldNames,
-                        e.target.value
+                        e.target.value,
                       )
-                    }>
+                    }
+                  >
                     {options.length > 0 ? (
-                      options.map((option: any) => (
-                        <MenuItem
-                          key={option.id || option}
-                          value={option.id || option}>
-                          {option.name || option}{" "}
-                          {/* Adjust based on your API response */}
+                      options.map((option: string) => (
+                        <MenuItem key={option} value={option}>
+                          {option}{" "}
                         </MenuItem>
                       ))
                     ) : (
@@ -215,7 +216,7 @@ export default function RegisterTheProperty() {
                     onChange={(e) =>
                       registerForm.setFieldValue(
                         name as FormFieldNames,
-                        e.target.value
+                        e.target.value,
                       )
                     }
                   />
@@ -235,7 +236,8 @@ export default function RegisterTheProperty() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
-              disabled={loading}>
+              disabled={loading}
+            >
               {loading ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (

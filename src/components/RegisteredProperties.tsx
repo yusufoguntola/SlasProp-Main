@@ -1,12 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { axiosInstance } from "@/axios";
 import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
 import { SlasPayLogin } from "@/forms/SlasPayLogin";
 import { MoreVert } from "@mui/icons-material";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { OwnerDetailsProps } from "./OwnerDetails";
+
+import type { OwnerDetailsProps } from "./OwnerDetails";
 
 const properties = [
   {
@@ -97,7 +99,8 @@ export default function RegisteredProperties() {
           mt: 4,
           borderBottom: "1px solid lightgray",
           pb: 2,
-        }}>
+        }}
+      >
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           {checkHeading}
         </Typography>
@@ -109,7 +112,8 @@ export default function RegisteredProperties() {
             color: "white",
             fontSize: "12px",
             p: 1,
-          }}>
+          }}
+        >
           Register New Property
         </IconButton>
       </Box>
@@ -121,9 +125,10 @@ export default function RegisteredProperties() {
           pb: 2,
           display: "flex",
           flexDirection: "column",
-        }}>
+        }}
+      >
         {registeredData.map((property) => (
-          <Box sx={{ border: "1px solid lightgray", mb: 4 }}>
+          <Box key={property.id} sx={{ border: "1px solid lightgray", mb: 4 }}>
             <Box sx={{ display: "flex", pl: 6 }}>
               <Typography
                 sx={{
@@ -132,7 +137,8 @@ export default function RegisteredProperties() {
                   py: 2,
                   fontSize: "12px",
                   color: "grey",
-                }}>
+                }}
+              >
                 Property Owner Name
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.ownerName}
@@ -145,7 +151,8 @@ export default function RegisteredProperties() {
                   px: 4,
                   fontSize: "12px",
                   color: "grey",
-                }}>
+                }}
+              >
                 Type Of Property
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.propertyType}
@@ -161,10 +168,12 @@ export default function RegisteredProperties() {
                     display: "flex",
                     flexDirection: "column",
                     flexGrow: 1,
-                  }}>
+                  }}
+                >
                   Registration Number
                   <Typography
-                    sx={{ color: "black", fontWeight: "bold", margin: "auto" }}>
+                    sx={{ color: "black", fontWeight: "bold", margin: "auto" }}
+                  >
                     {property?.registrationNumber}
                   </Typography>
                 </Typography>
@@ -183,7 +192,8 @@ export default function RegisteredProperties() {
                   pr: 5.5,
                   fontSize: "12px",
                   color: "grey",
-                }}>
+                }}
+              >
                 Property Tax ID
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.propertyTaxId}
@@ -197,14 +207,16 @@ export default function RegisteredProperties() {
                   pr: 7.25,
                   fontSize: "12px",
                   color: "grey",
-                }}>
+                }}
+              >
                 Area Of Land
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.areaOfLand}
                 </Typography>
               </Typography>
               <Typography
-                sx={{ py: 2, px: 4, fontSize: "12px", color: "grey" }}>
+                sx={{ py: 2, px: 4, fontSize: "12px", color: "grey" }}
+              >
                 Location
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.name}
@@ -220,14 +232,16 @@ export default function RegisteredProperties() {
                   pr: 13.5,
                   fontSize: "12px",
                   color: "grey",
-                }}>
+                }}
+              >
                 ZIP/ PIN Code
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.zipCode}
                 </Typography>
               </Typography>
               <Typography
-                sx={{ px: 4, py: 2, fontSize: "12px", color: "grey" }}>
+                sx={{ px: 4, py: 2, fontSize: "12px", color: "grey" }}
+              >
                 Registration Address
                 <Typography sx={{ color: "black", fontWeight: "bold" }}>
                   {property?.registeredAddress}
@@ -242,13 +256,14 @@ export default function RegisteredProperties() {
         {isPressed ? (
           properties.map((property) => (
             <TaxOwnerDetailsCard
+              key={property.id}
               taxDetails={property.taxDetails}
               //You should update the type here. I just used coercion
               ownerDetails={property.ownerDetails as OwnerDetailsProps}
             />
           ))
         ) : (
-          <Box minHeight={140}></Box>
+          <Box minHeight={140} />
         )}
         {isPressed && (
           <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -261,7 +276,8 @@ export default function RegisteredProperties() {
                 mb: 2,
                 ml: 2,
                 p: 1,
-              }}>
+              }}
+            >
               EMI: $2,109/mo
               <Typography
                 component="span"
@@ -270,7 +286,8 @@ export default function RegisteredProperties() {
                   fontSize: 11,
                   color: "blue",
                   textDecoration: "underline",
-                }}>
+                }}
+              >
                 DETAILS
               </Typography>
             </Typography>
@@ -283,11 +300,13 @@ export default function RegisteredProperties() {
                 mb: 2,
                 ml: 2,
                 p: 1,
-              }}>
+              }}
+            >
               Current Valuation
               <Typography
                 component="span"
-                sx={{ ml: 1, fontSize: 11, color: "#26a69a" }}>
+                sx={{ ml: 1, fontSize: 11, color: "#26a69a" }}
+              >
                 $565758
               </Typography>
             </Typography>

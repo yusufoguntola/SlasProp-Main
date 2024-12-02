@@ -7,7 +7,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Box, Button, Container, Typography } from "@mui/material";
 
 import { OwnerDetails } from "./OwnerDetails";
-import { PropertyCardProps } from "./PropertyCard";
+import type { PropertyCardProps } from "./PropertyCard";
 
 type DetailsBoxProps = {
   property: PropertyCardProps | null; // Change this to accept an array of properties
@@ -21,8 +21,6 @@ export function DetailsBox({ property }: DetailsBoxProps) {
   const [isComm, setIsComm] = useState(false);
   const [isHOA, setIsHOA] = useState(false);
 
-  console.log(property);
-
   // const form = useForm({
   //   initialValues: {
   //     slider: true,
@@ -32,14 +30,16 @@ export function DetailsBox({ property }: DetailsBoxProps) {
   return (
     <>
       <Container
-        sx={{ display: "flex", mt: 4, justifyContent: "space-between" }}>
+        sx={{ display: "flex", mt: 4, justifyContent: "space-between" }}
+      >
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             borderRight: "2px solid lightgray",
             maxHeight: "80px",
-          }}>
+          }}
+        >
           <Button
             sx={{
               backgroundColor: "green",
@@ -49,7 +49,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               fontSize: "10px",
               maxWidth: "100px",
               px: 2.5,
-            }}>
+            }}
+          >
             Active
           </Button>
           <Typography
@@ -59,7 +60,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               color: "#26a69a",
               fontWeight: "bold",
               fontSize: "20px",
-            }}>
+            }}
+          >
             {property?.price}
           </Typography>
           <Typography sx={{ color: "grey", mr: 6 }}>
@@ -75,7 +77,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             py: 1,
             maxHeight: "80px",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -84,7 +87,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               px: 4,
               mr: 2,
               border: "1px solid lightgray",
-            }}>
+            }}
+          >
             <Typography sx={{ color: "#26a69a", fontWeight: "bold" }}>
               {/* {property.beds} */}
             </Typography>
@@ -98,7 +102,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               px: 4,
               mr: 2,
               border: "1px solid lightgray",
-            }}>
+            }}
+          >
             <Typography sx={{ color: "#26a69a", fontWeight: "bold" }}>
               {/* {property.baths} */}
             </Typography>
@@ -111,7 +116,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               py: 2,
               px: 4,
               border: "1px solid lightgray",
-            }}>
+            }}
+          >
             <Typography sx={{ color: "#26a69a", fontWeight: "bold" }}>
               {property?.squareFootage}
             </Typography>
@@ -132,14 +138,16 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                 borderRight: "1px solid lightgray",
                 px: 4,
                 py: 2,
-              }}>
+              }}
+            >
               <Typography sx={{ color: "gray", fontSize: 12 }}>Type</Typography>
               <Typography sx={{ color: "black", fontWeight: "bold" }}>
                 {property?.propertyType}
               </Typography>
             </Box>
             <Box
-              sx={{ display: "flex", flexDirection: "column", px: 4, py: 2 }}>
+              sx={{ display: "flex", flexDirection: "column", px: 4, py: 2 }}
+            >
               <Typography sx={{ color: "gray", fontSize: 12 }}>
                 Built Year
               </Typography>
@@ -157,17 +165,20 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                 borderRight: "1px solid lightgray",
                 px: 4,
                 py: 2,
-              }}>
+              }}
+            >
               <Typography sx={{ color: "gray", fontSize: 12 }}>
                 Total Area
               </Typography>
               <Typography
-                sx={{ color: "black", fontWeight: "bold", mr: 14.75 }}>
+                sx={{ color: "black", fontWeight: "bold", mr: 14.75 }}
+              >
                 4786 Sqft
               </Typography>
             </Box>
             <Box
-              sx={{ display: "flex", flexDirection: "column", px: 4, py: 2 }}>
+              sx={{ display: "flex", flexDirection: "column", px: 4, py: 2 }}
+            >
               <Typography sx={{ color: "gray", fontSize: 12 }}>
                 Garage
               </Typography>
@@ -185,7 +196,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                 borderRight: "1px solid lightgray",
                 px: 4,
                 py: 2,
-              }}>
+              }}
+            >
               <Typography sx={{ color: "gray", fontSize: 12 }}>
                 Price
               </Typography>
@@ -194,7 +206,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               </Typography>
             </Box>
             <Box
-              sx={{ display: "flex", flexDirection: "column", px: 4, py: 2 }}>
+              sx={{ display: "flex", flexDirection: "column", px: 4, py: 2 }}
+            >
               <Typography sx={{ color: "gray", fontSize: 12 }}>
                 Other Price
               </Typography>
@@ -235,7 +248,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             onClick={() => {
               setIsInterior(!isInterior);
             }}
-            endIcon={isInterior ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>
+            endIcon={isInterior ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+          >
             Interior Details
           </Button>
           <Button
@@ -253,7 +267,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             }}
             endIcon={
               isPropDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
-            }>
+            }
+          >
             Property Details
           </Button>
           <Button
@@ -271,7 +286,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             }}
             endIcon={
               isConstDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
-            }>
+            }
+          >
             Construction Details
           </Button>
           <Button
@@ -287,7 +303,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             onClick={() => {
               setIsUtil(!isUtil);
             }}
-            endIcon={isUtil ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>
+            endIcon={isUtil ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+          >
             Utilities / Green Energy Details
           </Button>
           <Button
@@ -303,7 +320,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             onClick={() => {
               setIsComm(!isComm);
             }}
-            endIcon={isComm ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>
+            endIcon={isComm ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+          >
             Community and Neighborhood Details
           </Button>
           <Button
@@ -319,7 +337,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             onClick={() => {
               setIsHOA(!isHOA);
             }}
-            endIcon={isHOA ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>
+            endIcon={isHOA ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+          >
             HOA and Financial Details
           </Button>
         </Box>
@@ -329,7 +348,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             flexDirection: "column",
             mt: 6,
             minWidth: 300,
-          }}>
+          }}
+        >
           {/* <OwnerDetails {...property.ownerDetails} /> */}
 
           <Box
@@ -339,7 +359,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               border: "2px solid #26a69a",
               mt: 2,
               pb: 2,
-            }}>
+            }}
+          >
             <Typography
               sx={{
                 backgroundColor: "#26a69a",
@@ -348,18 +369,21 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                 fontWeight: "bold",
                 py: 1.5,
                 px: 1,
-              }}>
+              }}
+            >
               Listed By
             </Typography>
             <Box
-              sx={{ display: "flex", justifyContent: "space-between", px: 2 }}>
+              sx={{ display: "flex", justifyContent: "space-between", px: 2 }}
+            >
               <Typography
                 sx={{
                   mt: 1,
                   color: "#26a69a",
                   fontSize: "12px",
                   fontWeight: "bold",
-                }}>
+                }}
+              >
                 {/* {property?.ownerDetails?.initials?.[0]} */}
               </Typography>
 
@@ -369,7 +393,8 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                   color: "gray",
                   fontSize: "12px",
                   fontWeight: "bold",
-                }}>
+                }}
+              >
                 {/* {property?.ownerDetails?.owner?.[0]} */}
               </Typography>
 

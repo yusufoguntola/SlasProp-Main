@@ -27,7 +27,8 @@ export function BlogCard(blog: BlogCardProps) {
         my: 4,
         px: 2,
         py: 2,
-      }}>
+      }}
+    >
       <CardActionArea sx={{ display: "flex", flexDirection: "column" }}>
         <CardMedia component="img" image={blog.imageUrl} alt="blog-image" />
         <CardContent>
@@ -39,7 +40,8 @@ export function BlogCard(blog: BlogCardProps) {
               display: "flex",
               justifyContent: "space-between",
               fontSize: "14px",
-            }}>
+            }}
+          >
             <span style={{ display: "flex" }}>
               <RemoveRedEyeOutlinedIcon sx={{ color: "orange" }} />
               &nbsp;{blog.views} views

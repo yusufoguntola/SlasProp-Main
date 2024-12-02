@@ -104,7 +104,7 @@ export default function Notifcations() {
 
           <Box sx={{ mt: 2 }}>
             {notifications.map((note) => (
-              <Box sx={{ display: "flex", p: 2, ml: 2 }}>
+              <Box sx={{ display: "flex", p: 2, ml: 2 }} key={note}>
                 <Notifications
                   sx={{
                     color: "darkgreen",

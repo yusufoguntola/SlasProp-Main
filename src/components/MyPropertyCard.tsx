@@ -1,23 +1,23 @@
 "use client";
 
-import { ArrowForward, LocationOn } from "@mui/icons-material";
-import { Box, Button, IconButton, Typography } from "@mui/material";
 import Link from "next/link";
 
+import { ArrowForward, LocationOn } from "@mui/icons-material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
+
 type MyPropertyCardProps = Partial<{
-  city: any;
-  country: any;
-  state: any;
+  city: string;
+  country: string;
+  state: string;
   images: string[] | undefined;
   price: string;
   location: string;
   description: string;
   propertyId: string;
-  id: number;
+  id: string | number;
 }>;
 
 export function MyPropertyCard(property: MyPropertyCardProps) {
-  console.log(property, "property");
   return (
     <Box
       sx={{
@@ -25,7 +25,8 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
         pb: 4,
         mt: 4,
         display: "flex",
-      }}>
+      }}
+    >
       {/* <Image
 				src={property?.images?.[0]}
 				height={150}
@@ -33,12 +34,7 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
 				alt="land image"
 			/> */}
 
-      <img
-        src={property?.images?.[0]}
-        alt="land image"
-        height={150}
-        width={200}
-      />
+      <img src={property?.images?.[0]} alt="land" height={150} width={200} />
       <Box sx={{ display: "flex", flexDirection: "column", ml: 4 }}>
         <Button
           sx={{
@@ -49,7 +45,8 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
             fontSize: "8px",
             maxWidth: "70px",
             px: 2.5,
-          }}>
+          }}
+        >
           Active
         </Button>
         <Typography
@@ -58,7 +55,8 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
             fontStyle: "italic",
             color: "#26a69a",
             fontWeight: "bold",
-          }}>
+          }}
+        >
           {property?.price}
         </Typography>
         <Typography sx={{ fontSize: "9px", color: "grey" }}>
@@ -85,7 +83,8 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
               mt: 2,
               maxWidth: "90px",
               mx: -1,
-            }}>
+            }}
+          >
             View Details{" "}
             <ArrowForward
               sx={{ fontSize: "12px", color: "#DF593D", ml: 0.5 }}

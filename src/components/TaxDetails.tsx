@@ -15,7 +15,8 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
         flexDirection: "column",
         border: "2px solid #26a69a",
         pb: 2,
-      }}>
+      }}
+    >
       <Typography
         sx={{
           backgroundColor: "#26a69a",
@@ -24,7 +25,8 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
           fontWeight: "bold",
           py: 1.5,
           px: 1,
-        }}>
+        }}
+      >
         Tax Details
       </Typography>
       <Box sx={{ display: "flex", mt: 1 }}>
@@ -42,7 +44,7 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
       <Box sx={{ display: "flex", mt: 1 }}>
         <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
           {taxDetails.year.map((year) => (
-            <Typography sx={{ color: "grey", fontSize: "10px" }}>
+            <Typography sx={{ color: "grey", fontSize: "10px" }} key={year}>
               {year}
             </Typography>
           ))}
@@ -50,18 +52,19 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
 
         <Box sx={{ display: "flex", mx: 2.5, flexDirection: "column" }}>
           {taxDetails.propertyTax.map((propTax) => (
-            <Typography sx={{ color: "grey", fontSize: "10px" }}>
+            <Typography sx={{ color: "grey", fontSize: "10px" }} key={propTax}>
               {propTax}
             </Typography>
           ))}
         </Box>
         <Box sx={{ display: "flex", ml: 7, flexDirection: "column" }}>
           {taxDetails.taxAssessment.map((taxAs) => (
-            <Typography sx={{ color: "grey", fontSize: "10px" }}>
+            <Typography sx={{ color: "grey", fontSize: "10px" }} key={taxAs}>
               {taxAs}{" "}
               <Typography
                 component="span"
-                sx={{ color: "#26a69a", fontSize: "10px", fontWeight: "bold" }}>
+                sx={{ color: "#26a69a", fontSize: "10px", fontWeight: "bold" }}
+              >
                 +62.5%
               </Typography>
             </Typography>

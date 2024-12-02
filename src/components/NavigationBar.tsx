@@ -37,7 +37,8 @@ export function NavigationBar() {
           boxShadow: "2.5px 2.5px 2.5px #33d6c7",
           maxHeight: "60px",
           minHeight: "60px",
-        }}>
+        }}
+      >
         <Toolbar disableGutters>
           <Typography
             noWrap
@@ -59,7 +60,8 @@ export function NavigationBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={navToggle}
-              color="inherit">
+              color="inherit"
+            >
               <MenuIcon />
             </IconButton>
             <Menu
@@ -78,7 +80,8 @@ export function NavigationBar() {
               onClose={navClose}
               sx={{
                 display: { xs: "block", md: "none" },
-              }}>
+              }}
+            >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={navClose}>
                   <Typography textAlign="center">{page}</Typography>
@@ -113,7 +116,8 @@ export function NavigationBar() {
                   fontFamily: "sans-serif",
                   fontSize: 12,
                   mr: 9,
-                }}>
+                }}
+              >
                 {page}
               </Button>
             ))}

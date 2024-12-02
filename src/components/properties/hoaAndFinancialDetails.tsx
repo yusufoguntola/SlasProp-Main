@@ -1,14 +1,14 @@
 import {
   Box,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import React from "react";
+import type React from "react";
 
 interface HoaAndFinancialDetailsProps {
   formData: {
@@ -86,8 +86,8 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
   return (
     <Box sx={{ mt: 2, width: "100%" }}>
       <Grid container spacing={2}>
-        {fields.map((field, index) => (
-          <Grid item xs={6} key={index}>
+        {fields.map((field) => (
+          <Grid size={{ xs: 6 }} key={field.value}>
             <p className="mb-1 text-[12px] text-[#000000]">{field.header}</p>
             {/* <TextField
               label={field.label}
@@ -112,12 +112,12 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
               sx={{ my: 1 }}
               type={
                 ["monthlyPayment", "outstandingBalance", "dueAmount"].includes(
-                  field.name
+                  field.name,
                 )
                   ? "number"
                   : field.name === "mortgageEndDate"
-                  ? "date"
-                  : "text"
+                    ? "date"
+                    : "text"
               }
             />
           </Grid>
@@ -126,7 +126,7 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
 
       {/* Dropdown Fields */}
       <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <p className="mb-1 text-[12px] text-[#000000]">Has Due?</p>
           <FormControl fullWidth size="small" sx={{ my: 1 }}>
             <InputLabel>Has Due</InputLabel>
@@ -134,13 +134,14 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
               name="hasDue"
               value={String(formData.hasDue)} // Ensure value is a string
               onChange={handleDropdownChange}
-              label="Has Due">
+              label="Has Due"
+            >
               <MenuItem value="true">Yes</MenuItem>
               <MenuItem value="false">No</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <p className="mb-1 text-[12px] text-[#000000]">
             Property in Mortgage?
           </p>
@@ -150,7 +151,8 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
               name="isPropertyInMortgage"
               value={String(formData.isPropertyInMortgage)} // Ensure value is a string
               onChange={handleDropdownChange}
-              label="Property in Mortgage">
+              label="Property in Mortgage"
+            >
               <MenuItem value="true">Yes</MenuItem>
               <MenuItem value="false">No</MenuItem>
             </Select>

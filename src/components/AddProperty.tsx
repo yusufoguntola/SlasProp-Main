@@ -11,7 +11,7 @@ import {
   FormLabel,
   IconButton,
   InputAdornment,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   Stack,
   TextField,
   Typography,
@@ -188,7 +188,7 @@ export default function AddProperty() {
   };
 
   const handlestructuralFeaturesChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const structuralFeatures = e.target.value
       .split(",")
@@ -197,7 +197,7 @@ export default function AddProperty() {
   };
 
   const handlebuildingMaterialsChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const buildingMaterials = e.target.value
       .split(",")
@@ -205,7 +205,9 @@ export default function AddProperty() {
     setFormData((prev) => ({ ...prev, buildingMaterials }));
   };
 
-  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+  const handleInputChange = (e: {
+    target: { name: string; value: string };
+  }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -213,7 +215,7 @@ export default function AddProperty() {
   const handleUtilityInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number,
-    field: keyof Service
+    field: keyof Service,
   ) => {
     const updatedServices = [...formData.utilitiesDetails.services];
 
@@ -255,7 +257,7 @@ export default function AddProperty() {
   };
 
   const handlehoaAndFinancialDetailsInputChange = (e: {
-    target: { name: string; value: any };
+    target: { name: string; value: unknown };
   }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -287,7 +289,7 @@ export default function AddProperty() {
   // };
 
   const handleUtilityGreenEnergyProviderInputChange = (e: {
-    target: { name: string; value: any };
+    target: { name: string; value: unknown };
   }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -320,7 +322,7 @@ export default function AddProperty() {
 
   const handleRemoveService = (index: number) => {
     const updatedServices = formData.utilitiesDetails.services.filter(
-      (_, i) => i !== index
+      (_, i) => i !== index,
     );
     setFormData((prev) => ({
       ...prev,
@@ -335,7 +337,7 @@ export default function AddProperty() {
       | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
       | SelectChangeEvent<string>,
     index?: number,
-    field?: keyof PublicPlace
+    field?: keyof PublicPlace,
   ) => {
     if (index !== undefined && field) {
       // Update a specific public place
@@ -376,7 +378,7 @@ export default function AddProperty() {
   const handleNeighbourhoodRemovePublicPlace = (index: number) => {
     const updatedPlaces =
       formData.neighbourhoodDetails.proximityToPublicPlaces.filter(
-        (_: any, i: number) => i !== index
+        (_, i: number) => i !== index,
       );
     setFormData((prev) => ({
       ...prev,
@@ -393,7 +395,7 @@ export default function AddProperty() {
       ...prev,
       neighbourhoodDetails: {
         ...prev.neighbourhoodDetails,
-        [name!]: value === "true", // Boolean conversion
+        [name]: value === "true", // Boolean conversion
       },
     }));
   };
@@ -429,7 +431,8 @@ export default function AddProperty() {
           // overflowY: "auto",
           // overflowX: "hidden",
         }
-      }>
+      }
+    >
       <Box
         sx={{
           display: "flex",
@@ -438,7 +441,8 @@ export default function AddProperty() {
           borderBottom: "1px solid lightgray",
           pl: 2,
           pb: 2,
-        }}>
+        }}
+      >
         <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Add New Property
         </Typography>
@@ -451,7 +455,8 @@ export default function AddProperty() {
             fontSize: "12px",
             p: 1,
           }}
-          onClick={handleAddProperty}>
+          onClick={handleAddProperty}
+        >
           Add Property
         </IconButton>
       </Box>
@@ -463,7 +468,8 @@ export default function AddProperty() {
           flexDirection: "row",
           mt: 2,
           pl: 2,
-        }}>
+        }}
+      >
         <Box component="form">
           <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
             Property name
@@ -490,7 +496,8 @@ export default function AddProperty() {
             spacing={34}
             direction="row"
             sx={{ my: 1 }}
-            className="mt-[2rem] ">
+            className="mt-[2rem] "
+          >
             <FormLabel sx={{ color: "black", fontSize: "12px" }}>
               Square Footage
             </FormLabel>
@@ -515,7 +522,8 @@ export default function AddProperty() {
                         fontSize: "12px",
                         borderRight: "1px solid lightgrey",
                         // pl: -1,
-                      }}>
+                      }}
+                    >
                       Sqft
                     </Button>
                   </InputAdornment>
@@ -538,7 +546,8 @@ export default function AddProperty() {
                         color: "#26a69a",
                         fontSize: "14px",
                         borderRight: "1px solid lightgrey",
-                      }}>
+                      }}
+                    >
                       $
                     </Button>
                   </InputAdornment>
@@ -576,7 +585,8 @@ export default function AddProperty() {
               width: "700px",
             }}
             onClick={() => setShowDetails(!showDetails)}
-            endIcon={showDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />}>
+            endIcon={showDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+          >
             Property Details
           </Button>
 
@@ -609,7 +619,8 @@ export default function AddProperty() {
               ) : (
                 <KeyboardArrowUp />
               )
-            }>
+            }
+          >
             Construction Details
           </Button>
 
@@ -636,7 +647,8 @@ export default function AddProperty() {
             onClick={() => setShowUtilityDetails(!showUtilityDetails)}
             endIcon={
               showUtilityDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
-            }>
+            }
+          >
             Utility Details
           </Button>
 
@@ -674,7 +686,8 @@ export default function AddProperty() {
               ) : (
                 <KeyboardArrowUp />
               )
-            }>
+            }
+          >
             Neighborhood Details
           </Button>
 
@@ -701,7 +714,8 @@ export default function AddProperty() {
             onClick={() => setShowHoaDetails(!showHoaDetails)}
             endIcon={
               showHoaDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
-            }>
+            }
+          >
             HOA and Financial Details
           </Button>
 

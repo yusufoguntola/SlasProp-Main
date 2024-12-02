@@ -77,7 +77,8 @@ export function PropertyCard(property: PropertyCardProps) {
       <CardActionArea
         sx={{ display: "flex" }}
         component={Link}
-        href={`/properties/${property?.id}`}>
+        href={`/properties/${property?.id}`}
+      >
         <CardMedia
           component="img"
           image={property.images[0]}
@@ -89,7 +90,8 @@ export function PropertyCard(property: PropertyCardProps) {
           <Typography
             gutterBottom
             sx={{ fontWeight: "bold", fontSize: "20px" }}
-            component="div">
+            component="div"
+          >
             {property?.propertyType}
           </Typography>
           <Typography sx={{ color: "#26a69a", fontSize: "12px" }}>

@@ -66,7 +66,7 @@ export const createProperty = async (payload: {
 
 // for  Registering a property
 
-export const RegisterProperty = async (payload: any) => {
+export const RegisterProperty = async (payload: unknown) => {
   try {
     const response = await axiosInstance.post("/property-queries", payload);
     return response.data;
@@ -77,7 +77,7 @@ export const RegisterProperty = async (payload: any) => {
 };
 // for profile update
 
-export const UpdateProfile = async (payload: any) => {
+export const UpdateProfile = async (payload: unknown) => {
   try {
     const response = await axiosInstance.put("/account/profile", payload);
     return response.data;
@@ -89,11 +89,11 @@ export const UpdateProfile = async (payload: any) => {
 
 // for profile update
 
-export const UserResetPassword = async (payload: any) => {
+export const UserResetPassword = async (payload: unknown) => {
   try {
     const response = await axiosInstance.post(
       "/account/change-password",
-      payload
+      payload,
     );
     return response.data;
   } catch (error) {

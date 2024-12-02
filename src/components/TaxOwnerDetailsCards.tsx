@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 
-import { OwnerDetails, OwnerDetailsProps } from "./OwnerDetails";
-import { TaxDetails, TaxDetailsProps } from "./TaxDetails";
+import { OwnerDetails, type OwnerDetailsProps } from "./OwnerDetails";
+import { TaxDetails, type TaxDetailsProps } from "./TaxDetails";
 
 export interface TaxOwnerDetailsCardProps {
   taxDetails: TaxDetailsProps;

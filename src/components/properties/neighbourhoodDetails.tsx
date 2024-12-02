@@ -8,10 +8,11 @@ import {
   IconButton,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import React, { ChangeEvent } from "react";
+import type React from "react";
+import type { ChangeEvent } from "react";
 
 interface PublicPlace {
   place: string;
@@ -35,7 +36,7 @@ interface NeighbourhoodDetailsFormProps {
       | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
       | SelectChangeEvent<string>,
     index?: number,
-    field?: keyof PublicPlace
+    field?: keyof PublicPlace,
   ) => void;
   handleAddPublicPlace: () => void;
   handleRemovePublicPlace: (index: number) => void;
@@ -103,7 +104,8 @@ export default function NeighbourhoodDetailsForm({
               name="locatedInGatedEstate"
               value={String(formData.locatedInGatedEstate)}
               onChange={handleDropdownChange}
-              label="Located in Gated Estate?">
+              label="Located in Gated Estate?"
+            >
               <MenuItem value="true">Yes</MenuItem>
               <MenuItem value="false">No</MenuItem>
             </Select>
@@ -113,7 +115,7 @@ export default function NeighbourhoodDetailsForm({
 
       {/* Public Places Section */}
       {formData.proximityToPublicPlaces.map((place, index) => (
-        <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
+        <Grid container spacing={2} key={place.place} sx={{ mb: 2 }}>
           {/* Place Name */}
           <Grid item xs={4}>
             <FormControl fullWidth size="small">
@@ -125,10 +127,11 @@ export default function NeighbourhoodDetailsForm({
                   handleInputChange(
                     e as unknown as SelectChangeEvent<string>,
                     index,
-                    "place"
+                    "place",
                   )
                 }
-                label="Place">
+                label="Place"
+              >
                 <MenuItem value="Shopping Malls">Shopping Malls</MenuItem>
                 <MenuItem value="Cinemas">Cinemas</MenuItem>
                 <MenuItem value="Schools">Schools</MenuItem>
@@ -173,7 +176,8 @@ export default function NeighbourhoodDetailsForm({
             <Grid item xs={1}>
               <IconButton
                 onClick={() => handleRemovePublicPlace(index)}
-                color="error">
+                color="error"
+              >
                 <RemoveCircleOutline />
               </IconButton>
             </Grid>
@@ -185,7 +189,8 @@ export default function NeighbourhoodDetailsForm({
       <Button
         startIcon={<AddCircleOutline />}
         onClick={handleAddPublicPlace}
-        sx={{ mt: 1, backgroundColor: "#EFFCF7", color: "#26a69a" }}>
+        sx={{ mt: 1, backgroundColor: "#EFFCF7", color: "#26a69a" }}
+      >
         Add Public Place
       </Button>
     </Box>

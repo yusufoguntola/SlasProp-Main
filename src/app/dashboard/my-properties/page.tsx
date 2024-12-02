@@ -1,10 +1,14 @@
 "use client";
+
+import type { StaticImageData } from "next/image";
+
 import { axiosInstance } from "@/axios";
 import { MyPropertyCard } from "@/components/MyPropertyCard";
+import type { PropertyCardProps } from "@/components/PropertyCard";
 import { AddCircleOutline } from "@mui/icons-material";
 import { Box, Container, IconButton, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { StaticImageData } from "next/image";
+
 // import Empty from "../assets/Empty.jpg";
 
 export interface PropertyData {
@@ -22,7 +26,7 @@ export interface PropertyData {
 
 const fetchProperties = async () => {
   const response = await axiosInstance.get("/properties"); // Await the response
-  console.log(response);
+
   return response.data; // Return the data from the response
 };
 
@@ -31,8 +35,6 @@ export default function MyProperties() {
     queryKey: ["properties"],
     queryFn: fetchProperties,
   });
-
-  console.log(data);
 
   // if (isLoading) {
   // 	return <div>Loading...</div>;
@@ -59,7 +61,8 @@ export default function MyProperties() {
               mt: 4,
               borderBottom: "1px solid lightgray",
               pb: 2,
-            }}>
+            }}
+          >
             <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
               List Of Properties
             </Typography>
@@ -71,7 +74,8 @@ export default function MyProperties() {
                 color: "white",
                 fontSize: "12px",
                 p: 1,
-              }}>
+              }}
+            >
               <AddCircleOutline /> &nbsp;Add New Property
             </IconButton>
           </Box>
@@ -81,8 +85,9 @@ export default function MyProperties() {
               display: "flex",
               marginLeft: "30%",
               flexDirection: "column",
-            }}>
-            {data?.data?.map((property: any) => (
+            }}
+          >
+            {data?.data?.map((property: PropertyCardProps) => (
               <MyPropertyCard key={property.id} {...property} />
             ))}
           </Box>
