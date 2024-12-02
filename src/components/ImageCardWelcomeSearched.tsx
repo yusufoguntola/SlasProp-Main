@@ -23,7 +23,8 @@ export function ImageCardWelcomeSearched() {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-      }}>
+      }}
+    >
       <CardMedia
         component="img"
         image={sampleImage.src}
@@ -44,12 +45,10 @@ export function ImageCardWelcomeSearched() {
           overflow: "auto",
           marginTop: "100px",
           mb: 3,
-        }}>
+        }}
+      >
         {data?.data.data.map((property: PropertyCardProps) => (
-          <PropertyCard
-            key={property?.id}
-            {...property}
-          />
+          <PropertyCard key={property?.id} {...property} />
         ))}
 
         {/* TODO: Pagination Controls */}

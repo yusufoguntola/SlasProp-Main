@@ -18,7 +18,7 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ form, fieldName }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null); // Create a ref for the file input
 
   const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setUploading(true);
     const file = event.target.files;
@@ -77,7 +77,8 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ form, fieldName }) => {
           "&:hover": { backgroundColor: "#26a69a" },
           borderRadius: "16px",
           boxShadow: "10px 10px 5px #269d91 inset",
-        }}>
+        }}
+      >
         {uploading ? "uploading..." : "Edit"}
       </Button>
     </div>

@@ -6,17 +6,17 @@ import type { PropertyCardProps } from "@/components/PropertyCard";
 import { useQuery } from "@tanstack/react-query";
 
 function PropertyDetailWrapper({ id }: { id: string }) {
-	const { data } = useQuery({
-		queryKey: ["properties", id],
-		queryFn: () => axiosInstance.get(`/properties/${id}`),
-	});
+  const { data } = useQuery({
+    queryKey: ["properties", id],
+    queryFn: () => axiosInstance.get(`/properties/${id}`),
+  });
 
-	return (
-		<div>
-			{" "}
-			<DetailsBox property={data?.data.data as PropertyCardProps} />
-		</div>
-	);
+  return (
+    <div>
+      {" "}
+      <DetailsBox property={data?.data.data as PropertyCardProps} />
+    </div>
+  );
 }
 
 export default PropertyDetailWrapper;

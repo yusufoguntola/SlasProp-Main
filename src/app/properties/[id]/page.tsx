@@ -9,22 +9,22 @@ import { NavBarContainer } from "@/sections/NavBarContainer";
 import { useQuery } from "@tanstack/react-query";
 
 export default function PropertyDetails({
-	params,
+  params,
 }: {
-	params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>;
 }) {
-	const { id } = use(params);
+  const { id } = use(params);
 
-	const { data } = useQuery({
-		queryKey: ["search", id],
-		queryFn: () => axiosInstance.get(`/search/${id}`),
-	});
+  const { data } = useQuery({
+    queryKey: ["search", id],
+    queryFn: () => axiosInstance.get(`/search/${id}`),
+  });
 
-	return (
-		<>
-			<NavBarContainer />
-			<ImageGallery /> {/* Pass the id to your ImageGallery component */}
-			<DetailsBox property={data?.data.data} />
-		</>
-	);
+  return (
+    <>
+      <NavBarContainer />
+      <ImageGallery /> {/* Pass the id to your ImageGallery component */}
+      <DetailsBox property={data?.data.data} />
+    </>
+  );
 }

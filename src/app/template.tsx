@@ -10,16 +10,16 @@ import { NuqsAdapter } from "nuqs/adapters/next/pages";
 type TemplateProps = PropsWithChildren;
 
 export default function Template({ children }: TemplateProps) {
-	const [client] = useState(new QueryClient());
+  const [client] = useState(new QueryClient());
 
-	return (
-		<QueryClientProvider client={client}>
-			<NuqsAdapter>
-				<ToastProvider>
-					<Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-				</ToastProvider>
-			</NuqsAdapter>
-			<ReactQueryDevtools initialIsOpen={false} />
-		</QueryClientProvider>
-	);
+  return (
+    <QueryClientProvider client={client}>
+      <NuqsAdapter>
+        <ToastProvider>
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        </ToastProvider>
+      </NuqsAdapter>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 }

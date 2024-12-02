@@ -9,13 +9,13 @@ import { NavBarContainer } from "@/sections/NavBarContainer";
 import { WelcomeImageContiner } from "@/sections/WelcomeImageContainer";
 
 export default function WelcomePage() {
-	const { search } = useSearch();
+  const { search } = useSearch();
 
-	return (
-		<Suspense fallback={<div>Loading.......</div>}>
-			<NavBarContainer />
-			<WelcomeImageContiner />
-			{search ? <ImageCardWelcomeSearched /> : <ImageCardWelcome />}
-		</Suspense>
-	);
+  return (
+    <Suspense fallback={<div>Loading.......</div>}>
+      <NavBarContainer />
+      <WelcomeImageContiner />
+      {search ? <ImageCardWelcomeSearched /> : <ImageCardWelcome />}
+    </Suspense>
+  );
 }
