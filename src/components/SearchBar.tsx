@@ -1,10 +1,16 @@
 import { useFilterProperties } from "@/hooks/use-filter-properties";
 import { LocationOn, Search } from "@mui/icons-material";
-import { Button, Container, InputBase, Paper } from "@mui/material";
+import { Button, Container, Paper, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-import { useForm } from "@mantine/form";
-import Link from "next/link";
+import { useForm, yupResolver } from "@mantine/form";
+import { object, string } from "yup";
+
+const schema = object({
+  searchTerm: string()
+    .required()
+    .min(3, "Search term must be at least 3 characters long"),
+});
 
 export function SearchBar() {
   const { replace } = useRouter();
@@ -14,15 +20,16 @@ export function SearchBar() {
     initialValues: {
       searchTerm: "",
     },
+    validate: yupResolver(schema),
   });
 
   return (
     <Paper
       component='form'
-      onSubmit={() => {
-        setFilter({ filter: form.values.searchTerm });
-        replace(`/properties?filter=${form.values.searchTerm}`);
-      }}
+      onSubmit={form.onSubmit((values) => {
+        setFilter({ filter: values.searchTerm });
+        replace(`/properties?filter=${values.searchTerm}`);
+      })}
       sx={{
         p: "10px 10px",
         display: "flex",
@@ -36,17 +43,17 @@ export function SearchBar() {
     >
       <Container sx={{ boxShadow: "0px 2px 2px grey;", py: 1 }}>
         <LocationOn sx={{ color: "#DF593D" }} />
-        <InputBase
+        <TextField
           sx={{ fontSize: { lg: 12, sm: 12, xs: 7 } }}
           placeholder='  Search Property'
           inputProps={{ "aria-label": "search-property" }}
+          error={!!form.errors.searchTerm}
+          helperText={form.errors.searchTerm}
           {...form.getInputProps("searchTerm")}
         />
       </Container>
       <Button
         type='submit'
-        component={Link}
-        href={`/properties?filter=${form.values.searchTerm}`}
         className='SearchButton'
         sx={{
           bgcolor: "#26a69a",

@@ -5,17 +5,17 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { PropertyCard } from "./PropertyCard";
 
+const ITEMS_PER_PAGE = 10;
+
 export function ImageCardWelcomeSearched() {
   const [currentPage, setCurrentPage] = useState(1);
   const [{ filter }] = useFilterProperties();
-
-  const itemsPerPage = 10;
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["search", currentPage],
     queryFn: () =>
       axiosInstance.get(
-        `/search/?filter=${filter}&page=${currentPage}&limit=${itemsPerPage}`
+        `/search/?filter=${filter}&page=${currentPage}&limit=${ITEMS_PER_PAGE}`
       ),
   });
 
@@ -47,7 +47,7 @@ export function ImageCardWelcomeSearched() {
         }}
       >
         {isLoading &&
-          Array.from({ length: itemsPerPage }).map((_, index) => (
+          Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
             <Skeleton
               key={index}
               variant='rectangular'
