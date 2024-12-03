@@ -64,7 +64,12 @@ type ListingStatus = "public" | "private" | "draft";
 
 type OwnershipStatus = "owned";
 
-interface RegisterProperty {
+type RegisterProperty = Omit<
+  RegisteredProperty,
+  "id" | "address" | "state" | "country" | "propertyDescription" | "location"
+> & {};
+interface RegisteredProperty {
+  id: number;
   ownerName: string;
   requestType: string;
   registrantName: string;
@@ -75,6 +80,16 @@ interface RegisterProperty {
   locationId: string;
   zipCode: string;
   registeredAddress: string;
+  address: string;
+  state: string;
+  country: string;
+  propertyDescription?: string;
+  location: Location;
+}
+
+interface Location {
+  id: string;
+  name: string;
 }
 
 interface ConstructionDetails {

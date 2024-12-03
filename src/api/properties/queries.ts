@@ -9,6 +9,13 @@ export function useGetProperties(page = 1) {
     placeholderData: keepPreviousData,
   });
 }
+export function useGetRegisteredProperties(page = 1) {
+  return useQuery({
+    queryKey: builder.properties.list_registered.$get(page),
+    queryFn: () => builder.$use.properties.list_registered(page),
+    placeholderData: keepPreviousData,
+  });
+}
 
 export function useGetSingleProperty(id: number) {
   return useQuery({

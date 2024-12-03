@@ -17,7 +17,9 @@ export function useRegisterProperty() {
   return useMutation({
     mutationFn: builder.$use.properties.register,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: builder.properties.$get() });
+      qc.invalidateQueries({
+        queryKey: builder.properties.list_registered.$get(),
+      });
     },
   });
 }

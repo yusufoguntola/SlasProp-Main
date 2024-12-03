@@ -83,7 +83,7 @@ export default function RegisterTheProperty() {
           mutate(values, {
             onSuccess: () => {
               form.reset();
-              replace("/dashboard");
+              replace("/dashboard/registered-properties");
             },
           });
         })}
@@ -276,6 +276,7 @@ export default function RegisterTheProperty() {
                 },
                 borderRadius: "16px",
                 boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.15)",
+                textTransform: "capitalize",
               }}
             >
               {isPending ? (
