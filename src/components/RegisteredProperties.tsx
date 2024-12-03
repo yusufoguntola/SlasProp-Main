@@ -8,8 +8,8 @@ import {
   Container,
   IconButton,
   Skeleton,
-  SxProps,
-  Theme,
+  type SxProps,
+  type Theme,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
@@ -77,14 +77,14 @@ export default function RegisteredProperties() {
   const { data, isFetching } = useGetRegisteredProperties();
 
   return (
-    <Container maxWidth='md' sx={useStyles.container}>
+    <Container maxWidth="md" sx={useStyles.container}>
       <Box sx={useStyles.header}>
-        <Typography variant='h6' fontWeight='bold'>
+        <Typography variant="h6" fontWeight="bold">
           {checkHeading}
         </Typography>
         <Button
           component={Link}
-          href='/dashboard/register-the-property'
+          href="/dashboard/register-the-property"
           sx={useStyles.registerButton}
           disabled={isFetching}
         >
@@ -93,7 +93,14 @@ export default function RegisteredProperties() {
       </Box>
 
       {isFetching
-        ? Array.from({ length: 3 }).map((_, index) => <Loader key={index} />)
+        ? Array.from({ length: 3 }).map((_, index) => (
+            <Loader
+              key={`key-${
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                index
+              }`}
+            />
+          ))
         : data?.map((property) => (
             <Box key={property.id} sx={useStyles.cardContainer}>
               <Box sx={useStyles.section}>
@@ -166,31 +173,31 @@ function Loader() {
     <Box sx={useStyles.cardContainer}>
       <Box sx={useStyles.section}>
         <Box sx={useStyles.sectionItem}>
-          <Skeleton variant='text' width='80%' />
-          <Skeleton variant='text' width='60%' />
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="60%" />
         </Box>
         <Box sx={useStyles.sectionItem}>
-          <Skeleton variant='text' width='80%' />
-          <Skeleton variant='text' width='60%' />
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="60%" />
         </Box>
         <Box sx={useStyles.sectionItem}>
-          <Skeleton variant='text' width='80%' />
-          <Skeleton variant='text' width='60%' />
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="60%" />
         </Box>
-        <Skeleton variant='circular' width={40} height={40} />
+        <Skeleton variant="circular" width={40} height={40} />
       </Box>
       <Box sx={useStyles.section}>
         <Box sx={useStyles.sectionItem}>
-          <Skeleton variant='text' width='80%' />
-          <Skeleton variant='text' width='60%' />
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="60%" />
         </Box>
         <Box sx={useStyles.sectionItem}>
-          <Skeleton variant='text' width='80%' />
-          <Skeleton variant='text' width='60%' />
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="60%" />
         </Box>
         <Box sx={useStyles.sectionItem}>
-          <Skeleton variant='text' width='80%' />
-          <Skeleton variant='text' width='60%' />
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="60%" />
         </Box>
       </Box>
     </Box>

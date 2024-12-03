@@ -17,7 +17,7 @@ const create_listing = async (payload: CreateProperty) =>
       structuralFeatures:
         // @ts-ignore
         payload.constructionDetails.structuralFeatures.split(
-          ", structuralFeatures"
+          ", structuralFeatures",
         ),
     },
     amenities: payload.amenities.split(", "),

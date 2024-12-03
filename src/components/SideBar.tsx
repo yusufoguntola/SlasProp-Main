@@ -70,7 +70,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           sx={{ backgroundColor: "#26a69a", minHeight: "60px", ml: -3, mr: -3 }}
         />
         <Avatar
-          src='/assets/profile-picture.png'
+          src="/assets/profile-picture.png"
           sx={{ width: 80, height: 80, marginTop: -6 }}
         />
         <Box sx={{ display: "flex", my: 2 }}>
@@ -83,9 +83,9 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
             <Typography sx={{ fontSize: "12px" }}>User ID :#269d91</Typography>
           </Box>
           <Button
-            size='small'
+            size="small"
             component={Link}
-            href='/dashboard/settings'
+            href="/dashboard/settings"
             sx={{
               color: "#26a69a",
               fontSize: "12px",
@@ -104,7 +104,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
 
       <List>
         <ListItem sx={{ borderBottom: "1px solid lightgrey" }}>
-          <Stack direction='row' spacing={1} alignItems='center' sx={{ ml: 2 }}>
+          <Stack direction="row" spacing={1} alignItems="center" sx={{ ml: 2 }}>
             <Typography sx={{ fontSize: "12px", color: "#26a69a" }}>
               List Property
             </Typography>
@@ -118,7 +118,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           <ListItemButton
             sx={{ borderBottom: "1px solid lightgrey" }}
             component={Link}
-            href='/dashboard'
+            href="/dashboard"
           >
             <ListItemText
               primary={"Dashboard"}
@@ -152,7 +152,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           <ListItemButton
             sx={{ borderBottom: "1px solid lightgrey" }}
             component={Link}
-            href='/dashboard/messages'
+            href="/dashboard/messages"
           >
             <ListItemText
               sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
@@ -166,7 +166,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           <ListItemButton
             sx={{ borderBottom: "1px solid lightgrey" }}
             component={Link}
-            href='/dashboard/settings'
+            href="/dashboard/settings"
           >
             <ListItemText
               sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
@@ -177,7 +177,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
         </ListItem>
 
         <ListItem disablePadding>
-          <ListItemButton component={Link} href='/dashboard/notifications'>
+          <ListItemButton component={Link} href="/dashboard/notifications">
             <ListItemText
               sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
               primaryTypographyProps={{ fontSize: "12px" }}
@@ -191,7 +191,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
 
   return (
     <>
-      <Drawer anchor='left' open={isOpen} onClose={toggle}>
+      <Drawer anchor="left" open={isOpen} onClose={toggle}>
         <SidebarContent />
       </Drawer>
       <Box

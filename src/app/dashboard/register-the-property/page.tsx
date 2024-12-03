@@ -73,7 +73,7 @@ export default function RegisterTheProperty() {
           pb: 2,
         }}
       >
-        <Typography variant='h6' sx={{ fontWeight: "bold", flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Register New Property
         </Typography>
       </Box>
@@ -94,10 +94,10 @@ export default function RegisterTheProperty() {
               <FormLabel>Name of Current Owner</FormLabel>
               <TextField
                 fullWidth
-                id='ownerName'
-                name='ownerName'
-                size='small'
-                placeholder='Enter name of the owner'
+                id="ownerName"
+                name="ownerName"
+                size="small"
+                placeholder="Enter name of the owner"
                 {...form.getInputProps("ownerName")}
                 error={!!form.errors.ownerName}
                 helperText={form.errors.ownerName}
@@ -109,9 +109,9 @@ export default function RegisterTheProperty() {
               <TextField
                 select
                 fullWidth
-                id='requestType'
-                name='requestType'
-                size='small'
+                id="requestType"
+                name="requestType"
+                size="small"
                 value={form.values.requestType}
                 onChange={(e) =>
                   form.setFieldValue("requestType", e.target.value)
@@ -131,10 +131,10 @@ export default function RegisterTheProperty() {
               <FormLabel>Name of the Registrant</FormLabel>
               <TextField
                 fullWidth
-                id='registrantName'
-                name='registrantName'
-                size='small'
-                placeholder='Enter name of the Registrant'
+                id="registrantName"
+                name="registrantName"
+                size="small"
+                placeholder="Enter name of the Registrant"
                 {...form.getInputProps("registrantName")}
                 error={!!form.errors.registrantName}
                 helperText={form.errors.registrantName}
@@ -146,9 +146,9 @@ export default function RegisterTheProperty() {
               <TextField
                 select
                 fullWidth
-                id='propertyType'
-                name='propertyType'
-                size='small'
+                id="propertyType"
+                name="propertyType"
+                size="small"
                 value={form.values.propertyType}
                 onChange={(e) =>
                   form.setFieldValue("propertyType", e.target.value)
@@ -168,10 +168,10 @@ export default function RegisterTheProperty() {
               <FormLabel>Registration Number</FormLabel>
               <TextField
                 fullWidth
-                id='registrationNumber'
-                name='registrationNumber'
-                size='small'
-                placeholder='Enter registration number'
+                id="registrationNumber"
+                name="registrationNumber"
+                size="small"
+                placeholder="Enter registration number"
                 {...form.getInputProps("registrationNumber")}
                 error={!!form.errors.registrationNumber}
                 helperText={form.errors.registrationNumber}
@@ -182,10 +182,10 @@ export default function RegisterTheProperty() {
               <FormLabel>Property Tax ID</FormLabel>
               <TextField
                 fullWidth
-                id='propertyTaxId'
-                name='propertyTaxId'
-                size='small'
-                placeholder='Enter property tax ID'
+                id="propertyTaxId"
+                name="propertyTaxId"
+                size="small"
+                placeholder="Enter property tax ID"
                 {...form.getInputProps("propertyTaxId")}
                 error={!!form.errors.propertyTaxId}
                 helperText={form.errors.propertyTaxId}
@@ -196,10 +196,10 @@ export default function RegisterTheProperty() {
               <FormLabel>Area of Land</FormLabel>
               <TextField
                 fullWidth
-                id='areaOfLand'
-                name='areaOfLand'
-                size='small'
-                placeholder='Enter area of land'
+                id="areaOfLand"
+                name="areaOfLand"
+                size="small"
+                placeholder="Enter area of land"
                 {...form.getInputProps("areaOfLand")}
                 error={!!form.errors.areaOfLand}
                 helperText={form.errors.areaOfLand}
@@ -211,9 +211,9 @@ export default function RegisterTheProperty() {
               <TextField
                 select
                 fullWidth
-                id='locationId'
-                name='locationId'
-                size='small'
+                id="locationId"
+                name="locationId"
+                size="small"
                 value={form.values.locationId}
                 onChange={(e) =>
                   form.setFieldValue("locationId", e.target.value)
@@ -236,10 +236,10 @@ export default function RegisterTheProperty() {
               <FormLabel>ZIP/PIN Code</FormLabel>
               <TextField
                 fullWidth
-                id='zipCode'
-                name='zipCode'
-                size='small'
-                placeholder='Enter ZIP/PIN Code'
+                id="zipCode"
+                name="zipCode"
+                size="small"
+                placeholder="Enter ZIP/PIN Code"
                 {...form.getInputProps("zipCode")}
                 error={!!form.errors.zipCode}
                 helperText={form.errors.zipCode}
@@ -250,10 +250,10 @@ export default function RegisterTheProperty() {
               <FormLabel>Registered Address</FormLabel>
               <TextField
                 fullWidth
-                id='registeredAddress'
-                name='registeredAddress'
-                size='small'
-                placeholder='Enter registered address'
+                id="registeredAddress"
+                name="registeredAddress"
+                size="small"
+                placeholder="Enter registered address"
                 {...form.getInputProps("registeredAddress")}
                 error={!!form.errors.registeredAddress}
                 helperText={form.errors.registeredAddress}
@@ -263,9 +263,9 @@ export default function RegisterTheProperty() {
 
           <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
             <Button
-              type='submit'
-              variant='contained'
-              size='medium'
+              type="submit"
+              variant="contained"
+              size="medium"
               disabled={isPending || isFetching}
               sx={{
                 backgroundColor:
@@ -280,7 +280,7 @@ export default function RegisterTheProperty() {
               }}
             >
               {isPending ? (
-                <CircularProgress size={20} color='inherit' />
+                <CircularProgress size={20} color="inherit" />
               ) : (
                 "Register Property"
               )}

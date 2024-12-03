@@ -110,14 +110,14 @@ export default function Settings() {
           pb: 2,
         }}
       >
-        <Typography variant='h6' sx={{ fontWeight: "bold", flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Edit Profile
         </Typography>
       </Box>
 
       {/* Profile Photo */}
       <Box sx={{ ml: "30%", mt: 4 }}>
-        <ProfilePhoto form={profileForm} fieldName='imageUrl' />
+        <ProfilePhoto form={profileForm} fieldName="imageUrl" />
       </Box>
 
       {/* Profile Form */}
@@ -127,12 +127,12 @@ export default function Settings() {
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>First Name</FormLabel>
               <TextField
-                autoComplete='given-name'
-                name='firstName'
+                autoComplete="given-name"
+                name="firstName"
                 required
                 fullWidth
-                id='firstName'
-                size='small'
+                id="firstName"
+                size="small"
                 {...profileForm.getInputProps("firstName")}
                 autoFocus
               />
@@ -142,11 +142,11 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                id='lastName'
-                name='lastName'
-                size='small'
+                id="lastName"
+                name="lastName"
+                size="small"
                 {...profileForm.getInputProps("lastName")}
-                autoComplete='family-name'
+                autoComplete="family-name"
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -154,12 +154,12 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                id='email'
-                name='email'
-                autoComplete='email'
+                id="email"
+                name="email"
+                autoComplete="email"
                 {...profileForm.getInputProps("email")}
-                size='small'
-                type='email'
+                size="small"
+                type="email"
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -167,21 +167,21 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                id='phoneNumber'
-                name='phoneNumber'
-                autoComplete='tel'
+                id="phoneNumber"
+                name="phoneNumber"
+                autoComplete="tel"
                 {...profileForm.getInputProps("phoneNumber")}
-                size='small'
-                type='number'
+                size="small"
+                type="number"
               />
             </Grid>
           </Grid>
 
           <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
             <Button
-              type='submit'
-              variant='contained'
-              size='medium'
+              type="submit"
+              variant="contained"
+              size="medium"
               sx={{
                 backgroundColor: "#26a69a",
                 "&:hover": { backgroundColor: "#26a69a" },
@@ -191,7 +191,7 @@ export default function Settings() {
               disabled={loadingProfile}
             >
               {loadingProfile ? (
-                <CircularProgress size={24} color='inherit' />
+                <CircularProgress size={24} color="inherit" />
               ) : (
                 "Update Profile"
               )}
@@ -209,17 +209,17 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                name='password'
+                name="password"
                 type={showPassword ? "text" : "password"}
-                id='password'
-                size='small'
-                autoComplete='new-password'
-                margin='normal'
+                id="password"
+                size="small"
+                autoComplete="new-password"
+                margin="normal"
                 {...passwordForm.getInputProps("password")}
                 slotProps={{
                   input: {
                     endAdornment: (
-                      <InputAdornment position='end'>
+                      <InputAdornment position="end">
                         <IconButton onClick={handleShowPassword}>
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -234,16 +234,16 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                name='newPassword'
+                name="newPassword"
                 type={showConfirmPassword ? "text" : "password"}
-                id='newPassword'
-                size='small'
-                autoComplete='new-password'
-                margin='normal'
+                id="newPassword"
+                size="small"
+                autoComplete="new-password"
+                margin="normal"
                 {...passwordForm.getInputProps("newPassword")}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton onClick={handleShowConfirmPassword}>
                         {showConfirmPassword ? (
                           <VisibilityOff />
@@ -260,9 +260,9 @@ export default function Settings() {
 
           <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
             <Button
-              type='submit'
-              variant='contained'
-              size='medium'
+              type="submit"
+              variant="contained"
+              size="medium"
               sx={{
                 backgroundColor: "#26a69a",
                 "&:hover": { backgroundColor: "#26a69a" },
@@ -272,7 +272,7 @@ export default function Settings() {
               disabled={loadingPassword}
             >
               {loadingPassword ? (
-                <CircularProgress size={24} color='inherit' />
+                <CircularProgress size={24} color="inherit" />
               ) : (
                 "Reset Password"
               )}
