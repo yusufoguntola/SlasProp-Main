@@ -1,9 +1,10 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import { CardActionArea } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Link from "next/link";
 
 export function PropertyCard(property: Property) {
   return (
@@ -30,17 +31,16 @@ export function PropertyCard(property: Property) {
         href={`/properties/${property?.id}`}
       >
         {/* Property Image */}
-        <CardMedia
-          component='img'
-          image={property.images[0]}
-          height='150px'
-          sx={{
-            maxWidth: "200px",
-            borderRadius: 2,
-            objectFit: "cover",
-            flexShrink: 0,
+        <Image
+          src={property.images[0]}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = "/assets/property-image.jpg";
           }}
-          alt='property-image'
+          height={150}
+          width={200}
+          className="object-cover rounded-lg"
+          alt="property-image"
         />
 
         {/* Property Details */}
@@ -57,9 +57,9 @@ export function PropertyCard(property: Property) {
           <Typography
             gutterBottom
             sx={{ fontWeight: "bold", fontSize: "20px", lineHeight: 1.2 }}
-            component='div'
+            component="div"
           >
-            {property?.propertyType}
+            {property?.name}
           </Typography>
 
           {/* Location */}
@@ -73,7 +73,7 @@ export function PropertyCard(property: Property) {
           </Typography>
 
           {/* Property ID */}
-          <Typography color='text.secondary' sx={{ fontSize: "12px" }}>
+          <Typography color="text.secondary" sx={{ fontSize: "12px" }}>
             Prop ID: {property?.propertyId}
           </Typography>
         </CardContent>

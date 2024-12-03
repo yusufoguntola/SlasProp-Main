@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
+
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { Adb, Menu as MenuIcon } from "@mui/icons-material";
 import {
   AppBar,
   Box,
-  Button,
   Container,
   IconButton,
   Menu,
@@ -15,13 +16,22 @@ import {
 } from "@mui/material";
 
 const pages = [
-  "Home",
-  "Properties",
-  "Buy",
-  "Rent",
-  "Know About SlasProp",
-  "Blogs",
-  "FAQ",
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "Properties",
+    link: "/properties",
+  },
+  {
+    name: "Buy",
+    link: "/buy",
+  },
+  { name: "Rent", link: "/rent" },
+  { name: "Know About SlasProp", link: "/knowledge-about-slas-prop" },
+  { name: "Blog", link: "/blog" },
+  { name: "FAQ", link: "/faq" },
 ];
 
 export function NavigationBar() {
@@ -83,8 +93,8 @@ export function NavigationBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={navClose}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.name} onClick={navClose}>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -104,22 +114,26 @@ export function NavigationBar() {
               textDecoration: "none",
             }}
           />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              display: {
+                xs: "none",
+                md: "flex",
+                justifyContent: "center",
+                gap: 24,
+                alignItems: "center",
+              },
+              width: "100%",
+            }}
+          >
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={navClose}
-                sx={{
-                  color: "white",
-                  display: "block",
-                  textTransform: "capitalize",
-                  fontFamily: "sans-serif",
-                  fontSize: 12,
-                  mr: 9,
-                }}
+              <Link
+                href={page.link}
+                key={page.name}
+                className="text-white flex capitalize font-sans text-sm p-3"
               >
-                {page}
-              </Button>
+                {page.name}
+              </Link>
             ))}
           </Box>
         </Toolbar>

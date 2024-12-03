@@ -10,7 +10,15 @@ import { NuqsAdapter } from "nuqs/adapters/next/pages";
 type TemplateProps = PropsWithChildren;
 
 export default function Template({ children }: TemplateProps) {
-  const [client] = useState(new QueryClient());
+  const [client] = useState(
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          staleTime: 1000 * 60 * 10, // 10 minutes in milliseconds
+        },
+      },
+    }),
+  );
 
   return (
     <QueryClientProvider client={client}>

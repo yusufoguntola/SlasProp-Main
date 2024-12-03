@@ -1,11 +1,14 @@
 import { axiosInstance } from "@/axios";
 import { builder } from "@/builder";
+import { useFilterProperties } from "@/hooks/use-filter-properties";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-export function useGetProperties(page = 1) {
+export function useGetProperties() {
+  const [filters] = useFilterProperties();
+
   return useQuery({
-    queryKey: builder.properties.list.$get(page),
-    queryFn: () => builder.$use.properties.list(page),
+    queryKey: builder.properties.list.$get(filters),
+    queryFn: () => builder.$use.properties.list(filters),
     placeholderData: keepPreviousData,
   });
 }

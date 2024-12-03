@@ -10,7 +10,7 @@ export default function Properties() {
     <>
       <NavBarContainer />
       <Box
-        className='image-container'
+        className="image-container"
         sx={{
           position: "relative",
           height: "400px",
@@ -18,7 +18,6 @@ export default function Properties() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          filter: "brightness(65%)",
           marginTop: "-50px",
         }}
       >
@@ -32,7 +31,7 @@ export default function Properties() {
           }}
         >
           <Typography
-            variant='h3'
+            variant="h3"
             sx={{
               fontSize: "2.2rem",
               color: "#fff",
@@ -44,7 +43,7 @@ export default function Properties() {
           </Typography>
 
           <Typography
-            variant='h6'
+            variant="h6"
             sx={{
               fontSize: {
                 lg: "1.25rem",

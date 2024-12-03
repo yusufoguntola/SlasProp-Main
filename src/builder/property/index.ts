@@ -1,7 +1,9 @@
 import { axiosInstance } from "@/axios";
 
-const list = (page = 1) =>
-  axiosInstance.get<ApiResponse<Property[]>>(`/properties?page=${page}`);
+const list = (params = {}) =>
+  axiosInstance.get<ApiResponse<Property[]>>("/properties", {
+    params,
+  });
 
 const single = (id: number) =>
   axiosInstance.get<ApiResponse<Property>>(`/properties/${id}`);
