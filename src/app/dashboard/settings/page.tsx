@@ -20,20 +20,18 @@ import {
   Typography,
 } from "@mui/material";
 
-import { object, ref, string } from "yup";
+import { object, string } from "yup";
 import ProfilePhoto from "./ProfilePhoto";
 
 const passwordSchema = object({
-  password: string()
+  password: string().required("Password is required"),
+  newPassword: string()
     .required("Password is required")
     .min(6, "Password must be at least 6 characters")
     .matches(
       /(?=.*[a-z])(?=.*[A-Z])/,
       "Password must contain at least one uppercase and one lowercase letter"
     ),
-  confirmPassword: string()
-    .required("Confirm password is required")
-    .oneOf([ref("password"), ""], "Passwords must match"),
 });
 
 export default function Settings() {
@@ -84,7 +82,7 @@ export default function Settings() {
       <Box
         sx={{
           display: "flex",
-          marginLeft: "30%",
+          marginLeft: { xs: 0, md: "30%" },
           mt: 4,
           borderBottom: "1px solid lightgray",
           pb: 2,
@@ -95,7 +93,7 @@ export default function Settings() {
         </Typography>
       </Box>
 
-      <Box sx={{ ml: "30%", mt: 4 }}>
+      <Box sx={{ ml: { xs: 0, md: "30%" }, mt: 4 }}>
         <ProfilePhoto form={profileForm} fieldName='imageUrl' />
       </Box>
 
@@ -109,7 +107,7 @@ export default function Settings() {
           });
         })}
       >
-        <Box sx={{ ml: "30%", mt: 4 }}>
+        <Box sx={{ mt: 4 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>First Name</FormLabel>
@@ -190,18 +188,18 @@ export default function Settings() {
       {/* Password Form */}
       <form
         onSubmit={passwordForm.onSubmit((values) => {
-          console.log(values);
           mutate(values, {
             onSuccess: () => {
-              showToast("success", "Password Updated Successfully");
+              profileForm.reset(),
+                showToast("success", "Password Updated Successfully");
             },
-            onError: () => {
-              showToast("error", "Profile Updated Successfully");
+            onError: (error) => {
+              showToast("error", error.message);
             },
           });
         })}
       >
-        <Box sx={{ ml: "30%", mt: 4 }}>
+        <Box sx={{ mt: 4 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>Current Password</FormLabel>
@@ -274,7 +272,6 @@ export default function Settings() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
-              disabled={isChanging}
             >
               {isChanging ? (
                 <CircularProgress size={24} color='inherit' />
