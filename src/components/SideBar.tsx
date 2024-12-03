@@ -60,9 +60,12 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
         height: "100vh", // Full viewport height
         overflowY: "auto", // Enable scrolling within the sidebar if content overflows
         boxShadow: "10px 0px 10px rgba(108, 122, 137, 0.5)",
+        backgroundColor: "white",
       }}
     >
-      <Container sx={{ borderBottom: "1px solid lightgrey" }}>
+      <Container
+        sx={{ borderBottom: "1px solid lightgrey", backgroundColor: "white" }}
+      >
         <Box
           sx={{ backgroundColor: "#26a69a", minHeight: "60px", ml: -3, mr: -3 }}
         />
