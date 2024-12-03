@@ -1,50 +1,30 @@
 import { axiosInstance } from "@/axios";
-import { CreateProperty } from "./types";
 
-const create = async (payload: CreateProperty) => {
-  return axiosInstance.post<{
-    message: string;
-  }>("/properties", payload);
-};
+const list = (page = 1) =>
+  axiosInstance.get<ApiResponse<Property[]>>(`/properties?page=${page}`);
 
-// for  Registering a property
+const single = (id: number) =>
+  axiosInstance.get<ApiResponse<Property>>(`/properties/${id}`);
 
-export const RegisterProperty = async (payload: unknown) => {
-  try {
-    const response = await axiosInstance.post("/property-queries", payload);
-    return response.data;
-  } catch (error) {
-    console.error("Error creating property:", error);
-    throw error; // You can throw the error again or return a custom message if needed
-  }
-};
-// for profile update
+const create_listing = async (payload: CreateProperty) =>
+  await axiosInstance.post("/properties", {
+    ...payload,
+    constructionDetails: {
+      ...payload.constructionDetails,
+      buildingMaterials:
+        // @ts-ignore
+        payload.constructionDetails.buildingMaterials.split(", "),
+      structuralFeatures:
+        // @ts-ignore
+        payload.constructionDetails.structuralFeatures.split(
+          ", structuralFeatures",
+        ),
+    },
+    amenities: payload.amenities.split(", "),
+  });
 
-export const UpdateProfile = async (payload: unknown) => {
-  try {
-    const response = await axiosInstance.put("/account/profile", payload);
-    return response.data;
-  } catch (error) {
-    console.error("Error creating property:", error);
-    throw error; // You can throw the error again or return a custom message if needed
-  }
-};
-
-// for profile update
-
-export const UserResetPassword = async (payload: unknown) => {
-  try {
-    const response = await axiosInstance.post(
-      "/account/change-password",
-      payload
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error creating property:", error);
-    throw error; // You can throw the error again or return a custom message if needed
-  }
-};
-
-export const property = {
-  create,
+export const properties = {
+  list,
+  single,
+  create_listing,
 };
