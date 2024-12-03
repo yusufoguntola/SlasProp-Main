@@ -1,11 +1,10 @@
-import sampleImage from "@/assets/land-view.png";
 import { CardMedia } from "@mui/material";
 
 export function ImageCardWelcome() {
   return (
     <CardMedia
       component="img"
-      image={sampleImage.src}
+      image="/assets/land-view.png"
       alt="This is a land image"
       sx={{
         objectFit: "cover",

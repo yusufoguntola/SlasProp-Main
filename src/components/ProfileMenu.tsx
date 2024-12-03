@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 
 import { useLogout } from "@/api/auth/mutations";
-import sampleImage from "@/assets/profile-picture.png";
 import { useOptionStore } from "@/stores/useOptionStore";
 import {
   Avatar,
@@ -42,7 +41,7 @@ export function ProfileMenu() {
             setMenuOpen((prev) => !prev);
           }}
         >
-          <Avatar alt="Remy Sharp" src={sampleImage.src} />
+          <Avatar alt="Remy Sharp" src="/assets/profile-picture.png" />
         </IconButton>
       </Tooltip>
 

@@ -16,8 +16,6 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-import sampleImage from "../assets/profile-picture.png";
-
 const ListOptions = [
   {
     name: "My Properties",
@@ -56,8 +54,12 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
     <Box
       sx={{
         width: 270,
-        height: "100%",
-        boxShadow: { xs: "none", md: "10px 0px 10px rgba(108, 122, 137, 0.5)" },
+        position: "fixed",
+        boxSizing: "border-box",
+        // left: "4%",
+        height: "100vh", // Full viewport height
+        overflowY: "auto", // Enable scrolling within the sidebar if content overflows
+        boxShadow: "10px 0px 10px rgba(108, 122, 137, 0.5)",
       }}
     >
       <Container sx={{ borderBottom: "1px solid lightgrey" }}>
@@ -65,7 +67,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           sx={{ backgroundColor: "#26a69a", minHeight: "60px", ml: -3, mr: -3 }}
         />
         <Avatar
-          src={sampleImage.src}
+          src='/assets/profile-picture.png'
           sx={{ width: 80, height: 80, marginTop: -6 }}
         />
         <Box sx={{ display: "flex", my: 2 }}>

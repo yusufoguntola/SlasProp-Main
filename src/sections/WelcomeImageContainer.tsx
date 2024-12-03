@@ -3,15 +3,13 @@ import { Suspense } from "react";
 import { SearchLoader } from "@/components/SearchLoader";
 import { CardMedia, Container, Typography } from "@mui/material";
 
-import sampleImage from "../assets/aerial-view.png";
-
 export function WelcomeImageContiner() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="image-container">
         <CardMedia
           component="img"
-          image={sampleImage.src}
+          image="/assets/aerial-view.png"
           alt="This is a land image"
           sx={{
             marginTop: "-50px",

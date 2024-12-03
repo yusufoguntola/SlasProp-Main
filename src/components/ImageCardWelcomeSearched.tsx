@@ -2,10 +2,9 @@ import { useState } from "react";
 
 import { axiosInstance } from "@/axios";
 import { CardMedia, Container } from "@mui/material";
-
 import { useQuery } from "@tanstack/react-query";
-import sampleImage from "../assets/land-view.png";
-import { PropertyCard, type PropertyCardProps } from "./PropertyCard";
+
+import { PropertyCard } from "./PropertyCard";
 
 export function ImageCardWelcomeSearched() {
   const [currentPage] = useState(1); // Track current page
@@ -27,7 +26,7 @@ export function ImageCardWelcomeSearched() {
     >
       <CardMedia
         component="img"
-        image={sampleImage.src}
+        image="/assets/land-view.png"
         alt="This is a land image"
         sx={{
           marginTop: "-80px",
@@ -47,7 +46,7 @@ export function ImageCardWelcomeSearched() {
           mb: 3,
         }}
       >
-        {data?.data.data.map((property: PropertyCardProps) => (
+        {data?.data.data.map((property: Property) => (
           <PropertyCard key={property?.id} {...property} />
         ))}
 

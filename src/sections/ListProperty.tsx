@@ -18,8 +18,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import sampleImage from "../assets/list-property.png";
-
 export function ListProperty() {
   return (
     <Container
@@ -109,7 +107,7 @@ export function ListProperty() {
       </Box>
       <CardMedia
         component="img"
-        image={sampleImage.src}
+        image="/assets/list-property.png"
         alt="This is a property image"
         sx={{
           maxWidth: "45%",

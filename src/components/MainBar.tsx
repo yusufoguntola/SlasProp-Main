@@ -12,7 +12,6 @@ import {
   Toolbar,
 } from "@mui/material";
 
-import Logo from "../assets/Logo.png";
 import { ProfileMenu } from "./ProfileMenu";
 
 export function MainBar() {
@@ -39,7 +38,7 @@ export function MainBar() {
                   height: 64,
                 }}
                 alt="Your logo."
-                src={Logo.src}
+                src={"/assets/Logo.png"}
               />
             </Button>
           </Box>

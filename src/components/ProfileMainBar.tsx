@@ -21,8 +21,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import Logo from "../assets/Logo.png";
-
 interface ProfileMainBarProps {
   toggle: () => void;
 }
@@ -66,8 +64,8 @@ const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
           </Box>
           <Typography variant='body1' component='div' sx={{ flexGrow: 1 }}>
             <Box
-              src={Logo.src}
               component='img'
+              src={"/assets/Logo.png"}
               sx={{
                 height: 50,
               }}

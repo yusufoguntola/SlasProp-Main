@@ -1,26 +1,22 @@
 import { ManagePropertyCard } from "@/components/ManagePropertyCard";
 import { Container, Typography } from "@mui/material";
 
-import buyProperty from "../assets/buy-property.png";
-import rentProperty from "../assets/rent-property.png";
-import sellProperty from "../assets/sell-property.png";
-
 const properties = [
   {
     id: 1,
-    imageUrl: buyProperty.src,
+    imageUrl: "/assets/buy-property.png",
     heading: "Buy A Property",
     desc: "Discover your dream property with SlasProp. Explore curated listings, get insights into property values and enjoy seamless transactions. Your journey to property ownership egins here!",
   },
   {
     id: 2,
-    imageUrl: sellProperty.src,
+    imageUrl: "/assets/sell-property.png",
     heading: "Sell A Property",
     desc: "Maximize your property value effortlessly with SlasProp. List with ease, showcase unique features and connect with buyers seamlessly for a smooth selling journey!",
   },
   {
     id: 3,
-    imageUrl: rentProperty.src,
+    imageUrl: "/assets/rent-property.png",
     heading: "Rent A Property",
     desc: "Explore hassle-free renting with SlasProp. Find your dream space effortlessly with stunning visuals and tailored listings. Welcome to a new era of renting convenience!",
   },
