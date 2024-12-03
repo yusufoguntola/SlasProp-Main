@@ -1,102 +1,71 @@
-import { Box, Grid, TextField } from "@mui/material";
-import { useFormContext } from "./form-context";
+import type { UseFormReturnType } from "@mantine/form";
+import { Box, Grid2 as Grid, TextField } from "@mui/material"; // Import Grid for layout
 
-export default function ConstructionDetailsForm() {
-  const form = useFormContext();
+interface PropertyDetailsFormProps {
+  form: UseFormReturnType<CreateProperty>;
+}
+
+export default function ConstructionDetailsForm({
+  form,
+}: PropertyDetailsFormProps) {
+  // Define an array of form fields
+  const fields = [
+    {
+      label: "Enter building materials",
+      name: "constructionDetails.buildingMaterials",
+      value: form.values.constructionDetails.buildingMaterials,
+      header: "Building Materials",
+      subHeader: "Enter as many as possible separated with commas.",
+    },
+    {
+      label: "Enter structural features",
+      name: "constructionDetails.structuralFeatures",
+      value: form.values.constructionDetails.structuralFeatures,
+      header: "Structural Features",
+      subHeader: "Enter as many as possible separated with commas.",
+    },
+    {
+      label: "Enter the architectural style",
+      name: "constructionDetails.architecturalStyle",
+      value: form.values.constructionDetails.architecturalStyle,
+      header: "Architectural Style",
+    },
+    {
+      label: "Enter Condition",
+      name: "constructionDetails.condition",
+      value: form.values.constructionDetails.condition,
+      header: "Condition",
+    },
+
+    {
+      label: "Enter build year",
+      name: "constructionDetails.buildYear",
+      value: form.values.constructionDetails.buildYear,
+      header: "Build year",
+    },
+  ];
 
   return (
-    <Box sx={{ justifyContent: "flex-start", width: "100%" }}>
+    <Box sx={{ justifyContent: "flex-start", mt: 2, width: "100%" }}>
+      {/* Use Grid to layout form fields side by side */}
       <Grid container spacing={2}>
-        {/* Building Materials */}
-        <Grid item xs={6}>
-          <p className='mb-1 text-[12px] text-[#000000]'>Building Materials</p>
-          <p className='text-[10px]'>
-            Enter as many as possible separated with commas.
-          </p>
-          <TextField
-            label='Enter building materials'
-            size='small'
-            name='buildingMaterials'
-            value={form.values.buildingMaterials?.join(", ")}
-            onChange={(e) => {
-              const materials = e.target.value
-                .split(",")
-                .map((item) => item.trim());
-              form.setFieldValue("buildingMaterials", [...new Set(materials)]);
-            }}
-            helperText={form.errors.buildingMaterials}
-            error={!!form.errors.buildingMaterials}
-            fullWidth
-            sx={{ my: 1 }}
-          />
-        </Grid>
-
-        {/* Structural Features */}
-        <Grid item xs={6}>
-          <p className='mb-1 text-[12px] text-[#000000]'>Structural Features</p>
-          <p className='text-[10px]'>
-            Enter as many as possible separated with commas.
-          </p>
-          <TextField
-            label='Enter structural features'
-            size='small'
-            name='structuralFeatures'
-            value={form.values.structuralFeatures?.join(", ")}
-            onChange={(e) => {
-              const features = e.target.value
-                .split(",")
-                .map((item) => item.trim());
-              form.setFieldValue("structuralFeatures", [...new Set(features)]);
-            }}
-            helperText={form.errors.structuralFeatures}
-            error={!!form.errors.structuralFeatures}
-            fullWidth
-            sx={{ my: 1 }}
-          />
-        </Grid>
-
-        {/* Architectural Style */}
-        <Grid item xs={6}>
-          <p className='mb-1 text-[12px] text-[#000000]'>Architectural Style</p>
-          <TextField
-            label='Enter the architectural style'
-            size='small'
-            {...form.getInputProps("architecturalStyle")}
-            helperText={form.errors.architecturalStyle}
-            error={!!form.errors.architecturalStyle}
-            fullWidth
-            sx={{ my: 1 }}
-          />
-        </Grid>
-
-        {/* Condition */}
-        <Grid item xs={6}>
-          <p className='mb-1 text-[12px] text-[#000000]'>Condition</p>
-          <TextField
-            label='Enter condition'
-            size='small'
-            {...form.getInputProps("condition")}
-            helperText={form.errors.condition}
-            error={!!form.errors.condition}
-            fullWidth
-            sx={{ my: 1 }}
-          />
-        </Grid>
-
-        {/* Build Year */}
-        <Grid item xs={6}>
-          <p className='mb-1 text-[12px] text-[#000000]'>Build Year</p>
-          <TextField
-            label='Enter build year'
-            size='small'
-            type='number'
-            {...form.getInputProps("buildYear")}
-            helperText={form.errors.buildYear}
-            error={!!form.errors.buildYear}
-            fullWidth
-            sx={{ my: 1 }}
-          />
-        </Grid>
+        {fields.map((field) => (
+          <Grid size={{ xs: 6 }} key={field.label}>
+            <p className="mb-1 text-[12px] text-[#000000]">{field.header}</p>
+            <p className="text-[10px]">{field.subHeader}</p>
+            <TextField
+              label={field.label}
+              size="small"
+              name={field.name}
+              value={field.value}
+              type={field.name === "buildYear" ? "number" : "text"}
+              // Conditionally apply the appropriate handler
+              {...form.getInputProps(field.name)}
+              fullWidth
+              sx={{ my: 1 }}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

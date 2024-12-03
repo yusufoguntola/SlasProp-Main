@@ -1,46 +1,24 @@
-import { Autocomplete, Box, Grid, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useFormContext } from "./form-context";
+import { useFetchCountries } from "@/api/properties/queries";
+import type { UseFormReturnType } from "@mantine/form";
+import { Autocomplete, Box, Grid2 as Grid, TextField } from "@mui/material";
 
-export default function PropertyDetailsForm() {
-  const [countries, setCountries] = useState<string[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+interface PropertyDetailsFormProps {
+  form: UseFormReturnType<CreateProperty>;
+}
 
-  const form = useFormContext();
-
-  // Fetch countries on component mount
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch(
-          "https://countriesnow.space/api/v0.1/countries"
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        const countryNames = (data.data || [])
-          .map((item: { country?: string }) => item.country || "")
-          .filter(Boolean);
-        setCountries(countryNames.sort());
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCountries();
-  }, []);
+export default function PropertyDetailsForm({
+  form,
+}: PropertyDetailsFormProps) {
+  const { data, isFetching } = useFetchCountries();
 
   return (
-    <Box sx={{ justifyContent: "flex-start", width: "100%" }}>
+    <Box sx={{ justifyContent: "flex-start", mt: 2, width: "100%" }}>
       <Grid container spacing={2}>
         {/* First row: Country, State, and Address */}
-        <Grid item xs={12} sm={6} md={4}>
-          <p className='mb-2 text-[12px] text-[#000000]'>Country</p>
+        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+          <p className="mb-2 text-[12px] text-[#000000]">Country</p>
           <Autocomplete
-            options={countries}
+            options={data ?? []}
             getOptionLabel={(option) => option}
             value={form.values.country}
             onChange={(_, newValue) =>
@@ -49,88 +27,74 @@ export default function PropertyDetailsForm() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label='Select Country'
-                size='small'
+                label="Select Country"
+                size="small"
                 fullWidth
-                disabled={loading}
-                error={!!form.errors.country}
-                helperText={
-                  loading ? "Loading countries..." : form.errors.country
-                }
+                disabled={isFetching}
+                helperText={isFetching ? "Loading countries..." : ""}
               />
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <p className='mb-2 text-[12px] text-[#000000]'>State</p>
+        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+          <p className="mb-2 text-[12px] text-[#000000]">State</p>
           <TextField
-            label='Enter State'
-            size='small'
-            fullWidth
+            label="Enter State"
+            size="small"
+            name="state"
             {...form.getInputProps("state")}
-            error={!!form.errors.state}
-            helperText={form.errors.state}
+            fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={4}>
-          <p className='mb-2 text-[12px] text-[#000000]'>Address</p>
+        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+          <p className="mb-2 text-[12px] text-[#000000]">Address</p>
           <TextField
-            label='Enter Address'
-            size='small'
-            fullWidth
+            label="Enter Address"
+            size="small"
+            name="address"
             {...form.getInputProps("address")}
-            error={!!form.errors.address}
-            helperText={form.errors.address}
+            fullWidth
           />
         </Grid>
 
-        {/* Second row: City and Number of Bedrooms */}
-        <Grid item xs={12} sm={6} md={6}>
-          <p className='mb-2 text-[12px] text-[#000000]'>City</p>
+        {/* Second row: City, Number of Bedrooms */}
+        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+          <p className="mb-2 text-[12px] text-[#000000]">City</p>
           <TextField
-            label='Enter City'
-            size='small'
-            fullWidth
+            label="Enter City"
+            size="small"
+            name="city"
             {...form.getInputProps("city")}
-            error={!!form.errors.city}
-            helperText={form.errors.city}
+            fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <p className='mb-2 text-[12px] text-[#000000]'>
+        <Grid size={{ xs: 6 }} sx={{ mt: 3 }}>
+          <p className="mb-2 text-[12px] text-[#000000]">
             Number of Bedroom(s)
           </p>
           <TextField
-            label='Enter Number of Bedrooms'
-            size='small'
-            type='number'
-            fullWidth
+            label="Enter Number of Bedrooms"
+            size="small"
+            type="number"
+            name="noOfBedrooms"
             {...form.getInputProps("noOfBedrooms")}
-            error={!!form.errors.noOfBedrooms}
-            helperText={form.errors.noOfBedrooms}
+            fullWidth
           />
         </Grid>
 
         {/* Third row: Amenities */}
-        <Grid item xs={12}>
-          <p className='text-[12px] text-[#000000]'>Amenities</p>
-          <p className='text-[10px]'>
+        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+          <p className="text-[12px] text-[#000000]">Amenities</p>
+          <p className="text-[10px]">
             Enter as many as possible separated with commas.
           </p>
           <TextField
-            label='Enter Amenities (comma-separated)'
-            size='small'
-            fullWidth
+            label="Enter Amenities (comma-separated)"
+            size="small"
+            name="amenities"
+            value={form.values.amenities}
             {...form.getInputProps("amenities")}
-            value={form.values.amenities?.join(", ")}
-            onChange={(e) => {
-              const amenities = e.target.value
-                .split(",")
-                .map((item) => item.trim());
-              form.setFieldValue("amenities", [...new Set(amenities)]);
-            }}
-            error={!!form.errors.amenities}
-            helperText={form.errors.amenities}
+            fullWidth
           />
         </Grid>
       </Grid>

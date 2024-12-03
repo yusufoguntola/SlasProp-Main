@@ -1,20 +1,19 @@
+import type { UseFormReturnType } from "@mantine/form";
 import {
   Box,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
   TextField,
-  Typography,
 } from "@mui/material";
-import React from "react";
-import { useFormContext } from "./form-context";
 
-const HoaAndFinancialDetailsForm: React.FC = () => {
-  const form = useFormContext();
+interface PropertyDetailsFormProps {
+  form: UseFormReturnType<CreateProperty>;
+}
 
+const HoaAndFinancialDetailsForm = ({ form }: PropertyDetailsFormProps) => {
   const fields = [
     {
       label: "Enter HOA Name",
@@ -32,7 +31,7 @@ const HoaAndFinancialDetailsForm: React.FC = () => {
       header: "Due Amount",
     },
     {
-      label: "Enter Mortgage Provider",
+      label: " Enter Mortgage Provider",
       name: "hoaAndFinancialDetails.mortgageProvider",
       header: "Mortgage Provider",
     },
@@ -44,6 +43,7 @@ const HoaAndFinancialDetailsForm: React.FC = () => {
     {
       label: "Enter Monthly Payment",
       name: "hoaAndFinancialDetails.monthlyPayment",
+
       header: "Monthly Payment",
     },
     {
@@ -58,88 +58,77 @@ const HoaAndFinancialDetailsForm: React.FC = () => {
     },
   ];
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    form.setFieldValue(name, value);
-  };
-
-  const handleDropdownChange = (event: SelectChangeEvent<string>) => {
-    const { name, value } = event.target;
-    if (name) {
-      form.setFieldValue(name, value === "true");
-    }
-  };
-
   return (
-    <Box sx={{ mt: 3, width: "100%" }}>
+    <Box sx={{ mt: 2, width: "100%" }}>
       <Grid container spacing={2}>
         {fields.map((field) => (
-          <Grid item xs={12} sm={6} key={field.name}>
-            <Typography variant='body2' color='textSecondary' sx={{ mb: 0.5 }}>
-              {field.header}
-            </Typography>
+          <Grid size={{ xs: 6 }} key={field.name}>
+            <p className="mb-1 text-[12px] text-[#000000]">{field.header}</p>
+
             <TextField
               label={field.label}
-              size='small'
+              size="small"
               name={field.name}
-              value={
-                form.values.hoaAndFinancialDetails[
-                  field?.name.split(
-                    "."
-                  )[1] as keyof typeof form.values.hoaAndFinancialDetails
-                ]
-              }
-              onChange={handleInputChange}
+              {...form.getInputProps(field.name)}
               fullWidth
-              type={
-                ["monthlyPayment", "outstandingBalance", "dueAmount"].includes(
-                  field.name.split(".")[1]
-                )
-                  ? "number"
-                  : field.name.split(".")[1] === "mortgageEndDate"
-                  ? "date"
-                  : "text"
-              }
               sx={{ my: 1 }}
+              type={
+                [
+                  "hoaAndFinancialDetails.monthlyPayment",
+                  "hoaAndFinancialDetails.outstandingBalance",
+                  "hoaAndFinancialDetails.dueAmount",
+                ].includes(field.name)
+                  ? "number"
+                  : field.name === "hoaAndFinancialDetails.mortgageEndDate"
+                    ? "date"
+                    : "text"
+              }
             />
           </Grid>
         ))}
       </Grid>
 
+      {/* Dropdown Fields */}
       <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='body2' color='textSecondary' sx={{ mb: 0.5 }}>
-            Has Due?
-          </Typography>
-          <FormControl fullWidth size='small' sx={{ my: 1 }}>
+        <Grid size={{ xs: 6 }}>
+          <p className="mb-1 text-[12px] text-[#000000]">Has Due?</p>
+          <FormControl fullWidth size="small" sx={{ my: 1 }}>
             <InputLabel>Has Due</InputLabel>
             <Select
-              name='hoaAndFinancialDetails.hasDue'
-              value={String(form.values.hoaAndFinancialDetails.hasDue)}
-              onChange={handleDropdownChange}
-              label='Has Due'
+              name="hoaAndFinancialDetails.hasDue"
+              value={form.values.hoaAndFinancialDetails.hasDue} // Ensure value is a string
+              onChange={(ev) =>
+                form.setFieldValue(
+                  "hoaAndFinancialDetails.hasDue",
+                  ev.target.value === "true",
+                )
+              }
+              label="Has Due"
             >
-              <MenuItem value='true'>Yes</MenuItem>
-              <MenuItem value='false'>No</MenuItem>
+              <MenuItem value="true">Yes</MenuItem>
+              <MenuItem value="false">No</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='body2' color='textSecondary' sx={{ mb: 0.5 }}>
+        <Grid size={{ xs: 6 }}>
+          <p className="mb-1 text-[12px] text-[#000000]">
             Property in Mortgage?
-          </Typography>
-          <FormControl fullWidth size='small' sx={{ my: 1 }}>
+          </p>
+          <FormControl fullWidth size="small" sx={{ my: 1 }}>
             <InputLabel>Property in Mortgage</InputLabel>
             <Select
-              name='hoaAndFinancialDetails.isPropertyInMortgage'
-              value={String(
-                form.values.hoaAndFinancialDetails.isPropertyInMortgage
-              )}
-              onChange={handleDropdownChange}
-              label='Property in Mortgage'
+              name="hoaAndFinancialDetails.isPropertyInMortgage"
+              value={form.values.hoaAndFinancialDetails.isPropertyInMortgage} // Ensure value is a string
+              onChange={(ev) =>
+                form.setFieldValue(
+                  "hoaAndFinancialDetails.isPropertyInMortgage",
+                  ev.target.value === "true",
+                )
+              }
+              label="Property in Mortgage"
             >
-              <MenuItem value='true'>Yes</MenuItem>
-              <MenuItem value='false'>No</MenuItem>
+              <MenuItem value="true">Yes</MenuItem>
+              <MenuItem value="false">No</MenuItem>
             </Select>
           </FormControl>
         </Grid>
