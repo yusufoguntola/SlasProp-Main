@@ -20,7 +20,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import { CreateProperty } from "@/builder/property/types";
 import PropertyTypeSelector from "./properties/Properties";
 import ConstructionDetailsForm from "./properties/constructionDetails";
 import HoaAndFinancialDetailsForm from "./properties/hoaAndFinancialDetails";
