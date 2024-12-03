@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useCreateProperty } from "@/api/properties/mutations";
 import { MultipleFileUpload } from "@/components/MultiFileUpload";
 import { showToast } from "@/utils/toast";
-import { useForm } from "@mantine/form";
+import { useForm, yupResolver } from "@mantine/form";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import {
   Box,
@@ -19,6 +19,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { object, string } from "yup";
 
 import PropertyTypeSelector from "./properties/Properties";
 import ConstructionDetailsForm from "./properties/constructionDetails";
@@ -26,6 +27,19 @@ import HoaAndFinancialDetailsForm from "./properties/hoaAndFinancialDetails";
 import NeighbourhoodDetailsForm from "./properties/neighbourhoodDetails";
 import PropertyDetailsForm from "./properties/propertyDetails";
 import UtilityDetailsForm from "./properties/utilityDetails";
+
+const schema = object({
+  name: string().required("Property name is required."),
+  price: string().required("Price is required."),
+  description: string().required("Description is required."),
+  city: string().required("City is required."),
+  state: string().required("State is required."),
+  country: string().required("Country is required."),
+  address: string().required("Address is required."),
+  noOfBedrooms: string().required("Number of bedrooms is required."),
+  squareFootage: string().required("Square footage is required."),
+  amenities: string().required("Amenities is required."),
+});
 
 export default function AddProperty() {
   // State variables for the main form
@@ -85,6 +99,8 @@ export default function AddProperty() {
         otherFinancialDetails: "",
       },
     },
+    validate: yupResolver(schema),
+    validateInputOnBlur: true,
   });
 
   const controls = {
@@ -168,6 +184,8 @@ export default function AddProperty() {
               sx={{ my: 1 }}
               name='name'
               {...form.getInputProps("name")}
+              error={!!form.errors.name}
+              helperText={form.errors.name}
             />
 
             {/* Property Type and SubType Component */}
@@ -193,6 +211,8 @@ export default function AddProperty() {
                 name='squareFootage'
                 fullWidth
                 {...form.getInputProps("squareFootage")}
+                error={!!form.errors.squareFootage}
+                helperText={form.errors.squareFootage}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -219,6 +239,8 @@ export default function AddProperty() {
                 name='price'
                 placeholder='Enter price'
                 {...form.getInputProps("price")}
+                error={!!form.errors.price}
+                helperText={form.errors.price}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -254,6 +276,8 @@ export default function AddProperty() {
                 sx={{ my: 1 }}
                 name='description'
                 {...form.getInputProps("description")}
+                error={!!form.errors.description}
+                helperText={form.errors.description}
               />
             </div>
 
