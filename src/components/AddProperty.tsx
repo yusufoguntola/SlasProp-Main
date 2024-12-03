@@ -152,11 +152,10 @@ export default function AddProperty() {
   const { replace } = useRouter();
 
   const handleAddProperty = () => {
+    setError("");
     form.validate();
     mutate(form.values);
   };
-
-  console.log(form.errors);
 
   return (
     <form
