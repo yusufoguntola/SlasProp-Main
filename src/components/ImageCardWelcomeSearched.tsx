@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/axios";
 import { useFilterProperties } from "@/hooks/use-filter-properties";
-import { Box, Button, Container } from "@mui/material";
+import { Box, Button, Container, Skeleton, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { PropertyCard } from "./PropertyCard";
@@ -16,10 +16,10 @@ export function ImageCardWelcomeSearched() {
     queryFn: () =>
       axiosInstance.get(
         `/search/?filter=${filter}&page=${currentPage}&limit=${itemsPerPage}`
-        // `/search?`
       ),
   });
 
+  const properties = data?.data.data || [];
   const lastPage = data?.data.last_page || 1;
 
   const handlePageChange = (newPage: number) => {
@@ -42,55 +42,77 @@ export function ImageCardWelcomeSearched() {
         className='grid gap-6'
         sx={{
           display: "grid",
-          gridTemplateColumns: `repeat(auto-fill, minmax(min(400px, 100%), 1fr))`,
+          gridTemplateColumns: `repeat(auto-fill, minmax(min(380px, 100%), 1fr))`,
           gridAutoRows: "1fr",
         }}
       >
-        {isLoading && <p>Loading properties...</p>}
-        {isError && <p>Error loading properties. Please try again later.</p>}
+        {isLoading &&
+          Array.from({ length: itemsPerPage }).map((_, index) => (
+            <Skeleton
+              key={index}
+              variant='rectangular'
+              height={150}
+              sx={{ borderRadius: 2 }}
+            />
+          ))}
+
+        {isError && (
+          <Typography color='error' textAlign='center'>
+            Error loading properties. Please try again later.
+          </Typography>
+        )}
+
+        {!isLoading && !isError && properties.length === 0 && (
+          <Typography textAlign='center' color='text.secondary'>
+            No properties found. Please adjust your search criteria.
+          </Typography>
+        )}
+
         {!isLoading &&
-          data?.data.data.map((property: Property) => (
+          properties.map((property: Property) => (
             <PropertyCard key={property?.id} {...property} />
           ))}
       </Container>
 
       {/* Pagination Controls */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 2,
-          my: 3,
-        }}
-      >
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
+      {!isLoading && properties.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 2,
+            my: 3,
+          }}
         >
-          Previous
-        </Button>
-        {[...Array(lastPage)].map((_, index) => (
           <Button
-            key={index}
-            variant={currentPage === index + 1 ? "contained" : "outlined"}
+            variant='contained'
             color='primary'
-            onClick={() => handlePageChange(index + 1)}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
           >
-            {index + 1}
+            Previous
           </Button>
-        ))}
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === lastPage}
-        >
-          Next
-        </Button>
-      </Box>
+          {[...Array(lastPage)].map((_, index) => (
+            <Button
+              key={index}
+              variant={currentPage === index + 1 ? "contained" : "outlined"}
+              color='primary'
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </Button>
+          ))}
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === lastPage}
+          >
+            Next
+          </Button>
+        </Box>
+      )}
     </Container>
   );
 }

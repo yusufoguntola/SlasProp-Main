@@ -4,7 +4,7 @@ import { Container, Typography } from "@mui/material";
 
 export function HomeImageContainer() {
   return (
-    <div className="image-container">
+    <div className='image-container'>
       <ImageCard />
       <Typography
         sx={{
