@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
-import type { PropertyCardProps } from "./PropertyCard";
 
-export type OwnerDetailsProps = Partial<PropertyCardProps["owner"]>;
+export type OwnerDetailsProps = Partial<Property["owner"]>;
 
 export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
   return (

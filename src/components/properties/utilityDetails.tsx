@@ -1,48 +1,16 @@
+import type { UseFormReturnType } from "@mantine/form";
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
 import {
   Box,
   Button,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   InputLabel,
   MenuItem,
   Select,
-  type SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import type React from "react";
-
-// Define the service interface for better type safety
-interface Service {
-  type: string;
-  provided: boolean;
-  providerName: string;
-  serviceCharge: string;
-  frequency: string;
-}
-
-interface UtilityDetailsFormProps {
-  formData: {
-    services: Service[];
-    isGreenEnergyPowered: boolean;
-    greenEnergyProvider: string;
-    greenEnergySources: string[];
-  };
-  handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number,
-    field: keyof Service,
-  ) => void;
-
-  handleAddService: () => void;
-  handleRemoveService: (index: number) => void;
-  handleUtilityDropdownChange: (e: SelectChangeEvent<string>) => void;
-  handleUtilityEngergySourceChange: (e: SelectChangeEvent<string[]>) => void;
-  handleUtilityGreenEnergyProviderInputChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => void;
-}
 
 const greenEnergyOptions = [
   "Solar Power",
@@ -63,29 +31,51 @@ const serviceTypeOptions = [
   "Waste Management",
 ];
 
-export default function UtilityDetailsForm({
-  formData,
-  handleInputChange,
-  handleAddService,
-  handleRemoveService,
-  handleUtilityDropdownChange,
-  handleUtilityEngergySourceChange,
-  handleUtilityGreenEnergyProviderInputChange,
-}: UtilityDetailsFormProps) {
+interface PropertyDetailsFormProps {
+  form: UseFormReturnType<CreateProperty>;
+}
+
+export default function UtilityDetailsForm({ form }: PropertyDetailsFormProps) {
+  const handleAddService = () => {
+    form.setFieldValue("utilitiesDetails.services", [
+      ...form.values.utilitiesDetails.services,
+      {
+        type: "",
+        provided: false,
+        providerName: "",
+        frequency: "",
+        serviceCharge: 0,
+      },
+    ]);
+  };
+
+  const handleRemoveService = (index: number) => {
+    const filtered = form.values.utilitiesDetails.services.filter(
+      (_, idx) => idx !== index,
+    );
+
+    form.setFieldValue("utilitiesDetails.services", filtered);
+  };
+
   return (
     <Box sx={{ mt: 2, width: "100%" }}>
       {/* Green Energy Fields */}
       <Grid container spacing={2} sx={{ mb: 2 }}>
         {/* Is Green Energy Powered */}
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <p className="text-[12px] text-[#000000]">
             Is it Green Energy Powered?
           </p>
           <FormControl fullWidth size="small" sx={{ my: 1 }}>
             <Select
               name="isGreenEnergyPowered"
-              value={String(formData.isGreenEnergyPowered)} // Ensure value is a string
-              onChange={handleUtilityDropdownChange}
+              value={form.values.utilitiesDetails.isGreenEnergyPowered} // Ensure value is a string
+              onChange={(ev) =>
+                form.setFieldValue(
+                  "utilitiesDetails.isGreenEnergyPowered",
+                  ev.target.value === "true",
+                )
+              }
               label="Is Green Energy Powered?"
             >
               <MenuItem value="true">Yes</MenuItem>
@@ -95,22 +85,21 @@ export default function UtilityDetailsForm({
         </Grid>
 
         {/* Green Energy Provider */}
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <p className="mb-2 text-[12px] text-[#000000]">
             Green Energy Provider
           </p>
           <TextField
             label="Enter Green Energy Provider"
-            name="greenEnergyProvider"
-            value={formData.greenEnergyProvider}
-            onChange={handleUtilityGreenEnergyProviderInputChange}
+            name="utilitiesDetails.greenEnergyProvider"
+            {...form.getInputProps("utilitiesDetails.greenEnergyProvider")}
             fullWidth
             size="small"
           />
         </Grid>
 
         {/* Green Energy Sources */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <p className="mb-1 text-[12px] text-[#000000]">
             Green Energy Sources
           </p>
@@ -120,13 +109,17 @@ export default function UtilityDetailsForm({
             <Select
               multiple
               name="greenEnergySources"
-              value={formData.greenEnergySources}
-              onChange={(e) =>
-                handleUtilityEngergySourceChange(
-                  e as SelectChangeEvent<string[]>,
-                )
-              }
-              renderValue={(selected) => selected.join(", ")}
+              value={form.values.utilitiesDetails.greenEnergySources}
+              onChange={(e) => {
+                const {
+                  target: { value },
+                } = e;
+
+                form.setFieldValue(
+                  "utilitiesDetails.greenEnergySources",
+                  typeof value === "string" ? value.split(",") : value,
+                );
+              }}
             >
               {greenEnergyOptions.map((option) => (
                 <MenuItem key={option} value={option}>
@@ -139,7 +132,7 @@ export default function UtilityDetailsForm({
       </Grid>
 
       {/* Existing Services Fields */}
-      {formData.services.map((service, index) => (
+      {form.values.utilitiesDetails.services.map((service, index) => (
         <Grid
           container
           spacing={2}
@@ -147,22 +140,16 @@ export default function UtilityDetailsForm({
           sx={{ mb: 2, alignItems: "center" }}
         >
           {/* Service Type */}
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <p className="mb-1 text-[12px] text-[#000000] mt-4">Service Type</p>
             <FormControl fullWidth size="small">
               <InputLabel>Service Type</InputLabel>
               <Select
-                value={service.type}
+                name={`utilitiesDetails.services.${index}.type`}
                 onChange={(e) =>
-                  handleInputChange(
-                    {
-                      target: {
-                        name: "type",
-                        value: e.target.value,
-                      },
-                    } as unknown as React.ChangeEvent<HTMLInputElement>,
-                    index,
-                    "type" as keyof Service,
+                  form.setFieldValue(
+                    `utilitiesDetails.services.${index}.type`,
+                    e.target.value,
                   )
                 }
               >
@@ -176,22 +163,16 @@ export default function UtilityDetailsForm({
           </Grid>
 
           {/* Service Provided */}
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <p className="mb-1 text-[12px] text-[#000000] mt-4">
               Is Service Provided?
             </p>
             <Select
-              value={service.provided ? "Yes" : "No"}
+              name={`utilitiesDetails.services.${index}.provided`}
               onChange={(e) =>
-                handleInputChange(
-                  {
-                    target: {
-                      name: "provided",
-                      value: e.target.value === "Yes",
-                    },
-                  } as unknown as React.ChangeEvent<HTMLInputElement>,
-                  index,
-                  "provided" as keyof Service,
+                form.setFieldValue(
+                  `utilitiesDetails.services.${index}.provided`,
+                  e.target.value === "Yes",
                 )
               }
               fullWidth
@@ -203,30 +184,28 @@ export default function UtilityDetailsForm({
           </Grid>
 
           {/* Provider Name */}
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <p className="mb-1 text-[12px] text-[#000000]">Provider Name</p>
             <TextField
               label="Enter provider name"
-              name="providerName"
-              value={service.providerName}
-              onChange={(e) =>
-                handleInputChange(e, index, "providerName" as keyof Service)
-              }
+              name={`utilitiesDetails.services.${index}.greenEnergyProvider`}
+              {...form.getInputProps(
+                `utilitiesDetails.services.${index}.greenEnergyProvider`,
+              )}
               fullWidth
               size="small"
             />
           </Grid>
 
           {/* Service Charge */}
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <p className="mb-1 text-[12px] text-[#000000]"> Service Charge</p>
             <TextField
               label="Enter service charge"
-              name="serviceCharge"
-              value={service.serviceCharge}
-              onChange={(e) =>
-                handleInputChange(e, index, "serviceCharge" as keyof Service)
-              }
+              name={`utilitiesDetails.services.${index}.providerName`}
+              {...form.getInputProps(
+                `utilitiesDetails.services.${index}.providerName`,
+              )}
               fullWidth
               size="small"
               type="number"
@@ -234,15 +213,14 @@ export default function UtilityDetailsForm({
           </Grid>
 
           {/* Frequency */}
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <p className="mb-1 text-[12px] text-[#000000]">Frequency</p>
             <TextField
               label="Enter Frequency"
-              name="frequency"
-              value={service.frequency}
-              onChange={(e) =>
-                handleInputChange(e, index, "frequency" as keyof Service)
-              }
+              name={`utilitiesDetails.services.${index}.frequency`}
+              {...form.getInputProps(
+                `utilitiesDetails.services.${index}.frequency`,
+              )}
               fullWidth
               size="small"
             />
@@ -250,7 +228,7 @@ export default function UtilityDetailsForm({
 
           {/* Delete Button */}
           {index > 0 && (
-            <Grid item xs={6} sx={{ textAlign: "right" }}>
+            <Grid size={{ xs: 6 }} sx={{ textAlign: "right" }}>
               <IconButton
                 onClick={() => handleRemoveService(index)}
                 sx={{

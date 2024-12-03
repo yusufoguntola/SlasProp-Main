@@ -1,11 +1,10 @@
 import { BlogCard } from "@/components/BlogCard";
 import { Box, Button, Container, Typography } from "@mui/material";
-import blog from "../assets/blog-building.png";
 
 const blogs = [
   {
     id: 1,
-    imageUrl: blog.src,
+    imageUrl: "/assets/blog-building.png",
     heading: "Tips for Finding the Perfect Rental Property",
     desc: "Get all your ducks in a row good optics close the loop and zeitgeist so manage expectations quarterly sales are at an all-time low future-proof",
     likes: 121,
@@ -14,7 +13,7 @@ const blogs = [
   },
   {
     id: 2,
-    imageUrl: blog.src,
+    imageUrl: "/assets/blog-building.png",
     heading: "Tips for Finding the Perfect Rental Property",
     desc: "Get all your ducks in a row good optics close the loop and zeitgeist so manage expectations quarterly sales are at an all-time low future-proof",
     likes: 121,
@@ -23,7 +22,7 @@ const blogs = [
   },
   {
     id: 3,
-    imageUrl: blog.src,
+    imageUrl: "/assets/blog-building.png",
     heading: "Tips for Finding the Perfect Rental Property",
     desc: "Get all your ducks in a row good optics close the loop and zeitgeist so manage expectations quarterly sales are at an all-time low future-proof",
     likes: 121,

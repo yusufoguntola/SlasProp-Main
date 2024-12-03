@@ -34,7 +34,7 @@ export function useLogin() {
         JSON.stringify({ id: user.id, name, username }),
         cookie_options,
       );
-      setCookie(COOKIES.token, cookie_options);
+      setCookie(COOKIES.token, access_token, cookie_options);
     },
   });
 }

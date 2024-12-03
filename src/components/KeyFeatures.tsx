@@ -1,27 +1,23 @@
 import { Box, CardMedia, Container, Typography } from "@mui/material";
-import { KeyFeatureCard } from "./KeyFeatureCard";
 
-import accelerateProcess from "../assets/accelerate-process.png";
-import blockchain from "../assets/blockchain.png";
-import sampleImage from "../assets/house.png";
-import userInterface from "../assets/user-interface.png";
+import { KeyFeatureCard } from "./KeyFeatureCard";
 
 const keyFeatures = [
   {
     id: 1,
-    imageUrl: blockchain.src,
+    imageUrl: "/assets/blockchain.png",
     heading: "Blockchain Foundation",
     desc: "Your transactions, titles, and information enjoy an extra layer of security through blockchain, promoting trust and transparency.",
   },
   {
     id: 2,
-    imageUrl: userInterface.src,
+    imageUrl: "/assets/user-interface.png",
     heading: "User-Friendly Interface",
     desc: "Seamlessly navigate through listings, transactions, and property details with our intuitive design.",
   },
   {
     id: 3,
-    imageUrl: accelerateProcess.src,
+    imageUrl: "/assets/accelerate-process.png",
     heading: "Accelerated Processes",
     desc: "SlasProp expedites every stage of your property journey, ensuring rapid and efficient transactions.",
   },
@@ -53,7 +49,7 @@ export function KeyFeatures() {
 
         <CardMedia
           component="img"
-          image={sampleImage.src}
+          image="/assets/house.png"
           alt="This is a property image"
           sx={{
             maxWidth: "45%",

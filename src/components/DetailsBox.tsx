@@ -7,10 +7,9 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Box, Button, Container, Typography } from "@mui/material";
 
 import { OwnerDetails } from "./OwnerDetails";
-import type { PropertyCardProps } from "./PropertyCard";
 
 type DetailsBoxProps = {
-  property: PropertyCardProps | null; // Change this to accept an array of properties
+  property: Property | null; // Change this to accept an array of properties
 };
 
 export function DetailsBox({ property }: DetailsBoxProps) {
@@ -152,7 +151,7 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                 Built Year
               </Typography>
               <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                {property?.buildYear}
+                {property?.constructionDetails.buildYear}
               </Typography>
             </Box>
           </Box>
@@ -173,7 +172,7 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               <Typography
                 sx={{ color: "black", fontWeight: "bold", mr: 14.75 }}
               >
-                4786 Sqft
+                {property?.squareFootage} Sqft
               </Typography>
             </Box>
             <Box

@@ -18,14 +18,12 @@ import {
   Typography,
 } from "@mui/material";
 
-import sampleImage from "../assets/register-property.png";
-
 export function RegisterProperty() {
   return (
     <Container sx={{ display: "flex", padding: 8, justifyContent: "center" }}>
       <CardMedia
         component="img"
-        image={sampleImage.src}
+        image="/assets/register-property.png"
         alt="This is a property image"
         sx={{
           maxWidth: "40%",

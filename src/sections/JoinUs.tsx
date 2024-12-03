@@ -1,7 +1,5 @@
 import { Box, Button, CardMedia, Container, Typography } from "@mui/material";
 
-import sampleImage from "../assets/join-us.png";
-
 export function JoinUs() {
   return (
     <Container sx={{ display: "flex", py: 6, backgroundColor: "#F3FAFA" }}>
@@ -9,7 +7,10 @@ export function JoinUs() {
         <Typography variant="h5" sx={{ fontWeight: "bold", pl: 4, pr: 20 }}>
           Explore our current job openings and start your journey
         </Typography>
-        <Typography paragraph sx={{ pl: 4, pr: 20, mt: 2, fontSize: "14px" }}>
+        <Typography
+          component="p"
+          sx={{ pl: 4, pr: 20, mt: 2, fontSize: "14px" }}
+        >
           Are you ready to embark on a fulfilling career journey? At SlasProp,
           we believe in fostering talent, creativity, and innovation. Join our
           dynamic team, where your skills are valued, and your aspirations are
@@ -34,7 +35,7 @@ export function JoinUs() {
 
       <CardMedia
         component="img"
-        image={sampleImage.src}
+        image="/assets/join-us.png"
         alt="This is a join us image"
         sx={{
           objectFit: "fit",

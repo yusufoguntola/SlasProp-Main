@@ -1,0 +1,26 @@
+export const PROPERTIES = [
+  {
+    id: 1,
+    imageUrl: "/assets/land-image.jpg",
+    heading: "Lore Epsom Property",
+    desc: "Rare Opportunity in highly desirable SpringBrook. Popular Scott Felder built floorplan. Showcasing easy living",
+    area: 2345,
+    beds: 4,
+    baths: 3,
+    price: "$319,000",
+    location: "17917 Holderness Ln, Pflugerville, TX 78660",
+    status: "active",
+  },
+  {
+    id: 2,
+    imageUrl: "/assets/land-image.jpg",
+    heading: "Lore Epsom Property",
+    desc: "Rare Opportunity in highly desirable SpringBrook. Popular Scott Felder built floorplan. Showcasing easy living",
+    area: 2345,
+    beds: 4,
+    baths: 3,
+    price: "$319,000",
+    location: "17917 Holderness Ln, Pflugerville, TX 78660",
+    status: "active",
+  },
+];

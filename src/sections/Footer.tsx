@@ -18,8 +18,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import sampleImage from "../assets/Logo.png";
-
 export function Footer() {
   return (
     <>
@@ -40,7 +38,7 @@ export function Footer() {
               borderRadius: 2,
             }}
             alt="Logo"
-            src={sampleImage.src}
+            src="/assets/Logo.png"
           />
           <Box
             sx={{
