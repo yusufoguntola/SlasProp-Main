@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { object, string } from "yup";
 
-import { UpdateProfile, UserResetPassword } from "@/builder/property";
+import { UpdateProfile, UserResetPassword } from "@/builder/addProperty";
 import { useForm, yupResolver } from "@mantine/form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { axiosInstance } from "@/axios";
-import { RegisterProperty } from "@/builder/property";
+import { RegisterProperty } from "@/builder/addProperty";
 import { showToast } from "@/utils/toast";
 import { useForm } from "@mantine/form";
 import {
