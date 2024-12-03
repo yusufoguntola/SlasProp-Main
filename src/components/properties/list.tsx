@@ -12,7 +12,7 @@ import { MyPropertyCard } from "../MyPropertyCard";
 import { PropertiesShimmer } from "../PropertiesShimmer";
 
 export function PropertiesList() {
-  const { data, isError, isLoading } = useGetProperties(1);
+  const { data, isError, isLoading } = useGetProperties();
 
   if (isLoading || isError) {
     return (
