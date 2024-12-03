@@ -114,12 +114,13 @@ export default function AddProperty() {
   };
 
   const [dropDown, setDropdown] = useState(controls);
+  const [error, setError] = useState("");
 
   const toggle = (key: keyof typeof controls) =>
     setDropdown((prev) => ({ ...controls, [key]: !prev[key] }));
 
   // showToast("success", <p>{response.message}</p>); // Assuming `dmessage` is part of the response
-  const { mutate } = useCreateProperty();
+  const { mutate, isPending } = useCreateProperty();
   const { replace } = useRouter();
 
   const handleAddProperty = () => {
@@ -139,6 +140,7 @@ export default function AddProperty() {
           onError: (error) => {
             showToast("error", "Error creating property");
             console.error("Error creating property:", error.message);
+            setError(error.message);
             throw error;
           },
         })
@@ -155,10 +157,19 @@ export default function AddProperty() {
             pb: 2,
           }}
         >
-          <Typography variant='h6' sx={{ fontWeight: "bold", flexGrow: 1 }}>
-            Add New Property
-          </Typography>
+          <Stack flexGrow={1}>
+            <Typography variant='h6' sx={{ fontWeight: "bold", flexGrow: 1 }}>
+              Add New Property
+            </Typography>
+
+            {error && (
+              <Typography variant='body1' sx={{ color: "red" }}>
+                {error}
+              </Typography>
+            )}
+          </Stack>
           <IconButton
+            type='submit'
             sx={{
               backgroundColor: "#DF593D",
               "&:hover": { backgroundColor: "#DF593D" },
@@ -169,7 +180,7 @@ export default function AddProperty() {
             }}
             onClick={handleAddProperty}
           >
-            Add Property
+            {isPending ? "Submitting..." : "Add Property"}
           </IconButton>
         </Box>
 
