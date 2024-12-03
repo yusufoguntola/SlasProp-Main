@@ -39,6 +39,8 @@ const schema = object({
   noOfBedrooms: string().required("Number of bedrooms is required."),
   squareFootage: string().required("Square footage is required."),
   amenities: string().required("Amenities is required."),
+  propertyType: string().required("Property type is required."),
+  propertySubType: string().required("Property subtype is required."),
 });
 
 export default function AddProperty() {
@@ -136,7 +138,7 @@ export default function AddProperty() {
           },
           onError: (error) => {
             showToast("error", "Error creating property");
-            console.error("Error creating property:", error);
+            console.error("Error creating property:", error.message);
             throw error;
           },
         })
@@ -296,6 +298,15 @@ export default function AddProperty() {
                 color: "#26a69a",
                 justifyContent: "flex-start",
                 width: "700px",
+                border:
+                  form.errors.country ||
+                  form.errors.state ||
+                  form.errors.address ||
+                  form.errors.city ||
+                  form.errors.noOfBedrooms ||
+                  form.errors.amenities
+                    ? "1px solid red"
+                    : "none",
               }}
               onClick={() => toggle("showDetails")}
               endIcon={
