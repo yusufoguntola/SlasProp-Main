@@ -139,7 +139,7 @@ export default function AddProperty() {
         <Box
           sx={{
             display: "flex",
-            marginLeft: "30%",
+            // marginLeft: "30%",
             mt: 4,
             borderBottom: "1px solid lightgray",
             pl: 2,
@@ -167,7 +167,7 @@ export default function AddProperty() {
         <Box
           sx={{
             display: "flex",
-            marginLeft: "30%",
+            // marginLeft: "30%",
             flexDirection: "row",
             mt: 2,
             pl: 2,
