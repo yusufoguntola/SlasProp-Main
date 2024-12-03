@@ -1,3 +1,7 @@
+import Link from "next/link";
+
+import { useMaterialMenu } from "@/hooks/use-material-menu";
+import { useForm } from "@mantine/form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
@@ -9,12 +13,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import { useMaterialMenu } from "@/hooks/use-material-menu";
-import { useForm } from "@mantine/form";
-
-import Link from "next/link";
-import sampleImage from "../assets/Logo.png";
 
 const style = {
   position: "absolute",
@@ -75,7 +73,7 @@ export function SlasPayLogin() {
               borderRadius: 2,
             }}
             alt="Logo"
-            src={sampleImage.src}
+            src="/assets/Logo.png"
           />
           <Typography
             id="modal-modal-title"

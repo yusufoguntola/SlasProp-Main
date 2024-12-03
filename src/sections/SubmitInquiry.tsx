@@ -1,3 +1,5 @@
+import { object, string } from "yup";
+
 import { useForm, yupResolver } from "@mantine/form";
 import {
   Button,
@@ -7,9 +9,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { object, string } from "yup";
-
-import sampleImage from "../assets/inquiry-image.png";
 
 const schema = object({
   name: string().required(),
@@ -35,7 +34,7 @@ export function SubmitInquiry() {
     <Container sx={{ display: "flex" }}>
       <CardMedia
         component="img"
-        image={sampleImage.src}
+        image="/assets/inquiry-image.png"
         alt="This is a land image"
         sx={{
           maxWidth: "40%",

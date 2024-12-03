@@ -20,8 +20,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import Logo from "../assets/Logo.png";
-
 const ProfileMainBar = () => {
   const setOption = useOptionStore((state) => state.setOption);
 
@@ -56,7 +54,7 @@ const ProfileMainBar = () => {
         <Toolbar>
           <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
             <Box
-              src={Logo.src}
+              src={"/assets/Logo.png"}
               component="img"
               sx={{
                 height: 50,

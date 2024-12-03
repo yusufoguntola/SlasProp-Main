@@ -1,25 +1,13 @@
-import {
-  FormControl,
-  FormLabel,
-  MenuItem,
-  Select,
-  type SelectChangeEvent,
-  Stack,
-} from "@mui/material"; // Import SelectChangeEvent
+import type { UseFormReturnType } from "@mantine/form";
+import { FormControl, FormLabel, MenuItem, Select, Stack } from "@mui/material"; // Import SelectChangeEvent
 
 // Define the prop types using TypeScript interfaces
 interface PropertyTypeSelectorProps {
-  propertyType: string; // Selected property type
-  setPropertyType: (type: string) => void; // Function to set property type
-  propertySubType: string; // Selected property subtype
-  setPropertySubType: (subType: string) => void; // Function to set property subtype
+  form: UseFormReturnType<CreateProperty>;
 }
 
 export default function PropertyTypeSelector({
-  propertyType,
-  setPropertyType,
-  propertySubType,
-  setPropertySubType,
+  form,
 }: PropertyTypeSelectorProps) {
   const subTypes: { [key: string]: string[] } = {
     Residential: [
@@ -66,12 +54,6 @@ export default function PropertyTypeSelector({
     ],
   };
 
-  // Correct the event type here
-  const handleTypeChange = (e: SelectChangeEvent<string>) => {
-    setPropertyType(e.target.value); // No need to cast now, already inferred as string
-    setPropertySubType(""); // Reset subtype when type changes
-  };
-
   return (
     <>
       <Stack spacing={38} direction="row" sx={{ my: 1, mt: 2 }}>
@@ -87,8 +69,10 @@ export default function PropertyTypeSelector({
         {/* Property Type Dropdown */}
         <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
           <Select
-            value={propertyType || ""}
-            onChange={handleTypeChange}
+            value={form.values.propertyType}
+            onChange={(val) =>
+              form.setFieldValue("propertyType", val.target.value)
+            }
             displayEmpty
           >
             <MenuItem value="">
@@ -108,9 +92,9 @@ export default function PropertyTypeSelector({
         {/* {propertyType && ( */}
         <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
           <Select
-            value={propertySubType || ""}
-            onChange={(e: SelectChangeEvent<string>) =>
-              setPropertySubType(e.target.value)
+            value={form.values.propertySubType}
+            onChange={(e) =>
+              form.setFieldValue("propertySubType", e.target.value)
             }
             displayEmpty
           >
@@ -119,7 +103,7 @@ export default function PropertyTypeSelector({
                 Select sub property type
               </FormLabel>
             </MenuItem>
-            {subTypes[propertyType]?.map((subType) => (
+            {subTypes[form.values.propertyType]?.map((subType: string) => (
               <MenuItem key={subType} value={subType}>
                 {subType}
               </MenuItem>
