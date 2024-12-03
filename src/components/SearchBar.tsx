@@ -1,12 +1,28 @@
+import { useFilterProperties } from "@/hooks/use-filter-properties";
 import { LocationOn, Search } from "@mui/icons-material";
 import { Button, Container, InputBase, Paper } from "@mui/material";
+import { useRouter } from "next/navigation";
 
+import { useForm } from "@mantine/form";
 import Link from "next/link";
 
 export function SearchBar() {
+  const { replace } = useRouter();
+  const [_, setFilter] = useFilterProperties();
+
+  const form = useForm({
+    initialValues: {
+      searchTerm: "",
+    },
+  });
+
   return (
     <Paper
-      component="form"
+      component='form'
+      onSubmit={() => {
+        setFilter({ filter: form.values.searchTerm });
+        replace(`/properties?filter=${form.values.searchTerm}`);
+      }}
       sx={{
         p: "10px 10px",
         display: "flex",
@@ -22,15 +38,16 @@ export function SearchBar() {
         <LocationOn sx={{ color: "#DF593D" }} />
         <InputBase
           sx={{ fontSize: { lg: 12, sm: 12, xs: 7 } }}
-          placeholder="  Search Property"
+          placeholder='  Search Property'
           inputProps={{ "aria-label": "search-property" }}
+          {...form.getInputProps("searchTerm")}
         />
       </Container>
       <Button
-        type="button"
+        type='submit'
         component={Link}
-        href="/properties"
-        className="SearchButton"
+        href={`/properties?filter=${form.values.searchTerm}`}
+        className='SearchButton'
         sx={{
           bgcolor: "#26a69a",
           color: "white",
@@ -40,7 +57,7 @@ export function SearchBar() {
           borderRadius: "0px",
           "&:hover": { backgroundColor: "#52d6cf" },
         }}
-        aria-label="search"
+        aria-label='search'
       >
         <Search />
         Search

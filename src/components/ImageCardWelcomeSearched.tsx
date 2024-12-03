@@ -1,117 +1,96 @@
-import { useState } from "react";
-
 import { axiosInstance } from "@/axios";
-import { CardMedia, Container } from "@mui/material";
+import { useFilterProperties } from "@/hooks/use-filter-properties";
+import { Box, Button, Container } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-
+import { useState } from "react";
 import { PropertyCard } from "./PropertyCard";
 
 export function ImageCardWelcomeSearched() {
-  const [currentPage] = useState(1); // Track current page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [{ filter }] = useFilterProperties();
 
-  const { data } = useQuery({
-    queryKey: ["search", "page", currentPage],
-    queryFn: () => axiosInstance.get(`/search/?page=${currentPage}`),
+  const itemsPerPage = 10;
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["search", currentPage],
+    queryFn: () =>
+      axiosInstance.get(
+        `/search/?filter=${filter}&page=${currentPage}&limit=${itemsPerPage}`
+        // `/search?`
+      ),
   });
 
-  // Function to handle page changes
+  const lastPage = data?.data.last_page || 1;
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= lastPage) {
+      setCurrentPage(newPage);
+    }
+  };
 
   return (
     <Container
       sx={{
+        mt: 4,
+        minHeight: 300,
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-between",
       }}
     >
-      <CardMedia
-        component="img"
-        image="/assets/land-view.png"
-        alt="This is a land image"
-        sx={{
-          marginTop: "-80px",
-          maxWidth: "63%",
-          marginLeft: "-45px",
-          objectFit: "fill",
-          boxShadow: "0px 0px 10px 10px rgba(108, 122, 137, 0.5)",
-        }}
-      />
       <Container
+        className='grid gap-6'
         sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          flexDirection: "column",
-          overflow: "auto",
-          marginTop: "100px",
-          mb: 3,
+          display: "grid",
+          gridTemplateColumns: `repeat(auto-fill, minmax(min(400px, 100%), 1fr))`,
+          gridAutoRows: "1fr",
         }}
       >
-        {data?.data.data.map((property: Property) => (
-          <PropertyCard key={property?.id} {...property} />
-        ))}
-
-        {/* TODO: Pagination Controls */}
-        {/* <Container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 2, // Adds space between buttons and page numbers
-            mt: 3, // Adds margin-top for separation from the content
-          }}>
-          <button
-            type="button"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            style={{
-              padding: "8px 16px",
-              marginRight: "10px",
-              backgroundColor: "#26a69a",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: currentPage === 1 ? "default" : "pointer",
-            }}>
-            Previous
-          </button>
-
-          <div style={{ display: "flex", gap: "8px" }}>
-            {[...Array(lastPage)].map((_, index) => (
-              <button
-                type="button"
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                style={{
-                  cursor: "pointer",
-                  padding: "6px 10px",
-                  borderRadius: "4px",
-                  backgroundColor:
-                    currentPage === index + 1 ? "#26a69a" : "#f0f0f0",
-                  color: currentPage === index + 1 ? "#fff" : "#000",
-                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
-                }}>
-                {index + 1}
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === lastPage}
-            style={{
-              padding: "8px 16px",
-              marginLeft: "10px",
-              backgroundColor: "#26a69a",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: currentPage === lastPage ? "default" : "pointer",
-            }}>
-            Next
-          </button>
-        </Container> */}
+        {isLoading && <p>Loading properties...</p>}
+        {isError && <p>Error loading properties. Please try again later.</p>}
+        {!isLoading &&
+          data?.data.data.map((property: Property) => (
+            <PropertyCard key={property?.id} {...property} />
+          ))}
       </Container>
+
+      {/* Pagination Controls */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+          my: 3,
+        }}
+      >
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </Button>
+        {[...Array(lastPage)].map((_, index) => (
+          <Button
+            key={index}
+            variant={currentPage === index + 1 ? "contained" : "outlined"}
+            color='primary'
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </Button>
+        ))}
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === lastPage}
+        >
+          Next
+        </Button>
+      </Box>
     </Container>
   );
 }

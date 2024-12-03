@@ -3,60 +3,66 @@
 import { ImageCardWelcomeSearched } from "@/components/ImageCardWelcomeSearched";
 import { Footer } from "@/sections/Footer";
 import { NavBarContainer } from "@/sections/NavBarContainer";
-import { CardMedia, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export default function Properties() {
   return (
     <>
       <NavBarContainer />
-      <div className="image-container">
-        <CardMedia
-          component="img"
-          image="/assets/aerial-view.png"
-          alt="This is a land image"
-          sx={{
-            marginTop: "-50px",
-            objectFit: "cover",
-            maxHeight: "250px",
-            filter: "brightness(70%)",
-          }}
-        />
-        <Typography
+      <Box
+        className='image-container'
+        sx={{
+          position: "relative",
+          height: "400px",
+          backgroundImage: 'url("/assets/aerial-view.png")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          filter: "brightness(65%)",
+          marginTop: "-50px",
+        }}
+      >
+        <Box
           sx={{
             position: "absolute",
-            top: {
-              lg: "37%",
-              md: "33%",
-              sm: "30%",
-              xs: "23%",
-            },
-            fontSize: "25px",
+            top: "50%",
             left: "5%",
-            color: "white",
-            fontWeight: "bold",
+            transform: "translateY(-50%)",
+            zIndex: 2,
           }}
         >
-          Welcome To SlasProp
-        </Typography>
+          <Typography
+            variant='h3'
+            sx={{
+              fontSize: "2.2rem",
+              color: "#fff",
+              fontWeight: "bold",
+              textShadow: "2px 2px 8px rgba(0, 0, 0, 0.6)",
+            }}
+          >
+            Welcome To SlasProp
+          </Typography>
 
-        <Typography
-          sx={{
-            position: "absolute",
-            top: {
-              lg: "44%",
-              md: "40%",
-              sm: "36%",
-              xs: "28%",
-            },
-            fontSize: "12px",
-            left: "5%",
-            color: "white",
-          }}
-        >
-          Where Innovation meets Real Estate. You property adventure starts
-          here.
-        </Typography>
-      </div>
+          <Typography
+            variant='h6'
+            sx={{
+              fontSize: {
+                lg: "1.25rem",
+                md: "1rem",
+                sm: "0.875rem",
+                xs: "0.75rem",
+              },
+              color: "#fff",
+              mt: 2,
+              textShadow: "1px 1px 5px rgba(0, 0, 0, 0.5)",
+              maxWidth: "70%",
+            }}
+          >
+            Where Innovation meets Real Estate. Your property adventure starts
+            here.
+          </Typography>
+        </Box>
+      </Box>
       <ImageCardWelcomeSearched />
       <Footer />
     </>
