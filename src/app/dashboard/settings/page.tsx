@@ -72,6 +72,7 @@ export default function Settings() {
       newPassword: "",
     },
     validate: yupResolver(passwordSchema),
+    validateInputOnBlur: true,
   });
 
   const handleShowPassword = () => setShowPassword((prev) => !prev);
@@ -189,6 +190,7 @@ export default function Settings() {
       {/* Password Form */}
       <form
         onSubmit={passwordForm.onSubmit((values) => {
+          console.log(values);
           mutate(values, {
             onSuccess: () => {
               showToast("success", "Password Updated Successfully");
@@ -213,6 +215,8 @@ export default function Settings() {
                 autoComplete='new-password'
                 margin='normal'
                 {...passwordForm.getInputProps("password")}
+                error={!!passwordForm.errors.password}
+                helperText={passwordForm.errors.password}
                 slotProps={{
                   input: {
                     endAdornment: (
@@ -238,18 +242,22 @@ export default function Settings() {
                 autoComplete='new-password'
                 margin='normal'
                 {...passwordForm.getInputProps("newPassword")}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position='end'>
-                      <IconButton onClick={handleShowConfirmPassword}>
-                        {showConfirmPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+                error={!!passwordForm.errors.newPassword}
+                helperText={passwordForm.errors.newPassword}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton onClick={handleShowConfirmPassword}>
+                          {showConfirmPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
                 }}
               />
             </Grid>

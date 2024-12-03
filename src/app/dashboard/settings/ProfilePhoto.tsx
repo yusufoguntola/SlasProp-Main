@@ -26,7 +26,7 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ form, fieldName }) => {
         const res = await uploadFiles(file);
         // Set the image URL for preview
         if (res.data) {
-          // form.setFieldValue(fieldName, res?.data?.url);
+          form.setFieldValue(fieldName, res?.data?.url);
         }
         setUploading(false);
         if (fileInputRef.current) {
