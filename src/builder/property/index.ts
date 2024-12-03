@@ -17,14 +17,18 @@ const create_listing = async (payload: CreateProperty) =>
       structuralFeatures:
         // @ts-ignore
         payload.constructionDetails.structuralFeatures.split(
-          ", structuralFeatures",
+          ", structuralFeatures"
         ),
     },
     amenities: payload.amenities.split(", "),
   });
 
+const register = async (payload: RegisterProperty) =>
+  await axiosInstance.post("/property-queries", payload);
+
 export const properties = {
   list,
   single,
   create_listing,
+  register,
 };

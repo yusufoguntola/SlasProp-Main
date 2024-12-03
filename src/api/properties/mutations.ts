@@ -11,3 +11,13 @@ export function useCreateProperty() {
     },
   });
 }
+export function useRegisterProperty() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: builder.$use.properties.register,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: builder.properties.$get() });
+    },
+  });
+}

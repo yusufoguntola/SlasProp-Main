@@ -1,12 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-
-import { axiosInstance } from "@/axios";
-import { RegisterProperty } from "@/builder/addProperty";
-import { showToast } from "@/utils/toast";
-import { useForm } from "@mantine/form";
+import { useRegisterProperty } from "@/api/properties/mutations";
+import { useFetchLocations } from "@/api/properties/queries";
+import { useForm, yupResolver } from "@mantine/form";
 import {
   Box,
   Button,
@@ -14,17 +10,36 @@ import {
   Container,
   FormLabel,
   Grid2 as Grid,
-  IconButton,
   MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { object, string } from "yup";
+const schema = object({
+  ownerName: string().required("Owner name is required"),
+  requestType: string().required("Request type is required"),
+  registrantName: string().required("Registrant name is required"),
+  propertyType: string().required("Property type is required"),
+  registrationNumber: string().required("Registration number is required"),
+  propertyTaxId: string().required("Property tax ID is required"),
+  areaOfLand: string().required("Area of land is required"),
+  locationId: string().required("Location is required"),
+  zipCode: string().required("ZIP/PIN code is required"),
+  registeredAddress: string().required("Registered address is required"),
+});
 
-// Define the type for form fields
-type FormFieldNames = keyof ReturnType<typeof useForm>["values"];
+export const REQUEST_TYPES = ["Certificate of Occupancy", "Claim/Query"];
+export const PROPERTY_TYPES = [
+  "Residential",
+  "Commercial",
+  "Industrial",
+  "Land",
+  "Special purpose",
+];
 
 export default function RegisterTheProperty() {
-  const registerForm = useForm({
+  const form = useForm({
     initialValues: {
       ownerName: "",
       requestType: "",
@@ -33,63 +48,24 @@ export default function RegisterTheProperty() {
       registrationNumber: "",
       propertyTaxId: "",
       areaOfLand: "",
-      locationId: "", // locationId is now a dropdown
+      locationId: "",
       zipCode: "",
       registeredAddress: "",
     },
+    validate: yupResolver(schema),
+    validateInputOnBlur: true,
   });
 
-  const [loading, setLoading] = useState(false);
-  const [locations, setLocations] = useState([]); // New state for location data
-  const router = useRouter();
-
-  // Dropdown options
-  const requestTypeOptions = ["Certificate of Occupancy", "Claim/Query"];
-  const propertyTypeOptions = [
-    "Residential",
-    "Commercial",
-    "⁠⁠Industrial",
-    "Land",
-    "Special purpose",
-  ];
-
-  useEffect(() => {
-    // Fetch locations on component mount
-    async function fetchLocations() {
-      try {
-        const response = await axiosInstance.get(
-          "https://slas-prop.ganafsmas.com/api/v1/locations"
-        );
-        setLocations(response?.data?.data); // Assuming response.data is an array of locations
-      } catch (error) {
-        console.error("Error fetching locations:", error);
-      }
-    }
-
-    fetchLocations();
-  }, []);
-
-  async function handleProfileSubmit(values: unknown) {
-    try {
-      setLoading(true);
-      const response = await RegisterProperty(values);
-      if (response?.message) {
-        showToast("success", <p>{response.message}</p>); // Assuming `dmessage` is part of the response
-      }
-      router.push("/dashboard/registered-properties");
-    } catch (err) {
-      console.error("Error adding property:", err);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { replace } = useRouter();
+  const { data: locations, isFetching } = useFetchLocations();
+  const { mutate, isPending } = useRegisterProperty();
 
   return (
     <Container>
       <Box
         sx={{
           display: "flex",
-          marginLeft: "30%",
+          marginLeft: { xs: 0, md: "30%" },
           mt: 4,
           borderBottom: "1px solid lightgray",
           pl: 2,
@@ -99,130 +75,189 @@ export default function RegisterTheProperty() {
         <Typography variant='h6' sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Register New Property
         </Typography>
-        <IconButton
-          sx={{
-            backgroundColor: "#DF593D",
-            "&:hover": { backgroundColor: "#DF593D" },
-            borderRadius: "16px",
-            color: "white",
-            fontSize: "12px",
-            p: 1,
-          }}
-        >
-          Register Property
-        </IconButton>
       </Box>
 
-      <form onSubmit={registerForm.onSubmit(handleProfileSubmit)}>
-        <Box sx={{ ml: "30%", mt: 4 }}>
+      <form
+        onSubmit={form.onSubmit((values) => {
+          mutate(values, {
+            onSuccess: () => {
+              form.reset();
+              replace("/dashboard");
+            },
+          });
+        })}
+      >
+        <Box sx={{ marginLeft: { xs: 0, md: "30%" }, mt: 4 }}>
           <Grid container spacing={2}>
-            {[
-              {
-                name: "ownerName",
-                placeholder: "Enter name of the owner",
-                label: "Name of Current Owner",
-              },
-              {
-                name: "requestType",
-                label: "Request Type",
-                options: requestTypeOptions,
-              },
-              {
-                name: "registrantName",
-                placeholder: "Enter name of the Registrant",
-                label: "Name of the Registrant",
-              },
-              {
-                name: "propertyType",
-                label: "Type of Property",
-                options: propertyTypeOptions,
-              },
-              {
-                name: "registrationNumber",
-                placeholder: "Enter registration number",
-                label: "Registration Number",
-              },
-              {
-                name: "propertyTaxId",
-                placeholder: "Enter property tax ID",
-                label: "Property Tax ID",
-              },
-              {
-                name: "areaOfLand",
-                placeholder: "Enter Area of Land",
-                label: "Area of Land",
-              },
-              {
-                name: "locationId",
-                label: "Location",
-                options: locations, // locations fetched from the API
-              },
-              {
-                name: "zipCode",
-                placeholder: "Enter ZIP/PIN Code",
-                label: "ZIP/PIN Code",
-              },
-              {
-                name: "registeredAddress",
-                placeholder: "Enter registered address",
-                label: "Registered Address",
-              },
-            ].map(({ name, label, options, placeholder }) => (
-              <Grid size={{ xs: 12, sm: 6 }} key={name}>
-                <FormLabel>{label}</FormLabel>
-                {options ? (
-                  // Dropdown field for requestType, propertyType, location
-                  <TextField
-                    select
-                    fullWidth
-                    id={name}
-                    name={name}
-                    size='small'
-                    value={
-                      registerForm.values[
-                        name as keyof typeof registerForm.values
-                      ]
-                    }
-                    onChange={(e) =>
-                      registerForm.setFieldValue(
-                        name as FormFieldNames,
-                        e.target.value
-                      )
-                    }
-                  >
-                    {options.length > 0 ? (
-                      options.map((option: string) => (
-                        <MenuItem key={option} value={option}>
-                          {option}{" "}
-                        </MenuItem>
-                      ))
-                    ) : (
-                      <MenuItem disabled>Loading...</MenuItem>
-                    )}
-                  </TextField>
-                ) : (
-                  // Regular text field for other fields
-                  <TextField
-                    fullWidth
-                    id={name}
-                    name={name}
-                    size='small'
-                    placeholder={placeholder}
-                    value={
-                      registerForm.values[
-                        name as keyof typeof registerForm.values
-                      ]
-                    }
-                    onChange={(e) =>
-                      registerForm.setFieldValue(
-                        name as FormFieldNames,
-                        e.target.value
-                      )
-                    }
-                  />
-                )}
-              </Grid>
-            ))}
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Name of Current Owner</FormLabel>
+              <TextField
+                fullWidth
+                id='ownerName'
+                name='ownerName'
+                size='small'
+                placeholder='Enter name of the owner'
+                {...form.getInputProps("ownerName")}
+                error={!!form.errors.ownerName}
+                helperText={form.errors.ownerName}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Request Type</FormLabel>
+              <TextField
+                select
+                fullWidth
+                id='requestType'
+                name='requestType'
+                size='small'
+                value={form.values.requestType}
+                onChange={(e) =>
+                  form.setFieldValue("requestType", e.target.value)
+                }
+                error={!!form.errors.requestType}
+                helperText={form.errors.requestType}
+              >
+                {REQUEST_TYPES.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Name of the Registrant</FormLabel>
+              <TextField
+                fullWidth
+                id='registrantName'
+                name='registrantName'
+                size='small'
+                placeholder='Enter name of the Registrant'
+                {...form.getInputProps("registrantName")}
+                error={!!form.errors.registrantName}
+                helperText={form.errors.registrantName}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Type of Property</FormLabel>
+              <TextField
+                select
+                fullWidth
+                id='propertyType'
+                name='propertyType'
+                size='small'
+                value={form.values.propertyType}
+                onChange={(e) =>
+                  form.setFieldValue("propertyType", e.target.value)
+                }
+                error={!!form.errors.propertyType}
+                helperText={form.errors.propertyType}
+              >
+                {PROPERTY_TYPES.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Registration Number</FormLabel>
+              <TextField
+                fullWidth
+                id='registrationNumber'
+                name='registrationNumber'
+                size='small'
+                placeholder='Enter registration number'
+                {...form.getInputProps("registrationNumber")}
+                error={!!form.errors.registrationNumber}
+                helperText={form.errors.registrationNumber}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Property Tax ID</FormLabel>
+              <TextField
+                fullWidth
+                id='propertyTaxId'
+                name='propertyTaxId'
+                size='small'
+                placeholder='Enter property tax ID'
+                {...form.getInputProps("propertyTaxId")}
+                error={!!form.errors.propertyTaxId}
+                helperText={form.errors.propertyTaxId}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Area of Land</FormLabel>
+              <TextField
+                fullWidth
+                id='areaOfLand'
+                name='areaOfLand'
+                size='small'
+                placeholder='Enter area of land'
+                {...form.getInputProps("areaOfLand")}
+                error={!!form.errors.areaOfLand}
+                helperText={form.errors.areaOfLand}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Location</FormLabel>
+              <TextField
+                select
+                fullWidth
+                id='locationId'
+                name='locationId'
+                size='small'
+                value={form.values.locationId}
+                onChange={(e) =>
+                  form.setFieldValue("locationId", e.target.value)
+                }
+                error={!!form.errors.locationId}
+                helperText={
+                  isFetching ? "Loading locations..." : form.errors.locationId
+                }
+                disabled={isFetching}
+              >
+                {locations?.map((location) => (
+                  <MenuItem key={location.id} value={location.id}>
+                    {location.name}
+                  </MenuItem>
+                )) || <MenuItem disabled>No locations available</MenuItem>}
+              </TextField>
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>ZIP/PIN Code</FormLabel>
+              <TextField
+                fullWidth
+                id='zipCode'
+                name='zipCode'
+                size='small'
+                placeholder='Enter ZIP/PIN Code'
+                {...form.getInputProps("zipCode")}
+                error={!!form.errors.zipCode}
+                helperText={form.errors.zipCode}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormLabel>Registered Address</FormLabel>
+              <TextField
+                fullWidth
+                id='registeredAddress'
+                name='registeredAddress'
+                size='small'
+                placeholder='Enter registered address'
+                {...form.getInputProps("registeredAddress")}
+                error={!!form.errors.registeredAddress}
+                helperText={form.errors.registeredAddress}
+              />
+            </Grid>
           </Grid>
 
           <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
@@ -230,18 +265,22 @@ export default function RegisterTheProperty() {
               type='submit'
               variant='contained'
               size='medium'
+              disabled={isPending || isFetching}
               sx={{
-                backgroundColor: "#26a69a",
-                "&:hover": { backgroundColor: "#26a69a" },
+                backgroundColor:
+                  isPending || isFetching ? "lightgray" : "#DF593D",
+                "&:hover": {
+                  backgroundColor:
+                    isPending || isFetching ? "lightgray" : "#DF593D",
+                },
                 borderRadius: "16px",
-                boxShadow: "10px 10px 5px #269d91 inset",
+                boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.15)",
               }}
-              disabled={loading}
             >
-              {loading ? (
-                <CircularProgress size={24} color='inherit' />
+              {isPending ? (
+                <CircularProgress size={20} color='inherit' />
               ) : (
-                "Submit & Pay"
+                "Register Property"
               )}
             </Button>
           </Container>
