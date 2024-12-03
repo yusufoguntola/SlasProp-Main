@@ -1,92 +1,102 @@
-import { Box, Grid2 as Grid, TextField } from "@mui/material"; // Import Grid for layout
+import { Box, Grid, TextField } from "@mui/material";
+import { useFormContext } from "./form-context";
 
-interface ConstructionDetailsFormProps {
-  formData: {
-    buildingMaterials: string[];
-    architecturalStyle: string;
-    condition: string;
-    structuralFeatures: string[];
-    buildYear: string;
-  };
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handlebuildingMaterialsChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => void;
-  handlestructuralFeaturesChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => void;
-}
-
-export default function ConstructionDetailsForm({
-  formData,
-  handleInputChange,
-  handlebuildingMaterialsChange,
-  handlestructuralFeaturesChange,
-}: ConstructionDetailsFormProps) {
-  // Define an array of form fields
-  const fields = [
-    {
-      label: "Enter building materials",
-      name: "buildingMaterials",
-      value: formData.buildingMaterials.join(", "),
-      header: "Building Materials",
-      subHeader: "Enter as many as possible separated with commas.",
-    },
-    {
-      label: "Enter structural features",
-      name: "structuralFeatures",
-      value: formData.structuralFeatures.join(", "),
-      header: "Structural Features",
-      subHeader: "Enter as many as possible separated with commas.",
-    },
-    {
-      label: "Enter the architectural style",
-      name: "architecturalStyle",
-      value: formData.architecturalStyle,
-      header: "Architectural Style",
-    },
-    {
-      label: "Enter Condition",
-      name: "condition",
-      value: formData.condition,
-      header: "Condition",
-    },
-
-    {
-      label: "Enter build year",
-      name: "buildYear",
-      value: formData.buildYear,
-      header: "Build year",
-    },
-  ];
+export default function ConstructionDetailsForm() {
+  const form = useFormContext();
 
   return (
-    <Box sx={{ justifyContent: "flex-start", mt: 2, width: "100%" }}>
-      {/* Use Grid to layout form fields side by side */}
+    <Box sx={{ justifyContent: "flex-start", width: "100%" }}>
       <Grid container spacing={2}>
-        {fields.map((field) => (
-          <Grid size={{ xs: 6 }} key={field.label}>
-            <p className="mb-1 text-[12px] text-[#000000]">{field.header}</p>
-            <p className="text-[10px]">{field.subHeader}</p>
-            <TextField
-              label={field.label}
-              size="small"
-              name={field.name}
-              value={field.value}
-              type={field.name === "buildYear" ? "number" : "text"}
-              // Conditionally apply the appropriate handler
-              onChange={
-                field.name === "buildingMaterials"
-                  ? handlebuildingMaterialsChange
-                  : field.name === "structuralFeatures"
-                    ? handlestructuralFeaturesChange
-                    : handleInputChange
-              }
-              fullWidth
-              sx={{ my: 1 }}
-            />
-          </Grid>
-        ))}
+        {/* Building Materials */}
+        <Grid item xs={6}>
+          <p className='mb-1 text-[12px] text-[#000000]'>Building Materials</p>
+          <p className='text-[10px]'>
+            Enter as many as possible separated with commas.
+          </p>
+          <TextField
+            label='Enter building materials'
+            size='small'
+            name='buildingMaterials'
+            value={form.values.buildingMaterials?.join(", ")}
+            onChange={(e) => {
+              const materials = e.target.value
+                .split(",")
+                .map((item) => item.trim());
+              form.setFieldValue("buildingMaterials", [...new Set(materials)]);
+            }}
+            helperText={form.errors.buildingMaterials}
+            error={!!form.errors.buildingMaterials}
+            fullWidth
+            sx={{ my: 1 }}
+          />
+        </Grid>
+
+        {/* Structural Features */}
+        <Grid item xs={6}>
+          <p className='mb-1 text-[12px] text-[#000000]'>Structural Features</p>
+          <p className='text-[10px]'>
+            Enter as many as possible separated with commas.
+          </p>
+          <TextField
+            label='Enter structural features'
+            size='small'
+            name='structuralFeatures'
+            value={form.values.structuralFeatures?.join(", ")}
+            onChange={(e) => {
+              const features = e.target.value
+                .split(",")
+                .map((item) => item.trim());
+              form.setFieldValue("structuralFeatures", [...new Set(features)]);
+            }}
+            helperText={form.errors.structuralFeatures}
+            error={!!form.errors.structuralFeatures}
+            fullWidth
+            sx={{ my: 1 }}
+          />
+        </Grid>
+
+        {/* Architectural Style */}
+        <Grid item xs={6}>
+          <p className='mb-1 text-[12px] text-[#000000]'>Architectural Style</p>
+          <TextField
+            label='Enter the architectural style'
+            size='small'
+            {...form.getInputProps("architecturalStyle")}
+            helperText={form.errors.architecturalStyle}
+            error={!!form.errors.architecturalStyle}
+            fullWidth
+            sx={{ my: 1 }}
+          />
+        </Grid>
+
+        {/* Condition */}
+        <Grid item xs={6}>
+          <p className='mb-1 text-[12px] text-[#000000]'>Condition</p>
+          <TextField
+            label='Enter condition'
+            size='small'
+            {...form.getInputProps("condition")}
+            helperText={form.errors.condition}
+            error={!!form.errors.condition}
+            fullWidth
+            sx={{ my: 1 }}
+          />
+        </Grid>
+
+        {/* Build Year */}
+        <Grid item xs={6}>
+          <p className='mb-1 text-[12px] text-[#000000]'>Build Year</p>
+          <TextField
+            label='Enter build year'
+            size='small'
+            type='number'
+            {...form.getInputProps("buildYear")}
+            helperText={form.errors.buildYear}
+            error={!!form.errors.buildYear}
+            fullWidth
+            sx={{ my: 1 }}
+          />
+        </Grid>
       </Grid>
     </Box>
   );

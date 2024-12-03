@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { axiosInstance } from "@/axios";
-import { RegisterProperty } from "@/builder/addProperty";
+import { RegisterProperty } from "@/builder/property";
 import { showToast } from "@/utils/toast";
 import { useForm } from "@mantine/form";
 import {
@@ -58,7 +58,7 @@ export default function RegisterTheProperty() {
     async function fetchLocations() {
       try {
         const response = await axiosInstance.get(
-          "https://slas-prop.ganafsmas.com/api/v1/locations",
+          "https://slas-prop.ganafsmas.com/api/v1/locations"
         );
         setLocations(response?.data?.data); // Assuming response.data is an array of locations
       } catch (error) {
@@ -96,7 +96,7 @@ export default function RegisterTheProperty() {
           pb: 2,
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
+        <Typography variant='h6' sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Register New Property
         </Typography>
         <IconButton
@@ -177,7 +177,7 @@ export default function RegisterTheProperty() {
                     fullWidth
                     id={name}
                     name={name}
-                    size="small"
+                    size='small'
                     value={
                       registerForm.values[
                         name as keyof typeof registerForm.values
@@ -186,7 +186,7 @@ export default function RegisterTheProperty() {
                     onChange={(e) =>
                       registerForm.setFieldValue(
                         name as FormFieldNames,
-                        e.target.value,
+                        e.target.value
                       )
                     }
                   >
@@ -206,7 +206,7 @@ export default function RegisterTheProperty() {
                     fullWidth
                     id={name}
                     name={name}
-                    size="small"
+                    size='small'
                     placeholder={placeholder}
                     value={
                       registerForm.values[
@@ -216,7 +216,7 @@ export default function RegisterTheProperty() {
                     onChange={(e) =>
                       registerForm.setFieldValue(
                         name as FormFieldNames,
-                        e.target.value,
+                        e.target.value
                       )
                     }
                   />
@@ -227,9 +227,9 @@ export default function RegisterTheProperty() {
 
           <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
             <Button
-              type="submit"
-              variant="contained"
-              size="medium"
+              type='submit'
+              variant='contained'
+              size='medium'
               sx={{
                 backgroundColor: "#26a69a",
                 "&:hover": { backgroundColor: "#26a69a" },
@@ -239,7 +239,7 @@ export default function RegisterTheProperty() {
               disabled={loading}
             >
               {loading ? (
-                <CircularProgress size={24} color="inherit" />
+                <CircularProgress size={24} color='inherit' />
               ) : (
                 "Submit & Pay"
               )}

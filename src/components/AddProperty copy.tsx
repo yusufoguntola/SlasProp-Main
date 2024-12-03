@@ -1,6 +1,6 @@
 "use client";
 
-import { createProperty } from "@/builder/addProperty";
+// import { createProperty } from "@/builder/property";
 import { MultipleFileUpload } from "@/components/MultiFileUpload";
 import { showToast } from "@/utils/toast";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";

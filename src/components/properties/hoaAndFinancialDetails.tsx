@@ -1,160 +1,145 @@
 import {
   Box,
   FormControl,
-  Grid2 as Grid,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
-  type SelectChangeEvent,
+  SelectChangeEvent,
   TextField,
+  Typography,
 } from "@mui/material";
-import type React from "react";
+import React from "react";
+import { useFormContext } from "./form-context";
 
-interface HoaAndFinancialDetailsProps {
-  formData: {
-    name: string;
-    hasDue: boolean;
-    dueFrequency: string;
-    dueAmount: string;
-    isPropertyInMortgage: boolean;
-    mortgageProvider: string;
-    outstandingBalance: string;
-    monthlyPayment: string;
-    mortgageEndDate: string;
-    otherFinancialDetails: string;
-  };
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDropdownChange: (e: SelectChangeEvent<string>) => void;
-}
+const HoaAndFinancialDetailsForm: React.FC = () => {
+  const form = useFormContext();
 
-const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
-  formData,
-  handleInputChange,
-  handleDropdownChange,
-}) => {
   const fields = [
     {
       label: "Enter HOA Name",
-      name: "name",
-      value: formData.name,
+      name: "hoaAndFinancialDetails.name",
       header: "HOA Name",
     },
     {
       label: "Enter Due Frequency",
-      name: "dueFrequency",
-      value: formData.dueFrequency,
+      name: "hoaAndFinancialDetails.dueFrequency",
       header: "Due Frequency",
     },
     {
       label: "Enter Due Amount",
-      name: "dueAmount",
-      value: formData.dueAmount,
+      name: "hoaAndFinancialDetails.dueAmount",
       header: "Due Amount",
     },
     {
-      label: " Enter Mortgage Provider",
-      name: "mortgageProvider",
-      value: formData.mortgageProvider,
+      label: "Enter Mortgage Provider",
+      name: "hoaAndFinancialDetails.mortgageProvider",
       header: "Mortgage Provider",
     },
     {
       label: "Enter Outstanding Balance",
-      name: "outstandingBalance",
-      value: formData.outstandingBalance,
+      name: "hoaAndFinancialDetails.outstandingBalance",
       header: "Outstanding Balance",
     },
     {
       label: "Enter Monthly Payment",
-      name: "monthlyPayment",
-      value: formData.monthlyPayment,
+      name: "hoaAndFinancialDetails.monthlyPayment",
       header: "Monthly Payment",
     },
     {
       label: "Enter Mortgage End Date",
-      name: "mortgageEndDate",
-      value: formData.mortgageEndDate,
+      name: "hoaAndFinancialDetails.mortgageEndDate",
       header: "Mortgage End Date",
     },
     {
       label: "Enter Other Financial Details",
-      name: "otherFinancialDetails",
-      value: formData.otherFinancialDetails,
+      name: "hoaAndFinancialDetails.otherFinancialDetails",
       header: "Other Financial Details",
     },
   ];
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    form.setFieldValue(name, value);
+  };
+
+  const handleDropdownChange = (event: SelectChangeEvent<string>) => {
+    const { name, value } = event.target;
+    if (name) {
+      form.setFieldValue(name, value === "true");
+    }
+  };
+
   return (
-    <Box sx={{ mt: 2, width: "100%" }}>
+    <Box sx={{ mt: 3, width: "100%" }}>
       <Grid container spacing={2}>
         {fields.map((field) => (
-          <Grid size={{ xs: 6 }} key={field.value}>
-            <p className="mb-1 text-[12px] text-[#000000]">{field.header}</p>
-            {/* <TextField
-              label={field.label}
-              size="small"
-              name={field.name}
-              value={
-                field.name === "mortgageEndDate" ? field.value : field.value
-              } // handle date type if needed
-              onChange={handleInputChange}
-              fullWidth
-              sx={{ my: 1 }}
-              type={field.name === "mortgageEndDate" ? "date" : "text"} // Add date type for mortgageEndDate
-            /> */}
-
+          <Grid item xs={12} sm={6} key={field.name}>
+            <Typography variant='body2' color='textSecondary' sx={{ mb: 0.5 }}>
+              {field.header}
+            </Typography>
             <TextField
               label={field.label}
-              size="small"
+              size='small'
               name={field.name}
-              value={field.value}
+              value={
+                form.values.hoaAndFinancialDetails[
+                  field?.name.split(
+                    "."
+                  )[1] as keyof typeof form.values.hoaAndFinancialDetails
+                ]
+              }
               onChange={handleInputChange}
               fullWidth
-              sx={{ my: 1 }}
               type={
                 ["monthlyPayment", "outstandingBalance", "dueAmount"].includes(
-                  field.name,
+                  field.name.split(".")[1]
                 )
                   ? "number"
-                  : field.name === "mortgageEndDate"
-                    ? "date"
-                    : "text"
+                  : field.name.split(".")[1] === "mortgageEndDate"
+                  ? "date"
+                  : "text"
               }
+              sx={{ my: 1 }}
             />
           </Grid>
         ))}
       </Grid>
 
-      {/* Dropdown Fields */}
       <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid size={{ xs: 6 }}>
-          <p className="mb-1 text-[12px] text-[#000000]">Has Due?</p>
-          <FormControl fullWidth size="small" sx={{ my: 1 }}>
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' color='textSecondary' sx={{ mb: 0.5 }}>
+            Has Due?
+          </Typography>
+          <FormControl fullWidth size='small' sx={{ my: 1 }}>
             <InputLabel>Has Due</InputLabel>
             <Select
-              name="hasDue"
-              value={String(formData.hasDue)} // Ensure value is a string
+              name='hoaAndFinancialDetails.hasDue'
+              value={String(form.values.hoaAndFinancialDetails.hasDue)}
               onChange={handleDropdownChange}
-              label="Has Due"
+              label='Has Due'
             >
-              <MenuItem value="true">Yes</MenuItem>
-              <MenuItem value="false">No</MenuItem>
+              <MenuItem value='true'>Yes</MenuItem>
+              <MenuItem value='false'>No</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid size={{ xs: 6 }}>
-          <p className="mb-1 text-[12px] text-[#000000]">
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' color='textSecondary' sx={{ mb: 0.5 }}>
             Property in Mortgage?
-          </p>
-          <FormControl fullWidth size="small" sx={{ my: 1 }}>
+          </Typography>
+          <FormControl fullWidth size='small' sx={{ my: 1 }}>
             <InputLabel>Property in Mortgage</InputLabel>
             <Select
-              name="isPropertyInMortgage"
-              value={String(formData.isPropertyInMortgage)} // Ensure value is a string
+              name='hoaAndFinancialDetails.isPropertyInMortgage'
+              value={String(
+                form.values.hoaAndFinancialDetails.isPropertyInMortgage
+              )}
               onChange={handleDropdownChange}
-              label="Property in Mortgage"
+              label='Property in Mortgage'
             >
-              <MenuItem value="true">Yes</MenuItem>
-              <MenuItem value="false">No</MenuItem>
+              <MenuItem value='true'>Yes</MenuItem>
+              <MenuItem value='false'>No</MenuItem>
             </Select>
           </FormControl>
         </Grid>
