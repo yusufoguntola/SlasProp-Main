@@ -41,7 +41,35 @@ const schema = object({
   amenities: string().required("Amenities is required."),
   propertyType: string().required("Property type is required."),
   propertySubType: string().required("Property subtype is required."),
+  constructionDetails: object({
+    buildingMaterials: string().required("Building materials is required."),
+    structuralFeatures: string().required("Structural features is required."),
+    architecturalStyle: string().required("Architectural style is required."),
+    condition: string().required("Condition is required."),
+    buildYear: string().required("Build year is required."),
+  }),
 });
+
+const constructionDetailsKeys = [
+  "constructionDetails.buildingMaterials",
+  "constructionDetails.structuralFeatures",
+  "constructionDetails.architecturalStyle",
+  "constructionDetails.condition",
+  "constructionDetails.buildYear",
+];
+
+const locationDetailsKeys = [
+  "country",
+  "state",
+  "address",
+  "city",
+  "noOfBedrooms",
+  "amenities",
+];
+
+function hasErrors(keys: string[], errors: Record<string, any>): boolean {
+  return keys.some((key) => !!errors[key]);
+}
 
 export default function AddProperty() {
   // State variables for the main form
@@ -127,6 +155,8 @@ export default function AddProperty() {
     form.validate();
     mutate(form.values);
   };
+
+  console.log(form.errors);
 
   return (
     <form
@@ -309,15 +339,9 @@ export default function AddProperty() {
                 color: "#26a69a",
                 justifyContent: "flex-start",
                 width: "700px",
-                border:
-                  form.errors.country ||
-                  form.errors.state ||
-                  form.errors.address ||
-                  form.errors.city ||
-                  form.errors.noOfBedrooms ||
-                  form.errors.amenities
-                    ? "1px solid red"
-                    : "none",
+                border: hasErrors(locationDetailsKeys, form.errors)
+                  ? "1px solid red"
+                  : "none",
               }}
               onClick={() => toggle("showDetails")}
               endIcon={
@@ -345,6 +369,9 @@ export default function AddProperty() {
                 color: "#26a69a",
                 justifyContent: "flex-start",
                 width: "100%",
+                border: hasErrors(constructionDetailsKeys, form.errors)
+                  ? "1px solid red"
+                  : "none",
               }}
               onClick={() => toggle("showConstructionDetails")}
               endIcon={
