@@ -16,8 +16,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import sampleImage from "../assets/profile-picture.png";
-
 const ListOptions = [
   {
     name: "My Properties",
@@ -70,7 +68,7 @@ export function SideBar() {
             }}
           />
           <Avatar
-            src={sampleImage.src}
+            src="/assets/profile-picture.png"
             sx={{ width: 80, height: 80, marginTop: -6 }}
           />
           <Box sx={{ display: "flex", my: 2 }}>

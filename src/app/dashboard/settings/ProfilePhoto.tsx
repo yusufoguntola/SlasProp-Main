@@ -5,8 +5,6 @@ import { uploadFiles } from "@/builder/upload";
 import type { UseFormReturnType } from "@mantine/form";
 import { Button } from "@mui/material";
 
-import sampleImage from "../../../assets/profile-picture.png";
-
 interface ProfilePhotoProps {
   // biome-ignore lint/suspicious/noExplicitAny: TODO: will be removed
   form: UseFormReturnType<any>;
@@ -50,7 +48,7 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ form, fieldName }) => {
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Image
-        src={form.values[fieldName] || sampleImage.src} // Default image if none is selected
+        src={form.values[fieldName] || "/assets/profile-picture.png"} // Default image if none is selected
         alt="Profile"
         width={100} // Set the width of the image
         height={100} // Set the height of the image

@@ -2,7 +2,6 @@
 
 import { axiosInstance } from "@/axios";
 import { DetailsBox } from "@/components/DetailsBox";
-import type { PropertyCardProps } from "@/components/PropertyCard";
 import { useQuery } from "@tanstack/react-query";
 
 function PropertyDetailWrapper({ id }: { id: string }) {
@@ -14,7 +13,7 @@ function PropertyDetailWrapper({ id }: { id: string }) {
   return (
     <div>
       {" "}
-      <DetailsBox property={data?.data.data as PropertyCardProps} />
+      <DetailsBox property={data?.data.data as Property} />
     </div>
   );
 }

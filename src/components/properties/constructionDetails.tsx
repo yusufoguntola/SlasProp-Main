@@ -1,61 +1,46 @@
+import type { UseFormReturnType } from "@mantine/form";
 import { Box, Grid2 as Grid, TextField } from "@mui/material"; // Import Grid for layout
 
-interface ConstructionDetailsFormProps {
-  formData: {
-    buildingMaterials: string[];
-    architecturalStyle: string;
-    condition: string;
-    structuralFeatures: string[];
-    buildYear: string;
-  };
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handlebuildingMaterialsChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => void;
-  handlestructuralFeaturesChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => void;
+interface PropertyDetailsFormProps {
+  form: UseFormReturnType<CreateProperty>;
 }
 
 export default function ConstructionDetailsForm({
-  formData,
-  handleInputChange,
-  handlebuildingMaterialsChange,
-  handlestructuralFeaturesChange,
-}: ConstructionDetailsFormProps) {
+  form,
+}: PropertyDetailsFormProps) {
   // Define an array of form fields
   const fields = [
     {
       label: "Enter building materials",
-      name: "buildingMaterials",
-      value: formData.buildingMaterials.join(", "),
+      name: "constructionDetails.buildingMaterials",
+      value: form.values.constructionDetails.buildingMaterials,
       header: "Building Materials",
       subHeader: "Enter as many as possible separated with commas.",
     },
     {
       label: "Enter structural features",
-      name: "structuralFeatures",
-      value: formData.structuralFeatures.join(", "),
+      name: "constructionDetails.structuralFeatures",
+      value: form.values.constructionDetails.structuralFeatures,
       header: "Structural Features",
       subHeader: "Enter as many as possible separated with commas.",
     },
     {
       label: "Enter the architectural style",
-      name: "architecturalStyle",
-      value: formData.architecturalStyle,
+      name: "constructionDetails.architecturalStyle",
+      value: form.values.constructionDetails.architecturalStyle,
       header: "Architectural Style",
     },
     {
       label: "Enter Condition",
-      name: "condition",
-      value: formData.condition,
+      name: "constructionDetails.condition",
+      value: form.values.constructionDetails.condition,
       header: "Condition",
     },
 
     {
       label: "Enter build year",
-      name: "buildYear",
-      value: formData.buildYear,
+      name: "constructionDetails.buildYear",
+      value: form.values.constructionDetails.buildYear,
       header: "Build year",
     },
   ];
@@ -75,13 +60,7 @@ export default function ConstructionDetailsForm({
               value={field.value}
               type={field.name === "buildYear" ? "number" : "text"}
               // Conditionally apply the appropriate handler
-              onChange={
-                field.name === "buildingMaterials"
-                  ? handlebuildingMaterialsChange
-                  : field.name === "structuralFeatures"
-                    ? handlestructuralFeaturesChange
-                    : handleInputChange
-              }
+              {...form.getInputProps(field.name)}
               fullWidth
               sx={{ my: 1 }}
             />

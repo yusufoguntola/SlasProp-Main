@@ -1,11 +1,10 @@
-import { Box, Container, Typography } from "@mui/material";
-
 import { FeaturePropertyCard } from "@/components/FeaturePropertyCard";
+import { Box, Container, Typography } from "@mui/material";
 
 const properties = [
   {
     id: 1,
-    imageUrl: require("../assets/feature-property.png"),
+    imageUrl: "/assets/feature-property.png",
     heading: "Lore Epsom Property",
     desc: "Dummy Description",
     area: "2 Acrs",
@@ -13,7 +12,7 @@ const properties = [
   },
   {
     id: 2,
-    imageUrl: require("../assets/land-image.jpg"),
+    imageUrl: "/assets/land-image.jpg",
     heading: "Lore Epsom Property",
     desc: "Dummy Description",
     area: "2 Acrs",
@@ -21,7 +20,7 @@ const properties = [
   },
   {
     id: 3,
-    imageUrl: require("../assets/feature-property.png"),
+    imageUrl: "/assets/feature-property.png",
     heading: "Lore Epsom Property",
     desc: "Dummy Description",
     area: "2 Acrs",

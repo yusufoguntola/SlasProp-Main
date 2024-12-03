@@ -1,6 +1,5 @@
 "use client";
 
-import sampleImage from "@/assets/aerial-view.png";
 import { ImageCardWelcomeSearched } from "@/components/ImageCardWelcomeSearched";
 import { Footer } from "@/sections/Footer";
 import { NavBarContainer } from "@/sections/NavBarContainer";
@@ -13,7 +12,7 @@ export default function Properties() {
       <div className="image-container">
         <CardMedia
           component="img"
-          image={sampleImage.src}
+          image="/assets/aerial-view.png"
           alt="This is a land image"
           sx={{
             marginTop: "-50px",

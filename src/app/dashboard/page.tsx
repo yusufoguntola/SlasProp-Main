@@ -1,7 +1,5 @@
-"use client";
-
-import { DashboardPage } from "@/components/DashboardPage";
+import { PropertiesList } from "@/components/properties/list";
 
 export default function Page() {
-  return <DashboardPage />;
+  return <PropertiesList />;
 }
