@@ -1,42 +1,80 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { CardActionArea } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
 export function PropertyCard(property: Property) {
   return (
-    <Card sx={{ width: 390, border: "1px solid #26a69a", mb: 3, px: 2, py: 1 }}>
+    <Card
+      sx={{
+        border: "1px solid #26a69a",
+        borderRadius: 2,
+        mb: 3,
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        transition: "transform 0.2s, box-shadow 0.2s",
+        "&:hover": {
+          transform: "scale(1.02)",
+          boxShadow: "0 6px 12px rgba(0, 0, 0, 0.15)",
+        },
+      }}
+    >
       <CardActionArea
-        sx={{ display: "flex" }}
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          p: 2,
+        }}
         component={Link}
         href={`/properties/${property?.id}`}
       >
-        <CardMedia
-          component="img"
-          image={property.images[0]}
-          height="150px"
-          sx={{ maxWidth: "200px" }}
+        {/* Property Image */}
+        <Image
+          src={property.images[0]}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = "/assets/property-image.jpg";
+          }}
+          height={150}
+          width={200}
+          className="object-cover rounded-lg"
           alt="property-image"
         />
-        <CardContent>
+
+        {/* Property Details */}
+        <CardContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            flex: 1,
+            ml: 2,
+          }}
+        >
+          {/* Property Type */}
           <Typography
             gutterBottom
-            sx={{ fontWeight: "bold", fontSize: "20px" }}
+            sx={{ fontWeight: "bold", fontSize: "20px", lineHeight: 1.2 }}
             component="div"
           >
-            {property?.propertyType}
+            {property?.name}
           </Typography>
-          <Typography sx={{ color: "#26a69a", fontSize: "12px" }}>
+
+          {/* Location */}
+          <Typography sx={{ color: "#26a69a", fontSize: "14px", mb: 1 }}>
             Location: {property?.address}
           </Typography>
-          <Typography sx={{ color: "#DF593D" }}>
-            Square Footage. {property?.squareFootage}
+
+          {/* Square Footage */}
+          <Typography sx={{ color: "#DF593D", fontSize: "14px", mb: 1 }}>
+            Square Footage: {property?.squareFootage}
           </Typography>
+
+          {/* Property ID */}
           <Typography color="text.secondary" sx={{ fontSize: "12px" }}>
-            {`Prop  ID: ${property?.propertyId}`}
+            Prop ID: {property?.propertyId}
           </Typography>
         </CardContent>
       </CardActionArea>

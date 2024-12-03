@@ -12,3 +12,12 @@ interface SignupPayload {
   password: string;
   phoneNumber: string;
 }
+
+interface Profile {
+  email: string;
+  firstName: string;
+  imageUrl: string;
+  lastName: string;
+  phoneNumber: string;
+  username: string;
+}

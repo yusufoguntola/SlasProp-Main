@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { object, string } from "yup";
 
 import { useCreateProperty } from "@/api/properties/mutations";
 import { MultipleFileUpload } from "@/components/MultiFileUpload";
@@ -19,7 +20,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { object, string } from "yup";
 
 import PropertyTypeSelector from "./properties/Properties";
 import ConstructionDetailsForm from "./properties/constructionDetails";
@@ -67,7 +67,7 @@ const locationDetailsKeys = [
   "amenities",
 ];
 
-function hasErrors(keys: string[], errors: Record<string, any>): boolean {
+function hasErrors(keys: string[], errors: Record<string, unknown>): boolean {
   return keys.some((key) => !!errors[key]);
 }
 
@@ -170,9 +170,8 @@ export default function AddProperty() {
             showToast("error", "Error creating property");
             console.error("Error creating property:", error.message);
             setError(error.message);
-            throw error;
           },
-        })
+        }),
       )}
     >
       <Container>
@@ -187,18 +186,18 @@ export default function AddProperty() {
           }}
         >
           <Stack flexGrow={1}>
-            <Typography variant='h6' sx={{ fontWeight: "bold", flexGrow: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
               Add New Property
             </Typography>
 
             {error && (
-              <Typography variant='body1' sx={{ color: "red" }}>
+              <Typography variant="body1" sx={{ color: "red" }}>
                 {error}
               </Typography>
             )}
           </Stack>
           <IconButton
-            type='submit'
+            type="submit"
             sx={{
               backgroundColor: "#DF593D",
               "&:hover": { backgroundColor: "#DF593D" },
@@ -222,16 +221,16 @@ export default function AddProperty() {
             pl: 2,
           }}
         >
-          <Box component='form'>
+          <Box component="form">
             <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
               Property name
             </FormLabel>
             <TextField
               fullWidth
-              size='small'
-              label='Enter the name of the property'
+              size="small"
+              label="Enter the name of the property"
               sx={{ my: 1 }}
-              name='name'
+              name="name"
               {...form.getInputProps("name")}
               error={!!form.errors.name}
               helperText={form.errors.name}
@@ -242,9 +241,9 @@ export default function AddProperty() {
 
             <Stack
               spacing={34}
-              direction='row'
+              direction="row"
               sx={{ my: 1 }}
-              className='mt-[2rem] '
+              className="mt-[2rem] "
             >
               <FormLabel sx={{ color: "black", fontSize: "12px" }}>
                 Square Footage
@@ -253,11 +252,11 @@ export default function AddProperty() {
                 Price
               </FormLabel>
             </Stack>
-            <Stack spacing={6} direction='row' sx={{ my: 1 }}>
+            <Stack spacing={6} direction="row" sx={{ my: 1 }}>
               <TextField
-                size='small'
-                placeholder='Enter square footage'
-                name='squareFootage'
+                size="small"
+                placeholder="Enter square footage"
+                name="squareFootage"
                 fullWidth
                 {...form.getInputProps("squareFootage")}
                 error={!!form.errors.squareFootage}
@@ -265,7 +264,7 @@ export default function AddProperty() {
                 slotProps={{
                   input: {
                     startAdornment: (
-                      <InputAdornment position='start'>
+                      <InputAdornment position="start">
                         <Button
                           sx={{
                             color: "#26a69a",
@@ -283,17 +282,17 @@ export default function AddProperty() {
               />
 
               <TextField
-                size='small'
+                size="small"
                 fullWidth
-                name='price'
-                placeholder='Enter price'
+                name="price"
+                placeholder="Enter price"
                 {...form.getInputProps("price")}
                 error={!!form.errors.price}
                 helperText={form.errors.price}
                 slotProps={{
                   input: {
                     startAdornment: (
-                      <InputAdornment position='start'>
+                      <InputAdornment position="start">
                         <Button
                           sx={{
                             color: "#26a69a",
@@ -312,18 +311,18 @@ export default function AddProperty() {
 
             {/* Additional Fields */}
 
-            <div className='mt-[2rem]'>
+            <div className="mt-[2rem]">
               <FormLabel sx={{ color: "black", fontSize: "12px" }}>
                 Property Description
               </FormLabel>
               <TextField
                 fullWidth
-                label='Enter description'
-                size='small'
+                label="Enter description"
+                size="small"
                 multiline
                 maxRows={5}
                 sx={{ my: 1 }}
-                name='description'
+                name="description"
                 {...form.getInputProps("description")}
                 error={!!form.errors.description}
                 helperText={form.errors.description}

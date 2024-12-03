@@ -1,9 +1,10 @@
-"use client"; // Ensures this is treated as a client-side component
+"use client";
 
-import { useState } from "react";
-import { object, string } from "yup";
+import { useEffect, useState } from "react";
 
-import { UpdateProfile, UserResetPassword } from "@/builder/addProperty";
+import { usePassword, useUpdateProfile } from "@/api/profile/mutations";
+import { useGetProfile } from "@/api/profile/queries";
+import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -19,92 +20,69 @@ import {
   Typography,
 } from "@mui/material";
 
+import { object, string } from "yup";
 import ProfilePhoto from "./ProfilePhoto";
 
-const profileSchema = object({
-  firstName: string().required("First name is required"),
-  lastName: string().required("Last name is required"),
-  phoneNumber: string().required("Phone number is required"),
-  email: string().email("Invalid email").required("Email is required"),
+const passwordSchema = object({
+  password: string().required("Password is required"),
+  newPassword: string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters")
+    .matches(
+      /(?=.*[a-z])(?=.*[A-Z])/,
+      "Password must contain at least one uppercase and one lowercase letter"
+    ),
 });
 
-// const passwordSchema = object({
-//   password: string()
-//     .required("Password is required")
-//     .min(6, "Password must be at least 6 characters")
-//     .matches(
-//       /(?=.*[a-z])(?=.*[A-Z])/,
-//       "Password must contain at least one uppercase and one lowercase letter"
-//     ),
-//   confirmPassword: string()
-//     .required("Confirm password is required")
-//     .oneOf([ref("password"), ""], "Passwords must match"),
-// });
-
 export default function Settings() {
-  const [loadingProfile, setLoadingProfile] = useState(false);
-  const [loadingPassword, setLoadingPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const profileForm = useForm({
+  const { data: user, isFetching } = useGetProfile();
+  const { mutate: updateProfile, isPending } = useUpdateProfile();
+  const { mutate, isPending: isChanging } = usePassword();
+
+  const profileForm = useForm<Partial<Profile>>({
     initialValues: {
       firstName: "",
       lastName: "",
       phoneNumber: "",
       email: "",
+      imageUrl: "",
     },
-    validate: yupResolver(profileSchema),
   });
+
+  useEffect(() => {
+    if (!user) return;
+
+    profileForm.initialize({
+      firstName: user.firstName ?? "",
+      lastName: user.lastName ?? "",
+      phoneNumber: user.phoneNumber ?? "",
+      email: user.email ?? "",
+      imageUrl: user.imageUrl ?? "",
+    });
+  }, [user]);
 
   const passwordForm = useForm({
     initialValues: {
       password: "",
       newPassword: "",
     },
-    // validate: yupResolver(passwordSchema),
+    validate: yupResolver(passwordSchema),
+    validateInputOnBlur: true,
   });
 
   const handleShowPassword = () => setShowPassword((prev) => !prev);
   const handleShowConfirmPassword = () =>
     setShowConfirmPassword((prev) => !prev);
 
-  async function handleProfileSubmit(values: unknown) {
-    try {
-      setLoadingProfile(true);
-      const response = await UpdateProfile(values);
-
-      setLoadingProfile(false);
-      profileForm.reset();
-      alert(response?.data?.message);
-    } catch (err) {
-      console.error("Error adding property:", err);
-      // setError("Failed to add property. Please try again.");
-    } finally {
-      // setLoading(false); // Hide loading state
-    }
-  }
-
-  async function handlePasswordSubmit(values: unknown) {
-    try {
-      setLoadingPassword(true);
-      const response = await UserResetPassword(values);
-      profileForm.reset();
-      alert(response?.data?.message);
-    } catch (err) {
-      console.error("Error updating profile:", err);
-    } finally {
-      setLoadingPassword(false);
-    }
-  }
-
   return (
     <Container sx={{ minHeight: 500 }}>
-      {/* Header */}
       <Box
         sx={{
           display: "flex",
-          marginLeft: "30%",
+          marginLeft: { xs: 0, md: "30%" },
           mt: 4,
           borderBottom: "1px solid lightgray",
           pb: 2,
@@ -115,14 +93,26 @@ export default function Settings() {
         </Typography>
       </Box>
 
-      {/* Profile Photo */}
-      <Box sx={{ ml: "30%", mt: 4 }}>
+      <Box sx={{ ml: { xs: 0, md: "30%" }, mt: 4 }}>
         <ProfilePhoto form={profileForm} fieldName='imageUrl' />
       </Box>
 
-      {/* Profile Form */}
-      <form onSubmit={profileForm.onSubmit(handleProfileSubmit)}>
-        <Box sx={{ ml: "30%", mt: 4 }}>
+      <form
+        onSubmit={profileForm.onSubmit((values) => {
+          updateProfile(values, {
+            onSuccess: () => {
+              profileForm.resetDirty();
+              showToast("success", "Profile Updated Successfully");
+            },
+          });
+        })}
+      >
+        <Box
+          sx={{
+            marginLeft: { xs: 0, md: "30%" },
+            mt: 4,
+          }}
+        >
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>First Name</FormLabel>
@@ -134,6 +124,7 @@ export default function Settings() {
                 id='firstName'
                 size='small'
                 {...profileForm.getInputProps("firstName")}
+                disabled={isFetching}
                 autoFocus
               />
             </Grid>
@@ -147,6 +138,7 @@ export default function Settings() {
                 size='small'
                 {...profileForm.getInputProps("lastName")}
                 autoComplete='family-name'
+                disabled={isFetching}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -160,6 +152,7 @@ export default function Settings() {
                 {...profileForm.getInputProps("email")}
                 size='small'
                 type='email'
+                disabled={isFetching}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -173,6 +166,7 @@ export default function Settings() {
                 {...profileForm.getInputProps("phoneNumber")}
                 size='small'
                 type='number'
+                disabled={isFetching}
               />
             </Grid>
           </Grid>
@@ -188,9 +182,9 @@ export default function Settings() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
-              disabled={loadingProfile}
+              disabled={!profileForm.isDirty() || isPending || isFetching}
             >
-              {loadingProfile ? (
+              {isPending ? (
                 <CircularProgress size={24} color='inherit' />
               ) : (
                 "Update Profile"
@@ -201,8 +195,25 @@ export default function Settings() {
       </form>
 
       {/* Password Form */}
-      <form onSubmit={passwordForm.onSubmit(handlePasswordSubmit)}>
-        <Box sx={{ ml: "30%", mt: 4 }}>
+      <form
+        onSubmit={passwordForm.onSubmit((values) => {
+          mutate(values, {
+            onSuccess: () => {
+              profileForm.reset(),
+                showToast("success", "Password Updated Successfully");
+            },
+            onError: (error) => {
+              showToast("error", error.message);
+            },
+          });
+        })}
+      >
+        <Box
+          sx={{
+            marginLeft: { xs: 0, md: "30%" },
+            mt: 4,
+          }}
+        >
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>Current Password</FormLabel>
@@ -216,6 +227,8 @@ export default function Settings() {
                 autoComplete='new-password'
                 margin='normal'
                 {...passwordForm.getInputProps("password")}
+                error={!!passwordForm.errors.password}
+                helperText={passwordForm.errors.password}
                 slotProps={{
                   input: {
                     endAdornment: (
@@ -241,18 +254,22 @@ export default function Settings() {
                 autoComplete='new-password'
                 margin='normal'
                 {...passwordForm.getInputProps("newPassword")}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position='end'>
-                      <IconButton onClick={handleShowConfirmPassword}>
-                        {showConfirmPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+                error={!!passwordForm.errors.newPassword}
+                helperText={passwordForm.errors.newPassword}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton onClick={handleShowConfirmPassword}>
+                          {showConfirmPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
                 }}
               />
             </Grid>
@@ -269,9 +286,9 @@ export default function Settings() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
-              disabled={loadingPassword}
+              disabled={isChanging || isFetching}
             >
-              {loadingPassword ? (
+              {isChanging ? (
                 <CircularProgress size={24} color='inherit' />
               ) : (
                 "Reset Password"

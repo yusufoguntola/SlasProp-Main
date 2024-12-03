@@ -1,117 +1,120 @@
-import { useState } from "react";
-
-import { axiosInstance } from "@/axios";
-import { CardMedia, Container } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useGetProperties } from "@/api/properties/queries";
+import { useFilterProperties } from "@/hooks/use-filter-properties";
+import {
+  Box,
+  Button,
+  Container,
+  Grid2 as Grid,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 
 import { PropertyCard } from "./PropertyCard";
 
+const ITEMS_PER_PAGE = 10;
+
+const generateKey = (pre: unknown) => {
+  return `${pre}_${new Date().getTime()}`;
+};
+
 export function ImageCardWelcomeSearched() {
-  const [currentPage] = useState(1); // Track current page
+  const { data, isLoading, isError } = useGetProperties();
+  const [{ page }, setFilter] = useFilterProperties();
 
-  const { data } = useQuery({
-    queryKey: ["search", "page", currentPage],
-    queryFn: () => axiosInstance.get(`/search/?page=${currentPage}`),
-  });
+  const properties = data?.data.data ?? [];
+  const lastPage = data?.data.lastPage ?? 1;
 
-  // Function to handle page changes
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= lastPage) {
+      setFilter({ page });
+    }
+  };
+
+  if (isError || isLoading) {
+    return (
+      <Container
+        className="grid gap-6"
+        sx={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fill, minmax(min(380px, 100%), 1fr))",
+          gridAutoRows: "1fr",
+        }}
+      >
+        {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+          <Skeleton
+            key={generateKey(index)}
+            variant="rectangular"
+            height={150}
+            sx={{ borderRadius: 2 }}
+          />
+        ))}
+      </Container>
+    );
+  }
 
   return (
     <Container
       sx={{
+        mt: 4,
+        minHeight: 300,
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-between",
       }}
     >
-      <CardMedia
-        component="img"
-        image="/assets/land-view.png"
-        alt="This is a land image"
-        sx={{
-          marginTop: "-80px",
-          maxWidth: "63%",
-          marginLeft: "-45px",
-          objectFit: "fill",
-          boxShadow: "0px 0px 10px 10px rgba(108, 122, 137, 0.5)",
-        }}
-      />
-      <Container
-        sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          flexDirection: "column",
-          overflow: "auto",
-          marginTop: "100px",
-          mb: 3,
-        }}
-      >
-        {data?.data.data.map((property: Property) => (
-          <PropertyCard key={property?.id} {...property} />
+      <Grid container>
+        <div className="hidden last:flex items-center justify-center py-4 text-center w-full">
+          <Typography textAlign="center" color="text.secondary">
+            No properties found. Please adjust your search criteria.
+          </Typography>
+        </div>
+        {properties.map((property: Property) => (
+          <Grid size={{ xs: 12, sm: 6 }} key={property?.id}>
+            <PropertyCard key={property?.id} {...property} />
+          </Grid>
         ))}
+      </Grid>
 
-        {/* TODO: Pagination Controls */}
-        {/* <Container
+      {/* Pagination Controls */}
+      {!isLoading && properties.length > 0 && (
+        <Box
           sx={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            gap: 2, // Adds space between buttons and page numbers
-            mt: 3, // Adds margin-top for separation from the content
-          }}>
-          <button
-            type="button"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            style={{
-              padding: "8px 16px",
-              marginRight: "10px",
-              backgroundColor: "#26a69a",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: currentPage === 1 ? "default" : "pointer",
-            }}>
+            gap: 2,
+            my: 3,
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+          >
             Previous
-          </button>
-
-          <div style={{ display: "flex", gap: "8px" }}>
-            {[...Array(lastPage)].map((_, index) => (
-              <button
-                type="button"
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                style={{
-                  cursor: "pointer",
-                  padding: "6px 10px",
-                  borderRadius: "4px",
-                  backgroundColor:
-                    currentPage === index + 1 ? "#26a69a" : "#f0f0f0",
-                  color: currentPage === index + 1 ? "#fff" : "#000",
-                  fontWeight: currentPage === index + 1 ? "bold" : "normal",
-                }}>
-                {index + 1}
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === lastPage}
-            style={{
-              padding: "8px 16px",
-              marginLeft: "10px",
-              backgroundColor: "#26a69a",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: currentPage === lastPage ? "default" : "pointer",
-            }}>
+          </Button>
+          {[...Array(lastPage)].map((_, index) => (
+            <Button
+              key={generateKey(index)}
+              variant={page === index + 1 ? "contained" : "outlined"}
+              color="primary"
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </Button>
+          ))}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === lastPage}
+          >
             Next
-          </button>
-        </Container> */}
-      </Container>
+          </Button>
+        </Box>
+      )}
     </Container>
   );
 }

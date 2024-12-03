@@ -55,9 +55,9 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
   return (
     <Box
       p={3}
-      border='1px dashed #ccc'
+      border="1px dashed #ccc"
       borderRadius={2}
-      textAlign='center'
+      textAlign="center"
       sx={{
         ml: 2,
         minWidth: "300px",
@@ -73,8 +73,8 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
       <Grid
         container
         spacing={2}
-        justifyContent='flex-start'
-        alignItems='center'
+        justifyContent="flex-start"
+        alignItems="center"
       >
         {uploadedImages.map((url, index) => (
           <Grid key={url}>
@@ -102,7 +102,7 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
                   "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.9)" },
                 }}
               >
-                <Delete fontSize='small' />
+                <Delete fontSize="small" />
               </IconButton>
             </Box>
           </Grid>
@@ -110,19 +110,19 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
       </Grid>
 
       {/* Upload input */}
-      <Box mt={2} display='flex' justifyContent='center'>
+      <Box mt={2} display="flex" justifyContent="center">
         <input
-          type='file'
-          accept='image/*'
+          type="file"
+          accept="image/*"
           multiple
           onChange={handleUpload}
           style={{ display: "none" }}
-          id='upload-input'
+          id="upload-input"
         />
-        <label htmlFor='upload-input'>
+        <label htmlFor="upload-input">
           <Button
-            component='span'
-            variant='contained'
+            component="span"
+            variant="contained"
             sx={{
               backgroundColor: "#1976d2",
               color: "white",
