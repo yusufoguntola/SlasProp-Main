@@ -1,7 +1,11 @@
 import { Box, Typography } from "@mui/material";
-import { PropertyCardProps } from "./PropertyCard";
 
-type OwnerDetailsProps = PropertyCardProps["owner"];
+interface OwnerDetailsProps {
+  firstName?: string;
+  lastName?: string;
+  id?: number;
+  imageUrl?: string | null;
+};
 
 export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
   return (

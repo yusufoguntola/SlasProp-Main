@@ -6,14 +6,14 @@ import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Box, Button, Container, Typography } from "@mui/material";
 
-import { PropertyCardProps } from "./PropertyCard";
 import { OwnerDetails } from "./OwnerDetails";
+import { PropertyCardProps } from "./PropertyCard";
 
 
 
-type DetailsBoxProps = {
-  property: PropertyCardProps[];  // Change this to accept an array of properties
-};
+interface DetailsBoxProps {
+  property: PropertyCardProps | null; // Allow null to handle the initial state when data is loading
+}
 
 export function DetailsBox({ property }: DetailsBoxProps) {
 	const [isInterior, setIsInterior] = useState(false);

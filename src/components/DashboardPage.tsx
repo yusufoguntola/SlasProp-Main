@@ -61,9 +61,10 @@ export function DashboardPage() {
       </Box>
 
       <Box sx={{ display: "flex", marginLeft: "30%", flexDirection: "column" }}>
-        {properties.map((property) => (
+        {/* {properties.map((property) => (
           <MyPropertyCard key={property.id} {...property} />
-        ))}
+        ))} */}
+        Welcome to the dashboard
       </Box>
     </Container>
   );

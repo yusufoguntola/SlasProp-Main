@@ -47,15 +47,15 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
             </Typography>
           ))}
         </Box>
-
+{/* 
         <Box sx={{ display: "flex", mx: 2.5, flexDirection: "column" }}>
           {taxDetails.propertyTax.map((propTax) => (
             <Typography sx={{ color: "grey", fontSize: "10px" }}>
               {propTax}
             </Typography>
           ))}
-        </Box>
-        <Box sx={{ display: "flex", ml: 7, flexDirection: "column" }}>
+        </Box> */}
+        {/* <Box sx={{ display: "flex", ml: 7, flexDirection: "column" }}>
           {taxDetails.taxAssessment.map((taxAs) => (
             <Typography sx={{ color: "grey", fontSize: "10px" }}>
               {taxAs}{" "}
@@ -66,7 +66,7 @@ export function TaxDetails(taxDetails: TaxDetailsProps) {
               </Typography>
             </Typography>
           ))}
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

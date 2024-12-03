@@ -1,9 +1,6 @@
 import { axiosInstance } from "@/axios";
 
-export const createProperty = async (payload: {
-  propertyType: string;
-  propertySubType: string;
-  images: string[];
+interface FormData {
   name: string;
   price: string;
   description: string;
@@ -24,7 +21,7 @@ export const createProperty = async (payload: {
       type: string;
       provided: boolean;
       providerName: string;
-      serviceCharge: number;
+      serviceCharge: string;
       frequency: string;
     }[];
     isGreenEnergyPowered: boolean;
@@ -34,7 +31,7 @@ export const createProperty = async (payload: {
   neighbourhoodDetails: {
     name: string;
     description: string;
-    population: number;
+    population: string;
     locatedInGatedEstate: boolean;
     proximityToPublicPlaces: {
       place: string;
@@ -42,19 +39,25 @@ export const createProperty = async (payload: {
       distance: string;
     }[];
   };
+
   hoaAndFinancialDetails: {
     name: string;
     hasDue: boolean;
     dueFrequency: string;
-    dueAmount: number;
+    dueAmount: string;
     isPropertyInMortgage: boolean;
     mortgageProvider: string;
-    outstandingBalance: number;
-    monthlyPayment: number;
+    outstandingBalance: string;
+    monthlyPayment: string;
     mortgageEndDate: string;
     otherFinancialDetails: string;
   };
-}) => {
+  propertyType?: string;
+  propertySubType?: string;
+  images?: string[];
+}
+
+export const createProperty = async (payload: FormData) => {
   try {
     const response = await axiosInstance.post("/properties", payload);
     return response.data;
@@ -63,7 +66,6 @@ export const createProperty = async (payload: {
     throw error; // You can throw the error again or return a custom message if needed
   }
 };
-
 // for  Registering a property
 
 export const RegisterProperty = async (payload: any) => {

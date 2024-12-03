@@ -98,6 +98,9 @@ interface FormData {
     mortgageEndDate: string;
     otherFinancialDetails: string;
   };
+  propertyType?: string;
+  propertySubType?: string;
+  images?: string[];
 }
 
 export default function AddProperty() {
@@ -168,8 +171,8 @@ export default function AddProperty() {
   const [showNeighborhoodDetails, setShowNeighborhoodDetails] = useState(false);
   const [showHoaDetails, setShowHoaDetails] = useState(false);
   const [images, setImages] = useState<string[]>([]);
-    const router = useRouter();
-  
+  const router = useRouter();
+
   const handleHoaInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -179,8 +182,8 @@ export default function AddProperty() {
   };
 
   const handleCountryChange = (country: string) => {
-  setFormData((prev) => ({ ...prev, country }));
-};
+    setFormData((prev) => ({ ...prev, country }));
+  };
 
   const handleAmenitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const amenities = e.target.value.split(",").map((item) => item.trim());
@@ -210,26 +213,25 @@ export default function AddProperty() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
- const handleUtilityInputChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  index: number,
-  field: keyof Service
-) => {
-  const updatedServices = [...formData.utilitiesDetails.services];
+  const handleUtilityInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number,
+    field: keyof Service
+  ) => {
+    const updatedServices = [...formData.utilitiesDetails.services];
 
-  // Handle type conversion for specific fields
-  if (field === "provided") {
-    updatedServices[index][field] = e.target.value === "true"; // Convert to boolean
-  } else {
-    updatedServices[index][field] = e.target.value; // Default to string
-  }
+    // Handle type conversion for specific fields
+    if (field === "provided") {
+      updatedServices[index][field] = e.target.value === "true"; // Convert to boolean
+    } else {
+      updatedServices[index][field] = e.target.value; // Default to string
+    }
 
-  setFormData((prev) => ({
-    ...prev,
-    utilitiesDetails: { ...prev.utilitiesDetails, services: updatedServices },
-  }));
-};
-
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: { ...prev.utilitiesDetails, services: updatedServices },
+    }));
+  };
 
   const handleDropdownChange = (e: SelectChangeEvent) => {
     const { name, value } = e.target;
@@ -268,28 +270,24 @@ export default function AddProperty() {
     }));
   };
 
- const handleUtilityEngergySourceChange = (
-  e: SelectChangeEvent<string[]>
-) => {
-  const greenEnergySources = e.target.value as string[]; // Directly use the array of selected options
-  setFormData((prev) => ({
-    ...prev,
-    utilitiesDetails: {
-      ...prev.utilitiesDetails,
-      greenEnergySources,
-    },
-  }));
-};
-
-
+  const handleUtilityEngergySourceChange = (e: SelectChangeEvent<string[]>) => {
+    const greenEnergySources = e.target.value as string[]; // Directly use the array of selected options
+    setFormData((prev) => ({
+      ...prev,
+      utilitiesDetails: {
+        ...prev.utilitiesDetails,
+        greenEnergySources,
+      },
+    }));
+  };
 
   const handleGreenEnergySourcesChange = (e: SelectChangeEvent<string[]>) => {
-  const value = e.target.value;
-  setFormData((prev) => ({
-    ...prev,
-    greenEnergySources: typeof value === "string" ? value.split(",") : value,
-  }));
-};
+    const value = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      greenEnergySources: typeof value === "string" ? value.split(",") : value,
+    }));
+  };
 
   const handleUtilityGreenEnergyProviderInputChange = (e: {
     target: { name: string; value: any };
@@ -336,7 +334,9 @@ export default function AddProperty() {
   // Neighbourhood  Details
 
   const handleNeighbourhoodInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent<string>,
     index?: number,
     field?: keyof PublicPlace
   ) => {
@@ -401,22 +401,21 @@ export default function AddProperty() {
     }));
   };
 
- const handleAddProperty = async () => {
+  const handleAddProperty = async () => {
     try {
-    
       // Prepare data
-      const propertyData = {
+      const Data = {
         ...formData,
         propertyType,
         propertySubType,
         images,
       };
 
-      const response = await createProperty(propertyData); // Call your API function
+      const response = await createProperty(Data); // Call your API function
       if (response?.message) {
-        showToast("success", <p>{response.message}</p>);  // Assuming `dmessage` is part of the response
+        showToast("success", <p>{response.message}</p>); // Assuming `dmessage` is part of the response
       }
-         router.push('/dashboard/my-properties');
+      router.push("/dashboard/my-properties");
     } catch (err) {
       console.error("Error adding property:", err);
       // setError("Failed to add property. Please try again.");
@@ -426,11 +425,15 @@ export default function AddProperty() {
   };
 
   return (
-    <Container  sx={{
-        // maxHeight: "1000px", 
-        // overflowY: "auto",  
-        // overflowX: "hidden", 
-    }}>
+    <Container
+      sx={
+        {
+          // maxHeight: "1000px",
+          // overflowY: "auto",
+          // overflowX: "hidden",
+        }
+      }
+    >
       <Box
         sx={{
           display: "flex",
@@ -490,11 +493,16 @@ export default function AddProperty() {
             setPropertySubType={setPropertySubType}
           />
 
-          <Stack spacing={34} direction="row" sx={{ my: 1, }} className="mt-[2rem] ">
+          <Stack
+            spacing={34}
+            direction="row"
+            sx={{ my: 1 }}
+            className="mt-[2rem] "
+          >
             <FormLabel sx={{ color: "black", fontSize: "12px" }}>
               Square Footage
             </FormLabel>
-            <FormLabel sx={{ color: "black", fontSize: "12px", pl:3 }}>
+            <FormLabel sx={{ color: "black", fontSize: "12px", pl: 3 }}>
               Price
             </FormLabel>
           </Stack>
@@ -552,25 +560,21 @@ export default function AddProperty() {
           {/* Additional Fields */}
 
           <div className="mt-[2rem]">
-          <FormLabel
-  sx={{ color: "black", fontSize: "12px", }} 
- 
->
-  Property Description
-</FormLabel>
-<TextField
-  fullWidth
-  label="Enter description"
-  size="small"
-  multiline
-  maxRows={5}
-  sx={{ my: 1 }}
-  name="description"
-  value={formData.description}
-  onChange={handleInputChange}
-/>
-</div>
-
+            <FormLabel sx={{ color: "black", fontSize: "12px" }}>
+              Property Description
+            </FormLabel>
+            <TextField
+              fullWidth
+              label="Enter description"
+              size="small"
+              multiline
+              maxRows={5}
+              sx={{ my: 1 }}
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+            />
+          </div>
 
           <Button
             sx={{
@@ -589,12 +593,12 @@ export default function AddProperty() {
 
           {/* Conditionally Render Form Component */}
           {showDetails && (
-               <PropertyDetailsForm
-    formData={formData}
-    handleInputChange={handleInputChange}
-    handleAmenitiesChange={handleAmenitiesChange}
-    handleCountryChange={handleCountryChange} // Pass it here
-  />
+            <PropertyDetailsForm
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleAmenitiesChange={handleAmenitiesChange}
+              handleCountryChange={handleCountryChange} // Pass it here
+            />
           )}
 
           {/* FOR CONSTRUCTION DETAILS */}
@@ -725,7 +729,7 @@ export default function AddProperty() {
           )}
         </Box>
 
-        <MultipleFileUpload setImages={setImages}/>
+        <MultipleFileUpload setImages={setImages} />
       </Box>
     </Container>
   );

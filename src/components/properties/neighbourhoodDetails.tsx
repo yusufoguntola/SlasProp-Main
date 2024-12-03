@@ -29,9 +29,9 @@ interface NeighbourhoodDetails {
 interface NeighbourhoodDetailsFormProps {
   formData: NeighbourhoodDetails;
   handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index?: number,
-    field?: keyof PublicPlace
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>,
+  index?: number,
+  field?: keyof PublicPlace
   ) => void;
   handleAddPublicPlace: () => void;
   handleRemovePublicPlace: (index: number) => void;

@@ -11,7 +11,6 @@ export interface PropertyCardProps {
   propertyType: string;
   propertyId: string; 
   images: string[]; 
-
   name: string;
   price: string;
   description: string;

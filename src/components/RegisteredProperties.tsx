@@ -1,47 +1,11 @@
 "use client";
 
 import { axiosInstance } from "@/axios";
-import { TaxOwnerDetailsCard } from "@/components/TaxOwnerDetailsCards";
-import { SlasPayLogin } from "@/forms/SlasPayLogin";
 import { MoreVert } from "@mui/icons-material";
 import { Box, Button, Container, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const properties = [
-  {
-    id: 1,
-    name: "John Doe",
-    taxID: "HGFFT23T821",
-    landType: "Sample Data",
-    area: 478,
-    regNumber: 3246745335,
-    location: "Sample Data",
-    address: "17917 Holderness Ln, Pflugerville, TX 78660",
-    zip: "78660",
-    taxDetails: {
-      year: [2022, 2021, 2020, 2019],
-      propertyTax: ["$9246", "$9426", "$9246", "$9246"],
-      taxAssessment: ["$481,824", "$481,824", "$481,824", "$481,824"],
-      status: ["pending"],
-    },
-    ownerDetails: {
-      owner: ["Indrani Sen", "Arindam Dutta", "Chijrant Debnath"],
-      totalYears: ["2015-2017", "2017-2019", "2019-Till Date"],
-      initials: ["IS", "AD", "CD"],
-    },
-  },
-  // {
-  //     id: 2,
-  //     name:"John Doe",
-  //     taxID: 'HGFFT23T821',
-  //     landType:'Sample Data',
-  //     area:478,
-  //     regNumber:3246745335,
-  //     location: "Sample Data",
-  //     address:"17917 Holderness Ln, Pflugerville, TX 78660",
-  //     zip:"78660"
-  // }
-];
+
 
 
 interface Property {
@@ -51,11 +15,14 @@ interface Property {
   registrationNumber: string;
   propertyTaxId: string;
   areaOfLand: number;
-  location: string;
+  location: { 
+    name: string;
+    id: number;
+  };
   zipCode: string;
   registeredAddress: string;
-  name: string;
 }
+
 
 
 export default function RegisteredProperties() {
@@ -63,6 +30,8 @@ export default function RegisteredProperties() {
   const [checkHeading, setCheckHeading] = useState("Registered Properties");
 
   const [registeredData, setRegisteredData] = useState<Property[]>([]);
+
+  console.log(registeredData);
 
 
 
@@ -244,11 +213,13 @@ export default function RegisteredProperties() {
         ))}
       </Box>
 
-      <Box sx={{ marginLeft: "30%", pb: 2, display: "flex" }}>
+
+
+    {/* <Box sx={{ marginLeft: "30%", pb: 2, display: "flex" }}>
         {isPressed ? (
-          properties.map((property) => (
+          properties.map((property: { ownerDetails: { firstName: string; lastName: string; id: number; imageUrl: string | null; }; }) => (
             <TaxOwnerDetailsCard
-              taxDetails={property.taxDetails}
+               taxDetails={property.taxDetails}
               ownerDetails={property.ownerDetails}
             />
           ))
@@ -257,7 +228,7 @@ export default function RegisteredProperties() {
         )}
         {isPressed && (
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography
+             <Typography
               sx={{
                 border: "1px solid #26a69a",
                 fontWeight: "bold",
@@ -278,8 +249,8 @@ export default function RegisteredProperties() {
                 }}>
                 DETAILS
               </Typography>
-            </Typography>
-            <Typography
+            </Typography> */}
+            {/* <Typography
               sx={{
                 border: "1px solid #26a69a",
                 fontWeight: "bold",
@@ -300,19 +271,13 @@ export default function RegisteredProperties() {
             <SlasPayLogin />
           </Box>
         )}
-      </Box>
+      </Box>  */} 
+
+
+
+
     </Container>
 
-      // ) : (
-
-      //   <Container >
-        
-      //   <Typography className="flex items-center justify-center h-screen text-lg font-semibold">
-      //       No properties found.
-      //     </Typography>
-      //   </Container>
-      // )
-
-    // }
+    
   );
 }

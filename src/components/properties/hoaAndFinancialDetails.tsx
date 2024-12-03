@@ -18,8 +18,8 @@ interface HoaAndFinancialDetailsProps {
     dueAmount: string;
     isPropertyInMortgage: boolean;
     mortgageProvider: string;
-    outstandingBalance: strin;
-    monthlyPayment: strin;
+    outstandingBalance: string;
+    monthlyPayment: string;
     mortgageEndDate: string;
     otherFinancialDetails: string;
   };
