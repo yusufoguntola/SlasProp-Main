@@ -1,14 +1,14 @@
 import {
   Box,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import React from "react";
+import type React from "react";
 
 interface HoaAndFinancialDetailsProps {
   formData: {
@@ -33,51 +33,61 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
   handleDropdownChange,
 }) => {
   const fields = [
-    { label: "Enter HOA Name", name: "name", value: formData.name, header: "HOA Name"},
+    {
+      label: "Enter HOA Name",
+      name: "name",
+      value: formData.name,
+      header: "HOA Name",
+    },
     {
       label: "Enter Due Frequency",
       name: "dueFrequency",
       value: formData.dueFrequency,
-      header: "Due Frequency"
+      header: "Due Frequency",
     },
-    { label: "Enter Due Amount", name: "dueAmount", value: formData.dueAmount, header: "Due Amount" },
+    {
+      label: "Enter Due Amount",
+      name: "dueAmount",
+      value: formData.dueAmount,
+      header: "Due Amount",
+    },
     {
       label: " Enter Mortgage Provider",
       name: "mortgageProvider",
       value: formData.mortgageProvider,
-      header: "Mortgage Provider"
+      header: "Mortgage Provider",
     },
     {
       label: "Enter Outstanding Balance",
       name: "outstandingBalance",
       value: formData.outstandingBalance,
-      header: "Outstanding Balance"
+      header: "Outstanding Balance",
     },
     {
       label: "Enter Monthly Payment",
       name: "monthlyPayment",
       value: formData.monthlyPayment,
-      header: "Monthly Payment"
+      header: "Monthly Payment",
     },
     {
       label: "Enter Mortgage End Date",
       name: "mortgageEndDate",
       value: formData.mortgageEndDate,
-      header: "Mortgage End Date"
+      header: "Mortgage End Date",
     },
     {
       label: "Enter Other Financial Details",
       name: "otherFinancialDetails",
       value: formData.otherFinancialDetails,
-       header: "Other Financial Details"
+      header: "Other Financial Details",
     },
   ];
 
   return (
     <Box sx={{ mt: 2, width: "100%" }}>
       <Grid container spacing={2}>
-        {fields.map((field, index) => (
-          <Grid item xs={6} key={index}>
+        {fields.map((field) => (
+          <Grid size={{ xs: 6 }} key={field.value}>
             <p className="mb-1 text-[12px] text-[#000000]">{field.header}</p>
             {/* <TextField
               label={field.label}
@@ -92,31 +102,31 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
               type={field.name === "mortgageEndDate" ? "date" : "text"} // Add date type for mortgageEndDate
             /> */}
 
-
-
             <TextField
-            label={field.label}
-            size="small"
-            name={field.name}
-            value={field.value}
-            onChange={handleInputChange}
-            fullWidth
-            sx={{ my: 1 }}
-            type={
-              ["monthlyPayment", "outstandingBalance", "dueAmount"].includes(field.name)
-                ? "number"
-                : field.name === "mortgageEndDate"
-                ? "date"
-                : "text"
-            }
-          />
+              label={field.label}
+              size="small"
+              name={field.name}
+              value={field.value}
+              onChange={handleInputChange}
+              fullWidth
+              sx={{ my: 1 }}
+              type={
+                ["monthlyPayment", "outstandingBalance", "dueAmount"].includes(
+                  field.name,
+                )
+                  ? "number"
+                  : field.name === "mortgageEndDate"
+                    ? "date"
+                    : "text"
+              }
+            />
           </Grid>
         ))}
       </Grid>
 
       {/* Dropdown Fields */}
       <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <p className="mb-1 text-[12px] text-[#000000]">Has Due?</p>
           <FormControl fullWidth size="small" sx={{ my: 1 }}>
             <InputLabel>Has Due</InputLabel>
@@ -131,8 +141,10 @@ const HoaAndFinancialDetailsForm: React.FC<HoaAndFinancialDetailsProps> = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6}>
-          <p className="mb-1 text-[12px] text-[#000000]">Property in Mortgage?</p>
+        <Grid size={{ xs: 6 }}>
+          <p className="mb-1 text-[12px] text-[#000000]">
+            Property in Mortgage?
+          </p>
           <FormControl fullWidth size="small" sx={{ my: 1 }}>
             <InputLabel>Property in Mortgage</InputLabel>
             <Select

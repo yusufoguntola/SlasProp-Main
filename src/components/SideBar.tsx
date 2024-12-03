@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { useForm } from "@mantine/form";
 import { EditOutlined } from "@mui/icons-material";
 import {
@@ -14,7 +16,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import Link from "next/link";
 import sampleImage from "../assets/profile-picture.png";
 
 const ListOptions = [
@@ -40,9 +41,6 @@ const RegisterOptions = [
 ];
 
 export function SideBar() {
-
-
- 
   const form = useForm({
     initialValues: {
       slider: true,
@@ -57,8 +55,8 @@ export function SideBar() {
           position: "fixed",
           boxSizing: "border-box",
           // left: "4%",
-        height: "100vh", // Full viewport height
-    overflowY: "auto", // Enable scrolling within the sidebar if content overflows
+          height: "100vh", // Full viewport height
+          overflowY: "auto", // Enable scrolling within the sidebar if content overflows
           boxShadow: "10px 0px 10px rgba(108, 122, 137, 0.5)",
         }}
       >
@@ -66,7 +64,7 @@ export function SideBar() {
           <Box
             sx={{
               backgroundColor: "#26a69a",
-               minHeight: "60px",
+              minHeight: "60px",
               ml: -3,
               mr: -3,
             }}
@@ -141,7 +139,7 @@ export function SideBar() {
 
           {form.values.slider
             ? RegisterOptions.map((option) => (
-                <ListItem disablePadding>
+                <ListItem disablePadding key={option.name}>
                   <ListItemButton
                     sx={{ borderBottom: "1px solid lightgrey" }}
                     component={Link}
@@ -158,8 +156,9 @@ export function SideBar() {
                     />
                   </ListItemButton>
                 </ListItem>
-              )) : ListOptions.map((option) => (
-                <ListItem disablePadding>
+              ))
+            : ListOptions.map((option) => (
+                <ListItem disablePadding key={option.name}>
                   <ListItemButton
                     sx={{ borderBottom: "1px solid lightgrey" }}
                     component={Link}
@@ -177,7 +176,7 @@ export function SideBar() {
                   </ListItemButton>
                 </ListItem>
               ))}
-            
+
           <ListItem disablePadding>
             <ListItemButton
               sx={{ borderBottom: "1px solid lightgrey" }}

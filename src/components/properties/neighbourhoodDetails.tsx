@@ -5,12 +5,13 @@ import {
   Divider,
   FormControl,
   Grid,
-  IconButton, MenuItem,
+  IconButton,
+  MenuItem,
   Select,
-  SelectChangeEvent,
-  TextField
+  type SelectChangeEvent,
+  TextField,
 } from "@mui/material";
-import React from "react";
+import type React from "react";
 
 interface PublicPlace {
   place: string;
@@ -50,7 +51,7 @@ export default function NeighbourhoodDetailsForm({
       <Grid container spacing={2} sx={{ mb: 2, width: "100%" }}>
         {/* Name Field */}
         <Grid item xs={6}>
-           <p className="mb-1 text-[12px] text-[#000000]">Neighbourhood Name</p>
+          <p className="mb-1 text-[12px] text-[#000000]">Neighbourhood Name</p>
           <TextField
             label="Enter neighbourhood Name"
             name="name"
@@ -77,7 +78,7 @@ export default function NeighbourhoodDetailsForm({
 
         {/* Population Field */}
         <Grid item xs={6}>
-          <p className="mb-1 text-[12px] text-[#000000]">Population</p> 
+          <p className="mb-1 text-[12px] text-[#000000]">Population</p>
           <TextField
             label="Enter Population"
             name="population"
@@ -91,7 +92,9 @@ export default function NeighbourhoodDetailsForm({
 
         {/* Located in Gated Estate */}
         <Grid item xs={6}>
-          <p className="mb-1 text-[12px] text-[#000000]">Located in Gated Estate?</p> 
+          <p className="mb-1 text-[12px] text-[#000000]">
+            Located in Gated Estate?
+          </p>
           <FormControl fullWidth size="small">
             <Select
               name="locatedInGatedEstate"
@@ -108,33 +111,39 @@ export default function NeighbourhoodDetailsForm({
 
       {/* Public Places Section */}
       {formData.proximityToPublicPlaces.map((place, index) => (
-        <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
+        <Grid container spacing={2} key={place.place} sx={{ mb: 2 }}>
           {/* Place Name */}
           <Grid item xs={4}>
-           <FormControl fullWidth size="small">
-      <p className="mb-1 text-[12px] text-[#000000]">Place</p>
-      <Select
-        name="place"
-        value={place.place}
-        onChange={(e) => handleInputChange(e, index, "place")}
-        label="Place"
-      >
-        <MenuItem value="Shopping Malls">Shopping Malls</MenuItem>
-        <MenuItem value="Cinemas">Cinemas</MenuItem>
-        <MenuItem value="Schools">Schools</MenuItem>
-        <MenuItem value="Banks">Banks</MenuItem>
-        <MenuItem value="Other Notable Locations">
-          Other Notable Locations
-        </MenuItem>
-      </Select>
-    </FormControl>
+            <FormControl fullWidth size="small">
+              <p className="mb-1 text-[12px] text-[#000000]">Place</p>
+              <Select
+                name="place"
+                value={place.place}
+                onChange={(e) =>
+                  handleInputChange(
+                    e as unknown as SelectChangeEvent<string>,
+                    index,
+                    "place",
+                  )
+                }
+                label="Place"
+              >
+                <MenuItem value="Shopping Malls">Shopping Malls</MenuItem>
+                <MenuItem value="Cinemas">Cinemas</MenuItem>
+                <MenuItem value="Schools">Schools</MenuItem>
+                <MenuItem value="Banks">Banks</MenuItem>
+                <MenuItem value="Other Notable Locations">
+                  Other Notable Locations
+                </MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
 
           {/* Place Type */}
 
           <Divider />
           <Grid item xs={4}>
-             <p className="mb-1 text-[12px] text-[#000000]">Type</p>
+            <p className="mb-1 text-[12px] text-[#000000]">Type</p>
             <TextField
               label="Enter Type"
               name="type"
@@ -147,7 +156,7 @@ export default function NeighbourhoodDetailsForm({
 
           {/* Distance */}
           <Grid item xs={3}>
-             <p className="mb-1 text-[12px] text-[#000000]">Distance</p>
+            <p className="mb-1 text-[12px] text-[#000000]">Distance</p>
             <TextField
               label="Enter Distance"
               name="distance"
@@ -160,15 +169,15 @@ export default function NeighbourhoodDetailsForm({
 
           {/* Remove Place */}
           <div className="mt-[2rem]">
-          <Grid item xs={1}>
-            <IconButton
-              onClick={() => handleRemovePublicPlace(index)}
-              color="error"
-            >
-              <RemoveCircleOutline />
-            </IconButton>
+            <Grid item xs={1}>
+              <IconButton
+                onClick={() => handleRemovePublicPlace(index)}
+                color="error"
+              >
+                <RemoveCircleOutline />
+              </IconButton>
             </Grid>
-            </div>
+          </div>
         </Grid>
       ))}
 

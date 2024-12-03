@@ -404,14 +404,14 @@ export default function AddProperty() {
   const handleAddProperty = async () => {
     try {
       // Prepare data
-      const Data = {
+      const propertyData = {
         ...formData,
         propertyType,
         propertySubType,
         images,
       };
 
-      const response = await createProperty(Data); // Call your API function
+      const response = await createProperty(propertyData); // Call your API function
       if (response?.message) {
         showToast("success", <p>{response.message}</p>); // Assuming `dmessage` is part of the response
       }

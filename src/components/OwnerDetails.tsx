@@ -16,7 +16,8 @@ export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
         border: "2px solid #26a69a",
         pb: 2,
         ml: 4,
-      }}>
+      }}
+    >
       <Typography
         sx={{
           backgroundColor: "#26a69a",
@@ -25,46 +26,48 @@ export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
           fontWeight: "bold",
           py: 1.5,
           px: 1,
-        }}>
+        }}
+      >
         Owners Details
       </Typography>
       <Box sx={{ display: "flex", mt: 1 }}>
         <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
-            <Typography
-              sx={{
-                mb: 1,
-                color: "#26a69a",
-                fontSize: "12px",
-                fontWeight: "bold",
-              }}>
-           {ownerDetails?.firstName}
-            </Typography>
-      
+          <Typography
+            sx={{
+              mb: 1,
+              color: "#26a69a",
+              fontSize: "12px",
+              fontWeight: "bold",
+            }}
+          >
+            {ownerDetails?.firstName}
+          </Typography>
         </Box>
 
         <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
-
-            <Typography
-              sx={{
-                mb: 1,
-                color: "gray",
-                fontSize: "12px",
-                fontWeight: "bold",
-              }}>
-             {ownerDetails?.lastName}
-            </Typography>
+          <Typography
+            sx={{
+              mb: 1,
+              color: "gray",
+              fontSize: "12px",
+              fontWeight: "bold",
+            }}
+          >
+            {ownerDetails?.lastName}
+          </Typography>
         </Box>
 
         <Box sx={{ display: "flex", mx: 2.5, flexDirection: "column" }}>
-            <Typography
-              sx={{
-                mb: 1.5,
-                color: "#26a69a",
-                fontSize: "10px",
-                display: "flex",
-              }}>
-             {ownerDetails?.id}
-            </Typography>
+          <Typography
+            sx={{
+              mb: 1.5,
+              color: "#26a69a",
+              fontSize: "10px",
+              display: "flex",
+            }}
+          >
+            {ownerDetails?.id}
+          </Typography>
         </Box>
       </Box>
     </Box>

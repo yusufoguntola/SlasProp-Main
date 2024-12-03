@@ -1,9 +1,6 @@
 import { axiosInstance } from "@/axios";
 
-export const uploadFiles = async (
-  files: FileList,
-  multiple: boolean = false
-) => {
+export const uploadFiles = async (files: FileList, multiple = false) => {
   const formData = new FormData();
 
   if (multiple) {

@@ -17,7 +17,7 @@ type MaterialMenu<Key extends string> = {
 };
 
 export function useMaterialMenu<Key extends string>(
-  key: Key
+  key: Key,
 ): MaterialMenu<Key> {
   const anchor = useRef<HTMLButtonElement>(null);
   const anchorEl = anchor.current;

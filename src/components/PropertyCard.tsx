@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
 export interface PropertyCardProps {
-  id: string; 
+  id: string;
   propertyType: string;
   propertyId: string; 
   images: string[]; 
@@ -71,9 +71,6 @@ export interface PropertyCardProps {
   };
 }
 
-
-
-
 export function PropertyCard(property: PropertyCardProps) {
   return (
     <Card sx={{ width: 390, border: "1px solid #26a69a", mb: 3, px: 2, py: 1 }}>
@@ -109,6 +106,5 @@ export function PropertyCard(property: PropertyCardProps) {
         </CardContent>
       </CardActionArea>
     </Card>
-
   );
 }

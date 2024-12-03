@@ -36,8 +36,6 @@ export function SubmitInquiry() {
       <CardMedia
         component="img"
         image={sampleImage.src}
-        onLoad={() => console.log("this is loading")}
-        onError={() => console.log("this is error")}
         alt="This is a land image"
         sx={{
           maxWidth: "40%",

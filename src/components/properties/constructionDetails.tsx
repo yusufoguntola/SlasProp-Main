@@ -1,4 +1,4 @@
-import { Box, Grid, TextField } from "@mui/material"; // Import Grid for layout
+import { Box, Grid2 as Grid, TextField } from "@mui/material"; // Import Grid for layout
 
 interface ConstructionDetailsFormProps {
   formData: {
@@ -10,10 +10,10 @@ interface ConstructionDetailsFormProps {
   };
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handlebuildingMaterialsChange: (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => void;
   handlestructuralFeaturesChange: (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => void;
 }
 
@@ -32,12 +32,12 @@ export default function ConstructionDetailsForm({
       header: "Building Materials",
       subHeader: "Enter as many as possible separated with commas.",
     },
-      {
+    {
       label: "Enter structural features",
       name: "structuralFeatures",
       value: formData.structuralFeatures.join(", "),
       header: "Structural Features",
-       subHeader: "Enter as many as possible separated with commas.",
+      subHeader: "Enter as many as possible separated with commas.",
     },
     {
       label: "Enter the architectural style",
@@ -45,32 +45,42 @@ export default function ConstructionDetailsForm({
       value: formData.architecturalStyle,
       header: "Architectural Style",
     },
-    { label: "Enter Condition", name: "condition", value: formData.condition,  header: "Condition", },
-  
-    { label: "Enter build year", name: "buildYear", value: formData.buildYear,  header: "Build year",},
+    {
+      label: "Enter Condition",
+      name: "condition",
+      value: formData.condition,
+      header: "Condition",
+    },
+
+    {
+      label: "Enter build year",
+      name: "buildYear",
+      value: formData.buildYear,
+      header: "Build year",
+    },
   ];
 
   return (
     <Box sx={{ justifyContent: "flex-start", mt: 2, width: "100%" }}>
       {/* Use Grid to layout form fields side by side */}
       <Grid container spacing={2}>
-        {fields.map((field, index) => (
-          <Grid item xs={6} key={index}>
+        {fields.map((field) => (
+          <Grid size={{ xs: 6 }} key={field.label}>
             <p className="mb-1 text-[12px] text-[#000000]">{field.header}</p>
-            <p className="text-[10px]">{ field.subHeader}</p>
+            <p className="text-[10px]">{field.subHeader}</p>
             <TextField
               label={field.label}
               size="small"
               name={field.name}
               value={field.value}
-                type={field.name === "buildYear" ? "number" : "text"}  
+              type={field.name === "buildYear" ? "number" : "text"}
               // Conditionally apply the appropriate handler
               onChange={
                 field.name === "buildingMaterials"
                   ? handlebuildingMaterialsChange
                   : field.name === "structuralFeatures"
-                  ? handlestructuralFeaturesChange
-                  : handleInputChange
+                    ? handlestructuralFeaturesChange
+                    : handleInputChange
               }
               fullWidth
               sx={{ my: 1 }}

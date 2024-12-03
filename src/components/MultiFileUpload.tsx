@@ -1,7 +1,7 @@
 import { uploadFiles } from "@/builder/upload"; // Assuming this handles the upload logic
 import { Delete } from "@mui/icons-material"; // You can import any icon to delete images
-import { Box, Button, Grid, IconButton } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { Box, Button, Grid2 as Grid, IconButton } from "@mui/material";
+import { type ChangeEvent, useState } from "react";
 
 interface MultipleFileUploadProps {
   setImages: (images: string[]) => void; // To pass image URLs to the parent form component
@@ -18,7 +18,6 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
       try {
         // Upload files and capture the response
         const data = await uploadFiles(files);
-    
 
         setIsLoading(false);
 
@@ -64,7 +63,7 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
       {/* Display the uploaded images as thumbnails */}
       <Grid container spacing={2} justifyContent="center">
         {uploadedImages.map((url, index) => (
-          <Grid item key={index}>
+          <Grid key={url}>
             <Box sx={{ position: "relative" }}>
               <img
                 src={url}

@@ -1,5 +1,7 @@
-import Logo from "../assets/Logo.png";
+import Link from "next/link";
 
+import { useLogout } from "@/api/auth/mutations";
+import { useOptionStore } from "@/stores/useOptionStore";
 import {
   ArrowCircleRightOutlined,
   ChatBubbleOutlineOutlined,
@@ -18,15 +20,12 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useAuth } from "@/hooks/use-auth";
-import { useOptionStore } from "@/stores/useOptionStore";
-
-import Link from "next/link";
+import Logo from "../assets/Logo.png";
 
 const ProfileMainBar = () => {
   const setOption = useOptionStore((state) => state.setOption);
 
-  const { logout } = useAuth();
+  const logout = useLogout();
 
   const handleLogOut = () => {
     setOption(true);
@@ -34,22 +33,24 @@ const ProfileMainBar = () => {
   };
 
   return (
-    <Box sx={{
-      marginLeft: "270px", // Width of the fixed sidebar
-    marginTop: "30px", // Height of the fixed header (adjust as needed)
-    padding: "16px", // Optional: add padding for spacing
-    // overflowY: "auto", // Enable scrolling for the main content
-    backgroundColor: "#f5f5f5",}}>
+    <Box
+      sx={{
+        marginLeft: "270px", // Width of the fixed sidebar
+        marginTop: "30px", // Height of the fixed header (adjust as needed)
+        padding: "16px", // Optional: add padding for spacing
+        // overflowY: "auto", // Enable scrolling for the main content
+        backgroundColor: "#f5f5f5",
+      }}
+    >
       <AppBar
         position="fixed"
         style={{
-        top: 0,
-    left: 0,
-    width: "100%",
-    backgroundColor: "white",
-    color: "black",
-    boxShadow: "0 4px 2px -2px gray",
-
+          top: 0,
+          left: 0,
+          width: "100%",
+          backgroundColor: "white",
+          color: "black",
+          boxShadow: "0 4px 2px -2px gray",
         }}
       >
         <Toolbar>
