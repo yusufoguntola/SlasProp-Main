@@ -5,6 +5,7 @@ import { useOptionStore } from "@/stores/useOptionStore";
 import {
   ArrowCircleRightOutlined,
   ChatBubbleOutlineOutlined,
+  Menu as MenuIcon,
   NotificationsNoneOutlined,
   Search,
 } from "@mui/icons-material";
@@ -20,7 +21,11 @@ import {
   Typography,
 } from "@mui/material";
 
-const ProfileMainBar = () => {
+interface ProfileMainBarProps {
+  toggle: () => void;
+}
+
+const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
   const setOption = useOptionStore((state) => state.setOption);
 
   const logout = useLogout();
@@ -41,7 +46,7 @@ const ProfileMainBar = () => {
       }}
     >
       <AppBar
-        position="fixed"
+        position='fixed'
         style={{
           top: 0,
           left: 0,
@@ -52,10 +57,15 @@ const ProfileMainBar = () => {
         }}
       >
         <Toolbar>
-          <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
+          <Box sx={{ display: { xs: "flex", md: "none" }, p: 2 }}>
+            <IconButton onClick={toggle}>
+              <MenuIcon sx={{ color: "#26a69a" }} />
+            </IconButton>
+          </Box>
+          <Typography variant='body1' component='div' sx={{ flexGrow: 1 }}>
             <Box
+              component='img'
               src={"/assets/Logo.png"}
-              component="img"
               sx={{
                 height: 50,
               }}
@@ -67,13 +77,13 @@ const ProfileMainBar = () => {
               border: "1px solid grey;",
               py: 0.25,
             }}
-            placeholder="  Search Here"
+            placeholder='  Search Here'
             inputProps={{ "aria-label": "search-bar" }}
           />
           <Button
-            type="button"
-            className="SearchButton"
-            size="small"
+            type='button'
+            className='SearchButton'
+            size='small'
             sx={{
               bgcolor: "#26a69a",
               color: "white",
@@ -81,23 +91,23 @@ const ProfileMainBar = () => {
               "&:hover": { backgroundColor: "#52d6cf" },
               marginRight: 3,
             }}
-            aria-label="search"
+            aria-label='search'
           >
             <Search />
           </Button>
 
-          <Divider sx={{ color: "#26a69a" }} orientation="vertical" flexItem />
+          <Divider sx={{ color: "#26a69a" }} orientation='vertical' flexItem />
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
-              size="large"
-              color="inherit"
+              size='large'
+              color='inherit'
               component={Link}
-              href="/dashboard/messages"
+              href='/dashboard/messages'
             >
-              <Badge badgeContent={1} color="error">
+              <Badge badgeContent={1} color='error'>
                 <ChatBubbleOutlineOutlined
-                  fontSize="medium"
+                  fontSize='medium'
                   sx={{ color: "#26a69a" }}
                 />
               </Badge>
@@ -105,19 +115,19 @@ const ProfileMainBar = () => {
 
             <Divider
               sx={{ color: "#26a69a" }}
-              orientation="vertical"
+              orientation='vertical'
               flexItem
             />
 
             <IconButton
-              size="large"
-              color="inherit"
+              size='large'
+              color='inherit'
               component={Link}
-              href="/dashboard/notifications"
+              href='/dashboard/notifications'
             >
-              <Badge badgeContent={1} color="error">
+              <Badge badgeContent={1} color='error'>
                 <NotificationsNoneOutlined
-                  fontSize="large"
+                  fontSize='large'
                   sx={{ color: "#26a69a" }}
                 />
               </Badge>
@@ -125,7 +135,7 @@ const ProfileMainBar = () => {
 
             <Divider
               sx={{ color: "#26a69a" }}
-              orientation="vertical"
+              orientation='vertical'
               flexItem
             />
 
@@ -135,7 +145,7 @@ const ProfileMainBar = () => {
             >
               Log out
               <ArrowCircleRightOutlined
-                fontSize="large"
+                fontSize='large'
                 sx={{ ml: 1, color: "#26a69a" }}
               />
             </IconButton>

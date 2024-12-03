@@ -64,6 +64,34 @@ type ListingStatus = "public" | "private" | "draft";
 
 type OwnershipStatus = "owned";
 
+type RegisterProperty = Omit<
+  RegisteredProperty,
+  "id" | "address" | "state" | "country" | "propertyDescription" | "location"
+> & {};
+interface RegisteredProperty {
+  id: number;
+  ownerName: string;
+  requestType: string;
+  registrantName: string;
+  propertyType: string;
+  registrationNumber: string;
+  propertyTaxId: string;
+  areaOfLand: string;
+  locationId: string;
+  zipCode: string;
+  registeredAddress: string;
+  address: string;
+  state: string;
+  country: string;
+  propertyDescription?: string;
+  location: Location;
+}
+
+interface Location {
+  id: string;
+  name: string;
+}
+
 interface ConstructionDetails {
   buildingMaterials: string[];
   architecturalStyle: string;
