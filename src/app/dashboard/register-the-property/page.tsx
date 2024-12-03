@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
+
 const schema = object({
   ownerName: string().required("Owner name is required"),
   requestType: string().required("Request type is required"),
@@ -29,8 +30,8 @@ const schema = object({
   registeredAddress: string().required("Registered address is required"),
 });
 
-export const REQUEST_TYPES = ["Certificate of Occupancy", "Claim/Query"];
-export const PROPERTY_TYPES = [
+const REQUEST_TYPES = ["Certificate of Occupancy", "Claim/Query"];
+const PROPERTY_TYPES = [
   "Residential",
   "Commercial",
   "Industrial",
