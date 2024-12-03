@@ -38,7 +38,7 @@ export default function Settings() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { data: user } = useGetProfile();
+  const { data: user, isFetching } = useGetProfile();
   const { mutate: updateProfile, isPending } = useUpdateProfile();
   const { mutate, isPending: isChanging } = usePassword();
 
@@ -107,7 +107,12 @@ export default function Settings() {
           });
         })}
       >
-        <Box sx={{ mt: 4 }}>
+        <Box
+          sx={{
+            marginLeft: { xs: 0, md: "30%" },
+            mt: 4,
+          }}
+        >
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>First Name</FormLabel>
@@ -119,6 +124,7 @@ export default function Settings() {
                 id='firstName'
                 size='small'
                 {...profileForm.getInputProps("firstName")}
+                disabled={isFetching}
                 autoFocus
               />
             </Grid>
@@ -132,6 +138,7 @@ export default function Settings() {
                 size='small'
                 {...profileForm.getInputProps("lastName")}
                 autoComplete='family-name'
+                disabled={isFetching}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -145,6 +152,7 @@ export default function Settings() {
                 {...profileForm.getInputProps("email")}
                 size='small'
                 type='email'
+                disabled={isFetching}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -158,6 +166,7 @@ export default function Settings() {
                 {...profileForm.getInputProps("phoneNumber")}
                 size='small'
                 type='number'
+                disabled={isFetching}
               />
             </Grid>
           </Grid>
@@ -173,7 +182,7 @@ export default function Settings() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
-              disabled={!profileForm.isDirty() || isPending}
+              disabled={!profileForm.isDirty() || isPending || isFetching}
             >
               {isPending ? (
                 <CircularProgress size={24} color='inherit' />
@@ -199,7 +208,12 @@ export default function Settings() {
           });
         })}
       >
-        <Box sx={{ mt: 4 }}>
+        <Box
+          sx={{
+            marginLeft: { xs: 0, md: "30%" },
+            mt: 4,
+          }}
+        >
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>Current Password</FormLabel>
@@ -272,6 +286,7 @@ export default function Settings() {
                 borderRadius: "16px",
                 boxShadow: "10px 10px 5px #269d91 inset",
               }}
+              disabled={isChanging || isFetching}
             >
               {isChanging ? (
                 <CircularProgress size={24} color='inherit' />
