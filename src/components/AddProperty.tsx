@@ -120,7 +120,10 @@ export default function AddProperty() {
   const { mutate } = useCreateProperty();
   const { replace } = useRouter();
 
-  const handleAddProperty = () => mutate(form.values);
+  const handleAddProperty = () => {
+    form.validate();
+    mutate(form.values);
+  };
 
   return (
     <form
@@ -129,8 +132,12 @@ export default function AddProperty() {
           onSuccess: () => {
             showToast("success", <p>Property created</p>);
             form.reset();
-
             replace("/dashboard");
+          },
+          onError: (error) => {
+            showToast("error", "Error creating property");
+            console.error("Error creating property:", error);
+            throw error;
           },
         })
       )}
