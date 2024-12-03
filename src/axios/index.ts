@@ -1,4 +1,7 @@
 import axios from "axios";
+import { getCookie } from "cookies-next";
+
+import { COOKIES } from "@/constants";
 
 export const axiosInstance = axios.create({
   baseURL:
@@ -9,11 +12,9 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    // const token = getCookie(COOKIES.token);
+    const token = getCookie(COOKIES.token);
+    console.log("token", token);
 
-    // console.log("token", token);
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzMzMjA2MTk0LCJleHAiOjE3MzMzNzg5OTR9.fJKqbusyqOaz96odqlObPUOIrkEE_qDGemUAkU6aKMM";
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     } else {
