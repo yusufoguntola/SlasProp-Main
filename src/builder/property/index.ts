@@ -5,6 +5,14 @@ const list = (params = {}) =>
     params,
   });
 
+const publicList = (params = {}) =>
+  axiosInstance.get<ApiResponse<Property[]>>("/search", {
+    params,
+  });
+
+const publicSingle = (id: number) =>
+  axiosInstance.get<ApiResponse<Property>>(`/search/${id}`);
+
 const single = (id: number) =>
   axiosInstance.get<ApiResponse<Property>>(`/properties/${id}`);
 
@@ -39,4 +47,6 @@ export const properties = {
   create_listing,
   register,
   list_registered,
+  publicList,
+  publicSingle,
 };

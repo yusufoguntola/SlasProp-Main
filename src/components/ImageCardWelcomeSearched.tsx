@@ -1,4 +1,4 @@
-import { useGetProperties } from "@/api/properties/queries";
+import { useGetPublicProperties } from "@/api/properties/queries";
 import { useFilterProperties } from "@/hooks/use-filter-properties";
 import {
   Box,
@@ -18,7 +18,7 @@ const generateKey = (pre: unknown) => {
 };
 
 export function ImageCardWelcomeSearched() {
-  const { data, isLoading, isError } = useGetProperties();
+  const { data, isLoading, isError } = useGetPublicProperties();
   const [{ page }, setFilter] = useFilterProperties();
 
   const properties = data?.data.data ?? [];
@@ -26,14 +26,14 @@ export function ImageCardWelcomeSearched() {
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= lastPage) {
-      setFilter({ page });
+      setFilter({ page }).catch(console.log);
     }
   };
 
   if (isError || isLoading) {
     return (
       <Container
-        className="grid gap-6"
+        className="grid gap-6 py-8"
         sx={{
           display: "grid",
           gridTemplateColumns:

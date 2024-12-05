@@ -12,6 +12,16 @@ export function useGetProperties() {
     placeholderData: keepPreviousData,
   });
 }
+export function useGetPublicProperties() {
+  const [filters] = useFilterProperties();
+
+  return useQuery({
+    queryKey: builder.properties.publicList.$get(filters),
+    queryFn: () => builder.$use.properties.publicList(filters),
+    placeholderData: keepPreviousData,
+  });
+}
+
 export function useGetRegisteredProperties(page = 1) {
   return useQuery({
     queryKey: builder.properties.list_registered.$get(page),
