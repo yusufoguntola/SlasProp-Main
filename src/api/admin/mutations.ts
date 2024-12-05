@@ -1,28 +1,47 @@
 import { builder } from "@/builder";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /** USERS */
 export function useCreateUser() {
+  const qc = useQueryClient();
+
   return useMutation({
     mutationFn: builder.$use.admin.users.create,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: builder.admin.users.$get() });
+    },
   });
 }
 
 export function useDeleteUser() {
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: builder.$use.admin.users.single_user_by_username.delete,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: builder.admin.users.$get() });
+    },
   });
 }
 
 export function useUpdateUser() {
+  const qc = useQueryClient();
+
   return useMutation({
     mutationFn: builder.$use.admin.users.single_user_by_username.update,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: builder.admin.users.$get() });
+    },
   });
 }
 
 export function useChangeUserStatus() {
+  const qc = useQueryClient();
+
   return useMutation({
     mutationFn: builder.$use.admin.users.single_user_by_username.change_status,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: builder.admin.users.$get() });
+    },
   });
 }
 /** END USERS */
