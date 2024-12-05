@@ -11,18 +11,21 @@ const roles = {
 };
 
 const users = {
-  list: (params = {}) => axiosInstance.get("/users", { params }),
-  claimants: (params = {}) => axiosInstance.get("/roles", { params }),
+  list: (params = {}) =>
+    axiosInstance.get<ApiResponse<AdminUser[]>>("/users", { params }),
+  claimants: (params = {}) =>
+    axiosInstance.get<ApiResponse<AdminUser[]>>("/roles", { params }),
   create: (payload: UserCreationPayload) =>
-    axiosInstance.post("users", payload),
+    axiosInstance.post<PostResponse<AdminUser>>("users", payload),
   single_user_by_username: {
-    get: (username: string) => axiosInstance.get(`/users/${username}`),
+    get: (username: string) =>
+      axiosInstance.get<AdminUser>(`/users/${username}`),
     delete: (username: string) => axiosInstance.delete(`/users/${username}`),
     update: ({
       username,
       ...payload
     }: Partial<UserCreationPayload> & { username: string }) =>
-      axiosInstance.put(`/users/${username}`, payload),
+      axiosInstance.put<PostResponse<AdminUser>>(`/users/${username}`, payload),
     change_status: ({ username, isActive }: UserStatusPayload) =>
       axiosInstance.put(`/users/${username}`, { isActive }),
   },
