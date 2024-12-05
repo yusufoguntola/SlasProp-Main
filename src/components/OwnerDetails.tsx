@@ -9,12 +9,11 @@ export function OwnerDetails({ firstName, lastName }: OwnerDetailsProps) {
         sx={{
           backgroundColor: "#26a69a",
           color: "white",
-          fontSize: "16px",
+          fontSize: "12px",
           fontWeight: "bold",
           py: 1.5,
           px: 2,
           textAlign: "center",
-          borderRadius: "8px",
           boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
         }}
       >
@@ -23,40 +22,27 @@ export function OwnerDetails({ firstName, lastName }: OwnerDetailsProps) {
 
       <Box
         sx={{
-          display: "flex",
-          pt: 2,
+          py: 1,
           px: 3,
           border: "2px solid #26a69a",
-          borderRadius: "8px",
           boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-          flexWrap: "wrap",
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", mr: 3, mb: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Typography
             sx={{
-              color: "#26a69a",
-              fontSize: "14px",
+              fontSize: "12px",
               fontWeight: "bold",
-              mb: 1,
-              textAlign: "left",
+              textAlign: "center",
             }}
           >
-            {firstName || "First Name"}
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
-          <Typography
-            sx={{
-              color: "gray",
-              fontSize: "14px",
-              fontWeight: "bold",
-              mb: 1,
-              textAlign: "left",
-            }}
-          >
-            {lastName || "Last Name"}
+            {firstName || ""} {lastName || ""}
           </Typography>
         </Box>
       </Box>

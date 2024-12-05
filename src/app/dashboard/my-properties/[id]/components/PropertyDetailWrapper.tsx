@@ -15,7 +15,12 @@ function PropertyDetailWrapper({ id }: { id: string }) {
   const property = data?.data.data as Property;
 
   return (
-    <Box sx={{ marginLeft: { xs: 0, md: "23%" } }}>
+    <Box
+      sx={{
+        marginLeft: { xs: 0, md: "23%" },
+        marginRight: { xs: 0, md: "10%" },
+      }}
+    >
       <ImageGallery {...property} /> <DetailsBox property={property} />
     </Box>
   );

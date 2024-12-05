@@ -97,24 +97,15 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               border: "1px solid lightgray",
             }}
           >
-            <Typography sx={{ color: "#26a69a", fontWeight: "bold" }}>
+            <Typography
+              sx={{ color: "#26a69a", fontWeight: "bold", textAlign: "center" }}
+            >
               {property?.noOfBedrooms}
             </Typography>
-            <Typography sx={{ color: "black" }}>Bedrooms</Typography>
+            <Typography sx={{ color: "black", textAlign: "center" }}>
+              Bedrooms
+            </Typography>
           </Box>
-          {/*<Box sx={{*/}
-          {/*    display: "flex",*/}
-          {/*    flexDirection: "column",*/}
-          {/*    py: 2,*/}
-          {/*    px: 4,*/}
-          {/*    mr: 2,*/}
-          {/*    border: "1px solid lightgray",*/}
-          {/*}}>*/}
-          {/*    <Typography sx={{color: "#26a69a", fontWeight: "bold"}}>*/}
-          {/*        /!* {property.baths} *!/*/}
-          {/*    </Typography>*/}
-          {/*    <Typography sx={{color: "black"}}>Baths</Typography>*/}
-          {/*</Box>*/}
           <Box
             sx={{
               display: "flex",
@@ -124,15 +115,20 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               border: "1px solid lightgray",
             }}
           >
-            <Typography sx={{ color: "#26a69a", fontWeight: "bold" }}>
-              {currency}
+            <Typography
+              sx={{ color: "#26a69a", fontWeight: "bold", textAlign: "center" }}
+            >
               {property?.squareFootage}
             </Typography>
-            <Typography sx={{ color: "black" }}>Sqft</Typography>
+            <Typography sx={{ color: "black", textAlign: "center" }}>
+              Sqft
+            </Typography>
           </Box>
         </Box>
 
-        <OwnerDetails {...property?.owner} />
+        <Box sx={{ width: "250px" }}>
+          <OwnerDetails {...property?.owner} />
+        </Box>
       </Container>
 
       <Container>
