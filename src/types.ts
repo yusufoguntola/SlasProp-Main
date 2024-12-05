@@ -6,3 +6,13 @@ interface ApiResponse<T> {
   prevPageUrl: string | null;
   data: T;
 }
+
+interface User {
+  username: string;
+  role?: {
+    id: number;
+    name: string;
+    permissions: string[];
+  };
+  name: string;
+}

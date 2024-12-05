@@ -7,6 +7,11 @@ const login = async (payload: LoginPayload) => {
       access_token: string;
       name: string;
       username: string;
+      role?: {
+        name: string;
+        id: number;
+        permissions: string[];
+      };
     };
   }>("/auth/login", payload);
 };
@@ -44,6 +49,20 @@ const change_password = async (payload: {
   }>("/account/change-password", payload);
 };
 
+const upload_image = async (files: FileList) => {
+  const formData = new FormData();
+
+  for (let i = 0; i < files.length; i++) {
+    formData.append("files", files[i]);
+  }
+
+  return axiosInstance.post("/uploads", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 export const user = {
   login,
   register,
@@ -52,4 +71,5 @@ export const user = {
   profile_get,
   profile_edit,
   change_password,
+  upload_image,
 };

@@ -1,7 +1,7 @@
 interface LoginPayload {
   username: string;
   password: string;
-  type: string;
+  type: "user" | "admin";
 }
 
 interface SignupPayload {

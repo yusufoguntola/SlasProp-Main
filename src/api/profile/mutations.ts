@@ -26,3 +26,9 @@ export function usePassword() {
     },
   });
 }
+
+export function useUploadImage() {
+  return useMutation({
+    mutationFn: builder.$use.user.upload_image,
+  });
+}
