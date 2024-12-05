@@ -32,10 +32,13 @@ export function DetailsBox({ property }: DetailsBoxProps) {
     return new Intl.NumberFormat("en-US").format(number);
   };
 
-  const formattedPrice = formatAsPrice(property?.price || 0);
+  const formattedPrice = formatAsPrice(
+    Number.parseFloat(property?.price || "0"),
+  );
   // @ts-ignore
   const pricePerFootage = formatAsPrice(
-    (property?.price || 0) / (property?.squareFootage || 0),
+    Number.parseFloat(property?.price || "0") /
+      Number.parseInt(property?.squareFootage || "0"),
   );
 
   return (
