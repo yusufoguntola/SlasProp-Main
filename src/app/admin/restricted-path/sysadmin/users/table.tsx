@@ -56,10 +56,10 @@ export default function UsersTable() {
             dayPeriod: "short",
             weekday: "short",
           }),
-        id: "firstName",
+        id: "createdAt",
       },
     ],
-    [],
+    []
   );
 
   const users = useMemo(() => data?.data.data ?? [], [data]);
