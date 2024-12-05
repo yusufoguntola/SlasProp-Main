@@ -53,7 +53,7 @@ export default function NotificationsComponent() {
   const { data, isFetching } = useQuery({
     queryKey: builder.notification.get.$get(),
     queryFn: builder.$use.notification.get,
-    select: (data) => data,
+    select: ({ data }) => data,
   });
 
   const availableData = data?.map((notification) => (

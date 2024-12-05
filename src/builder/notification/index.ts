@@ -2,12 +2,12 @@ import { axiosInstance } from "@/axios";
 
 const get = () => {
   return axiosInstance
-    .get<NotificationData[]>("/notification")
+    .get<ApiResponse<NotificationData[]>>("/notifications")
     .then((res) => res.data);
 };
 
-const mark_as_read = (payload: { id: string }) => {
-  return axiosInstance.post("/auth/register", payload);
+const mark_as_read = (payload: { nids: string[] }) => {
+  return axiosInstance.post("/notifications", payload);
 };
 
 export const notification = {
