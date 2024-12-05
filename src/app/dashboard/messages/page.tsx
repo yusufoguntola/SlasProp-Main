@@ -43,7 +43,15 @@ export default function Messages() {
   };
 
   return (
-    <Box sx={{ marginLeft: "28%", mt: 2, pb: 2, mb: 10 }}>
+    <Box
+      sx={{
+        marginLeft: { xs: 0, md: "23%" },
+        marginRight: { xs: 0, md: "10%" },
+        mt: 2,
+        pb: 2,
+        mb: 10,
+      }}
+    >
       <Typography variant="h6" sx={{ fontWeight: "bold" }}>
         Chat
       </Typography>
@@ -81,7 +89,7 @@ export default function Messages() {
             <Button
               size="small"
               sx={{
-                bgcolor: "#26a69a",
+                backgroundColor: "#26a69a",
                 color: "white",
                 ml: 1,
                 "&:hover": { backgroundColor: "#52d6cf" },
@@ -124,8 +132,10 @@ export default function Messages() {
           </List>
         </Grid>
 
-        <Grid item xs={9}>
-          <List sx={{ height: "60vh", overflowY: "auto", padding: 2 }}>
+        <Grid item xs={9} display="flex" flexDirection="column">
+          <List
+            sx={{ height: "60vh", overflowY: "auto", padding: 2, flexGrow: 1 }}
+          >
             {messages.map((message, index) => (
               <ListItem
                 key={`key-${
