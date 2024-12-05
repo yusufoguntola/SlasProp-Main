@@ -5,8 +5,6 @@ import { TaxDetails, type TaxDetailsProps } from "./TaxDetails";
 
 export interface TaxOwnerDetailsCardProps {
   taxDetails: TaxDetailsProps;
-  // taxDetails: PropertyCardProps["taxDetails"];
-  // ownerDetails: PropertyCardProps["ownerDetails"];
   ownerDetails: OwnerDetailsProps;
 }
 
@@ -15,7 +13,13 @@ export function TaxOwnerDetailsCard({
   ownerDetails,
 }: TaxOwnerDetailsCardProps) {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        gap: 2,
+      }}
+    >
       <TaxDetails {...taxDetails} />
       <OwnerDetails {...ownerDetails} />
     </Box>

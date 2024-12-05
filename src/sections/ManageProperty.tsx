@@ -39,11 +39,12 @@ export function ManageProperty() {
       </Typography>
 
       <Container
+        className="grid gap-6 py-8"
         sx={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "row",
-          gap: "40px",
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fill, minmax(min(300px, 100%), 1fr))",
+          gridAutoRows: "1fr",
         }}
       >
         {properties.map((property) => (

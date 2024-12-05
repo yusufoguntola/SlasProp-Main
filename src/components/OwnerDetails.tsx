@@ -2,40 +2,61 @@ import { Box, Typography } from "@mui/material";
 
 export type OwnerDetailsProps = Partial<Property["owner"]>;
 
-export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
+export function OwnerDetails({ firstName, lastName }: OwnerDetailsProps) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", pb: 2, ml: 2 }}>
       <Typography
         sx={{
           backgroundColor: "#26a69a",
           color: "white",
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: "bold",
-          p: 1,
+          py: 1.5,
+          px: 2,
           textAlign: "center",
+          borderRadius: "8px",
+          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
         }}
       >
-        Owners Details
+        Owner's Details
       </Typography>
-      <Box sx={{ display: "flex", pt: 1, px: 2, border: "2px solid #26a69a" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+
+      <Box
+        sx={{
+          display: "flex",
+          pt: 2,
+          px: 3,
+          border: "2px solid #26a69a",
+          borderRadius: "8px",
+          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+          flexWrap: "wrap",
+        }}
+      >
+        <Box sx={{ display: "flex", flexDirection: "column", mr: 3, mb: 2 }}>
           <Typography
             sx={{
-              mb: 1,
               color: "#26a69a",
-              fontSize: "12px",
+              fontSize: "14px",
               fontWeight: "bold",
+              mb: 1,
+              textAlign: "left",
             }}
           >
-            {ownerDetails?.firstName}
+            {firstName || "First Name"}
           </Typography>
         </Box>
 
-        <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
           <Typography
-            sx={{ mb: 1, color: "gray", fontSize: "12px", fontWeight: "bold" }}
+            sx={{
+              color: "gray",
+              fontSize: "14px",
+              fontWeight: "bold",
+              mb: 1,
+              textAlign: "left",
+            }}
           >
-            {ownerDetails?.lastName}
+            {lastName || "Last Name"}
           </Typography>
         </Box>
       </Box>

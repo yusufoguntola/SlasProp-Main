@@ -23,22 +23,38 @@ export function ListProperty() {
     <Container
       sx={{
         display: "flex",
-        padding: 8,
+        flexDirection: { xs: "column", md: "row" },
+        py: { xs: 4 },
         justifyContent: "center",
         backgroundColor: "#F8F8F8",
+        gap: { xs: 4, md: 8 },
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", pt: 2, pl: 15 }}>
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          px: { xs: 2, md: 4 },
+          textAlign: { xs: "center", md: "left" },
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: "bold",
+            mb: 3,
+            fontSize: { xs: "1.2rem", md: "1.5rem" },
+          }}
+        >
           Discover a New Era with SlasProp!
         </Typography>
 
-        <List>
+        <List sx={{ gap: 2, display: "flex", flexDirection: "column" }}>
           <ListItem disablePadding>
             <ListItemIcon>
               <LanguageOutlined />
             </ListItemIcon>
-            <ListItemText sx={{ ml: -3 }}>
+            <ListItemText>
               <span style={{ fontWeight: "bold" }}>Seamless Listings:</span>{" "}
               Effortless Property Discovery.
             </ListItemText>
@@ -47,7 +63,7 @@ export function ListProperty() {
             <ListItemIcon>
               <HomeOutlined />
             </ListItemIcon>
-            <ListItemText sx={{ ml: -3 }}>
+            <ListItemText>
               <span style={{ fontWeight: "bold" }}>Smart Filters:</span>{" "}
               Tailored Searches, Made Easy.
             </ListItemText>
@@ -56,8 +72,8 @@ export function ListProperty() {
             <ListItemIcon>
               <SearchOutlined />
             </ListItemIcon>
-            <ListItemText sx={{ ml: -3 }}>
-              <span style={{ fontWeight: "bold" }}>Advanced Search</span> Dive
+            <ListItemText>
+              <span style={{ fontWeight: "bold" }}>Advanced Search:</span> Dive
               Deep Into Our Vast Database.
             </ListItemText>
           </ListItem>
@@ -65,7 +81,7 @@ export function ListProperty() {
             <ListItemIcon>
               <CameraAltOutlined />
             </ListItemIcon>
-            <ListItemText sx={{ ml: -3 }}>
+            <ListItemText>
               <span style={{ fontWeight: "bold" }}>Stunning Visuals:</span>{" "}
               Captivating Property Showcases.
             </ListItemText>
@@ -74,7 +90,7 @@ export function ListProperty() {
             <ListItemIcon>
               <BusinessCenterOutlined />
             </ListItemIcon>
-            <ListItemText sx={{ ml: -3 }}>
+            <ListItemText>
               <span style={{ fontWeight: "bold" }}>Business Spaces:</span>{" "}
               Diverse Commercial Spots.
             </ListItemText>
@@ -83,7 +99,7 @@ export function ListProperty() {
             <ListItemIcon>
               <LightbulbOutlined />
             </ListItemIcon>
-            <ListItemText sx={{ ml: -3 }}>
+            <ListItemText>
               <span style={{ fontWeight: "bold" }}>Location Insights:</span>{" "}
               Informed Decisions, Every Time.
             </ListItemText>
@@ -95,11 +111,10 @@ export function ListProperty() {
             backgroundColor: "#26a69a",
             color: "white",
             textDecoration: "none",
-            borderRadius: "0px",
-            maxWidth: "50%",
-            "&:hover": { backgroundColor: "#26a69a" },
+            borderRadius: "8px",
+            "&:hover": { backgroundColor: "#1e8b7e" },
             padding: 2,
-            mt: 2,
+            mt: 3,
           }}
         >
           List Property
@@ -110,9 +125,13 @@ export function ListProperty() {
         image="/assets/list-property.png"
         alt="This is a property image"
         sx={{
-          maxWidth: "45%",
+          maxWidth: {
+            xs: "100%",
+            md: "45%",
+          },
           objectFit: "cover",
-          pl: 10,
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         }}
       />
     </Container>
