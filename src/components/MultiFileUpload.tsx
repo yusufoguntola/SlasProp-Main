@@ -54,32 +54,36 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
 
   return (
     <Box
-      p={3}
       border="1px dashed #ccc"
       borderRadius={2}
       textAlign="center"
       sx={{
         ml: 2,
-        minWidth: "300px",
-        maxHeight: "100px",
+        width: "100%",
         backgroundColor: "#f5f5f5",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
-        overflowY: "auto",
       }}
     >
       {/* Display the uploaded images as thumbnails */}
       <Grid
         container
+        gridColumn="1"
         spacing={2}
-        justifyContent="flex-start"
+        display="flex"
+        flexDirection="column"
         alignItems="center"
+        sx={{ pb: 3, mx: 0, background: "black" }}
       >
         {uploadedImages.map((url, index) => (
-          <Grid key={url}>
+          <Grid key={url} sx={{ mx: 0 }}>
             <Box
-              sx={{ position: "relative", borderRadius: 1, overflow: "hidden" }}
+              sx={{
+                position: "relative",
+                borderRadius: 1,
+                overflow: "hidden",
+                px: 0,
+              }}
             >
               <img
                 src={url}
@@ -88,6 +92,7 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
                   width: "100%",
                   height: "80px",
                   objectFit: "cover",
+                  margin: 0,
                 }}
               />
               <IconButton
@@ -128,6 +133,7 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
               color: "white",
               textTransform: "capitalize",
               fontSize: "14px",
+              mb: 2,
               "&:hover": { backgroundColor: "#125aa1" },
             }}
           >
