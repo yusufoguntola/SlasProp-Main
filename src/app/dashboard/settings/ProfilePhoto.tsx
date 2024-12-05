@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
-import { uploadFiles } from "@/builder/upload";
+import { useUploadImage } from "@/api/profile/mutations";
 import type { UseFormReturnType } from "@mantine/form";
 import { Avatar, Button, CircularProgress } from "@mui/material";
 
@@ -10,31 +10,25 @@ interface ProfilePhotoProps {
   fieldName: string; // Accept the field name for the image
 }
 
-const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ form, fieldName }) => {
-  const [uploading, setUploading] = useState(false);
+const ProfilePhoto = ({ form, fieldName }: ProfilePhotoProps) => {
+  const { mutate, isPending } = useUploadImage();
   const fileInputRef = useRef<HTMLInputElement | null>(null); // Create a ref for the file input
 
   const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setUploading(true);
-    const file = event.target.files;
+    const files = event.target.files;
 
-    try {
-      if (file) {
-        form.setFieldValue(fieldName, URL.createObjectURL(file?.[0]));
-        const res = await uploadFiles(file);
-        // Set the image URL for preview
-        if (res.data) {
-          form.setFieldValue(fieldName, res?.data?.url);
-        }
-        setUploading(false);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Reset the input value
-        }
-      }
-    } catch (error) {
-      setUploading(false);
+    if (files) {
+      form.setFieldValue(fieldName, URL.createObjectURL(files?.[0]));
+
+      mutate(files, {
+        onSuccess: (resp) => {
+          const { data } = resp.data;
+
+          form.setFieldValue(fieldName, data?.url);
+        },
+      });
     }
   };
 
@@ -56,7 +50,7 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ form, fieldName }) => {
     >
       <Avatar
         src={form.values[fieldName]}
-        alt='Profile'
+        alt="Profile"
         sx={{
           width: 100,
           height: 100,
@@ -65,25 +59,25 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ form, fieldName }) => {
         }}
       />
       <input
-        type='file'
-        accept='image/*'
+        type="file"
+        accept="image/*"
         onChange={handleImageChange}
         style={{ display: "none" }}
         id={`${fieldName}-input`}
         ref={fileInputRef}
       />
       <Button
-        variant='contained'
+        variant="contained"
         onClick={handleButtonClick}
-        disabled={uploading}
+        disabled={isPending}
         sx={{
           backgroundColor: "#26a69a",
-          "&:hover": { backgroundColor: uploading ? "#26a69a" : "#1e8b81" },
+          "&:hover": { backgroundColor: isPending ? "#26a69a" : "#1e8b81" },
           borderRadius: "16px",
           boxShadow: "10px 10px 5px #269d91 inset",
         }}
       >
-        {uploading ? (
+        {isPending ? (
           <>
             <CircularProgress
               size={16}

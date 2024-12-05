@@ -18,7 +18,7 @@ export function useLogin() {
     mutationKey: builder.user.$get(),
     mutationFn: builder.$use.user.login,
     onSuccess(data) {
-      const { access_token, name, username } = data.data.data;
+      const { access_token, name, username, ...rest } = data.data.data;
 
       const user = parseJwt(access_token);
 
@@ -31,7 +31,7 @@ export function useLogin() {
 
       setCookie(
         COOKIES.user,
-        JSON.stringify({ id: user.id, name, username }),
+        JSON.stringify({ id: user.id, name, username, ...rest }),
         cookie_options,
       );
       setCookie(COOKIES.token, access_token, cookie_options);
