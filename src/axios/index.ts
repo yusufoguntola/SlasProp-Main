@@ -1,6 +1,7 @@
 import axios from "axios";
-import { getCookie } from "cookies-next";
 import queryString from "query-string";
+
+import { getCookie } from "cookies-next";
 
 import { COOKIES } from "@/constants";
 
