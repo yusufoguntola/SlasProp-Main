@@ -30,7 +30,7 @@ const passwordSchema = object({
     .min(6, "Password must be at least 6 characters")
     .matches(
       /(?=.*[a-z])(?=.*[A-Z])/,
-      "Password must contain at least one uppercase and one lowercase letter"
+      "Password must contain at least one uppercase and one lowercase letter",
     ),
 });
 
@@ -62,7 +62,7 @@ export default function Settings() {
       email: user.email ?? "",
       imageUrl: user.imageUrl ?? "",
     });
-  }, [user]);
+  }, [user, profileForm.initialize]);
 
   const passwordForm = useForm({
     initialValues: {
@@ -88,13 +88,13 @@ export default function Settings() {
           pb: 2,
         }}
       >
-        <Typography variant='h6' sx={{ fontWeight: "bold", flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
           Edit Profile
         </Typography>
       </Box>
 
       <Box sx={{ ml: { xs: 0, md: "30%" }, mt: 4 }}>
-        <ProfilePhoto form={profileForm} fieldName='imageUrl' />
+        <ProfilePhoto form={profileForm} fieldName="imageUrl" />
       </Box>
 
       <form
@@ -117,12 +117,12 @@ export default function Settings() {
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>First Name</FormLabel>
               <TextField
-                autoComplete='given-name'
-                name='firstName'
+                autoComplete="given-name"
+                name="firstName"
                 required
                 fullWidth
-                id='firstName'
-                size='small'
+                id="firstName"
+                size="small"
                 {...profileForm.getInputProps("firstName")}
                 disabled={isFetching}
                 autoFocus
@@ -133,11 +133,11 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                id='lastName'
-                name='lastName'
-                size='small'
+                id="lastName"
+                name="lastName"
+                size="small"
                 {...profileForm.getInputProps("lastName")}
-                autoComplete='family-name'
+                autoComplete="family-name"
                 disabled={isFetching}
               />
             </Grid>
@@ -146,12 +146,12 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                id='email'
-                name='email'
-                autoComplete='email'
+                id="email"
+                name="email"
+                autoComplete="email"
                 {...profileForm.getInputProps("email")}
-                size='small'
-                type='email'
+                size="small"
+                type="email"
                 disabled={isFetching}
               />
             </Grid>
@@ -160,12 +160,12 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                id='phoneNumber'
-                name='phoneNumber'
-                autoComplete='tel'
+                id="phoneNumber"
+                name="phoneNumber"
+                autoComplete="tel"
+                type="tel"
                 {...profileForm.getInputProps("phoneNumber")}
-                size='small'
-                type='number'
+                size="small"
                 disabled={isFetching}
               />
             </Grid>
@@ -173,9 +173,9 @@ export default function Settings() {
 
           <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
             <Button
-              type='submit'
-              variant='contained'
-              size='medium'
+              type="submit"
+              variant="contained"
+              size="medium"
               sx={{
                 backgroundColor: "#26a69a",
                 "&:hover": { backgroundColor: "#26a69a" },
@@ -185,7 +185,7 @@ export default function Settings() {
               disabled={!profileForm.isDirty() || isPending || isFetching}
             >
               {isPending ? (
-                <CircularProgress size={24} color='inherit' />
+                <CircularProgress size={24} color="inherit" />
               ) : (
                 "Update Profile"
               )}
@@ -199,8 +199,8 @@ export default function Settings() {
         onSubmit={passwordForm.onSubmit((values) => {
           mutate(values, {
             onSuccess: () => {
-              profileForm.reset(),
-                showToast("success", "Password Updated Successfully");
+              profileForm.reset();
+              showToast("success", "Password Updated Successfully");
             },
             onError: (error) => {
               showToast("error", error.message);
@@ -220,19 +220,19 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                name='password'
+                name="password"
                 type={showPassword ? "text" : "password"}
-                id='password'
-                size='small'
-                autoComplete='new-password'
-                margin='normal'
+                id="password"
+                size="small"
+                autoComplete="new-password"
+                margin="normal"
                 {...passwordForm.getInputProps("password")}
                 error={!!passwordForm.errors.password}
                 helperText={passwordForm.errors.password}
                 slotProps={{
                   input: {
                     endAdornment: (
-                      <InputAdornment position='end'>
+                      <InputAdornment position="end">
                         <IconButton onClick={handleShowPassword}>
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -247,19 +247,19 @@ export default function Settings() {
               <TextField
                 required
                 fullWidth
-                name='newPassword'
+                name="newPassword"
                 type={showConfirmPassword ? "text" : "password"}
-                id='newPassword'
-                size='small'
-                autoComplete='new-password'
-                margin='normal'
+                id="newPassword"
+                size="small"
+                autoComplete="new-password"
+                margin="normal"
                 {...passwordForm.getInputProps("newPassword")}
                 error={!!passwordForm.errors.newPassword}
                 helperText={passwordForm.errors.newPassword}
                 slotProps={{
                   input: {
                     endAdornment: (
-                      <InputAdornment position='end'>
+                      <InputAdornment position="end">
                         <IconButton onClick={handleShowConfirmPassword}>
                           {showConfirmPassword ? (
                             <VisibilityOff />
@@ -277,9 +277,9 @@ export default function Settings() {
 
           <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
             <Button
-              type='submit'
-              variant='contained'
-              size='medium'
+              type="submit"
+              variant="contained"
+              size="medium"
               sx={{
                 backgroundColor: "#26a69a",
                 "&:hover": { backgroundColor: "#26a69a" },
@@ -289,7 +289,7 @@ export default function Settings() {
               disabled={isChanging || isFetching}
             >
               {isChanging ? (
-                <CircularProgress size={24} color='inherit' />
+                <CircularProgress size={24} color="inherit" />
               ) : (
                 "Reset Password"
               )}
