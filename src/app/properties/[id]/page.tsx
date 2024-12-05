@@ -20,11 +20,14 @@ export default function PropertyDetails({
     queryFn: () => axiosInstance.get(`/search/${id}`),
   });
 
+  const property = data?.data.data;
+
   return (
     <>
       <NavBarContainer />
-      <ImageGallery /> {/* Pass the id to your ImageGallery component */}
-      <DetailsBox property={data?.data.data} />
+      <ImageGallery {...property} />{" "}
+      {/* Pass the id to your ImageGallery component */}
+      <DetailsBox property={property} />
     </>
   );
 }

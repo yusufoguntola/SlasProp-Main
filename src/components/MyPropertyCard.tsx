@@ -6,6 +6,7 @@ import { ArrowForward, LocationOn } from "@mui/icons-material";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 
 type MyPropertyCardProps = Partial<{
+  name: string;
   city: string;
   country: string;
   state: string;
@@ -18,6 +19,16 @@ type MyPropertyCardProps = Partial<{
 }>;
 
 export function MyPropertyCard(property: MyPropertyCardProps) {
+  const formatAsPrice = (number: number) => {
+    return new Intl.NumberFormat("en-US").format(number);
+  };
+  const currency = "₦";
+  const formattedPrice = formatAsPrice(
+    Number.parseFloat(property?.price || "0"),
+  );
+
+  const propertyImage = property?.images?.[0];
+
   return (
     <Box
       sx={{
@@ -34,7 +45,14 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
 				alt="land image"
 			/> */}
 
-      <img src={property?.images?.[0]} alt="land" height={150} width={200} />
+      <img
+        src={propertyImage || "/assets/property-image.jpg"}
+        alt="land"
+        height={170}
+        width={200}
+        className={"overflow-hidden rounded-lg"}
+        style={{ height: "170px", width: "200px" }}
+      />
       <Box sx={{ display: "flex", flexDirection: "column", ml: 4 }}>
         <Button
           sx={{
@@ -52,23 +70,29 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
         <Typography
           sx={{
             mt: 0.5,
-            fontStyle: "italic",
             color: "#26a69a",
             fontWeight: "bold",
           }}
         >
-          {property?.price}
+          {property?.name}
         </Typography>
-        <Typography sx={{ fontSize: "9px", color: "grey" }}>
-          <LocationOn sx={{ color: "#DF593D", fontSize: "14px" }} />
+        <Typography
+          sx={{
+            mt: 0.5,
+            color: "#26a69a",
+            fontWeight: "bold",
+          }}
+        >
+          {currency}
+          {formattedPrice}
+        </Typography>
+        <Typography sx={{ fontSize: "10px", color: "grey", mt: 0.5 }}>
+          <LocationOn sx={{ color: "#DF593D", fontSize: "14px", ml: -0.5 }} />
           {`${property?.city}${", "}${property?.state}${", "}${
             property?.country
           }`}
         </Typography>
-        <Typography sx={{ mt: 0.5, fontSize: "14px", fontWeight: "bold" }}>
-          Description
-        </Typography>
-        <Typography sx={{ mt: 0.5, fontSize: "9px", color: "grey" }}>
+        <Typography sx={{ mt: 0.5, color: "grey" }}>
           {property?.description}
         </Typography>
         <Link href={`/dashboard/my-properties/${property?.id}`}>

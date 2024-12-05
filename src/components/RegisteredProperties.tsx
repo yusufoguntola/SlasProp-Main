@@ -18,6 +18,8 @@ import { useState } from "react";
 const useStyles: Record<string, SxProps<Theme>> = {
   container: {
     padding: "24px",
+    ml: { xs: 0, md: "30%" },
+    maxWidth: 950,
   },
   cardContainer: {
     border: "1px solid lightgray",
@@ -154,16 +156,18 @@ export default function RegisteredProperties() {
             </Box>
           ))}
       {/* {isPressed && (
-          <Box>
-            {properties.map((property) => (
+        <Box>
+          {data?.map((property) => {
+            return (
               <TaxOwnerDetailsCard
                 key={property.id}
-                taxDetails={property.taxDetails}
-                ownerDetails={property.ownerDetails}
+                taxDetails={taxDetails}
+                ownerDetails={ownerDetails}
               />
-            ))}
-          </Box>
-        )} */}
+            );
+          })}
+        </Box>
+      )} */}
     </Container>
   );
 }

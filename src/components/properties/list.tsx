@@ -62,7 +62,8 @@ export function PropertiesList() {
               borderRadius: "16px",
               color: "white",
               fontSize: "12px",
-              p: 1,
+              py: 1,
+              px: 2,
             }}
           >
             <AddCircleOutline /> &nbsp;Add New Property

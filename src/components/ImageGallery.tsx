@@ -4,34 +4,15 @@ import ReactImageGallery from "react-image-gallery";
 
 import { Container } from "@mui/material";
 
-const images = [
-  {
-    original: "/assets/land-image.jpg",
-    thumbnail: "/assets/land-image.jpg",
-    bnailWidth: 200,
-    thumbnailHeight: 100,
-  },
-  {
-    original: "/assets/land-image-1.jpg",
-    thumbnail: "/assets/land-image-1.jpg",
-    thumbnailWidth: 200,
-    thumbnailHeight: 100,
-  },
-  {
-    original: "/assets/land-image-2.jpg",
-    thumbnail: "/assets/land-image-2.jpg",
-    thumbnailWidth: 200,
-    thumbnailHeight: 100,
-  },
-  {
-    original: "/assets/land-image-3.jpg",
-    thumbnail: "/assets/land-image-3.jpg",
-    thumbnailWidth: 200,
-    thumbnailHeight: 100,
-  },
-];
-
-export function ImageGallery() {
+export function ImageGallery(property: Property) {
+  const images = (property?.images || []).map((i) => {
+    return {
+      original: i,
+      thumbnail: i,
+      thumbnailWidth: 200,
+      thumbnailHeight: 100,
+    };
+  });
   return (
     <Container sx={{ mt: 1, mb: 1 }}>
       <ReactImageGallery
