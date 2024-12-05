@@ -4,29 +4,21 @@ export type OwnerDetailsProps = Partial<Property["owner"]>;
 
 export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        border: "2px solid #26a69a",
-        pb: 2,
-        ml: 4,
-      }}
-    >
+    <Box sx={{ display: "flex", flexDirection: "column", pb: 2, ml: 2 }}>
       <Typography
         sx={{
           backgroundColor: "#26a69a",
           color: "white",
-          fontSize: "16px",
+          fontSize: "12px",
           fontWeight: "bold",
-          py: 1.5,
-          px: 1,
+          p: 1,
+          textAlign: "center",
         }}
       >
         Owners Details
       </Typography>
-      <Box sx={{ display: "flex", mt: 1 }}>
-        <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
+      <Box sx={{ display: "flex", pt: 1, px: 2, border: "2px solid #26a69a" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography
             sx={{
               mb: 1,
@@ -41,27 +33,9 @@ export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
 
         <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
           <Typography
-            sx={{
-              mb: 1,
-              color: "gray",
-              fontSize: "12px",
-              fontWeight: "bold",
-            }}
+            sx={{ mb: 1, color: "gray", fontSize: "12px", fontWeight: "bold" }}
           >
             {ownerDetails?.lastName}
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: "flex", mx: 2.5, flexDirection: "column" }}>
-          <Typography
-            sx={{
-              mb: 1.5,
-              color: "#26a69a",
-              fontSize: "10px",
-              display: "flex",
-            }}
-          >
-            {ownerDetails?.id}
           </Typography>
         </Box>
       </Box>

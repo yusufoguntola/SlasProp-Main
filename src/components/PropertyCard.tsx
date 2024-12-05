@@ -25,21 +25,21 @@ export function PropertyCard(property: Property) {
         sx={{
           display: "flex",
           alignItems: "flex-start",
-          p: 2,
         }}
         component={Link}
-        href={`/properties/${property?.id}`}
+        href={`/properties/${property?.propertyId}`}
       >
         {/* Property Image */}
         <Image
-          src={property.images[0]}
+          src={property.images[0] || "/assets/property-image.jpg"}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
             currentTarget.src = "/assets/property-image.jpg";
           }}
-          height={150}
+          height={170}
           width={200}
-          className="object-cover rounded-lg"
+          className="object-cover overflow-hidden"
+          style={{ height: "170px", width: "200px" }}
           alt="property-image"
         />
 
@@ -50,7 +50,7 @@ export function PropertyCard(property: Property) {
             flexDirection: "column",
             justifyContent: "space-between",
             flex: 1,
-            ml: 2,
+            p: 2,
           }}
         >
           {/* Property Type */}

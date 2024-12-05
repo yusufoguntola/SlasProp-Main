@@ -63,7 +63,7 @@ export function ImageCardWelcomeSearched() {
         justifyContent: "space-between",
       }}
     >
-      <Grid container>
+      <Grid container spacing={{ xs: 2, sm: 2 }}>
         <div className="hidden last:flex items-center justify-center py-4 text-center w-full">
           <Typography textAlign="center" color="text.secondary">
             No properties found. Please adjust your search criteria.
