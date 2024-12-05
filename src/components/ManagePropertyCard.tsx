@@ -12,40 +12,60 @@ interface ManagePropertyCardProps {
   desc: string;
 }
 
-export function ManagePropertyCard(property: ManagePropertyCardProps) {
+export function ManagePropertyCard({
+  imageUrl,
+  heading,
+  desc,
+}: ManagePropertyCardProps) {
   return (
     <Card
-      sx={{ height: "280px", border: "1px solid #black", my: 4, px: 2, py: 2 }}
+      sx={{
+        height: "280px",
+        border: "1px solid black",
+        borderRadius: "8px",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      }}
     >
       <CardActionArea
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
         }}
       >
         <CardMedia
           component="img"
-          image={property.imageUrl}
-          sx={{ maxWidth: "50%" }}
+          image={imageUrl}
+          sx={{
+            maxWidth: "80%",
+            height: "80px",
+            objectFit: "contain",
+            marginBottom: 2,
+          }}
           alt="property-image"
         />
-        <CardContent>
+        <CardContent sx={{ textAlign: "center" }}>
+          {" "}
           <Typography
             gutterBottom
             sx={{
               fontWeight: "bold",
               fontSize: "20px",
-              textAlign: "center",
               textTransform: "uppercase",
+              color: "#333",
             }}
           >
-            {property.heading}
+            {heading}
           </Typography>
           <Typography
-            sx={{ color: "black", textAlign: "center", fontSize: "13px" }}
+            sx={{
+              color: "#555",
+              fontSize: "14px",
+            }}
           >
-            {property.desc}
+            {desc}
           </Typography>
         </CardContent>
       </CardActionArea>
