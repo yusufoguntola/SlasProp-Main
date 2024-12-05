@@ -2,66 +2,47 @@ import { Box, Typography } from "@mui/material";
 
 export type OwnerDetailsProps = Partial<Property["owner"]>;
 
-export function OwnerDetails(ownerDetails: OwnerDetailsProps) {
+export function OwnerDetails({ firstName, lastName }: OwnerDetailsProps) {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        border: "2px solid #26a69a",
-        pb: 2,
-        ml: 4,
-      }}
-    >
+    <Box sx={{ display: "flex", flexDirection: "column", pb: 2, ml: 2 }}>
       <Typography
         sx={{
           backgroundColor: "#26a69a",
           color: "white",
-          fontSize: "16px",
+          fontSize: "12px",
           fontWeight: "bold",
           py: 1.5,
-          px: 1,
+          px: 2,
+          textAlign: "center",
+          boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
         }}
       >
-        Owners Details
+        Owner's Details
       </Typography>
-      <Box sx={{ display: "flex", mt: 1 }}>
-        <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
+
+      <Box
+        sx={{
+          py: 1,
+          px: 3,
+          border: "2px solid #26a69a",
+          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Typography
             sx={{
-              mb: 1,
-              color: "#26a69a",
               fontSize: "12px",
               fontWeight: "bold",
+              textAlign: "center",
             }}
           >
-            {ownerDetails?.firstName}
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: "flex", ml: 2, flexDirection: "column" }}>
-          <Typography
-            sx={{
-              mb: 1,
-              color: "gray",
-              fontSize: "12px",
-              fontWeight: "bold",
-            }}
-          >
-            {ownerDetails?.lastName}
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: "flex", mx: 2.5, flexDirection: "column" }}>
-          <Typography
-            sx={{
-              mb: 1.5,
-              color: "#26a69a",
-              fontSize: "10px",
-              display: "flex",
-            }}
-          >
-            {ownerDetails?.id}
+            {firstName || ""} {lastName || ""}
           </Typography>
         </Box>
       </Box>

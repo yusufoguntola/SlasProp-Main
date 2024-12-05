@@ -5,6 +5,14 @@ const list = (params = {}) =>
     params,
   });
 
+const publicList = (params = {}) =>
+  axiosInstance.get<ApiResponse<Property[]>>("/search", {
+    params,
+  });
+
+const publicSingle = (id: number) =>
+  axiosInstance.get<ApiResponse<Property>>(`/search/${id}`);
+
 const single = (id: number) =>
   axiosInstance.get<ApiResponse<Property>>(`/properties/${id}`);
 
@@ -18,9 +26,7 @@ const create_listing = async (payload: CreateProperty) =>
         payload.constructionDetails.buildingMaterials.split(", "),
       structuralFeatures:
         // @ts-ignore
-        payload.constructionDetails.structuralFeatures.split(
-          ", structuralFeatures",
-        ),
+        payload.constructionDetails.structuralFeatures.split(", "),
     },
     amenities: payload.amenities.split(", "),
   });
@@ -39,4 +45,6 @@ export const properties = {
   create_listing,
   register,
   list_registered,
+  publicList,
+  publicSingle,
 };

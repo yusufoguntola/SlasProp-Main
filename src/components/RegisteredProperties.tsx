@@ -6,18 +6,25 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   Skeleton,
+  Typography,
   type SxProps,
   type Theme,
-  Typography,
 } from "@mui/material";
 import Link from "next/link";
 import { useState } from "react";
+import { TaxOwnerDetailsCard } from "./TaxOwnerDetailsCards";
 
 const useStyles: Record<string, SxProps<Theme>> = {
   container: {
     padding: "24px",
+    ml: { xs: 0, md: "30%" },
+    maxWidth: 950,
   },
   cardContainer: {
     border: "1px solid lightgray",
@@ -66,21 +73,27 @@ const useStyles: Record<string, SxProps<Theme>> = {
 };
 
 export default function RegisteredProperties() {
-  const [isPressed, setIsPressed] = useState(false);
-  const [checkHeading, setCheckHeading] = useState("Registered Properties");
+  const { data, isFetching } = useGetRegisteredProperties();
 
-  const handleClick = () => {
-    setIsPressed(!isPressed);
-    setCheckHeading(isPressed ? "Registered Properties" : "Details");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProperty, setSelectedProperty] =
+    useState<RegisterProperty | null>(null);
+
+  const handleClick = (property: RegisterProperty) => {
+    setSelectedProperty(property);
+    setIsModalOpen(true);
   };
 
-  const { data, isFetching } = useGetRegisteredProperties();
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setSelectedProperty(null);
+  };
 
   return (
     <Container maxWidth="md" sx={useStyles.container}>
       <Box sx={useStyles.header}>
         <Typography variant="h6" fontWeight="bold">
-          {checkHeading}
+          Registered Properties
         </Typography>
         <Button
           component={Link}
@@ -126,7 +139,7 @@ export default function RegisteredProperties() {
                     {property.registrationNumber}
                   </Typography>
                 </Box>
-                <IconButton onClick={handleClick}>
+                <IconButton onClick={() => handleClick(property)}>
                   <MoreVert />
                 </IconButton>
               </Box>
@@ -153,17 +166,31 @@ export default function RegisteredProperties() {
               </Box>
             </Box>
           ))}
-      {/* {isPressed && (
-          <Box>
-            {properties.map((property) => (
-              <TaxOwnerDetailsCard
-                key={property.id}
-                taxDetails={property.taxDetails}
-                ownerDetails={property.ownerDetails}
-              />
-            ))}
-          </Box>
-        )} */}
+
+      <Dialog open={isModalOpen} onClose={handleClose} maxWidth="md" fullWidth>
+        <DialogTitle>Property Details</DialogTitle>
+        <DialogContent>
+          {selectedProperty && (
+            <TaxOwnerDetailsCard
+              taxDetails={{
+                year: [2020, 2021, 2022],
+                propertyTax: ["$1000", "$2000", "$3000"],
+                taxAssessment: ["$5000", "$6000", "$7000"],
+                status: ["Paid", "Due", "Due"],
+              }}
+              ownerDetails={{
+                firstName: "Lorem Ipsum",
+                lastName: "Dolor Sit",
+                imageUrl: "",
+                id: 2,
+              }}
+            />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }
