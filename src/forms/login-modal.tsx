@@ -47,7 +47,7 @@ export function LoginModal() {
     initialValues: {
       username: "",
       password: "",
-      type: "user",
+      type: "user" as const,
       showPassword: false,
     },
     validate: yupResolver(schema),
