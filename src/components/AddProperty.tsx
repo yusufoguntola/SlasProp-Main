@@ -174,7 +174,7 @@ export default function AddProperty() {
         }),
       )}
     >
-      <Container>
+      <Container sx={{ mb: 4 }}>
         <Box
           sx={{
             display: "flex",
