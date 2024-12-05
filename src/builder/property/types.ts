@@ -109,10 +109,10 @@ interface UtilityService {
 }
 
 interface User {
-  firstName: "posuc";
-  lastName: "julibyti";
-  imageUrl: null;
-  id: 4;
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
+  id: number;
 }
 
 interface FinancialDetails {
