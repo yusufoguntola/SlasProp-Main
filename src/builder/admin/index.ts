@@ -1,7 +1,8 @@
 import { axiosInstance } from "@/axios";
 
 const roles = {
-  list: (params = {}) => axiosInstance.get("/roles", { params }),
+  list: (params = {}) =>
+    axiosInstance.get<PostResponse<Role[]>>("/roles", { params }),
   delete: (roleId: number) => axiosInstance.delete(`/roles/${roleId}`),
   create: (payload: RoleCreationPayload) =>
     axiosInstance.post("roles", payload),
@@ -32,9 +33,10 @@ const users = {
 };
 
 const locations = {
-  list: (params = {}) => axiosInstance.get("/locations", { params }),
+  list: (params = {}) =>
+    axiosInstance.get<ApiResponse<ILocation[]>>("/locations", { params }),
   create: (payload: { name: string; code: string }) =>
-    axiosInstance.post("locations", payload),
+    axiosInstance.post<PostResponse<ILocation>>("locations", payload),
   update: ({
     locationID,
     ...payload

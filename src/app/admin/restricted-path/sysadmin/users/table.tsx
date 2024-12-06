@@ -1,18 +1,22 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { useCreateUser } from "@/api/admin/mutations";
 import { useGetUsers } from "@/api/admin/queries";
 import { useFilterProperties } from "@/hooks/use-filter-properties";
+import { Button, Modal } from "@mui/material";
 import {
   MaterialReactTable,
   // type MRT_PaginationState,
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from "material-react-table";
+import { NewUser } from "./new-user";
 
 export default function UsersTable() {
+  const [modalOpened, setModalState] = useState(false);
+
   const { data, isPending, isRefetching } = useGetUsers();
   const [{ page, page_size, filter }] = useFilterProperties();
 
@@ -53,13 +57,12 @@ export default function UsersTable() {
             year: "numeric",
             month: "short",
             day: "2-digit",
-            dayPeriod: "short",
             weekday: "short",
           }),
         id: "createdAt",
       },
     ],
-    []
+    [],
   );
 
   const users = useMemo(() => data?.data.data ?? [], [data]);
@@ -83,5 +86,25 @@ export default function UsersTable() {
     },
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <div className="grid gap-4">
+      <div className="flex items-center justify-end">
+        <Button
+          type="button"
+          variant="contained"
+          onClick={() => setModalState(true)}
+        >
+          Add User
+        </Button>
+      </div>
+      <MaterialReactTable table={table} />
+
+      <Modal open={modalOpened} onClose={() => setModalState(false)}>
+        <NewUser
+          initialValues={undefined}
+          onClose={() => setModalState(false)}
+        />
+      </Modal>
+    </div>
+  );
 }

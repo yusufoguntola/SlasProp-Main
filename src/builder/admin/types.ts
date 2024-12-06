@@ -14,9 +14,9 @@ interface UserCreationPayload {
   phoneNumber: string;
   imageUrl: string;
   roleId: number;
-  reportingOfficerType: string;
-  reportingOfficerId: number;
-  locationId: number;
+  reportingOfficerType: string | null;
+  reportingOfficerId: number | null;
+  locationId: number | null;
 }
 
 interface UserStatusPayload {
