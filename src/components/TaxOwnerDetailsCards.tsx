@@ -1,12 +1,11 @@
 import { Box } from "@mui/material";
 
-import { OwnerDetails } from "./OwnerDetails";
-import { PropertyCardProps } from "./PropertyCard";
-import { TaxDetails } from "./TaxDetails";
+import { OwnerDetails, type OwnerDetailsProps } from "./OwnerDetails";
+import { TaxDetails, type TaxDetailsProps } from "./TaxDetails";
 
 export interface TaxOwnerDetailsCardProps {
-  taxDetails: PropertyCardProps["taxDetails"];
-  ownerDetails: PropertyCardProps["ownerDetails"];
+  taxDetails: TaxDetailsProps;
+  ownerDetails: OwnerDetailsProps;
 }
 
 export function TaxOwnerDetailsCard({
@@ -14,7 +13,13 @@ export function TaxOwnerDetailsCard({
   ownerDetails,
 }: TaxOwnerDetailsCardProps) {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        gap: 2,
+      }}
+    >
       <TaxDetails {...taxDetails} />
       <OwnerDetails {...ownerDetails} />
     </Box>

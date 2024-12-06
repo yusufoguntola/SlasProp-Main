@@ -2,11 +2,11 @@
 
 import clsx from "clsx";
 import {
-  Id,
+  type Id,
   Slide,
   ToastContainer,
-  ToastContent,
-  ToastOptions,
+  type ToastContent,
+  type ToastOptions,
   toast,
 } from "react-toastify";
 
@@ -43,7 +43,7 @@ export type ToastType = keyof typeof toastStyles;
 export const showToast = (
   type: ToastType,
   content: ToastContent,
-  options: Partial<ToastOptions> = {}
+  options: Partial<ToastOptions> = {},
 ): Id => {
   const className = toastStyles[type];
   const optionsOverride = { ...defaultOptions, ...options, className };
@@ -74,7 +74,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
           const { type = "default" } = { ...context };
           return clsx(
             "rounded-md p-1 min-h-10 flex justify-between overflow-hidden cursor-pointer",
-            contextClass[type]
+            contextClass[type],
           );
         }}
         position="bottom-left"

@@ -1,43 +1,55 @@
-import { LocationOn, Search } from "@mui/icons-material";
-import { Button, Container, InputBase, Paper } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { object, string } from "yup";
 
-import Link from "next/link";
+import { useForm, yupResolver } from "@mantine/form";
+import { LocationOn, Search } from "@mui/icons-material";
+import { Button } from "@mui/material";
+
+const schema = object({
+  searchTerm: string()
+    .required()
+    .min(3, "Search term must be at least 3 characters long")
+    .max(50, "Search term must be at most 50 characters long"),
+});
 
 export function SearchBar() {
+  const { push } = useRouter();
+
+  const form = useForm({
+    initialValues: {
+      searchTerm: "",
+    },
+    validate: yupResolver(schema),
+  });
+
   return (
-    <Paper
-      component="form"
-      sx={{
-        p: "10px 10px",
-        display: "flex",
-        alignItems: "center",
-        boxShadow: "0px 0px 10px 10px rgba(108, 122, 137, 0.5)",
-        borderRadius: "0px",
-        maxWidth: "45%",
-        minWidth: "25%",
-        ml: "28%",
-      }}
+    <form
+      className="w-full p-3 flex items-center shadow-[0_0_10_10_rgba(108,122,137,0.5)] bg-white max-w-3xl gap-3"
+      onSubmit={form.onSubmit((values) => {
+        push(`/properties?filter=${values.searchTerm}`);
+      })}
     >
-      <Container sx={{ boxShadow: "0px 2px 2px grey;", py: 1 }}>
-        <LocationOn sx={{ color: "#DF593D" }} />
-        <InputBase
-          sx={{ fontSize: { lg: 12, sm: 12, xs: 7 } }}
-          placeholder="  Search Property"
-          inputProps={{ "aria-label": "search-property" }}
+      <div className="relative w-full flex">
+        <LocationOn
+          sx={{ color: "#DF593D" }}
+          className="absolute top-1/2 -translate-y-1/2 left-1"
         />
-      </Container>
+        <input
+          type="text"
+          className="w-full p-3 pl-7 h-14 outline-none border border-gray-500"
+          placeholder="Enter search term"
+          name="searchTerm"
+          {...form.getInputProps("searchTerm")}
+        />
+      </div>
       <Button
-        type="button"
-        component={Link}
-        href="/property-details"
+        type="submit"
         className="SearchButton"
         sx={{
           bgcolor: "#26a69a",
           color: "white",
           px: 5,
-          py: 1,
-          ml: 2,
-          borderRadius: "0px",
+          height: 56,
           "&:hover": { backgroundColor: "#52d6cf" },
         }}
         aria-label="search"
@@ -45,6 +57,6 @@ export function SearchBar() {
         <Search />
         Search
       </Button>
-    </Paper>
+    </form>
   );
 }

@@ -1,14 +1,10 @@
 import { CardMedia } from "@mui/material";
 
-import sampleImage from "@/assets/land-image.jpg";
-
 export function ImageCard() {
   return (
     <CardMedia
       component="img"
-      image={sampleImage.src}
-      onLoad={() => console.log("this is loading")}
-      onError={() => console.log("this is error")}
+      image="/assets/land-image.jpg"
       alt="This is a land image"
       sx={{
         marginTop: "-50px",

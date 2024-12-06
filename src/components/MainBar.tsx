@@ -1,4 +1,7 @@
-import { useOptionStore } from "@/stores/useOptionStore";
+import Link from "next/link";
+
+import { useIsAuthenticated } from "@/api/auth/queries";
+import { LoginModal } from "@/forms/login-modal";
 import { Facebook, Instagram, X, YouTube } from "@mui/icons-material";
 import {
   AppBar,
@@ -9,14 +12,10 @@ import {
   Toolbar,
 } from "@mui/material";
 
-import { LoginModal } from "@/forms/login-modal";
 import { ProfileMenu } from "./ProfileMenu";
 
-import Link from "next/link";
-import Logo from "../assets/Logo.png";
-
 export function MainBar() {
-  const option = useOptionStore((state) => state.option);
+  const option = useIsAuthenticated();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -39,7 +38,7 @@ export function MainBar() {
                   height: 64,
                 }}
                 alt="Your logo."
-                src={Logo.src}
+                src={"/assets/Logo.png"}
               />
             </Button>
           </Box>

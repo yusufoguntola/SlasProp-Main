@@ -17,74 +17,133 @@ interface FeaturePropertyCardProps {
   price: string;
 }
 
-export function FeaturePropertyCard(property: FeaturePropertyCardProps) {
+export function FeaturePropertyCard({
+  imageUrl,
+  heading,
+  desc,
+  area,
+  price,
+}: FeaturePropertyCardProps) {
   return (
-    <Card sx={{ border: "1px solid #black" }}>
+    <Card
+      sx={{
+        border: "1px solid #DF593D",
+        borderRadius: "8px",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        overflow: "hidden",
+      }}
+    >
       <CardActionArea
-        component="span"
-        sx={{ display: "flex", flexDirection: "column" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          position: "relative",
+        }}
       >
         <CardMedia
           component="img"
-          image={property.imageUrl}
-          sx={{ maxWidth: "250px", height: "150px" }}
+          image={imageUrl}
+          sx={{
+            width: "100%",
+            height: "150px",
+            objectFit: "cover",
+          }}
           alt="property-image"
         />
-        <CardContent>
-          <Button
-            size="small"
-            sx={{
-              backgroundColor: "#DF593D",
-              color: "white",
-              "&:hover": { backgroundColor: "#DF593D" },
-              width: 50,
-              borderRadius: 4,
-              fontSize: "8px",
-              position: "absolute",
-              marginTop: "-25px",
-              marginLeft: "-30px",
-            }}
-          >
-            Featured
-          </Button>
+        <Button
+          size="small"
+          sx={{
+            backgroundColor: "#DF593D",
+            color: "white",
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            borderRadius: "4px",
+            fontSize: "10px",
+            padding: "4px 8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            textTransform: "uppercase",
+            fontWeight: "bold",
+            "&:hover": { backgroundColor: "#c14b31" },
+          }}
+        >
+          Featured
+        </Button>
+        <CardContent
+          sx={{
+            padding: "16px",
+            width: "100%",
+          }}
+        >
           <Typography
             gutterBottom
-            sx={{ fontWeight: "bold", fontSize: "14px", marginLeft: "-30px" }}
+            sx={{
+              fontWeight: "bold",
+              fontSize: "16px",
+              color: "#333",
+              textAlign: "left",
+            }}
           >
-            {property.heading}
+            {heading}
           </Typography>
           <Typography
-            sx={{ color: "black", fontSize: "10px", marginLeft: "-30px" }}
+            sx={{
+              color: "#666",
+              fontSize: "12px",
+              textAlign: "left",
+              marginBottom: "8px",
+            }}
           >
-            {property.desc}
+            {desc}
           </Typography>
           <Box
             sx={{
               display: "flex",
-              marginLeft: "-30px",
-              borderTop: "1px solid lightgrey",
-              borderBottom: "1px solid lightgrey",
-              mt: 2,
-              py: 1,
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderTop: "1px solid #e0e0e0",
+              borderBottom: "1px solid #e0e0e0",
+              padding: "8px 0",
+              marginTop: "8px",
             }}
           >
-            <Typography sx={{ borderRight: "1px solid lightgrey", pr: 2 }}>
-              {property.area}
+            <Typography
+              sx={{
+                fontSize: "12px",
+                color: "#999",
+                borderRight: "1px solid #e0e0e0",
+                paddingRight: "8px",
+              }}
+            >
+              {area}
             </Typography>
-            <Typography sx={{ pl: 2, color: "#26a69a" }}>
-              {property.price}
+            <Typography
+              sx={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "#26a69a",
+                paddingLeft: "8px",
+              }}
+            >
+              {price}
             </Typography>
           </Box>
           <Button
             size="small"
             sx={{
-              backgroundColor: "white",
+              backgroundColor: "#fff",
               color: "#DF593D",
-              "&:hover": { backgroundColor: "white" },
-              fontSize: "10px",
+              fontSize: "12px",
               fontWeight: "bold",
-              mt: 2,
-              textAlign: "center",
+              border: "1px solid #DF593D",
+              borderRadius: "4px",
+              marginTop: "16px",
+              padding: "6px 12px",
+              textTransform: "uppercase",
+              "&:hover": {
+                backgroundColor: "#DF593D",
+                color: "#fff",
+              },
             }}
           >
             View Details

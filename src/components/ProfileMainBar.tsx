@@ -1,8 +1,11 @@
-import Logo from "../assets/Logo.png";
+import Link from "next/link";
 
+import { useLogout } from "@/api/auth/mutations";
+import { useOptionStore } from "@/stores/useOptionStore";
 import {
   ArrowCircleRightOutlined,
   ChatBubbleOutlineOutlined,
+  Menu as MenuIcon,
   NotificationsNoneOutlined,
   Search,
 } from "@mui/icons-material";
@@ -18,15 +21,14 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useAuth } from "@/hooks/use-auth";
-import { useOptionStore } from "@/stores/useOptionStore";
+interface ProfileMainBarProps {
+  toggle: () => void;
+}
 
-import Link from "next/link";
-
-const ProfileMainBar = () => {
+const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
   const setOption = useOptionStore((state) => state.setOption);
 
-  const { logout } = useAuth();
+  const logout = useLogout();
 
   const handleLogOut = () => {
     setOption(true);
@@ -34,22 +36,36 @@ const ProfileMainBar = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, boxShadow: "0 4px 2px -2px gray" }}>
+    <Box
+      sx={{
+        marginLeft: "270px", // Width of the fixed sidebar
+        marginTop: "30px", // Height of the fixed header (adjust as needed)
+        padding: "16px", // Optional: add padding for spacing
+        // overflowY: "auto", // Enable scrolling for the main content
+        backgroundColor: "#f5f5f5",
+      }}
+    >
       <AppBar
-        position="sticky"
+        position="fixed"
         style={{
+          top: 0,
+          left: 0,
+          width: "100%",
           backgroundColor: "white",
           color: "black",
-          maxHeight: "80px",
-          minHeight: "80px",
-          boxShadow: "none",
+          boxShadow: "0 4px 2px -2px gray",
         }}
       >
         <Toolbar>
+          <Box sx={{ display: { xs: "flex", md: "none" }, p: 2 }}>
+            <IconButton onClick={toggle}>
+              <MenuIcon sx={{ color: "#26a69a" }} />
+            </IconButton>
+          </Box>
           <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
             <Box
-              src={Logo.src}
               component="img"
+              src={"/assets/Logo.png"}
               sx={{
                 height: 50,
               }}

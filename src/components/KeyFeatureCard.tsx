@@ -15,10 +15,8 @@ interface KeyFeatureCardProps {
 
 export function KeyFeatureCard(keyFeature: KeyFeatureCardProps) {
   return (
-    <Card
-      sx={{ border: "1px solid grey", mb: 3, px: 2, py: 1, maxWidth: "80%" }}
-    >
-      <CardActionArea component="span" sx={{ display: "flex" }}>
+    <Card sx={{ border: "1px solid grey" }}>
+      <CardActionArea component="span" sx={{ display: "flex", px: 2, py: 1 }}>
         <CardMedia
           component="img"
           image={keyFeature.imageUrl}
