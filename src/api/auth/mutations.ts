@@ -18,9 +18,11 @@ export function useLogin() {
     mutationKey: builder.user.$get(),
     mutationFn: builder.$use.user.login,
     onSuccess(data) {
-      const { access_token, name, username, ...rest } = data.data.data;
+      const { access_token, name, username, role } = data.data.data;
 
       const user = parseJwt(access_token);
+
+      const user_type = role ? "admin" : "user";
 
       const cookie_options = {
         expires: new Date(user.exp),
@@ -31,7 +33,7 @@ export function useLogin() {
 
       setCookie(
         COOKIES.user,
-        JSON.stringify({ id: user.id, name, username, ...rest }),
+        JSON.stringify({ id: user.id, name, username, user_type, role }),
         cookie_options,
       );
       setCookie(COOKIES.token, access_token, cookie_options);

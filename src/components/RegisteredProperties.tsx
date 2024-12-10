@@ -6,10 +6,6 @@ import {
   Box,
   Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   IconButton,
   Skeleton,
   Typography,
@@ -17,8 +13,6 @@ import {
   type Theme,
 } from "@mui/material";
 import Link from "next/link";
-import { useState } from "react";
-import { TaxOwnerDetailsCard } from "./TaxOwnerDetailsCards";
 
 const useStyles: Record<string, SxProps<Theme>> = {
   container: {
@@ -75,20 +69,6 @@ const useStyles: Record<string, SxProps<Theme>> = {
 export default function RegisteredProperties() {
   const { data, isFetching } = useGetRegisteredProperties();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProperty, setSelectedProperty] =
-    useState<RegisterProperty | null>(null);
-
-  const handleClick = (property: RegisterProperty) => {
-    setSelectedProperty(property);
-    setIsModalOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsModalOpen(false);
-    setSelectedProperty(null);
-  };
-
   return (
     <Container maxWidth="md" sx={useStyles.container}>
       <Box sx={useStyles.header}>
@@ -139,7 +119,10 @@ export default function RegisteredProperties() {
                     {property.registrationNumber}
                   </Typography>
                 </Box>
-                <IconButton onClick={() => handleClick(property)}>
+                <IconButton
+                  LinkComponent={Link}
+                  href={`/dashboard/registered-properties/${property.id}`}
+                >
                   <MoreVert />
                 </IconButton>
               </Box>
@@ -166,31 +149,6 @@ export default function RegisteredProperties() {
               </Box>
             </Box>
           ))}
-
-      <Dialog open={isModalOpen} onClose={handleClose} maxWidth="md" fullWidth>
-        <DialogTitle>Property Details</DialogTitle>
-        <DialogContent>
-          {selectedProperty && (
-            <TaxOwnerDetailsCard
-              taxDetails={{
-                year: [2020, 2021, 2022],
-                propertyTax: ["$1000", "$2000", "$3000"],
-                taxAssessment: ["$5000", "$6000", "$7000"],
-                status: ["Paid", "Due", "Due"],
-              }}
-              ownerDetails={{
-                firstName: "Lorem Ipsum",
-                lastName: "Dolor Sit",
-                imageUrl: "",
-                id: 2,
-              }}
-            />
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 }

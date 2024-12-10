@@ -1,6 +1,8 @@
 "use client";
 
 import { builder } from "@/builder";
+import { DATE_FORMAT } from "@/constants/time";
+import { formatDate } from "@/utils/format-date";
 import { Looks3, MoreVert, Notifications } from "@mui/icons-material";
 import {
   Box,
@@ -17,24 +19,6 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Fragment, useState } from "react";
-
-// const tempData = [
-//   {
-//     title: "Notification from Registrar",
-//     message: "Please view the following notification from Registrar.",
-//     date: "23-10-2024",
-//   },
-//   {
-//     title: "Surveyor General Update",
-//     message: "You have a new update from the Surveyor General.",
-//     date: "24-10-2024",
-//   },
-//   {
-//     title: "Task Assignment",
-//     message: "A new task has been assigned to you.",
-//     date: "25-10-2024",
-//   },
-// ];
 
 export default function NotificationsComponent() {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -103,7 +87,7 @@ export default function NotificationsComponent() {
           sx={{ fontSize: "10px", color: "orange" }}
           variant="caption"
         >
-          {notification.date}
+          {formatDate(notification.updatedAt, DATE_FORMAT)}
         </Typography>
       </Box>
       <MoreVert
@@ -206,7 +190,7 @@ export default function NotificationsComponent() {
           </Typography>
 
           <Typography variant="caption" sx={{ color: "gray" }}>
-            Date: {selected?.date}
+            Date: {formatDate(selected?.updatedAt, DATE_FORMAT)}
           </Typography>
         </DialogContent>
         <DialogActions>

@@ -193,7 +193,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           </ListItem>
         ))}
 
-        <ListItem disablePadding>
+        {/* <ListItem disablePadding>
           <ListItemButton
             sx={{ borderBottom: "1px solid lightgrey" }}
             component={Link}
@@ -205,7 +205,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
               primary={"Messages"}
             />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
 
         <ListItem disablePadding>
           <ListItemButton

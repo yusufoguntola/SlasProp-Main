@@ -59,3 +59,10 @@ export function useGetToolsCategories() {
 }
 
 export function useGetToolCategoryById() {}
+
+export function useGetLocations() {
+  return useQuery({
+    queryKey: builder.admin.locations.list.$get(),
+    queryFn: () => builder.$use.admin.locations.list(),
+  });
+}
