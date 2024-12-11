@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "slas-prop.ganafsmas.com",
       },
+      {
+        protocol: "https",
+        hostname: "example.com",
+      },
     ],
   },
   eslint: {
