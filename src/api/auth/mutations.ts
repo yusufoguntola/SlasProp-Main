@@ -67,7 +67,7 @@ export function useLogout() {
   return () => {
     qc.cancelQueries().then(() => qc.clear());
     deleteCookie(COOKIES.user);
-    deleteCookie(COOKIES.user);
+    deleteCookie(COOKIES.token);
 
     replace("/");
   };
