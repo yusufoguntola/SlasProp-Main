@@ -24,7 +24,7 @@ export default function PropertyDetails({
     success: (
       <>
         <NavBarContainer />
-        <ImageGallery {...property} />
+        <ImageGallery property={property} />
         <DetailsBox property={property} />
       </>
     ),

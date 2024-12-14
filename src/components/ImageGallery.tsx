@@ -4,7 +4,7 @@ import ReactImageGallery from "react-image-gallery";
 
 import { Container } from "@mui/material";
 
-export function ImageGallery(property: Property) {
+export function ImageGallery({ property }: { property?: Property }) {
   const images = (property?.images || []).map((i) => {
     return {
       original: i,
