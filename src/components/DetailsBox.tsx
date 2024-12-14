@@ -1,35 +1,47 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { useIsAuthenticated } from "@/api/auth/queries";
+import { formatDate } from "@/utils/format-date";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { Box, Button, Container, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Container,
+  Typography,
+} from "@mui/material";
 
 import { OwnerDetails } from "./OwnerDetails";
 
+const PropertyMap = dynamic(() => import("./PropertyMap"), { ssr: false });
+
 type DetailsBoxProps = {
-  property: Property | null; // Change this to accept an array of properties
+  property?: Property;
 };
 
 export function DetailsBox({ property }: DetailsBoxProps) {
-  const [isInterior, setIsInterior] = useState(false);
-  const [isPropDetails, setIsPropDetails] = useState(false);
-  const [isConstDetails, setIsConstDetails] = useState(false);
-  const [isUtil, setIsUtil] = useState(false);
-  const [isComm, setIsComm] = useState(false);
-  const [isHOA, setIsHOA] = useState(false);
+  const [expanded, setExpanded] = useState<string | false>(false);
+  const isLoggedIn = useIsAuthenticated();
 
-  // const form = useForm({
-  //   initialValues: {
-  //     slider: true,
-  //   },
-  // });
+  const handleChange =
+    (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   const currency = "₦";
 
-  const formatAsPrice = (number: number) => {
-    return new Intl.NumberFormat("en-US").format(number);
+  const formatAsPrice = (number: number | string) => {
+    return Number.isNaN(number)
+      ? "0.00"
+      : Intl.NumberFormat("en-US", { minimumFractionDigits: 2 }).format(
+          Number(number),
+        );
   };
 
   const formattedPrice = formatAsPrice(
@@ -98,7 +110,11 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             }}
           >
             <Typography
-              sx={{ color: "#26a69a", fontWeight: "bold", textAlign: "center" }}
+              sx={{
+                color: "#26a69a",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
             >
               {property?.noOfBedrooms}
             </Typography>
@@ -116,7 +132,11 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             }}
           >
             <Typography
-              sx={{ color: "#26a69a", fontWeight: "bold", textAlign: "center" }}
+              sx={{
+                color: "#26a69a",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
             >
               {property?.squareFootage}
             </Typography>
@@ -126,9 +146,11 @@ export function DetailsBox({ property }: DetailsBoxProps) {
           </Box>
         </Box>
 
-        <Box sx={{ width: "250px" }}>
-          <OwnerDetails {...property?.owner} />
-        </Box>
+        {isLoggedIn ? (
+          <Box sx={{ width: "250px" }}>
+            <OwnerDetails {...property?.owner} />
+          </Box>
+        ) : null}
       </Container>
 
       <Container>
@@ -259,185 +281,358 @@ export function DetailsBox({ property }: DetailsBoxProps) {
         </Box>
       </Container>
 
-      <Container sx={{ mt: 2, display: "flex", mb: 4 }}>
-        <Box>
-          <Typography sx={{ fontWeight: "bold", fontSize: 20 }}>
-            Facts And Features
-          </Typography>
-          <Button
-            sx={{
-              mt: 2,
-              pl: 2,
-              backgroundColor: "#EFFCF7",
-              textTransform: "capitalize",
-              color: "#26a69a",
-              justifyContent: "flex-start",
-              width: "600px",
-            }}
-            onClick={() => {
-              setIsInterior(!isInterior);
-            }}
-            endIcon={isInterior ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
-          >
-            Interior Details
-          </Button>
-          <Button
-            sx={{
-              mt: 2,
-              pl: 2,
-              backgroundColor: "#EFFCF7",
-              textTransform: "capitalize",
-              color: "#26a69a",
-              justifyContent: "flex-start",
-              width: "600px",
-            }}
-            onClick={() => {
-              setIsPropDetails(!isPropDetails);
-            }}
-            endIcon={
-              isPropDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
-            }
-          >
-            Property Details
-          </Button>
-          <Button
-            sx={{
-              mt: 2,
-              pl: 2,
-              backgroundColor: "#EFFCF7",
-              textTransform: "capitalize",
-              color: "#26a69a",
-              justifyContent: "flex-start",
-              width: "600px",
-            }}
-            onClick={() => {
-              setIsConstDetails(!isConstDetails);
-            }}
-            endIcon={
-              isConstDetails ? <KeyboardArrowDown /> : <KeyboardArrowUp />
-            }
-          >
-            Construction Details
-          </Button>
-          <Button
-            sx={{
-              mt: 2,
-              pl: 2,
-              backgroundColor: "#EFFCF7",
-              textTransform: "capitalize",
-              color: "#26a69a",
-              justifyContent: "flex-start",
-              width: "600px",
-            }}
-            onClick={() => {
-              setIsUtil(!isUtil);
-            }}
-            endIcon={isUtil ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
-          >
-            Utilities / Green Energy Details
-          </Button>
-          <Button
-            sx={{
-              mt: 2,
-              pl: 2,
-              backgroundColor: "#EFFCF7",
-              textTransform: "capitalize",
-              color: "#26a69a",
-              justifyContent: "flex-start",
-              width: "600px",
-            }}
-            onClick={() => {
-              setIsComm(!isComm);
-            }}
-            endIcon={isComm ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
-          >
-            Community and Neighborhood Details
-          </Button>
-          <Button
-            sx={{
-              mt: 2,
-              pl: 2,
-              backgroundColor: "#EFFCF7",
-              textTransform: "capitalize",
-              color: "#26a69a",
-              justifyContent: "flex-start",
-              width: "600px",
-            }}
-            onClick={() => {
-              setIsHOA(!isHOA);
-            }}
-            endIcon={isHOA ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
-          >
-            HOA and Financial Details
-          </Button>
-        </Box>
-        <Box
+      <Container sx={{ my: 6 }}>
+        <PropertyMap
+          latitude={property?.latitude}
+          longitude={property?.longitude}
+        />
+      </Container>
+
+      {isLoggedIn ? (
+        <Container
           sx={{
             display: "flex",
-            flexDirection: "column",
-            mt: 6,
-            minWidth: 300,
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            mt: 2,
+            mb: 4,
+            gap: 4,
           }}
         >
-          {/* <OwnerDetails {...property.ownerDetails} /> */}
+          <Box width={"100%"}>
+            <Typography sx={{ fontWeight: "bold", fontSize: 20 }}>
+              Facts And Features
+            </Typography>
+            <Accordion
+              expanded={expanded === "panel1"}
+              onChange={handleChange("panel1")}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                  backgroundColor: "#EFFCF7",
+                  textTransform: "capitalize",
+                  color: "#26a69a",
+                  justifyContent: "flex-start",
+                  flex: 1,
+                }}
+              >
+                <Typography sx={{}}>Interior Details</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Bedrooms
+                    </Typography>
+                    <Typography>{property?.noOfBedrooms}</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Amenities
+                    </Typography>
+                    <Typography>{property?.amenities.join(", ")}</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Structural Features
+                    </Typography>
+                    <Typography>
+                      {property?.constructionDetails.structuralFeatures.join(
+                        ", ",
+                      )}
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Building Materials
+                    </Typography>
+                    <Typography>
+                      {property?.constructionDetails.buildingMaterials.join(
+                        ", ",
+                      )}
+                    </Typography>
+                  </div>
+                </div>
+              </AccordionDetails>
+            </Accordion>
 
+            <Accordion
+              expanded={expanded === "panel2"}
+              onChange={handleChange("panel2")}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                  backgroundColor: "#EFFCF7",
+                  textTransform: "capitalize",
+                  color: "#26a69a",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Typography sx={{}}>
+                  Utilities and Green Energy Details
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {property?.utilitiesDetails.isGreenEnergyPowered ? (
+                    <>
+                      <div>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          Energy Provider
+                        </Typography>
+                        <Typography>
+                          {property?.utilitiesDetails.greenEnergyProvider}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          Sources
+                        </Typography>
+                        <Typography>
+                          {property?.utilitiesDetails.greenEnergySources.join(
+                            ", ",
+                          )}
+                        </Typography>
+                      </div>
+                    </>
+                  ) : null}
+
+                  {property?.utilitiesDetails.services.map((service) => (
+                    <div key={service.type}>
+                      <Typography variant="subtitle2" fontWeight={600}>
+                        {service.providerName} ({service.type})
+                      </Typography>
+                      <Typography>
+                        {service.serviceCharge} / {service.frequency}
+                      </Typography>
+                    </div>
+                  ))}
+                </div>
+              </AccordionDetails>
+            </Accordion>
+
+            <Accordion
+              expanded={expanded === "panel3"}
+              onChange={handleChange("panel3")}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                  backgroundColor: "#EFFCF7",
+                  textTransform: "capitalize",
+                  color: "#26a69a",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Typography sx={{}}>
+                  Community and Neighborhood Details
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* {property.} */}
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Neighborhood
+                    </Typography>
+                    <Typography>
+                      {property?.neighbourhoodDetails.name}
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Located in Gated Community
+                    </Typography>
+                    <Typography>
+                      {property?.neighbourhoodDetails.locatedInGatedEstate
+                        ? "Yes"
+                        : "No"}
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Population
+                    </Typography>
+                    <Typography>
+                      {property?.neighbourhoodDetails.population}
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Nearby Places
+                    </Typography>
+                    <ul className="list-decimal list-inside">
+                      {property?.neighbourhoodDetails.proximityToPublicPlaces.map(
+                        (place) => (
+                          <li key={place.place}>
+                            {place.place} - {place.distance} away
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </AccordionDetails>
+            </Accordion>
+
+            <Accordion
+              expanded={expanded === "panel4"}
+              onChange={handleChange("panel4")}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                  backgroundColor: "#EFFCF7",
+                  textTransform: "capitalize",
+                  color: "#26a69a",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Typography sx={{}}>HOA and Financial Details</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Association
+                    </Typography>
+                    <Typography>
+                      {property?.hoaAndFinancialDetails.name}
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      Property in Mortgage
+                    </Typography>
+                    <Typography>
+                      {property?.hoaAndFinancialDetails.isPropertyInMortgage
+                        ? "Yes"
+                        : "No"}
+                    </Typography>
+                  </div>
+                  {property?.hoaAndFinancialDetails.isPropertyInMortgage ? (
+                    <>
+                      <div>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          Mortgage Provider
+                        </Typography>
+                        <Typography>
+                          {property?.hoaAndFinancialDetails.mortgageProvider}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          Property Size
+                        </Typography>
+                        <Typography>
+                          {currency}
+                          {formatAsPrice(
+                            property?.hoaAndFinancialDetails.monthlyPayment,
+                          )}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          Property Size
+                        </Typography>
+                        <Typography>
+                          {formatDate(
+                            property?.hoaAndFinancialDetails.mortgageEndDate,
+                          )}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          Property Size
+                        </Typography>
+                        <Typography>
+                          {currency}
+                          {formatAsPrice(
+                            property?.hoaAndFinancialDetails.outstandingBalance,
+                          )}
+                        </Typography>
+                      </div>
+                    </>
+                  ) : null}
+                  {property?.hoaAndFinancialDetails.hasDue ? (
+                    <>
+                      <div>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          Dues Amount
+                        </Typography>
+                        <Typography>
+                          {currency}
+                          {formatAsPrice(
+                            property?.hoaAndFinancialDetails.dueAmount,
+                          )}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          Dues Frequency
+                        </Typography>
+                        <Typography>
+                          {property?.hoaAndFinancialDetails.dueFrequency}
+                        </Typography>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              border: "2px solid #26a69a",
-              mt: 2,
-              pb: 2,
+              mt: 6,
+              minWidth: 300,
             }}
           >
-            <Typography
+            <Box
               sx={{
-                backgroundColor: "#26a69a",
-                color: "white",
-                fontSize: "16px",
-                fontWeight: "bold",
-                py: 1.5,
-                px: 1,
+                display: "flex",
+                flexDirection: "column",
+                border: "2px solid #26a69a",
+                mt: 2,
+                pb: 2,
               }}
             >
-              Listed By
-            </Typography>
-            <Box
-              sx={{ display: "flex", justifyContent: "space-between", px: 2 }}
-            >
               <Typography
                 sx={{
-                  mt: 1,
-                  color: "#26a69a",
-                  fontSize: "12px",
+                  backgroundColor: "#26a69a",
+                  color: "white",
+                  fontSize: "16px",
                   fontWeight: "bold",
+                  py: 1.5,
+                  px: 1,
                 }}
               >
-                {/* {property?.ownerDetails?.initials?.[0]} */}
+                Listed By
               </Typography>
-
-              <Typography
+              <Box
                 sx={{
-                  mt: 1,
-                  color: "gray",
-                  fontSize: "12px",
-                  fontWeight: "bold",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  px: 2,
                 }}
               >
-                {/* {property?.ownerDetails?.owner?.[0]} */}
-              </Typography>
-
-              <Typography sx={{ mt: 1, color: "#26a69a", fontSize: "10px" }}>
-                {/* {property?.ownerDetails?.totalYears?.[0]} */}
-              </Typography>
+                <Typography
+                  sx={{
+                    mt: 1,
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {property?.owner.firstName} {property?.owner.lastName}
+                </Typography>
+              </Box>
             </Box>
           </Box>
-
-          <Box sx={{ mt: 2 }}>
-            {/* <TaxDetails {...property.taxDetails} /> */}
-          </Box>
-        </Box>
-      </Container>
+        </Container>
+      ) : null}
     </>
   );
 }

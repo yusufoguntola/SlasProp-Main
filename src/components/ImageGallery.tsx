@@ -14,7 +14,7 @@ export function ImageGallery(property: Property) {
     };
   });
   return (
-    <Container sx={{ mt: 1, mb: 1 }}>
+    <Container sx={{ mt: 1, mb: 1, maxHeight: 500, overflow: "auto" }}>
       <ReactImageGallery
         items={images}
         showPlayButton={false}

@@ -21,6 +21,13 @@ export function useGetPublicProperties() {
     placeholderData: keepPreviousData,
   });
 }
+export function useGetPublicSingleProperty(id: number | string) {
+  return useQuery({
+    queryKey: builder.properties.publicSingle.$get(id),
+    queryFn: () => builder.$use.properties.publicSingle(id),
+    placeholderData: keepPreviousData,
+  });
+}
 
 export function useGetRegisteredProperties(page = 1) {
   return useQuery({
@@ -30,7 +37,7 @@ export function useGetRegisteredProperties(page = 1) {
   });
 }
 
-export function useGetSingleProperty(id: number) {
+export function useGetSingleProperty(id: number | string) {
   return useQuery({
     queryKey: builder.properties.single.$get(id),
     queryFn: () => builder.$use.properties.single(id),
