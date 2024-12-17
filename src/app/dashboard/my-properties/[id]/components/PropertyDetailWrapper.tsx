@@ -2,9 +2,9 @@
 
 import { axiosInstance } from "@/axios";
 import { DetailsBox } from "@/components/DetailsBox";
-import { useQuery } from "@tanstack/react-query";
+import { ImageGallery } from "@/components/ImageGallery";
 import { Box } from "@mui/material";
-import { ImageGallery } from "@/components/ImageGallery.tsx";
+import { useQuery } from "@tanstack/react-query";
 
 function PropertyDetailWrapper({ id }: { id: string }) {
   const { data } = useQuery({
@@ -21,7 +21,7 @@ function PropertyDetailWrapper({ id }: { id: string }) {
         marginRight: { xs: 0, md: "10%" },
       }}
     >
-      <ImageGallery {...property} /> <DetailsBox property={property} />
+      <ImageGallery property={property} /> <DetailsBox property={property} />
     </Box>
   );
 }

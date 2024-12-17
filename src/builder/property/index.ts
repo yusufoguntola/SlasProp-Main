@@ -10,10 +10,10 @@ const publicList = (params = {}) =>
     params,
   });
 
-const publicSingle = (id: number) =>
+const publicSingle = (id: number | string) =>
   axiosInstance.get<ApiResponse<Property>>(`/search/${id}`);
 
-const single = (id: number) =>
+const single = (id: number | string) =>
   axiosInstance.get<ApiResponse<Property>>(`/properties/${id}`);
 
 const create_listing = async (payload: CreateProperty) =>

@@ -196,7 +196,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           <ListItemButton
             sx={{ borderBottom: "1px solid lightgrey" }}
             component={Link}
-            href='/dashboard/messages'
+            href="/dashboard/messages"
           >
             <ListItemText
               sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}

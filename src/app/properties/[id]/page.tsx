@@ -1,12 +1,11 @@
-"use client"; // This directive is used to indicate client-side rendering for the component
+"use client";
 
 import { use } from "react";
 
-import { axiosInstance } from "@/axios";
+import { useGetPublicSingleProperty } from "@/api/properties/queries";
 import { DetailsBox } from "@/components/DetailsBox";
 import { ImageGallery } from "@/components/ImageGallery";
 import { NavBarContainer } from "@/sections/NavBarContainer";
-import { useQuery } from "@tanstack/react-query";
 
 export default function PropertyDetails({
   params,
@@ -15,19 +14,21 @@ export default function PropertyDetails({
 }) {
   const { id } = use(params);
 
-  const { data } = useQuery({
-    queryKey: ["search", id],
-    queryFn: () => axiosInstance.get(`/search/${id}`),
-  });
+  const { data, status } = useGetPublicSingleProperty(id);
 
   const property = data?.data.data;
 
-  return (
-    <>
-      <NavBarContainer />
-      <ImageGallery {...property} />{" "}
-      {/* Pass the id to your ImageGallery component */}
-      <DetailsBox property={property} />
-    </>
-  );
+  const Render = {
+    error: <>Loading...</>,
+    pending: <>Loading...</>,
+    success: (
+      <>
+        <NavBarContainer />
+        <ImageGallery property={property} />
+        <DetailsBox property={property} />
+      </>
+    ),
+  };
+
+  return <>{Render[status]}</>;
 }
