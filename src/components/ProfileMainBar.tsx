@@ -38,10 +38,9 @@ const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
   return (
     <Box
       sx={{
-        marginLeft: "270px", // Width of the fixed sidebar
-        marginTop: "30px", // Height of the fixed header (adjust as needed)
-        padding: "16px", // Optional: add padding for spacing
-        // overflowY: "auto", // Enable scrolling for the main content
+        marginLeft: "270px",
+        marginTop: "30px",
+        padding: "16px",
         backgroundColor: "#f5f5f5",
       }}
     >
