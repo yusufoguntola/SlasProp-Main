@@ -2,8 +2,8 @@
 
 import { Container } from "@mui/material";
 
-import { MainBar } from "@/components/MainBar";
 import { NavigationBar } from "@/components/NavigationBar";
+import { MainBar } from "@/components/MainBar";
 
 export function NavBarContainer() {
   return (

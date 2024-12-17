@@ -24,7 +24,7 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
   };
   const currency = "₦";
   const formattedPrice = formatAsPrice(
-    Number.parseFloat(property?.price || "0"),
+    Number.parseFloat(property?.price || "0")
   );
 
   const propertyImage = property?.images?.[0];
@@ -32,46 +32,69 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
   return (
     <Box
       sx={{
-        borderBottom: "1px solid lightgray",
-        pb: 4,
-        mt: 4,
         display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
+        gap: 2,
+        alignItems: "flex-start",
+        backgroundColor: "#FAFAFA",
+        borderRadius: "12px",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+        overflow: "hidden",
+        border: "1px solid #E0E0E0",
       }}
     >
-      {/* <Image
-				src={property?.images?.[0]}
-				height={150}
-				width={200}
-				alt="land image"
-			/> */}
+      <Box
+        sx={{
+          flex: 1,
+          height: { xs: "200px", sm: "170px" },
 
-      <img
-        src={propertyImage || "/assets/property-image.jpg"}
-        alt="land"
-        height={170}
-        width={200}
-        className={"overflow-hidden rounded-lg"}
-        style={{ height: "170px", width: "200px" }}
-      />
-      <Box sx={{ display: "flex", flexDirection: "column", ml: 4 }}>
+          overflow: "hidden",
+          borderRadius: "12px 0 0 12px",
+        }}
+      >
+        <img
+          src={propertyImage || "/assets/property-image.jpg"}
+          alt='Property image'
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          p: 2,
+          flex: {
+            xs: 0,
+            sm: 2,
+          },
+        }}
+      >
         <Button
           sx={{
-            backgroundColor: "green",
+            backgroundColor: "#28A745",
             color: "white",
-            "&:hover": { backgroundColor: "green" },
+            "&:hover": { backgroundColor: "#218838" },
             borderRadius: "16px",
-            fontSize: "8px",
-            maxWidth: "70px",
-            px: 2.5,
+            fontSize: "10px",
+            alignSelf: "flex-start",
+            px: 2,
           }}
         >
           Active
         </Button>
         <Typography
           sx={{
-            mt: 0.5,
+            mt: 1,
             color: "#26a69a",
             fontWeight: "bold",
+            fontSize: "18px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
           }}
         >
           {property?.name}
@@ -81,37 +104,59 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
             mt: 0.5,
             color: "#26a69a",
             fontWeight: "bold",
+            fontSize: "16px",
           }}
         >
           {currency}
           {formattedPrice}
         </Typography>
-        <Typography sx={{ fontSize: "10px", color: "grey", mt: 0.5 }}>
-          <LocationOn sx={{ color: "#DF593D", fontSize: "14px", ml: -0.5 }} />
-          {`${property?.city}${", "}${property?.state}${", "}${
-            property?.country
-          }`}
+        <Typography
+          sx={{
+            fontSize: "14px",
+            color: "grey",
+            mt: 0.5,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <LocationOn sx={{ color: "#DF593D", fontSize: "18px", mr: 0.5 }} />
+          {`${property?.city}, ${property?.state}, ${property?.country}`}
         </Typography>
-        <Typography sx={{ mt: 0.5, color: "grey" }}>
+        <Typography
+          sx={{
+            mt: 1,
+            color: "grey",
+            fontSize: "14px",
+            lineHeight: "1.5",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+          }}
+        >
           {property?.description}
         </Typography>
-        <Link href={`/dashboard/my-properties/${property?.id}`}>
+        <Link href={`/dashboard/my-properties/${property?.id}`} passHref>
           <IconButton
-            size="small"
+            size='small'
             sx={{
-              backgroundColor: "white",
+              backgroundColor: "#FFF3E0",
               color: "#DF593D",
-              "&:hover": { backgroundColor: "white" },
-              fontSize: "10px",
+              "&:hover": { backgroundColor: "#FFE0B2" },
+              fontSize: "12px",
               fontWeight: "bold",
               mt: 2,
-              maxWidth: "90px",
-              mx: -1,
+              alignSelf: "flex-start",
+              px: 2,
+              py: 0.5,
+              boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
+              borderRadius: "8px",
             }}
           >
-            View Details{" "}
+            View Details
             <ArrowForward
-              sx={{ fontSize: "12px", color: "#DF593D", ml: 0.5 }}
+              sx={{ fontSize: "16px", color: "#DF593D", ml: 0.5 }}
             />
           </IconButton>
         </Link>

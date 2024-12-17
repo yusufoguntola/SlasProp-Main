@@ -2,15 +2,7 @@ import Link from "next/link";
 
 import { useIsAuthenticated } from "@/api/auth/queries";
 import { LoginModal } from "@/forms/login-modal";
-import { Facebook, Instagram, X, YouTube } from "@mui/icons-material";
-import {
-  AppBar,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Toolbar,
-} from "@mui/material";
+import { AppBar, Box, Button, Toolbar } from "@mui/material";
 
 import { ProfileMenu } from "./ProfileMenu";
 
@@ -20,7 +12,7 @@ export function MainBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="sticky"
+        position='sticky'
         style={{
           backgroundColor: "white",
           color: "black",
@@ -31,19 +23,19 @@ export function MainBar() {
       >
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Button component={Link} href="/">
+            <Button component={Link} href='/'>
               <Box
-                component="img"
+                component='img'
                 sx={{
                   height: 64,
                 }}
-                alt="Your logo."
+                alt='Your logo.'
                 src={"/assets/Logo.png"}
               />
             </Button>
           </Box>
 
-          <IconButton
+          {/* <IconButton
             sx={{
               border: "1px solid #26a69a",
               maxHeight: 30,
@@ -85,9 +77,9 @@ export function MainBar() {
             }}
           >
             <X style={{ color: "#26a69a", fontSize: 20 }} />
-          </IconButton>
+          </IconButton> */}
 
-          <Divider sx={{ height: 28, m: 0.5, mr: 2 }} orientation="vertical" />
+          {/* <Divider sx={{ height: 28, m: 0.5, mr: 2 }} orientation='vertical' /> */}
           {!option ? <LoginModal /> : <ProfileMenu />}
         </Toolbar>
       </AppBar>

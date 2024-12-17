@@ -20,18 +20,31 @@ export function PropertiesList() {
         <Box
           sx={{
             display: "flex",
-            marginLeft: "30%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
             mt: 4,
             borderBottom: "1px solid lightgray",
             pb: 2,
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
+          <Typography
+            variant='h6'
+            sx={{ fontWeight: "bold", textAlign: "center" }}
+          >
             List Of Properties
           </Typography>
         </Box>
+
         <Box
-          sx={{ display: "flex", marginLeft: "30%", flexDirection: "column" }}
+          className='grid gap-6 py-8'
+          sx={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fill, minmax(min(380px, 100%), 1fr))",
+            gridAutoRows: "1fr",
+            mt: 4,
+          }}
         >
           {PROPERTIES.map((property) => (
             <PropertiesShimmer key={property.id} />
@@ -40,21 +53,33 @@ export function PropertiesList() {
       </Container>
     );
   }
+
   return (
-    <Container>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        mt: 4,
+        width: { xs: "100%", lg: 700 },
+        mx: "auto",
+        ml: { xs: 0, lg: "30%" },
+      }}
+    >
       <Box
         sx={{
           display: "flex",
-          marginLeft: "30%",
-          mt: 4,
+          justifyContent: "space-between",
+          alignItems: "center",
           borderBottom: "1px solid lightgray",
           pb: 2,
+          width: "100%",
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
+        <Typography variant='h6' sx={{ fontWeight: "bold" }}>
           List Of Properties
         </Typography>
-        <Link href="/dashboard/add-property">
+        <Link href='/dashboard/add-property'>
           <IconButton
             sx={{
               backgroundColor: "#DF593D",
@@ -71,21 +96,40 @@ export function PropertiesList() {
         </Link>
       </Box>
 
-      <Box sx={{ display: "flex", marginLeft: "30%", flexDirection: "column" }}>
-        <div className="hidden last:flex flex-col items-center min-h-[50dvh] justify-center gap-4">
+      {data?.data.data.length === 0 ? (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: "50vh",
+            gap: 2,
+          }}
+        >
           <Image
-            src="/assets/Empty.jpg"
-            alt="Empty state"
+            src='/assets/Empty.jpg'
+            alt='Empty state'
             width={200}
             height={200}
           />
-
           <Typography>You have not created any listing</Typography>
-        </div>
-        {data?.data.data.map((property) => (
-          <MyPropertyCard key={property.id} {...property} />
-        ))}
-      </Box>
+        </Box>
+      ) : (
+        <Box
+          className='grid gap-6 py-8'
+          sx={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fill, minmax(min(380px, 100%), 1fr))",
+            gridAutoRows: "1fr",
+          }}
+        >
+          {data?.data.data.map((property) => (
+            <MyPropertyCard key={property.id} {...property} />
+          ))}
+        </Box>
+      )}
     </Container>
   );
 }
