@@ -3,7 +3,7 @@
 import { builder } from "@/builder";
 import { DATE_FORMAT } from "@/constants/time";
 import { formatDate } from "@/utils/format-date";
-import { Looks3, MoreVert, Notifications } from "@mui/icons-material";
+import { MoreVert, Notifications } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -11,10 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControlLabel,
-  FormGroup,
   Skeleton,
-  Switch,
   Typography,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
@@ -121,8 +118,15 @@ export default function NotificationsComponent() {
           </Typography>
         </Box>
 
-        <Box sx={{ display: "flex", gap: 4, mt: 4, justifyContent: "center" }}>
-          <Box
+        <Box
+          sx={{
+            display: "flex",
+            gap: 4,
+            mt: 4,
+            justifyContent: "center",
+          }}
+        >
+          {/* <Box
             sx={{
               maxWidth: 300,
               minHeight: 400,
@@ -146,7 +150,7 @@ export default function NotificationsComponent() {
                 sx={{
                   p: 2,
                   borderBottom: "1px solid lightgrey",
-                  display: "flex",
+                  display: { xs: "none", md: "flex" },
                   alignItems: "center",
                 }}
               >
@@ -159,7 +163,7 @@ export default function NotificationsComponent() {
                 {filter.icon || null}
               </Box>
             ))}
-          </Box>
+          </Box> */}
 
           <Box
             sx={{

@@ -58,9 +58,8 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
         width: 270,
         position: "fixed",
         boxSizing: "border-box",
-        // left: "4%",
-        height: "100vh", // Full viewport height
-        overflowY: "auto", // Enable scrolling within the sidebar if content overflows
+        height: "100dvh",
+        overflowY: "auto",
         boxShadow: "10px 0px 10px rgba(108, 122, 137, 0.5)",
         backgroundColor: "white",
       }}
@@ -243,7 +242,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
         sx={{
           display: {
             xs: "none",
-            md: "block",
+            lg: "block",
           },
         }}
       >

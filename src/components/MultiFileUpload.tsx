@@ -53,7 +53,14 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, ml: 2, width: "100%", pt: 4 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        width: "100%",
+        pt: 4,
+        ml: { xs: 0, sm: 2 },
+      }}
+    >
       <Box
         border="1px dashed #ccc"
         borderRadius={2}

@@ -56,18 +56,19 @@ export default function PropertyTypeSelector({
 
   return (
     <>
-      <Stack spacing={38} direction="row" sx={{ my: 1, mt: 2 }}>
-        <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-          Property Type
-        </FormLabel>
-        <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-          Property SubType
-        </FormLabel>
-      </Stack>
-
-      <Stack spacing={6} direction="row" sx={{ my: 1 }}>
+      <Stack
+        direction={{
+          xs: "column",
+          sm: "row",
+        }}
+        sx={{ my: 2, gap: 2 }}
+      >
         {/* Property Type Dropdown */}
-        <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
+
+        <FormControl sx={{ flex: 1 }} size="small">
+          <FormLabel sx={{ color: "black", fontSize: "12px", my: 2 }}>
+            Property Type
+          </FormLabel>
           <Select
             value={form.values.propertyType}
             onChange={(val) =>
@@ -90,7 +91,10 @@ export default function PropertyTypeSelector({
 
         {/* Property SubType Dropdown */}
         {/* {propertyType && ( */}
-        <FormControl sx={{ mx: 2, minWidth: 320 }} size="small">
+        <FormControl sx={{ flex: 1 }} size="small">
+          <FormLabel sx={{ color: "black", fontSize: "12px", my: 2 }}>
+            Property SubType
+          </FormLabel>
           <Select
             value={form.values.propertySubType}
             onChange={(e) =>

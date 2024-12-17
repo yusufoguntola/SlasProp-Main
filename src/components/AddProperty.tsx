@@ -20,11 +20,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import PropertyTypeSelector from "./properties/Properties";
 import ConstructionDetailsForm from "./properties/constructionDetails";
 import HoaAndFinancialDetailsForm from "./properties/hoaAndFinancialDetails";
 import NeighbourhoodDetailsForm from "./properties/neighbourhoodDetails";
+import PropertyTypeSelector from "./properties/Properties";
 import PropertyDetailsForm from "./properties/propertyDetails";
 import UtilityDetailsForm from "./properties/utilityDetails";
 
@@ -178,11 +177,13 @@ export default function AddProperty() {
         <Box
           sx={{
             display: "flex",
-            marginLeft: { xs: 0, md: "20%" },
+            marginLeft: { xs: 0, lg: "20%" },
+            gap: 2,
             mt: 4,
-            borderBottom: "1px solid lightgray",
             pl: 2,
             pb: 2,
+            borderBottom: "1px solid lightgray",
+            width: "100%",
           }}
         >
           <Stack flexGrow={1}>
@@ -215,13 +216,19 @@ export default function AddProperty() {
         <Box
           sx={{
             display: "flex",
-            marginLeft: { xs: 0, md: "20%" },
-            flexDirection: { xs: "column", md: "row" },
+            marginLeft: { xs: 0, lg: "20%" },
+            flexDirection: { xs: "column", lg: "row" },
             mt: 2,
-            pl: 2,
           }}
         >
-          <Box component="form">
+          <Box
+            component="form"
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
               Property name
             </FormLabel>
@@ -238,80 +245,84 @@ export default function AddProperty() {
 
             {/* Property Type and SubType Component */}
             <PropertyTypeSelector form={form} />
-
             <Stack
-              spacing={34}
-              direction="row"
-              sx={{ my: 1 }}
-              className="mt-[2rem] "
+              direction={{
+                xs: "column",
+                sm: "row",
+              }}
+              spacing={2}
+              justifyContent="center"
             >
-              <FormLabel sx={{ color: "black", fontSize: "12px" }}>
-                Square Footage
-              </FormLabel>
-              <FormLabel sx={{ color: "black", fontSize: "12px", pl: 3 }}>
-                Price
-              </FormLabel>
-            </Stack>
-            <Stack spacing={6} direction="row" sx={{ my: 1 }}>
-              <TextField
-                size="small"
-                placeholder="Enter square footage"
-                name="squareFootage"
-                fullWidth
-                {...form.getInputProps("squareFootage")}
-                error={!!form.errors.squareFootage}
-                helperText={form.errors.squareFootage}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Button
-                          sx={{
-                            color: "#26a69a",
-                            fontSize: "12px",
-                            borderRight: "1px solid lightgrey",
-                            // pl: -1,
-                          }}
-                        >
-                          Sqft
-                        </Button>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
+              <Stack sx={{ my: 1, gap: 1 }} flex={1}>
+                <FormLabel sx={{ color: "black", fontSize: "12px" }}>
+                  Square Footage
+                </FormLabel>
+                <TextField
+                  size="small"
+                  placeholder="Enter square footage"
+                  name="squareFootage"
+                  fullWidth
+                  {...form.getInputProps("squareFootage")}
+                  error={!!form.errors.squareFootage}
+                  helperText={form.errors.squareFootage}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Button
+                            sx={{
+                              color: "#26a69a",
+                              fontSize: "12px",
+                              borderRight: "1px solid lightgrey",
+                              // pl: -1,
+                            }}
+                          >
+                            Sqft
+                          </Button>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              </Stack>
 
-              <TextField
-                size="small"
-                fullWidth
-                name="price"
-                placeholder="Enter price"
-                {...form.getInputProps("price")}
-                error={!!form.errors.price}
-                helperText={form.errors.price}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Button
-                          sx={{
-                            color: "#26a69a",
-                            fontSize: "14px",
-                            borderRight: "1px solid lightgrey",
-                          }}
-                        >
-                          &#x20A6;
-                        </Button>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
+              <Stack sx={{ my: 2, gap: 1 }} flex={1}>
+                <FormLabel sx={{ color: "black", fontSize: "12px", gap: 1 }}>
+                  Price
+                </FormLabel>
+
+                <TextField
+                  size="small"
+                  fullWidth
+                  name="price"
+                  placeholder="Enter price"
+                  {...form.getInputProps("price")}
+                  error={!!form.errors.price}
+                  helperText={form.errors.price}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Button
+                            sx={{
+                              color: "#26a69a",
+                              fontSize: "14px",
+                              borderRight: "1px solid lightgrey",
+                            }}
+                          >
+                            &#x20A6;
+                          </Button>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              </Stack>
             </Stack>
 
             {/* Additional Fields */}
 
-            <div className="mt-[2rem]">
+            <Stack sx={{ mt: 2 }}>
               <FormLabel sx={{ color: "black", fontSize: "12px" }}>
                 Property Description
               </FormLabel>
@@ -327,7 +338,7 @@ export default function AddProperty() {
                 error={!!form.errors.description}
                 helperText={form.errors.description}
               />
-            </div>
+            </Stack>
 
             <Button
               sx={{
@@ -336,7 +347,6 @@ export default function AddProperty() {
                 backgroundColor: "#EFFCF7",
                 color: "#26a69a",
                 justifyContent: "flex-start",
-                width: "700px",
                 border: hasErrors(locationDetailsKeys, form.errors)
                   ? "1px solid red"
                   : "none",
@@ -465,7 +475,6 @@ export default function AddProperty() {
               <HoaAndFinancialDetailsForm form={form} />
             )}
           </Box>
-
           <MultipleFileUpload
             setImages={(images) => form.setFieldValue("images", images)}
           />
