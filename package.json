@@ -41,6 +41,7 @@
     "@mui/material": "^6.1.7",
     "@mui/material-nextjs": "^6.1.7",
     "@mui/x-date-pickers": "^7.23.0",
+    "@paystack/inline-js": "^2.22.1",
     "@tanstack/react-query": "^5.62.0",
     "@tanstack/react-query-devtools": "^5.62.0",
     "axios": "^1.7.7",
