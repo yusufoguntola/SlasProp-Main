@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { object, string } from "yup";
+
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
 import { useForm, yupResolver } from "@mantine/form";
@@ -14,8 +17,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { object, string } from "yup";
 
 const schema = object({
   ownerName: string().required("Owner name is required"),
@@ -30,7 +31,7 @@ const schema = object({
   registeredAddress: string().required("Registered address is required"),
 });
 
-const REQUEST_TYPES = ["Certificate of Occupancy", "Claim/Query"];
+const REQUEST_TYPES = ["Certificate of Occupancy", "Claim", "Search Query"];
 const PROPERTY_TYPES = [
   "Residential",
   "Commercial",

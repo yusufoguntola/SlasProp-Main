@@ -2,6 +2,7 @@ import { createBuilder } from "@ibnlanre/builder";
 
 import { admin } from "./admin";
 import { notification } from "./notification";
+import { payments } from "./payments";
 import { properties } from "./property";
 import { user } from "./user";
 
@@ -10,4 +11,5 @@ export const builder = createBuilder({
   properties,
   admin,
   notification,
+  payments,
 });
