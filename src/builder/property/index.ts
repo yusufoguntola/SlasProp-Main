@@ -9,6 +9,10 @@ const publicList = (params = {}) =>
   axiosInstance.get<ApiResponse<Property[]>>("/search", {
     params,
   });
+const featuredList = () =>
+  axiosInstance.get<ApiResponse<Property[]>>("/search", {
+    params: { page: 1, page_size: 3 },
+  });
 
 const publicSingle = (id: number | string) =>
   axiosInstance.get<ApiResponse<Property>>(`/search/${id}`);
@@ -47,4 +51,5 @@ export const properties = {
   list_registered,
   publicList,
   publicSingle,
+  featuredList,
 };

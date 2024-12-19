@@ -26,10 +26,10 @@ const pages = [
   },
   {
     name: "Buy",
-    link: "/buy",
+    link: "/properties?type=buy",
   },
-  { name: "Rent", link: "/rent" },
-  { name: "Know About SlasProp", link: "/knowledge-about-slas-prop" },
+  { name: "Rent", link: "/properties?type=rent" },
+  { name: "Know About SlasProp", link: "/about-us" },
   { name: "Blog", link: "/blog" },
   { name: "FAQ", link: "/faq" },
 ];

@@ -1,34 +1,31 @@
+"use client";
+
+import { useGetFeaturedProperties } from "@/api/properties/queries";
 import { FeaturePropertyCard } from "@/components/FeaturePropertyCard";
+import { PropertiesShimmer } from "@/components/PropertiesShimmer";
 import { Box, Container, Typography } from "@mui/material";
 
-const properties = [
-  {
-    id: 1,
-    imageUrl: "/assets/feature-property.png",
-    heading: "Lore Epsom Property",
-    desc: "Dummy Description",
-    area: "2 Acrs",
-    price: "$850,000",
-  },
-  {
-    id: 2,
-    imageUrl: "/assets/land-image.jpg",
-    heading: "Lore Epsom Property",
-    desc: "Dummy Description",
-    area: "2 Acrs",
-    price: "$850,000",
-  },
-  {
-    id: 3,
-    imageUrl: "/assets/feature-property.png",
-    heading: "Lore Epsom Property",
-    desc: "Dummy Description",
-    area: "2 Acrs",
-    price: "$850,000",
-  },
-];
+const LoadingState = () => {
+  return new Array(3)
+    .fill("_")
+    .map((_, idx) => <PropertiesShimmer key={idx} />);
+};
 
 export function FeatureProperties() {
+  const { data, status } = useGetFeaturedProperties();
+
+  const State = {
+    error: <LoadingState />,
+    pending: <LoadingState />,
+    success: (
+      <>
+        {data?.data.data.map((el) => (
+          <FeaturePropertyCard key={el.id} {...el} />
+        ))}
+      </>
+    ),
+  };
+
   return (
     <Container
       sx={{
@@ -90,9 +87,7 @@ export function FeatureProperties() {
           gridAutoRows: "1fr",
         }}
       >
-        {properties.map((property) => (
-          <FeaturePropertyCard key={property.id} {...property} />
-        ))}
+        {State[status]}
       </Container>
     </Container>
   );

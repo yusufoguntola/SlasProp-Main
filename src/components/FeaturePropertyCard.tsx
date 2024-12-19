@@ -8,22 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 
-interface FeaturePropertyCardProps {
-  id: number;
-  imageUrl: string;
-  heading: string;
-  desc: string;
-  area: string;
-  price: string;
-}
-
 export function FeaturePropertyCard({
-  imageUrl,
-  heading,
-  desc,
-  area,
+  images,
+  name,
+  description,
+  squareFootage,
   price,
-}: FeaturePropertyCardProps) {
+}: Property) {
   return (
     <Card
       sx={{
@@ -42,7 +33,7 @@ export function FeaturePropertyCard({
       >
         <CardMedia
           component="img"
-          image={imageUrl}
+          image={images[0]}
           sx={{
             width: "100%",
             height: "150px",
@@ -84,7 +75,7 @@ export function FeaturePropertyCard({
               textAlign: "left",
             }}
           >
-            {heading}
+            {name}
           </Typography>
           <Typography
             sx={{
@@ -94,7 +85,7 @@ export function FeaturePropertyCard({
               marginBottom: "8px",
             }}
           >
-            {desc}
+            {description}
           </Typography>
           <Box
             sx={{
@@ -115,7 +106,7 @@ export function FeaturePropertyCard({
                 paddingRight: "8px",
               }}
             >
-              {area}
+              {squareFootage}
             </Typography>
             <Typography
               sx={{

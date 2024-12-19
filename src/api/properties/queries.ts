@@ -21,6 +21,13 @@ export function useGetPublicProperties() {
     placeholderData: keepPreviousData,
   });
 }
+export function useGetFeaturedProperties() {
+  return useQuery({
+    queryKey: builder.properties.featuredList.$get(),
+    queryFn: () => builder.$use.properties.featuredList(),
+    placeholderData: keepPreviousData,
+  });
+}
 export function useGetPublicSingleProperty(id: number | string) {
   return useQuery({
     queryKey: builder.properties.publicSingle.$get(id),
