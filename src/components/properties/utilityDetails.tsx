@@ -1,6 +1,7 @@
 import type { UseFormReturnType } from "@mantine/form";
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
 import {
+  Autocomplete,
   Box,
   Button,
   FormControl,
@@ -69,17 +70,19 @@ export default function UtilityDetailsForm({ form }: PropertyDetailsFormProps) {
           <FormControl fullWidth size="small" sx={{ my: 1 }}>
             <Select
               name="isGreenEnergyPowered"
-              value={form.values.utilitiesDetails.isGreenEnergyPowered} // Ensure value is a string
+              value={
+                form.values.utilitiesDetails.isGreenEnergyPowered ? "Yes" : "No"
+              }
               onChange={(ev) =>
                 form.setFieldValue(
                   "utilitiesDetails.isGreenEnergyPowered",
-                  ev.target.value === "true",
+                  ev.target.value === "Yes",
                 )
               }
               label="Is Green Energy Powered?"
             >
-              <MenuItem value="true">Yes</MenuItem>
-              <MenuItem value="false">No</MenuItem>
+              <MenuItem value="Yes">Yes</MenuItem>
+              <MenuItem value="No">No</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -132,33 +135,31 @@ export default function UtilityDetailsForm({ form }: PropertyDetailsFormProps) {
       </Grid>
 
       {/* Existing Services Fields */}
-      {form.values.utilitiesDetails.services.map((service, index) => (
+      {form.values.utilitiesDetails.services.map((_, index) => (
         <Grid
           container
           spacing={2}
-          key={service.type}
+          key={index}
           sx={{ mb: 2, alignItems: "center" }}
         >
           {/* Service Type */}
           <Grid size={{ xs: 6 }}>
             <p className="mb-1 text-[12px] text-[#000000] mt-4">Service Type</p>
             <FormControl fullWidth size="small">
-              <InputLabel>Service Type</InputLabel>
-              <Select
-                name={`utilitiesDetails.services.${index}.type`}
-                onChange={(e) =>
+              <Autocomplete
+                options={serviceTypeOptions}
+                getOptionLabel={(option) => option}
+                value={form.values.utilitiesDetails.services[index].type}
+                onChange={(_, newValue) =>
                   form.setFieldValue(
                     `utilitiesDetails.services.${index}.type`,
-                    e.target.value,
+                    newValue,
                   )
                 }
-              >
-                {serviceTypeOptions.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Select>
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
             </FormControl>
           </Grid>
 
@@ -169,6 +170,11 @@ export default function UtilityDetailsForm({ form }: PropertyDetailsFormProps) {
             </p>
             <Select
               name={`utilitiesDetails.services.${index}.provided`}
+              value={
+                form.values.utilitiesDetails.services[index].provided
+                  ? "Yes"
+                  : "No"
+              }
               onChange={(e) =>
                 form.setFieldValue(
                   `utilitiesDetails.services.${index}.provided`,
@@ -188,9 +194,10 @@ export default function UtilityDetailsForm({ form }: PropertyDetailsFormProps) {
             <p className="mb-1 text-[12px] text-[#000000]">Provider Name</p>
             <TextField
               label="Enter provider name"
-              name={`utilitiesDetails.services.${index}.greenEnergyProvider`}
+              value={form.values.utilitiesDetails.services[index].providerName}
+              name={`utilitiesDetails.services.${index}.providerName`}
               {...form.getInputProps(
-                `utilitiesDetails.services.${index}.greenEnergyProvider`,
+                `utilitiesDetails.services.${index}.providerName`,
               )}
               fullWidth
               size="small"
@@ -202,9 +209,10 @@ export default function UtilityDetailsForm({ form }: PropertyDetailsFormProps) {
             <p className="mb-1 text-[12px] text-[#000000]"> Service Charge</p>
             <TextField
               label="Enter service charge"
-              name={`utilitiesDetails.services.${index}.providerName`}
+              value={form.values.utilitiesDetails.services[index].serviceCharge}
+              name={`utilitiesDetails.services.${index}.serviceCharge`}
               {...form.getInputProps(
-                `utilitiesDetails.services.${index}.providerName`,
+                `utilitiesDetails.services.${index}.serviceCharge`,
               )}
               fullWidth
               size="small"
@@ -217,6 +225,7 @@ export default function UtilityDetailsForm({ form }: PropertyDetailsFormProps) {
             <p className="mb-1 text-[12px] text-[#000000]">Frequency</p>
             <TextField
               label="Enter Frequency"
+              value={form.values.utilitiesDetails.services[index].frequency}
               name={`utilitiesDetails.services.${index}.frequency`}
               {...form.getInputProps(
                 `utilitiesDetails.services.${index}.frequency`,

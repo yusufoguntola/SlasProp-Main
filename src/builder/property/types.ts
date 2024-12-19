@@ -53,8 +53,6 @@ type CreateProperty = Omit<
   | "ownerId"
   | "createdById"
   | "updatedById"
-  | "latitude"
-  | "longitude"
   | "listingStatus"
   | "listingDate"
   | "amenities"

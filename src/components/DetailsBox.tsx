@@ -80,12 +80,14 @@ export function DetailsBox({ property }: DetailsBoxProps) {
           >
             {property?.name}
           </Typography>
-          <Typography
-            sx={{ color: "#26a69a", fontWeight: "bold", fontSize: "20px" }}
-          >
-            {currency}
-            {formattedPrice}
-          </Typography>
+          {isLoggedIn ? (
+            <Typography
+              sx={{ color: "#26a69a", fontWeight: "bold", fontSize: "20px" }}
+            >
+              {currency}
+              {formattedPrice}
+            </Typography>
+          ) : null}
           <Typography sx={{ color: "grey", mr: 6 }}>
             <LocationOnIcon sx={{ color: "#DF593D", fontSize: "14px" }} />
             {property?.address}
@@ -212,61 +214,63 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", borderBottom: "1px solid lightgray" }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexGrow: 1,
-                flexDirection: "column",
-                borderRight: "1px solid lightgray",
-                px: 4,
-                py: 2,
-              }}
-            >
-              <Typography sx={{ color: "gray", fontSize: 12 }}>
-                Price
-              </Typography>
-              <Typography sx={{ color: "black", fontWeight: "bold", mr: 13 }}>
-                {currency}
-                {pricePerFootage} per Sqft
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexGrow: 1,
-                flexDirection: "column",
-                borderRight: "1px solid lightgray",
-                px: 4,
-                py: 2,
-              }}
-            >
-              <Typography sx={{ color: "gray", fontSize: 12 }}>
-                Total Area
-              </Typography>
-              <Typography
-                sx={{ color: "black", fontWeight: "bold", mr: 14.75 }}
+          {isLoggedIn ? (
+            <Box sx={{ display: "flex", borderBottom: "1px solid lightgray" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexGrow: 1,
+                  flexDirection: "column",
+                  borderRight: "1px solid lightgray",
+                  px: 4,
+                  py: 2,
+                }}
               >
-                {property?.squareFootage} Sqft
-              </Typography>
+                <Typography sx={{ color: "gray", fontSize: 12 }}>
+                  Price
+                </Typography>
+                <Typography sx={{ color: "black", fontWeight: "bold", mr: 13 }}>
+                  {currency}
+                  {pricePerFootage} per Sqft
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexGrow: 1,
+                  flexDirection: "column",
+                  borderRight: "1px solid lightgray",
+                  px: 4,
+                  py: 2,
+                }}
+              >
+                <Typography sx={{ color: "gray", fontSize: 12 }}>
+                  Total Area
+                </Typography>
+                <Typography
+                  sx={{ color: "black", fontWeight: "bold", mr: 14.75 }}
+                >
+                  {property?.squareFootage} Sqft
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexGrow: 1,
+                  flexDirection: "column",
+                  px: 4,
+                  py: 2,
+                }}
+              >
+                <Typography sx={{ color: "gray", fontSize: 12 }}>
+                  Other Price
+                </Typography>
+                <Typography sx={{ color: "black", fontWeight: "bold" }}>
+                  {currency}55 quarterly HOA fee
+                </Typography>
+              </Box>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexGrow: 1,
-                flexDirection: "column",
-                px: 4,
-                py: 2,
-              }}
-            >
-              <Typography sx={{ color: "gray", fontSize: 12 }}>
-                Other Price
-              </Typography>
-              <Typography sx={{ color: "black", fontWeight: "bold" }}>
-                {currency}55 quarterly HOA fee
-              </Typography>
-            </Box>
-          </Box>
+          ) : null}
         </Box>
       </Container>
 

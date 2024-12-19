@@ -118,15 +118,8 @@ export function SignUpModal() {
         dialogClose();
         showToast("success", <p>{response.data.message}</p>);
       },
-      onError: (error) => {
-        if (error instanceof Error && error.message) {
-          showToast("error", error.message);
-        } else {
-          showToast(
-            "error",
-            <p>User registration failed. Please try again.</p>,
-          );
-        }
+      onError: () => {
+        showToast("error", <p>User registration failed. Please try again.</p>);
       },
     });
   }

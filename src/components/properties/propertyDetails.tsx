@@ -15,7 +15,7 @@ export default function PropertyDetailsForm({
     <Box sx={{ justifyContent: "flex-start", mt: 2, width: "100%" }}>
       <Grid container spacing={2}>
         {/* First row: Country, State, and Address */}
-        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+        <Grid size={{ xs: 6 }}>
           <p className="mb-2 text-[12px] text-[#000000]">Country</p>
           <Autocomplete
             options={data ?? []}
@@ -39,7 +39,7 @@ export default function PropertyDetailsForm({
             )}
           />
         </Grid>
-        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+        <Grid size={{ xs: 6 }}>
           <p className="mb-2 text-[12px] text-[#000000]">State</p>
           <TextField
             label="Enter State"
@@ -51,7 +51,7 @@ export default function PropertyDetailsForm({
             fullWidth
           />
         </Grid>
-        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+        <Grid size={{ xs: 6 }}>
           <p className="mb-2 text-[12px] text-[#000000]">Address</p>
           <TextField
             label="Enter Address"
@@ -65,7 +65,7 @@ export default function PropertyDetailsForm({
         </Grid>
 
         {/* Second row: City, Number of Bedrooms */}
-        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+        <Grid size={{ xs: 6 }}>
           <p className="mb-2 text-[12px] text-[#000000]">City</p>
           <TextField
             label="Enter City"
@@ -74,6 +74,30 @@ export default function PropertyDetailsForm({
             {...form.getInputProps("city")}
             error={Boolean(form.errors.city)}
             helperText={form.errors.city}
+            fullWidth
+          />
+        </Grid>
+        <Grid size={{ xs: 6 }}>
+          <p className="mb-2 text-[12px] text-[#000000]">Latitude</p>
+          <TextField
+            label="Enter Latitude"
+            size="small"
+            name="latitude"
+            {...form.getInputProps("latitude")}
+            error={Boolean(form.errors.latitude)}
+            helperText={form.errors.latitude}
+            fullWidth
+          />
+        </Grid>
+        <Grid size={{ xs: 6 }}>
+          <p className="mb-2 text-[12px] text-[#000000]">Longitude</p>
+          <TextField
+            label="Enter Longitude"
+            size="small"
+            name="longitude"
+            {...form.getInputProps("longitude")}
+            error={Boolean(form.errors.longitude)}
+            helperText={form.errors.longitude}
             fullWidth
           />
         </Grid>
@@ -94,7 +118,7 @@ export default function PropertyDetailsForm({
         </Grid>
 
         {/* Third row: Amenities */}
-        <Grid size={{ xs: 6 }} sx={{ mt: 2 }}>
+        <Grid size={{ xs: 6 }}>
           <p className="text-[12px] text-[#000000]">Amenities</p>
           <p className="text-[10px]">
             Enter as many as possible separated with commas.

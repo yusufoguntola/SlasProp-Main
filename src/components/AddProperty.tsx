@@ -20,10 +20,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
+import PropertyTypeSelector from "./properties/Properties";
 import ConstructionDetailsForm from "./properties/constructionDetails";
 import HoaAndFinancialDetailsForm from "./properties/hoaAndFinancialDetails";
 import NeighbourhoodDetailsForm from "./properties/neighbourhoodDetails";
-import PropertyTypeSelector from "./properties/Properties";
 import PropertyDetailsForm from "./properties/propertyDetails";
 import UtilityDetailsForm from "./properties/utilityDetails";
 
@@ -87,6 +88,8 @@ export default function AddProperty() {
       images: [],
       ownershipStatus: null,
       propertySubType: "",
+      longitude: "",
+      latitude: "",
       propertyType: "",
       constructionDetails: {
         buildingMaterials: [],
@@ -141,38 +144,30 @@ export default function AddProperty() {
   };
 
   const [dropDown, setDropdown] = useState(controls);
-  const [error, setError] = useState("");
 
   const toggle = (key: keyof typeof controls) =>
     setDropdown((prev) => ({ ...controls, [key]: !prev[key] }));
 
-  // showToast("success", <p>{response.message}</p>); // Assuming `dmessage` is part of the response
   const { mutate, isPending } = useCreateProperty();
   const { replace } = useRouter();
 
-  const handleAddProperty = () => {
-    setError("");
+  const handleSubmit = (values: CreateProperty) => {
     form.validate();
-    mutate(form.values);
+
+    mutate(values, {
+      onSuccess: () => {
+        showToast("success", <p>Property created</p>);
+        form.reset();
+        replace("/dashboard");
+      },
+      onError: (error) => {
+        showToast("error", `Error creating property ${error.message}`);
+      },
+    });
   };
 
   return (
-    <form
-      onSubmit={form.onSubmit((values) =>
-        mutate(values, {
-          onSuccess: () => {
-            showToast("success", <p>Property created</p>);
-            form.reset();
-            replace("/dashboard");
-          },
-          onError: (error) => {
-            showToast("error", "Error creating property");
-            console.error("Error creating property:", error.message);
-            setError(error.message);
-          },
-        }),
-      )}
-    >
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <Container sx={{ mb: 4 }}>
         <Box
           sx={{
@@ -190,12 +185,6 @@ export default function AddProperty() {
             <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
               Add New Property
             </Typography>
-
-            {error && (
-              <Typography variant="body1" sx={{ color: "red" }}>
-                {error}
-              </Typography>
-            )}
           </Stack>
           <IconButton
             type="submit"
@@ -207,7 +196,6 @@ export default function AddProperty() {
               fontSize: "12px",
               p: 1,
             }}
-            onClick={handleAddProperty}
           >
             {isPending ? "Submitting..." : "Add Property"}
           </IconButton>
@@ -294,6 +282,7 @@ export default function AddProperty() {
                 <TextField
                   size="small"
                   fullWidth
+                  type="number"
                   name="price"
                   placeholder="Enter price"
                   {...form.getInputProps("price")}

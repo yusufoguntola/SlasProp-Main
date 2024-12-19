@@ -105,21 +105,25 @@ export default function NeighbourhoodDetailsForm({
 
       {/* Public Places Section */}
       {form.values.neighbourhoodDetails.proximityToPublicPlaces.map(
-        (place, index) => (
-          <Grid container spacing={2} key={place.place} sx={{ mb: 2 }}>
+        (_, index) => (
+          <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
             {/* Place Name */}
             <Grid size={{ xs: 4 }}>
               <FormControl fullWidth size="small">
-                <p className="mb-1 text-[12px] text-[#000000]">Place</p>
+                <p className="mb-1 text-[12px] text-[#000000]">Type</p>
                 <Select
-                  name={`neighbourhoodDetails.proximityToPublicPlaces.${index}.place`}
+                  value={
+                    form.values.neighbourhoodDetails.proximityToPublicPlaces[
+                      index
+                    ].type
+                  }
                   onChange={(e) =>
                     form.setFieldValue(
-                      `neighbourhoodDetails.proximityToPublicPlaces.${index}.place`,
+                      `neighbourhoodDetails.proximityToPublicPlaces.${index}.type`,
                       e.target.value,
                     )
                   }
-                  label="Place"
+                  label="Type"
                 >
                   <MenuItem value="Shopping Malls">Shopping Malls</MenuItem>
                   <MenuItem value="Cinemas">Cinemas</MenuItem>
@@ -136,12 +140,16 @@ export default function NeighbourhoodDetailsForm({
 
             <Divider />
             <Grid size={{ xs: 4 }}>
-              <p className="mb-1 text-[12px] text-[#000000]">Type</p>
+              <p className="mb-1 text-[12px] text-[#000000]">Place</p>
               <TextField
-                label="Enter Type"
-                name={`neighbourhoodDetails.proximityToPublicPlaces.${index}.type`}
+                label="Enter Place"
+                value={
+                  form.values.neighbourhoodDetails.proximityToPublicPlaces[
+                    index
+                  ].place
+                }
                 {...form.getInputProps(
-                  `neighbourhoodDetails.proximityToPublicPlaces.${index}.type`,
+                  `neighbourhoodDetails.proximityToPublicPlaces.${index}.place`,
                 )}
                 fullWidth
                 size="small"
@@ -153,7 +161,11 @@ export default function NeighbourhoodDetailsForm({
               <p className="mb-1 text-[12px] text-[#000000]">Distance</p>
               <TextField
                 label="Enter Distance"
-                name={`neighbourhoodDetails.proximityToPublicPlaces.${index}.distance`}
+                value={
+                  form.values.neighbourhoodDetails.proximityToPublicPlaces[
+                    index
+                  ].distance
+                }
                 {...form.getInputProps(
                   `neighbourhoodDetails.proximityToPublicPlaces.${index}.distance`,
                 )}
