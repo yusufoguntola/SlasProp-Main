@@ -72,3 +72,17 @@ export function useLogout() {
     replace("/");
   };
 }
+
+export function useForgotPassword() {
+  return useMutation({
+    mutationKey: builder.user.request_password_reset.$get(),
+    mutationFn: builder.$use.user.request_password_reset,
+  });
+}
+
+export function useResetAccount() {
+  return useMutation({
+    mutationKey: builder.user.reset_account.$get(),
+    mutationFn: builder.$use.user.reset_account,
+  });
+}

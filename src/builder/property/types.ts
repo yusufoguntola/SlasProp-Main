@@ -65,7 +65,9 @@ type OwnershipStatus = "owned";
 type RegisterProperty = Omit<
   RegisteredProperty,
   "id" | "address" | "state" | "country" | "propertyDescription" | "location"
-> & {};
+> & {
+  paymentRefId: string;
+};
 interface RegisteredProperty {
   id: number;
   ownerName: string;

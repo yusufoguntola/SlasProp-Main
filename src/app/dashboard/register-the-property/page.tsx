@@ -3,8 +3,11 @@
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
 
+import { useInitiatePayment } from "@/api/payments/mutations";
+import { useGetProfile } from "@/api/profile/queries";
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
+import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import {
   Box,
@@ -17,6 +20,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import PaystackPop from "@paystack/inline-js";
 
 const schema = object({
   ownerName: string().required("Owner name is required"),
@@ -41,11 +45,13 @@ const PROPERTY_TYPES = [
 ];
 
 export default function RegisterTheProperty() {
+  const user = useGetProfile();
+
   const form = useForm({
     initialValues: {
       ownerName: "",
       requestType: "",
-      registrantName: "",
+      registrantName: `${user?.data?.firstName} ${user?.data?.lastName}`,
       propertyType: "",
       registrationNumber: "",
       propertyTaxId: "",
@@ -53,6 +59,7 @@ export default function RegisterTheProperty() {
       locationId: "",
       zipCode: "",
       registeredAddress: "",
+      paymentRefId: "",
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
@@ -60,7 +67,45 @@ export default function RegisterTheProperty() {
 
   const { replace } = useRouter();
   const { data: locations, isFetching } = useFetchLocations();
-  const { mutate, isPending } = useRegisterProperty();
+  const registerProperty = useRegisterProperty();
+  const initiatePayment = useInitiatePayment();
+
+  const paystackPop = new PaystackPop();
+
+  const handleSubmit = (values: RegisterProperty) =>
+    initiatePayment.mutate(
+      { type: form.values.requestType },
+      {
+        onSuccess(data) {
+          paystackPop.newTransaction({
+            amount: 500000,
+            currency: "NGN",
+            email: `${user.data?.email}`,
+            key: `${process.env.NEXT_PUBLIC_PAYSTACK_TEST}`,
+            reference: data.data.data.refId,
+            onSuccess: (trx) => {
+              registerProperty.mutate(
+                { ...values, paymentRefId: trx.reference },
+                {
+                  onSuccess: () => {
+                    replace("/dashboard/registered-properties");
+                  },
+                  onError: (err) => {
+                    showToast(
+                      "error",
+                      `Unable to register properties ${err.message}`,
+                    );
+                  },
+                },
+              );
+            },
+          });
+        },
+        onError: (err) => {
+          showToast("error", `Unable to initiate payment: ${err.message}`);
+        },
+      },
+    );
 
   return (
     <Container>
@@ -79,16 +124,7 @@ export default function RegisterTheProperty() {
         </Typography>
       </Box>
 
-      <form
-        onSubmit={form.onSubmit((values) => {
-          mutate(values, {
-            onSuccess: () => {
-              form.reset();
-              replace("/dashboard/registered-properties");
-            },
-          });
-        })}
-      >
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Box sx={{ marginLeft: { xs: 0, md: "30%" }, mt: 4 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -131,6 +167,7 @@ export default function RegisterTheProperty() {
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>Name of the Registrant</FormLabel>
               <TextField
+                disabled
                 fullWidth
                 id="registrantName"
                 name="registrantName"
@@ -199,6 +236,7 @@ export default function RegisterTheProperty() {
                 fullWidth
                 id="areaOfLand"
                 name="areaOfLand"
+                type="number"
                 size="small"
                 placeholder="Enter area of land"
                 {...form.getInputProps("areaOfLand")}
@@ -267,20 +305,22 @@ export default function RegisterTheProperty() {
               type="submit"
               variant="contained"
               size="medium"
-              disabled={isPending || isFetching}
+              disabled={registerProperty.isPending || initiatePayment.isPending}
               sx={{
-                backgroundColor:
-                  isPending || isFetching ? "lightgray" : "#DF593D",
+                backgroundColor: registerProperty.isPending
+                  ? "lightgray"
+                  : "#DF593D",
                 "&:hover": {
-                  backgroundColor:
-                    isPending || isFetching ? "lightgray" : "#DF593D",
+                  backgroundColor: registerProperty.isPending
+                    ? "lightgray"
+                    : "#DF593D",
                 },
                 borderRadius: "16px",
                 boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.15)",
                 textTransform: "capitalize",
               }}
             >
-              {isPending ? (
+              {registerProperty.isPending || initiatePayment.isPending ? (
                 <CircularProgress size={20} color="inherit" />
               ) : (
                 "Register Property"

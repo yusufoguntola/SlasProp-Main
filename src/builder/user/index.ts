@@ -63,6 +63,18 @@ const upload_image = async (files: FileList) => {
   });
 };
 
+const request_password_reset = (payload: { email: string }) =>
+  axiosInstance.post<{ message: string; token: string }>(
+    "/auth/password/request",
+    payload,
+  );
+
+const reset_account = (payload: {
+  token: string;
+  otp: string;
+  password: string;
+}) => axiosInstance.post<{ message: string }>("/auth/password/reset", payload);
+
 export const user = {
   login,
   register,
@@ -72,4 +84,6 @@ export const user = {
   profile_edit,
   change_password,
   upload_image,
+  request_password_reset,
+  reset_account,
 };

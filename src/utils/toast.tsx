@@ -69,7 +69,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
       {children}
 
       <ToastContainer
-        bodyClassName="text-sm font-white font-medium block p-3"
+        bodyClassName="text-sm font-white font-medium block p-3 z-[10000]"
         toastClassName={(context) => {
           const { type = "default" } = { ...context };
           return clsx(

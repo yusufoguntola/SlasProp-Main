@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
 
@@ -25,6 +24,7 @@ import {
   TextField,
 } from "@mui/material";
 
+import { ForgotPassword } from "./forgot-password-modal";
 import { SignUpModal } from "./sign-up-modal";
 
 const schema = object({
@@ -40,7 +40,7 @@ const schema = object({
 
 export function LoginModal() {
   const setOption = useOptionStore((state) => state.setOption);
-  const { mutate: login } = useLogin();
+  const { mutate: login, isPending } = useLogin();
   const { push } = useRouter();
 
   const form = useForm({
@@ -158,22 +158,13 @@ export function LoginModal() {
             helperText={form.errors.password}
           />
 
-          <Link
-            href="#"
-            style={{
-              textDecoration: "none",
-              color: "red",
-              fontWeight: "bold",
-              marginLeft: "auto",
-            }}
-          >
-            Forgot Password?
-          </Link>
+          <ForgotPassword />
           <Container sx={{ display: "flex", justifyContent: "center" }}>
             <DialogActions>
               <Button
                 type="submit"
                 variant="contained"
+                disabled={isPending}
                 size="medium"
                 sx={{
                   mt: 2,
@@ -184,7 +175,7 @@ export function LoginModal() {
                   width: "150px",
                 }}
               >
-                Login
+                {isPending ? "Submitting..." : "Login"}
               </Button>
             </DialogActions>
           </Container>
