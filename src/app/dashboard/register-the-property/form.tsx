@@ -1,12 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { object, string } from "yup";
 
 import { useInitiatePayment, useVerifyPayment } from "@/api/payments/mutations";
 import { useGetProfile } from "@/api/profile/queries";
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
+import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import {
@@ -17,6 +19,7 @@ import {
   FormLabel,
   Grid2 as Grid,
   MenuItem,
+  Modal,
   TextField,
   Typography,
 } from "@mui/material";
@@ -90,6 +93,11 @@ export default function RegisterTheProperty() {
 
   const paystackPop = new PaystackPop();
 
+  const [payRef, setPayRef] = useState("");
+
+  const { verifyPaymentOpen, verifyPaymentIsOpen, verifyPaymentClose } =
+    useMaterialMenu("verifyPayment");
+
   const handleSubmit = (values: RegisterProperty) =>
     registerProperty.mutate(values, {
       onSuccess: (data) =>
@@ -99,15 +107,9 @@ export default function RegisterTheProperty() {
           email: `${user.data?.email}`,
           key: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
           reference: data.data.data.refId,
-          onSuccess: (data) => {
-            verifyPayment.mutate(data.reference, {
-              onSuccess: () => {
-                replace("/dashboard/registered-properties");
-              },
-              onError: (err) => {
-                showToast("error", `Unable to Verify Payment ${err.message}`);
-              },
-            });
+          onSuccess: (trx) => {
+            verifyPaymentOpen();
+            setPayRef(trx.reference);
           },
           onError: (err) => {
             showToast("error", `Unable to Complete Payment ${err.message}`);
@@ -340,6 +342,29 @@ export default function RegisterTheProperty() {
           </Container>
         </Box>
       </form>
+
+      <Modal open={verifyPaymentIsOpen} onClose={verifyPaymentClose}>
+        <div className="bg-white p-4 max-w-xl absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full">
+          <Button
+            disabled={verifyPayment.isPending}
+            onClick={() => {
+              verifyPayment.mutate(payRef, {
+                onSuccess: () => {
+                  replace("/dashboard/registered-properties");
+                },
+                onError: (err) => {
+                  showToast(
+                    "error",
+                    `Unable to Verify Payment ${err.message}. Click to try again.`,
+                  );
+                },
+              });
+            }}
+          >
+            Continue
+          </Button>
+        </div>
+      </Modal>
     </Container>
   );
 }
