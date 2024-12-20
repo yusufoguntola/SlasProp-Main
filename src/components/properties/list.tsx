@@ -29,7 +29,7 @@ export function PropertiesList() {
           }}
         >
           <Typography
-            variant='h6'
+            variant="h6"
             sx={{ fontWeight: "bold", textAlign: "center" }}
           >
             List Of Properties
@@ -37,7 +37,7 @@ export function PropertiesList() {
         </Box>
 
         <Box
-          className='grid gap-6 py-8'
+          className="grid gap-6 py-8"
           sx={{
             display: "grid",
             gridTemplateColumns:
@@ -61,7 +61,7 @@ export function PropertiesList() {
         flexDirection: "column",
         gap: 2,
         mt: 4,
-        width: { xs: "100%", lg: 700 },
+
         mx: "auto",
         ml: { xs: 0, lg: "30%" },
       }}
@@ -76,10 +76,10 @@ export function PropertiesList() {
           width: "100%",
         }}
       >
-        <Typography variant='h6' sx={{ fontWeight: "bold" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           List Of Properties
         </Typography>
-        <Link href='/dashboard/add-property'>
+        <Link href="/dashboard/add-property">
           <IconButton
             sx={{
               backgroundColor: "#DF593D",
@@ -91,7 +91,7 @@ export function PropertiesList() {
               px: 2,
             }}
           >
-            <AddCircleOutline /> &nbsp;Add New Property
+            <AddCircleOutline /> &nbsp;Add New Listing
           </IconButton>
         </Link>
       </Box>
@@ -108,23 +108,15 @@ export function PropertiesList() {
           }}
         >
           <Image
-            src='/assets/Empty.jpg'
-            alt='Empty state'
+            src="/assets/Empty.jpg"
+            alt="Empty state"
             width={200}
             height={200}
           />
           <Typography>You have not created any listing</Typography>
         </Box>
       ) : (
-        <Box
-          className='grid gap-6 py-8'
-          sx={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fill, minmax(min(380px, 100%), 1fr))",
-            gridAutoRows: "1fr",
-          }}
-        >
+        <Box className="grid grid-cols-1 md:grid-cols-2 gap-6 py-8 w-full">
           {data?.data.data.map((property) => (
             <MyPropertyCard key={property.id} {...property} />
           ))}

@@ -106,7 +106,7 @@ export default function NeighbourhoodDetailsForm({
       {/* Public Places Section */}
       {form.values.neighbourhoodDetails.proximityToPublicPlaces.map(
         (_, index) => (
-          <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
+          <Grid container spacing={1} key={index} sx={{ mb: 2 }}>
             {/* Place Name */}
             <Grid size={{ xs: 4 }}>
               <FormControl fullWidth size="small">
@@ -142,7 +142,7 @@ export default function NeighbourhoodDetailsForm({
             <Grid size={{ xs: 4 }}>
               <p className="mb-1 text-[12px] text-[#000000]">Place</p>
               <TextField
-                label="Enter Place"
+                label="Enter name"
                 value={
                   form.values.neighbourhoodDetails.proximityToPublicPlaces[
                     index
@@ -157,10 +157,10 @@ export default function NeighbourhoodDetailsForm({
             </Grid>
 
             {/* Distance */}
-            <Grid size={{ xs: 3 }}>
+            <Grid size={{ xs: 2.5 }}>
               <p className="mb-1 text-[12px] text-[#000000]">Distance</p>
               <TextField
-                label="Enter Distance"
+                label="Miles"
                 value={
                   form.values.neighbourhoodDetails.proximityToPublicPlaces[
                     index
@@ -175,16 +175,14 @@ export default function NeighbourhoodDetailsForm({
             </Grid>
 
             {/* Remove Place */}
-            <div className="mt-[2rem]">
-              <Grid size={{ xs: 1 }}>
-                <IconButton
-                  onClick={() => handleRemovePublicPlace(index)}
-                  color="error"
-                >
-                  <RemoveCircleOutline />
-                </IconButton>
-              </Grid>
-            </div>
+            <Grid size={{ xs: 1 }} mt={3}>
+              <IconButton
+                onClick={() => handleRemovePublicPlace(index)}
+                color="error"
+              >
+                <RemoveCircleOutline />
+              </IconButton>
+            </Grid>
           </Grid>
         ),
       )}

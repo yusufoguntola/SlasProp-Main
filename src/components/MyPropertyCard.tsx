@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowForward, LocationOn } from "@mui/icons-material";
@@ -24,7 +25,7 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
   };
   const currency = "₦";
   const formattedPrice = formatAsPrice(
-    Number.parseFloat(property?.price || "0")
+    Number.parseFloat(property?.price || "0"),
   );
 
   const propertyImage = property?.images?.[0];
@@ -46,20 +47,15 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
       <Box
         sx={{
           flex: 1,
-          height: { xs: "200px", sm: "170px" },
-
-          overflow: "hidden",
-          borderRadius: "12px 0 0 12px",
+          height: "100%",
         }}
       >
-        <img
+        <Image
           src={propertyImage || "/assets/property-image.jpg"}
-          alt='Property image'
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
+          alt="Property"
+          width={300}
+          height={500}
+          className="w-full h-full object-cover grow"
         />
       </Box>
       <Box
@@ -139,7 +135,7 @@ export function MyPropertyCard(property: MyPropertyCardProps) {
         </Typography>
         <Link href={`/dashboard/my-properties/${property?.id}`} passHref>
           <IconButton
-            size='small'
+            size="small"
             sx={{
               backgroundColor: "#FFF3E0",
               color: "#DF593D",
