@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Link,
   Paper,
   Table,
@@ -122,7 +121,11 @@ export default function RegisteredPropertyDetail() {
             {ownerData.map((owner, index) => (
               <Box
                 key={index}
-                sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  mb: 1,
+                }}
               >
                 <Typography>
                   <b>{owner.initials}</b> {owner.name}
@@ -167,13 +170,6 @@ export default function RegisteredPropertyDetail() {
             Current Valuation <b style={{ color: "#3cb391" }}>$565758</b>
           </Typography>
         </Box>
-
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: "#e74c3c", color: "#fff", minWidth: 150 }}
-        >
-          PAY NOW
-        </Button>
       </Box>
     </Box>
   );

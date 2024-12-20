@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
 
-import { useInitiatePayment } from "@/api/payments/mutations";
+import { useInitiatePayment, useVerifyPayment } from "@/api/payments/mutations";
 import { useGetProfile } from "@/api/profile/queries";
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
@@ -86,6 +86,7 @@ export default function RegisterTheProperty() {
   const { data: locations, isFetching } = useFetchLocations();
   const registerProperty = useRegisterProperty();
   const initiatePayment = useInitiatePayment();
+  const verifyPayment = useVerifyPayment();
 
   const paystackPop = new PaystackPop();
 
@@ -98,8 +99,15 @@ export default function RegisterTheProperty() {
           email: `${user.data?.email}`,
           key: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
           reference: data.data.data.refId,
-          onSuccess: () => {
-            replace("/dashboard/registered-properties");
+          onSuccess: (data) => {
+            verifyPayment.mutate(data.reference, {
+              onSuccess: () => {
+                replace("/dashboard/registered-properties");
+              },
+              onError: (err) => {
+                showToast("error", `Unable to Verify Payment ${err.message}`);
+              },
+            });
           },
           onError: (err) => {
             showToast("error", `Unable to Complete Payment ${err.message}`);
