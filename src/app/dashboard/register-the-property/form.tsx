@@ -44,6 +44,23 @@ const PROPERTY_TYPES = [
   "Special purpose",
 ];
 
+function calculatePayment(value: string | number) {
+  if (Number.isNaN(Number(value))) return 0;
+
+  const amount = Number(value);
+
+  const FEE_CAP = 2_000; // Nigerian Paystack Fee Cap
+  const NIGERIAN_LOCAL_TRANSACTION_FEE = 1.5 / 100; // 1.5%
+
+  const TRX_FEE = amount * NIGERIAN_LOCAL_TRANSACTION_FEE;
+  const FINAL_AMOUNT =
+    TRX_FEE > FEE_CAP
+      ? amount + FEE_CAP
+      : amount / (1 - NIGERIAN_LOCAL_TRANSACTION_FEE) + 100;
+
+  return Math.ceil(FINAL_AMOUNT * 100);
+}
+
 export default function RegisterTheProperty() {
   const user = useGetProfile();
 
@@ -73,39 +90,25 @@ export default function RegisterTheProperty() {
   const paystackPop = new PaystackPop();
 
   const handleSubmit = (values: RegisterProperty) =>
-    initiatePayment.mutate(
-      { type: form.values.requestType },
-      {
-        onSuccess(data) {
-          paystackPop.newTransaction({
-            amount: 500000,
-            currency: "NGN",
-            email: `${user.data?.email}`,
-            key: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
-            reference: data.data.data.refId,
-            onSuccess: (trx) => {
-              registerProperty.mutate(
-                { ...values, paymentRefId: trx.reference },
-                {
-                  onSuccess: () => {
-                    replace("/dashboard/registered-properties");
-                  },
-                  onError: (err) => {
-                    showToast(
-                      "error",
-                      `Unable to register properties ${err.message}`,
-                    );
-                  },
-                },
-              );
-            },
-          });
-        },
-        onError: (err) => {
-          showToast("error", `Unable to initiate payment: ${err.message}`);
-        },
+    registerProperty.mutate(values, {
+      onSuccess: (data) =>
+        paystackPop.newTransaction({
+          amount: calculatePayment(data.data.data.amount),
+          currency: "NGN",
+          email: `${user.data?.email}`,
+          key: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
+          reference: data.data.data.refId,
+          onSuccess: () => {
+            replace("/dashboard/registered-properties");
+          },
+          onError: (err) => {
+            showToast("error", `Unable to Complete Payment ${err.message}`);
+          },
+        }),
+      onError: (err) => {
+        showToast("error", `Unable to Register Property ${err.message}`);
       },
-    );
+    });
 
   return (
     <Container>

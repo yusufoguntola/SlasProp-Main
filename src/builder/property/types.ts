@@ -141,3 +141,17 @@ interface Proximity {
   type: string;
   distance: string;
 }
+
+interface Payment {
+  id: PermId;
+  refId: string;
+  type: string;
+  amount: string;
+  description: string;
+  amountPaid: string | null;
+  status: "Pending" | "Completed" | "Declined" | (string & {});
+  createdById: PermId;
+  updatedAt: Date;
+  createdAt: Date;
+  deletedAt: null;
+}

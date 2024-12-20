@@ -36,7 +36,7 @@ const create_listing = async (payload: CreateProperty) =>
   });
 
 const register = async (payload: RegisterProperty) =>
-  await axiosInstance.post("/property-queries", payload);
+  await axiosInstance.post<PostResponse<Payment>>("/property-queries", payload);
 
 const list_registered = (page = 1) =>
   axiosInstance
