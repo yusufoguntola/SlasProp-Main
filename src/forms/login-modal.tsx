@@ -101,7 +101,7 @@ export function LoginModal() {
             <p className="inline-block font-mono mr-auto w-64 font-bold">
               Login
             </p>
-            <Button onClick={closeLoginModal}>
+            <Button onClick={closeLoginModal} className="px-0">
               <Clear
                 sx={{
                   color: "red",
