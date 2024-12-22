@@ -344,24 +344,25 @@ export default function RegisterTheProperty() {
       </form>
 
       <Modal open={verifyPaymentIsOpen} onClose={verifyPaymentClose}>
-        <div className="bg-white p-4 max-w-xl absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full">
+        <div className="bg-white p-4 h-64 max-w-sm absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full flex items-center justify-center">
           <Button
             disabled={verifyPayment.isPending}
+            variant="contained"
             onClick={() => {
               verifyPayment.mutate(payRef, {
                 onSuccess: () => {
                   replace("/dashboard/registered-properties");
                 },
-                onError: (err) => {
+                onError: () => {
                   showToast(
                     "error",
-                    `Unable to Verify Payment ${err.message}. Click to try again.`,
+                    "Unable to Verify Payment. Click to try again.",
                   );
                 },
               });
             }}
           >
-            Continue
+            {verifyPayment.isPending ? "Confirming payment..." : "Continue"}
           </Button>
         </div>
       </Modal>
