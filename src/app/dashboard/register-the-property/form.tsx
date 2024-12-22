@@ -107,6 +107,7 @@ export default function RegisterTheProperty() {
           email: `${user.data?.email}`,
           key: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
           reference: data.data.data.refId,
+          split_code: data.data.data.splitCode,
           onSuccess: (trx) => {
             verifyPaymentOpen();
             setPayRef(trx.reference);

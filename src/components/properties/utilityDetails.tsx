@@ -13,6 +13,8 @@ import {
   TextField,
 } from "@mui/material";
 
+import Frequency from "../Frequency";
+
 const greenEnergyOptions = [
   "Solar Power",
   "Wind Power",
@@ -222,16 +224,16 @@ export default function UtilityDetailsForm({ form }: PropertyDetailsFormProps) {
 
           {/* Frequency */}
           <Grid size={{ xs: 6 }}>
-            <p className="mb-1 text-[12px] text-[#000000]">Frequency</p>
-            <TextField
-              label="Enter Frequency"
-              value={form.values.utilitiesDetails.services[index].frequency}
-              name={`utilitiesDetails.services.${index}.frequency`}
-              {...form.getInputProps(
-                `utilitiesDetails.services.${index}.frequency`,
-              )}
-              fullWidth
+            <Frequency
+              label="Frequency"
               size="small"
+              value={form.values.utilitiesDetails.services[index].frequency}
+              onChange={(e) =>
+                form.setFieldValue(
+                  `utilitiesDetails.services.${index}.frequency`,
+                  e.target.value,
+                )
+              }
             />
           </Grid>
 

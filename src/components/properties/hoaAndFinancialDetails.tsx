@@ -9,6 +9,8 @@ import {
   TextField,
 } from "@mui/material";
 
+import Frequency from "../Frequency";
+
 interface PropertyDetailsFormProps {
   form: UseFormReturnType<CreateProperty>;
 }
@@ -22,10 +24,10 @@ const HoaAndFinancialDetailsForm = ({ form }: PropertyDetailsFormProps) => {
       type: "text",
     },
     {
-      label: "Enter Due Frequency",
+      label: "Select Due Frequency",
       name: "hoaAndFinancialDetails.dueFrequency",
       header: "Due Frequency",
-      type: "text",
+      type: "select",
     },
     {
       label: "Enter Due Amount",
@@ -70,17 +72,32 @@ const HoaAndFinancialDetailsForm = ({ form }: PropertyDetailsFormProps) => {
       <Grid container spacing={2}>
         {fields.map((field) => (
           <Grid size={{ xs: 6 }} key={field.name}>
-            <p className="mb-1 text-[12px] text-[#000000]">{field.header}</p>
+            {field.type === "select" ? (
+              <Frequency
+                label={field.header}
+                sx={{ my: 1 }}
+                onChange={(ev) =>
+                  form.setFieldValue(field.name, ev.target.value)
+                }
+                size="small"
+              />
+            ) : (
+              <>
+                <p className="mb-1 text-[12px] text-[#000000]">
+                  {field.header}
+                </p>
 
-            <TextField
-              size="small"
-              placeholder={field.type === "date" ? "" : field.label}
-              name={field.name}
-              {...form.getInputProps(field.name)}
-              fullWidth
-              sx={{ my: 1 }}
-              type={field.type}
-            />
+                <TextField
+                  size="small"
+                  placeholder={field.type === "date" ? "" : field.label}
+                  name={field.name}
+                  {...form.getInputProps(field.name)}
+                  fullWidth
+                  sx={{ my: 1 }}
+                  type={field.type}
+                />
+              </>
+            )}
           </Grid>
         ))}
       </Grid>

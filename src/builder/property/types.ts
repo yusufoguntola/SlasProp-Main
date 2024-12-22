@@ -154,4 +154,5 @@ interface Payment {
   updatedAt: Date;
   createdAt: Date;
   deletedAt: null;
+  splitCode: string;
 }
