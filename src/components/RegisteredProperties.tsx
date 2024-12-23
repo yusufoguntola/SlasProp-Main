@@ -17,7 +17,7 @@ import Link from "next/link";
 const useStyles: Record<string, SxProps<Theme>> = {
   container: {
     padding: "24px",
-    pl: { xs: 0, md: "30%" },
+    ml: { xs: 0, md: "30%" },
     maxWidth: 950,
     width: "100%",
   },
