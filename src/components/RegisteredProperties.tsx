@@ -18,7 +18,6 @@ const useStyles: Record<string, SxProps<Theme>> = {
   container: {
     padding: "24px",
     ml: { xs: 0, md: "30%" },
-    maxWidth: 950,
   },
   cardContainer: {
     border: "1px solid lightgray",
@@ -146,7 +145,7 @@ export default function RegisteredProperties() {
                     {property.registrantName}
                   </Typography>
                 </Box>
-                <Box width="100px" />
+                <Box />
               </Box>
             </Box>
           ))}
