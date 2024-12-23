@@ -17,7 +17,7 @@ import Link from "next/link";
 const useStyles: Record<string, SxProps<Theme>> = {
   container: {
     padding: "24px",
-    ml: { xs: 0, md: "30%" },
+    pl: { xs: 0, md: "30%" },
   },
   cardContainer: {
     border: "1px solid lightgray",
@@ -145,7 +145,7 @@ export default function RegisteredProperties() {
                     {property.registrantName}
                   </Typography>
                 </Box>
-                <Box width="30px" />
+                <Box width="35px" />
               </Box>
             </Box>
           ))}
