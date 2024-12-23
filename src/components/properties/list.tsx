@@ -16,7 +16,11 @@ export function PropertiesList() {
 
   if (isLoading || isError) {
     return (
-      <Container>
+      <Container
+        sx={{
+          ml: { xs: 0, lg: "30%" },
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -61,7 +65,6 @@ export function PropertiesList() {
         flexDirection: "column",
         gap: 2,
         mt: 4,
-
         mx: "auto",
         ml: { xs: 0, lg: "30%" },
       }}
