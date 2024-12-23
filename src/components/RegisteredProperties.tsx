@@ -17,6 +17,7 @@ import Link from "next/link";
 const useStyles: Record<string, SxProps<Theme>> = {
   container: {
     padding: "24px",
+    ml: { xs: 0, md: "30%" },
     width: "100%",
   },
   cardContainer: {
