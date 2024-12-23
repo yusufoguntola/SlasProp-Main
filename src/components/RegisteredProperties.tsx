@@ -145,7 +145,7 @@ export default function RegisteredProperties() {
                     {property.registrantName}
                   </Typography>
                 </Box>
-                <Box />
+                <Box width="30px" />
               </Box>
             </Box>
           ))}
