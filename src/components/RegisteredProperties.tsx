@@ -17,8 +17,6 @@ import Link from "next/link";
 const useStyles: Record<string, SxProps<Theme>> = {
   container: {
     padding: "24px",
-    ml: { xs: 0, md: "30%" },
-    maxWidth: 950,
     width: "100%",
   },
   cardContainer: {
@@ -71,7 +69,7 @@ export default function RegisteredProperties() {
   const { data, isFetching } = useGetRegisteredProperties();
 
   return (
-    <Container maxWidth="md" sx={useStyles.container}>
+    <Container sx={useStyles.container}>
       <Box sx={useStyles.header}>
         <Typography variant="h6" fontWeight="bold">
           Registered Properties
@@ -88,19 +86,14 @@ export default function RegisteredProperties() {
 
       {isFetching
         ? Array.from({ length: 3 }).map((_, index) => (
-            <Loader
-              key={`key-${
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                index
-              }`}
-            />
+            <Loader key={`key-${index}`} />
           ))
         : data?.map((property) => (
             <Box key={property.id} sx={useStyles.cardContainer}>
               <Box sx={useStyles.section}>
                 <Box sx={useStyles.sectionItem}>
                   <Typography sx={useStyles.label}>
-                    Property Owner Name
+                    Current Owner Name
                   </Typography>
                   <Typography sx={useStyles.value}>
                     {property.ownerName}
@@ -144,7 +137,7 @@ export default function RegisteredProperties() {
                 <Box sx={useStyles.sectionItem}>
                   <Typography sx={useStyles.label}>Location</Typography>
                   <Typography sx={useStyles.value}>
-                    {property.registrantName}
+                    {property.registeredAddress}
                   </Typography>
                 </Box>
                 <Box width="35px" />

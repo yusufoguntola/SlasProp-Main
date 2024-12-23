@@ -2,6 +2,7 @@
 
 import ProfileMainBar from "@/components/ProfileMainBar";
 import { SideBar } from "@/components/SideBar";
+import { cn } from "@/utils/cn";
 // import { Footer } from "@/sections/Footer";
 import { type PropsWithChildren, Suspense, useState } from "react";
 
@@ -25,7 +26,9 @@ export default function Layout({ children }: LayoutProps) {
 
         <div className="flex sticky top-10">
           <SideBar isOpen={isDrawerOpen} toggle={toggleDrawer} />
-          <div className="flex-1">{children}</div>
+          <div className={cn("flex-1 ml-[270px]", !isDrawerOpen && "ml-0")}>
+            {children}
+          </div>
         </div>
         {/* <Footer /> */}
       </div>
