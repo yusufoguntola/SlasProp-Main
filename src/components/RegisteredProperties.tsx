@@ -19,6 +19,7 @@ const useStyles: Record<string, SxProps<Theme>> = {
     padding: "24px",
     pl: { xs: 0, md: "30%" },
     maxWidth: 950,
+    width: "100%",
   },
   cardContainer: {
     border: "1px solid lightgray",
