@@ -2,6 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { flushSync } from "react-dom";
+import { usePaystackPayment } from "react-paystack";
+import type { PaystackProps } from "react-paystack/dist/types";
 import { object, string } from "yup";
 
 import { useInitiatePayment, useVerifyPayment } from "@/api/payments/mutations";
@@ -9,6 +12,7 @@ import { useGetProfile } from "@/api/profile/queries";
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
+import useDisclosure from "@/hooks/useDisclosure";
 import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import {
@@ -16,6 +20,8 @@ import {
   Button,
   CircularProgress,
   Container,
+  Dialog,
+  DialogContent,
   FormLabel,
   Grid2 as Grid,
   MenuItem,
@@ -23,12 +29,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import PaystackPop from "@paystack/inline-js";
 
 const schema = object({
   ownerName: string().required("Owner name is required"),
   requestType: string().required("Request type is required"),
-  registrantName: string().required("Registrant name is required"),
   propertyType: string().required("Property type is required"),
   registrationNumber: string().required("Registration number is required"),
   propertyTaxId: string().required("Property tax ID is required"),
@@ -59,19 +63,27 @@ function calculatePayment(value: string | number) {
   const FINAL_AMOUNT =
     TRX_FEE > FEE_CAP
       ? amount + FEE_CAP
-      : amount / (1 - NIGERIAN_LOCAL_TRANSACTION_FEE) + 100;
+      : (amount + 100) / (1 - NIGERIAN_LOCAL_TRANSACTION_FEE) + 0.01;
 
   return Math.ceil(FINAL_AMOUNT * 100);
 }
 
 export default function RegisterTheProperty() {
   const user = useGetProfile();
+  const [paystack, setPaystack] = useState({
+    email: `${user.data?.email}`,
+    publicKey: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
+    amount: 0,
+    reference: "",
+    split_code: "",
+  });
+  const [opened, { close, open }] = useDisclosure();
 
   const form = useForm({
     initialValues: {
       ownerName: "",
       requestType: "",
-      registrantName: `${user?.data?.firstName} ${user?.data?.lastName}`,
+      registrantName: "",
       propertyType: "",
       registrationNumber: "",
       propertyTaxId: "",
@@ -91,35 +103,32 @@ export default function RegisterTheProperty() {
   const initiatePayment = useInitiatePayment();
   const verifyPayment = useVerifyPayment();
 
-  const paystackPop = new PaystackPop();
-
-  const [payRef, setPayRef] = useState("");
-
   const { verifyPaymentOpen, verifyPaymentIsOpen, verifyPaymentClose } =
     useMaterialMenu("verifyPayment");
 
   const handleSubmit = (values: RegisterProperty) =>
-    registerProperty.mutate(values, {
-      onSuccess: (data) =>
-        paystackPop.newTransaction({
-          amount: calculatePayment(data.data.data.amount),
-          currency: "NGN",
-          email: `${user.data?.email}`,
-          key: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
-          reference: data.data.data.refId,
-          split_code: data.data.data.splitCode,
-          onSuccess: (trx) => {
-            verifyPaymentOpen();
-            setPayRef(trx.reference);
-          },
-          onError: (err) => {
-            showToast("error", `Unable to Complete Payment ${err.message}`);
-          },
-        }),
-      onError: (err) => {
-        showToast("error", `Unable to Register Property ${err.message}`);
+    registerProperty.mutate(
+      {
+        ...values,
+        registrantName: `${user?.data?.firstName} ${user?.data?.lastName}`,
       },
-    });
+      {
+        onSuccess: (data) => {
+          flushSync(() => {
+            setPaystack((prev) => ({
+              ...prev,
+              amount: calculatePayment(data.data.data.amount),
+              reference: data.data.data.refId,
+              split_code: data.data.data.splitCode,
+            }));
+          });
+          open();
+        },
+        onError: (err) => {
+          showToast("error", `Unable to Register Property ${err.message}`);
+        },
+      },
+    );
 
   return (
     <Container>
@@ -182,6 +191,7 @@ export default function RegisterTheProperty() {
               <FormLabel>Name of the Registrant</FormLabel>
               <TextField
                 disabled
+                key={user.status}
                 fullWidth
                 id="registrantName"
                 name="registrantName"
@@ -350,7 +360,7 @@ export default function RegisterTheProperty() {
             disabled={verifyPayment.isPending}
             variant="contained"
             onClick={() => {
-              verifyPayment.mutate(payRef, {
+              verifyPayment.mutate(paystack.reference, {
                 onSuccess: () => {
                   replace("/dashboard/registered-properties");
                 },
@@ -367,6 +377,44 @@ export default function RegisterTheProperty() {
           </Button>
         </div>
       </Modal>
+
+      <PaystackPay
+        verifyPayment={verifyPaymentOpen}
+        {...paystack}
+        open={opened}
+        close={close}
+      />
     </Container>
+  );
+}
+
+function PaystackPay({
+  open,
+  close,
+  verifyPayment,
+  ...props
+}: PaystackProps & {
+  open: boolean;
+  close: () => void;
+  verifyPayment: () => void;
+}) {
+  const initializePaystack = usePaystackPayment(props);
+
+  const makePayment = () =>
+    initializePaystack({
+      onSuccess: () => {
+        verifyPayment();
+        close();
+      },
+    });
+
+  return (
+    <Dialog open={open} maxWidth="sm" onClose={() => {}}>
+      <DialogContent sx={{ p: 4 }}>
+        <Button variant="contained" onClick={() => makePayment()}>
+          Click to Make Payment
+        </Button>
+      </DialogContent>
+    </Dialog>
   );
 }
