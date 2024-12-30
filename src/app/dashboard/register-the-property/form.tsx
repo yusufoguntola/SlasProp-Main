@@ -12,7 +12,6 @@ import { useGetProfile } from "@/api/profile/queries";
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
-import useDisclosure from "@/hooks/useDisclosure";
 import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import {
@@ -71,19 +70,19 @@ function calculatePayment(value: string | number) {
 export default function RegisterTheProperty() {
   const user = useGetProfile();
   const [paystack, setPaystack] = useState({
-    email: `${user.data?.email}`,
     publicKey: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
     amount: 0,
     reference: "",
     split_code: "",
+    email: "",
+    opened: false,
   });
-  const [opened, { close, open }] = useDisclosure();
 
   const form = useForm({
     initialValues: {
       ownerName: "",
       requestType: "",
-      registrantName: "",
+      registrantName: `${user?.data?.firstName} ${user?.data?.lastName}`,
       propertyType: "",
       registrationNumber: "",
       propertyTaxId: "",
@@ -95,10 +94,12 @@ export default function RegisterTheProperty() {
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
+    clearInputErrorOnChange: true,
   });
 
   const { replace } = useRouter();
   const { data: locations, isFetching } = useFetchLocations();
+
   const registerProperty = useRegisterProperty();
   const initiatePayment = useInitiatePayment();
   const verifyPayment = useVerifyPayment();
@@ -120,9 +121,10 @@ export default function RegisterTheProperty() {
               amount: calculatePayment(data.data.data.amount),
               reference: data.data.data.refId,
               split_code: data.data.data.splitCode,
+              opened: true,
+              email: `${user.data?.email}`,
             }));
           });
-          open();
         },
         onError: (err) => {
           showToast("error", `Unable to Register Property ${err.message}`);
@@ -381,8 +383,8 @@ export default function RegisterTheProperty() {
       <PaystackPay
         verifyPayment={verifyPaymentOpen}
         {...paystack}
-        open={opened}
-        close={close}
+        open={paystack.opened}
+        close={() => setPaystack((prev) => ({ ...prev, opened: false }))}
       />
     </Container>
   );

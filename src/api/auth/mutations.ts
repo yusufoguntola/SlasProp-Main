@@ -26,7 +26,7 @@ export function useLogin() {
 
       const cookie_options = {
         expires: new Date(user.exp),
-        maxAge: user.exp,
+        maxAge: user.exp - Date.now(),
         path: "/",
         sameSite: "lax" as const,
       };
