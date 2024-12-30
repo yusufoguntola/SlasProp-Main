@@ -25,8 +25,7 @@ export function useLogin() {
       const user_type = role ? "admin" : "user";
 
       const cookie_options = {
-        expires: new Date(user.exp),
-        maxAge: user.exp - Date.now(),
+        maxAge: 7200,
         path: "/",
         sameSite: "lax" as const,
       };
