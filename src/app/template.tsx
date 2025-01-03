@@ -8,7 +8,10 @@ import { onError } from "@/utils/handleError";
 import { ToastProvider } from "@/utils/toast";
 import { NuqsAdapter } from "nuqs/adapters/next/pages";
 
+import { createTheme, ThemeProvider } from "@mui/material";
 type TemplateProps = PropsWithChildren;
+
+const theme = createTheme({ palette: { primary: { main: "#26a69a" } } });
 
 export default function Template({ children }: TemplateProps) {
   const [client] = useState(
@@ -27,9 +30,11 @@ export default function Template({ children }: TemplateProps) {
   return (
     <QueryClientProvider client={client}>
       <NuqsAdapter>
-        <ToastProvider>
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-        </ToastProvider>
+        <ThemeProvider theme={theme}>
+          <ToastProvider>
+            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          </ToastProvider>
+        </ThemeProvider>
       </NuqsAdapter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
