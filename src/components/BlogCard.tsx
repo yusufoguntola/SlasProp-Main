@@ -1,3 +1,8 @@
+import Link from "next/link";
+
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import {
   Card,
   CardActionArea,
@@ -6,10 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
-
 interface BlogCardProps {
   imageUrl: string;
   heading: string;
@@ -17,6 +18,7 @@ interface BlogCardProps {
   shares: string;
   likes: number;
   desc: string;
+  slug: string;
 }
 
 export function BlogCard({
@@ -26,6 +28,7 @@ export function BlogCard({
   shares,
   likes,
   desc,
+  slug,
 }: BlogCardProps) {
   return (
     <Card
@@ -42,7 +45,11 @@ export function BlogCard({
         },
       }}
     >
-      <CardActionArea sx={{ display: "flex", flexDirection: "column" }}>
+      <CardActionArea
+        sx={{ display: "flex", flexDirection: "column" }}
+        LinkComponent={Link}
+        href={`/blog/${slug}`}
+      >
         <CardMedia
           component="img"
           image={imageUrl}

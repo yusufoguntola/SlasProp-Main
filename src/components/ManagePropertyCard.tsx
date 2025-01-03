@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   Card,
   CardActionArea,
@@ -10,12 +12,14 @@ interface ManagePropertyCardProps {
   imageUrl: string;
   heading: string;
   desc: string;
+  href: string;
 }
 
 export function ManagePropertyCard({
   imageUrl,
   heading,
   desc,
+  href,
 }: ManagePropertyCardProps) {
   return (
     <Card
@@ -34,6 +38,8 @@ export function ManagePropertyCard({
           alignItems: "center",
           height: "100%",
         }}
+        LinkComponent={Link}
+        href={href}
       >
         <CardMedia
           component="img"

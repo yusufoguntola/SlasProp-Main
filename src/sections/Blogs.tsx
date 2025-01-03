@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { BlogCard } from "@/components/BlogCard";
 import { Box, Button, Container, Typography } from "@mui/material";
 
@@ -10,6 +12,7 @@ const blogs = [
     likes: 121,
     views: "5k",
     shares: "1K",
+    slug: "tips-for-finding-the-perfect-rental-property",
   },
   {
     id: 2,
@@ -19,6 +22,7 @@ const blogs = [
     likes: 121,
     views: "5k",
     shares: "1K",
+    slug: "tips-for-finding-the-perfect-rental-property",
   },
   {
     id: 3,
@@ -28,6 +32,7 @@ const blogs = [
     likes: 121,
     views: "5k",
     shares: "1K",
+    slug: "tips-for-finding-the-perfect-rental-property",
   },
 ];
 
@@ -118,6 +123,8 @@ export function Blogs() {
           },
           transition: "all 0.3s ease",
         }}
+        LinkComponent={Link}
+        href="/blog"
       >
         View All
       </Button>

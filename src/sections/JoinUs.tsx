@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Box, Button, CardMedia, Container, Typography } from "@mui/material";
 
 export function JoinUs() {
@@ -57,6 +59,8 @@ export function JoinUs() {
                 transition: "all 0.3s ease",
               },
             }}
+            LinkComponent={Link}
+            href="/careers"
           >
             Join Us
           </Button>

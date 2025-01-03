@@ -7,18 +7,21 @@ const properties = [
     imageUrl: "/assets/buy-property.png",
     heading: "Buy A Property",
     desc: "Discover your dream property with SlasProp. Explore curated listings, get insights into property values and enjoy seamless transactions. Your journey to property ownership egins here!",
+    href: "/properties?type=Buy",
   },
   {
     id: 2,
     imageUrl: "/assets/sell-property.png",
     heading: "Sell A Property",
     desc: "Maximize your property value effortlessly with SlasProp. List with ease, showcase unique features and connect with buyers seamlessly for a smooth selling journey!",
+    href: "/dashboard/add-property",
   },
   {
     id: 3,
     imageUrl: "/assets/rent-property.png",
     heading: "Rent A Property",
     desc: "Explore hassle-free renting with SlasProp. Find your dream space effortlessly with stunning visuals and tailored listings. Welcome to a new era of renting convenience!",
+    href: "/properties?type=Rent",
   },
 ];
 
