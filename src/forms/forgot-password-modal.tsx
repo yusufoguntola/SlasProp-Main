@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { object, string } from "yup";
 
 import { useForgotPassword } from "@/api/auth/mutations";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
 import { useOptionStore } from "@/stores/useOptionStore";
-import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import { Clear } from "@mui/icons-material";
 import {
@@ -16,15 +16,24 @@ import {
   TextField,
 } from "@mui/material";
 
+import { ResetPasswordModal } from "./reset-password-modal";
+
 const schema = object({
   email: string()
     .required("Please enter your email address")
     .email("Please enter a valid email address"),
 });
 
-export function ForgotPassword() {
+export function ForgotPassword({
+  forgotPasswordClose,
+  forgotPasswordIsOpen,
+}: {
+  forgotPasswordClose: () => void;
+  forgotPasswordIsOpen: boolean;
+}) {
   const setOption = useOptionStore((state) => state.setOption);
   const { mutate: resetAccount, isPending } = useForgotPassword();
+  const [token, setToken] = useState("");
 
   const form = useForm({
     initialValues: {
@@ -33,19 +42,16 @@ export function ForgotPassword() {
     validate: yupResolver(schema),
   });
 
-  const { forgotPasswordOpen, forgotPasswordClose, forgotPasswordIsOpen } =
-    useMaterialMenu("forgotPassword");
-
-  const { resetPasswordOpen } = useMaterialMenu("resetPassword");
+  const { resetPasswordOpen, resetPasswordClose, resetPasswordIsOpen } =
+    useMaterialMenu("resetPassword");
 
   async function handleSubmit({ ...values }: typeof form.values) {
     resetAccount(values, {
-      onSuccess: () => {
+      onSuccess: (resp) => {
         forgotPasswordClose();
         resetPasswordOpen();
-      },
-      onError: () => {
-        showToast("error", <p> Login Failed! Please try again. </p>);
+        setToken(resp.data.token);
+        form.reset();
       },
     });
 
@@ -59,83 +65,69 @@ export function ForgotPassword() {
 
   return (
     <>
-      <Button
-        color="inherit"
-        sx={{
-          textTransform: "capitalize",
-          color: "red",
-          fontWeight: "bold",
-          marginLeft: "auto",
-        }}
-        onClick={() => {
-          forgotPasswordOpen();
-        }}
-      >
-        Forgot Password?
-      </Button>
-
-      <Dialog
-        open={forgotPasswordIsOpen}
-        maxWidth="lg"
-        onClose={closeModal}
-        PaperProps={{
-          component: "form",
-          onSubmit: form.onSubmit(handleSubmit),
-        }}
-      >
-        <Container sx={{ borderBottom: 1 }}>
-          <DialogActions>
-            <p className="inline-block font-mono mr-auto w-64 font-bold">
-              Login
-            </p>
-            <Button onClick={closeModal}>
-              <Clear
-                sx={{
-                  color: "red",
-                  fontSize: 20,
-                  fontWeight: "bold",
-                }}
-              />
-            </Button>
-          </DialogActions>
-        </Container>
-
-        <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
-          <p style={{ color: "#26a69a", fontSize: 15 }}>
-            Enter your email to request password reset
-          </p>
-          <FormLabel sx={{ fontSize: 13 }}>Email Address</FormLabel>
-          <TextField
-            {...form.getInputProps("email")}
-            size="small"
-            margin="normal"
-            sx={{ color: "grey", mb: 1.5 }}
-            error={!!form.errors.email}
-            helperText={form.errors.email}
-          />
-
-          <Container sx={{ display: "flex", justifyContent: "center" }}>
+      <form onSubmit={form.onSubmit(handleSubmit)} id="forgotPasswordForm">
+        <Dialog open={forgotPasswordIsOpen} maxWidth="lg" onClose={closeModal}>
+          <Container sx={{ borderBottom: 1 }}>
             <DialogActions>
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={isPending}
-                size="medium"
-                sx={{
-                  mt: 2,
-                  backgroundColor: "#26a69a",
-                  "&:hover": { backgroundColor: "#26a69a" },
-                  borderRadius: "16px",
-                  boxShadow: "10px 10px 5px #269d91 inset",
-                  width: "150px",
-                }}
-              >
-                {isPending ? "Reseting..." : "Reset"}
+              <p className="inline-block font-mono mr-auto w-64 font-bold">
+                Login
+              </p>
+              <Button onClick={closeModal}>
+                <Clear
+                  sx={{
+                    color: "red",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                />
               </Button>
             </DialogActions>
           </Container>
-        </DialogContent>
-      </Dialog>
+
+          <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
+            <p style={{ color: "#26a69a", fontSize: 15 }}>
+              Enter your email to request password reset
+            </p>
+            <FormLabel sx={{ fontSize: 13 }}>Email Address</FormLabel>
+            <TextField
+              {...form.getInputProps("email")}
+              size="small"
+              margin="normal"
+              sx={{ color: "grey", mb: 1.5 }}
+              error={!!form.errors.email}
+              helperText={form.errors.email}
+            />
+
+            <Container sx={{ display: "flex", justifyContent: "center" }}>
+              <DialogActions>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  disabled={isPending}
+                  size="medium"
+                  form="forgotPasswordForm"
+                  sx={{
+                    mt: 2,
+                    backgroundColor: "#26a69a",
+                    "&:hover": { backgroundColor: "#26a69a" },
+                    borderRadius: "16px",
+                    boxShadow: "10px 10px 5px #269d91 inset",
+                    width: "150px",
+                  }}
+                >
+                  {isPending ? "Reseting..." : "Reset"}
+                </Button>
+              </DialogActions>
+            </Container>
+          </DialogContent>
+        </Dialog>
+      </form>
+
+      <ResetPasswordModal
+        resetPasswordClose={resetPasswordClose}
+        resetPasswordIsOpen={resetPasswordIsOpen}
+        token={token}
+      />
     </>
   );
 }

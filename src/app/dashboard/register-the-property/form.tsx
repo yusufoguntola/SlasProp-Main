@@ -12,7 +12,6 @@ import { useGetProfile } from "@/api/profile/queries";
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
 import { useMaterialMenu } from "@/hooks/use-material-menu";
-import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import {
   Box,
@@ -125,9 +124,6 @@ export default function RegisterTheProperty() {
               email: `${user.data?.email}`,
             }));
           });
-        },
-        onError: (err) => {
-          showToast("error", `Unable to Register Property ${err.message}`);
         },
       },
     );
@@ -365,12 +361,6 @@ export default function RegisterTheProperty() {
               verifyPayment.mutate(paystack.reference, {
                 onSuccess: () => {
                   replace("/dashboard/registered-properties");
-                },
-                onError: () => {
-                  showToast(
-                    "error",
-                    "Unable to Verify Payment. Click to try again.",
-                  );
                 },
               });
             }}

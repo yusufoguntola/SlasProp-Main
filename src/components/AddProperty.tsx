@@ -160,9 +160,6 @@ export default function AddProperty() {
         form.reset();
         replace("/dashboard");
       },
-      onError: (error) => {
-        showToast("error", `Error creating property ${error.message}`);
-      },
     });
   };
 

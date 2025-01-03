@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { object, string } from "yup";
 
 import { usePassword, useUpdateProfile } from "@/api/profile/mutations";
 import { useGetProfile } from "@/api/profile/queries";
@@ -20,7 +21,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import { object, string } from "yup";
 import ProfilePhoto from "./ProfilePhoto";
 
 const passwordSchema = object({
@@ -201,9 +201,6 @@ export default function Settings() {
             onSuccess: () => {
               profileForm.reset();
               showToast("success", "Password Updated Successfully");
-            },
-            onError: (error) => {
-              showToast("error", error.message);
             },
           });
         })}

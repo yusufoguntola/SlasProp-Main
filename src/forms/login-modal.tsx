@@ -54,15 +54,15 @@ export function LoginModal() {
   });
 
   const { loginIsOpen, loginToggle, loginClose } = useMaterialMenu("login");
+  const { forgotPasswordOpen, forgotPasswordIsOpen, forgotPasswordClose } =
+    useMaterialMenu("forgotPassword");
+  const { dialogToggle, dialogIsOpen, dialogClose } = useMaterialMenu("dialog");
 
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
     login(values, {
       onSuccess: () => {
         showToast("success", <p>Login Successful!</p>);
         push("/dashboard");
-      },
-      onError: () => {
-        showToast("error", <p> Login Failed! Please try again. </p>);
       },
     });
 
@@ -87,102 +87,129 @@ export function LoginModal() {
         />
       </Button>
 
-      <Dialog
-        open={loginIsOpen}
-        maxWidth="lg"
-        onClose={closeLoginModal}
-        PaperProps={{
-          component: "form",
-          onSubmit: form.onSubmit(handleSubmit),
-        }}
-      >
-        <Container sx={{ borderBottom: 1 }}>
-          <DialogActions>
-            <p className="inline-block font-mono mr-auto w-64 font-bold">
-              Login
-            </p>
-            <Button onClick={closeLoginModal} className="px-0">
-              <Clear
-                sx={{
-                  color: "red",
-                  fontSize: 20,
-                  fontWeight: "bold",
-                }}
-              />
-            </Button>
-          </DialogActions>
-        </Container>
-
-        <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
-          <p style={{ color: "#26a69a", fontSize: 15 }}>
-            Enter your login details to sign in.
-          </p>
-          <FormLabel sx={{ fontSize: 13 }}>User ID</FormLabel>
-          <TextField
-            {...form.getInputProps("username")}
-            size="small"
-            margin="normal"
-            sx={{ color: "grey", mb: 1.5 }}
-            error={Boolean(form.errors.username)}
-            helperText={form.errors.username}
-          />
-          <FormLabel sx={{ fontSize: 13 }}>Password</FormLabel>
-          <TextField
-            type={form.values.showPassword ? "text" : "password"}
-            {...form.getInputProps("password")}
-            size="small"
-            margin="normal"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => {
-                        form.setFieldValue(
-                          "showPassword",
-                          !form.values.showPassword,
-                        );
-                      }}
-                    >
-                      {form.values.showPassword ? (
-                        <VisibilityOff />
-                      ) : (
-                        <Visibility />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
-            error={Boolean(form.errors.password)}
-            helperText={form.errors.password}
-          />
-
-          <ForgotPassword />
-          <Container sx={{ display: "flex", justifyContent: "center" }}>
+      <form onSubmit={form.onSubmit(handleSubmit)} id="loginForm">
+        <Dialog open={loginIsOpen} maxWidth="lg" onClose={closeLoginModal}>
+          <Container sx={{ borderBottom: 1 }}>
             <DialogActions>
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={isPending}
-                size="medium"
-                sx={{
-                  mt: 2,
-                  backgroundColor: "#26a69a",
-                  "&:hover": { backgroundColor: "#26a69a" },
-                  borderRadius: "16px",
-                  boxShadow: "10px 10px 5px #269d91 inset",
-                  width: "150px",
-                }}
-              >
-                {isPending ? "Submitting..." : "Login"}
+              <p className="inline-block font-mono mr-auto w-64 font-bold">
+                Login
+              </p>
+              <Button onClick={closeLoginModal} className="px-0">
+                <Clear
+                  sx={{
+                    color: "red",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                />
               </Button>
             </DialogActions>
           </Container>
 
-          <SignUpModal />
-        </DialogContent>
-      </Dialog>
+          <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
+            <p style={{ color: "#26a69a", fontSize: 15 }}>
+              Enter your login details to sign in.
+            </p>
+            <FormLabel sx={{ fontSize: 13 }}>User ID</FormLabel>
+            <TextField
+              {...form.getInputProps("username")}
+              size="small"
+              margin="normal"
+              sx={{ color: "grey", mb: 1.5 }}
+              error={Boolean(form.errors.username)}
+              helperText={form.errors.username}
+            />
+            <FormLabel sx={{ fontSize: 13 }}>Password</FormLabel>
+            <TextField
+              type={form.values.showPassword ? "text" : "password"}
+              {...form.getInputProps("password")}
+              size="small"
+              margin="normal"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => {
+                          form.setFieldValue(
+                            "showPassword",
+                            !form.values.showPassword,
+                          );
+                        }}
+                      >
+                        {form.values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              error={Boolean(form.errors.password)}
+              helperText={form.errors.password}
+            />
+
+            <Button
+              color="inherit"
+              sx={{
+                textTransform: "capitalize",
+                color: "red",
+                fontWeight: "bold",
+                marginLeft: "auto",
+              }}
+              onClick={() => {
+                forgotPasswordOpen();
+              }}
+            >
+              Forgot Password?
+            </Button>
+
+            <Container sx={{ display: "flex", justifyContent: "center" }}>
+              <DialogActions>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  disabled={isPending}
+                  size="medium"
+                  form="loginForm"
+                  sx={{
+                    mt: 2,
+                    backgroundColor: "#26a69a",
+                    "&:hover": { backgroundColor: "#26a69a" },
+                    borderRadius: "16px",
+                    boxShadow: "10px 10px 5px #269d91 inset",
+                    width: "150px",
+                  }}
+                >
+                  {isPending ? "Submitting..." : "Login"}
+                </Button>
+              </DialogActions>
+            </Container>
+            <Button
+              color="inherit"
+              sx={{
+                textTransform: "capitalize",
+                textDecoration: "none",
+                mt: 1,
+                textAlign: "center",
+                color: "#26a69a",
+                "&:hover": { backgroundColor: "white" },
+              }}
+              onClick={dialogToggle}
+            >
+              Don't have an account? Sign Up
+            </Button>
+          </DialogContent>
+        </Dialog>
+      </form>
+
+      <ForgotPassword
+        forgotPasswordClose={forgotPasswordClose}
+        forgotPasswordIsOpen={forgotPasswordIsOpen}
+      />
+      <SignUpModal dialogIsOpen={dialogIsOpen} dialogClose={dialogClose} />
     </>
   );
 }
