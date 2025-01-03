@@ -26,9 +26,9 @@ const pages = [
   },
   {
     name: "Buy",
-    link: "/properties?type=buy",
+    link: "/properties?listingType=buy",
   },
-  { name: "Rent", link: "/properties?type=rent" },
+  { name: "Rent", link: "/properties?listingType=rent" },
   { name: "Know About SlasProp", link: "/about-us" },
   { name: "Blog", link: "/blog" },
   { name: "FAQ", link: "/faq" },

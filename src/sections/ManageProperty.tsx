@@ -7,7 +7,7 @@ const properties = [
     imageUrl: "/assets/buy-property.png",
     heading: "Buy A Property",
     desc: "Discover your dream property with SlasProp. Explore curated listings, get insights into property values and enjoy seamless transactions. Your journey to property ownership egins here!",
-    href: "/properties?type=Buy",
+    href: "/properties?listingType=Buy",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const properties = [
     imageUrl: "/assets/rent-property.png",
     heading: "Rent A Property",
     desc: "Explore hassle-free renting with SlasProp. Find your dream space effortlessly with stunning visuals and tailored listings. Welcome to a new era of renting convenience!",
-    href: "/properties?type=Rent",
+    href: "/properties?listingType=Rent",
   },
 ];
 
