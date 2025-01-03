@@ -7,7 +7,7 @@ export function PropertyCard(property: Property) {
   return (
     <Link
       href={`/properties/${property.propertyId}`}
-      className="border rounded-xl flex w-full min-h-56 p-2 shadow-[0_4px_8px_rgba(0,0,0,0.1)] hover:scale-105 transition-all gap-4 items-center"
+      className="border rounded-xl flex w-full max-h-56 p-2 shadow-[0_4px_8px_rgba(0,0,0,0.1)] hover:scale-105 transition-all gap-4 items-center"
     >
       <div className="flex-[0.75] h-full">
         <Image
@@ -28,10 +28,10 @@ export function PropertyCard(property: Property) {
           {property.name}
         </Typography>
         <Typography sx={{ color: "#26a69a", fontSize: "14px" }}>
-          Location: {property.address}
+          Location: {property.address}, {property.city}, {property.state}
         </Typography>
         <Typography sx={{ color: "#df493d", fontSize: "14px" }}>
-          Square Footage {property.squareFootage}
+          Square Footage {property.squareFootage}m<sup>2</sup>
         </Typography>
         <Typography color="text.secondary" sx={{ fontSize: "12px" }}>
           Prop ID: {property.propertyId}
