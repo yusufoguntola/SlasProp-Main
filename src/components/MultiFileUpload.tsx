@@ -5,9 +5,15 @@ import { type ChangeEvent, useState } from "react";
 
 interface MultipleFileUploadProps {
   setImages: (images: string[]) => void; // To pass image URLs to the parent form component
+  name?: string;
+  multiple?: boolean;
 }
 
-export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
+export function MultipleFileUpload({
+  setImages,
+  name = "upload-input",
+  multiple = false,
+}: MultipleFileUploadProps) {
   const [loading, setIsLoading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]); // To store URLs of uploaded images
 
@@ -129,9 +135,10 @@ export function MultipleFileUpload({ setImages }: MultipleFileUploadProps) {
             accept="image/*"
             onChange={handleUpload}
             style={{ display: "none" }}
-            id="upload-input"
+            id={name}
+            multiple={multiple}
           />
-          <label htmlFor="upload-input">
+          <label htmlFor={name}>
             <Button
               component="span"
               variant="contained"

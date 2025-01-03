@@ -463,6 +463,7 @@ export default function AddProperty() {
           </Box>
           <MultipleFileUpload
             setImages={(images) => form.setFieldValue("images", images)}
+            name="images"
           />
         </Box>
       </Container>
