@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { object, string } from "yup";
 
 import { useLogin } from "@/api/auth/mutations";
@@ -24,6 +25,7 @@ import {
   TextField,
 } from "@mui/material";
 
+import { EnterOTP } from "./EnterOTP";
 import { ForgotPassword } from "./forgot-password-modal";
 import { SignUpModal } from "./sign-up-modal";
 
@@ -43,6 +45,12 @@ export function LoginModal() {
   const { mutate: login, isPending } = useLogin();
   const { push } = useRouter();
 
+  const [otp, setOtp] = useState({
+    token: "",
+    opened: false,
+    email: "",
+  });
+
   const form = useForm({
     initialValues: {
       username: "",
@@ -60,7 +68,16 @@ export function LoginModal() {
 
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
     login(values, {
-      onSuccess: () => {
+      onSuccess: (response, variables) => {
+        if ("token" in response.data) {
+          setOtp({
+            opened: true,
+            email: variables.username,
+            token: response.data.token,
+          });
+
+          return;
+        }
         showToast("success", <p>Login Successful!</p>);
         push("/dashboard");
       },
@@ -210,6 +227,11 @@ export function LoginModal() {
         forgotPasswordIsOpen={forgotPasswordIsOpen}
       />
       <SignUpModal dialogIsOpen={dialogIsOpen} dialogClose={dialogClose} />
+
+      <EnterOTP
+        onClose={() => setOtp({ email: "", opened: false, token: "" })}
+        {...otp}
+      />
     </>
   );
 }

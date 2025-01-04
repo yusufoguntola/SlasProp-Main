@@ -1,4 +1,7 @@
+"use client";
+
 import { MuiOtpInput } from "mui-one-time-password-input";
+import { useState } from "react";
 
 import {
   useActivateAccount,
@@ -29,22 +32,26 @@ export function EnterOTP({
   const activateAccount = useActivateAccount();
   const resentOTP = useResendActivationOTP();
 
+  const [activationToken, setToken] = useState(token);
+
   const { values, setFieldValue, reset } = useForm({
     initialValues: {
       otp: "",
-      token,
     },
   });
 
   function handleActivateAccount() {
-    activateAccount.mutate(values, {
-      onSuccess: (response) => {
-        showToast("success", <p>{response.data.message}</p>);
-        onClose();
+    activateAccount.mutate(
+      { otp: values.otp, token: activationToken },
+      {
+        onSuccess: (response) => {
+          showToast("success", <p>{response.data.message}</p>);
+          onClose();
 
-        reset();
+          reset();
+        },
       },
-    });
+    );
   }
 
   function handleResendOTP() {
@@ -53,6 +60,7 @@ export function EnterOTP({
       {
         onSuccess: (response) => {
           showToast("success", <p>{response.data.message}</p>);
+          setToken(response.data.token);
         },
       },
     );

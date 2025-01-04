@@ -1,29 +1,38 @@
 import { axiosInstance } from "@/axios";
 
 const login = async (payload: LoginPayload) => {
-  return axiosInstance.post<{
-    message: string;
-    data: {
-      access_token: string;
-      name: string;
-      username: string;
-      role?: {
-        name: string;
-        id: number;
-        permissions: string[];
-      };
-    };
-  }>("/auth/login", payload);
+  return axiosInstance.post<
+    | {
+        message: string;
+        data: {
+          access_token: string;
+          name: string;
+          username: string;
+          role?: {
+            name: string;
+            id: number;
+            permissions: string[];
+          };
+        };
+      }
+    | { message: string; token: string }
+  >("/auth/login", payload);
 };
 
 const register = (payload: SignupPayload) => {
-  return axiosInstance.post("/auth/register", payload);
+  return axiosInstance.post<{ message: string; data: { token: string } }>(
+    "/auth/register",
+    payload,
+  );
 };
 const activate_account = (payload: { token: string; otp: string }) => {
   return axiosInstance.post("/auth/activate", payload);
 };
 const resend_activation_otp = (payload: { email: string }) => {
-  return axiosInstance.post("/auth/activate/resend-otp", payload);
+  return axiosInstance.post<{ message: string; token: string }>(
+    "/auth/activate/resend-otp",
+    payload,
+  );
 };
 
 const profile_get = async () => {

@@ -17,25 +17,27 @@ export function useLogin() {
   return useMutation({
     mutationKey: builder.user.$get(),
     mutationFn: builder.$use.user.login,
-    onSuccess(data) {
-      const { access_token, name, username, role } = data.data.data;
+    onSuccess(resp) {
+      if ("data" in resp.data) {
+        const { access_token, name, username, role } = resp.data.data;
 
-      const user = parseJwt(access_token);
+        const user = parseJwt(access_token);
 
-      const user_type = role ? "admin" : "user";
+        const user_type = role ? "admin" : "user";
 
-      const cookie_options = {
-        maxAge: 7200,
-        path: "/",
-        sameSite: "lax" as const,
-      };
+        const cookie_options = {
+          maxAge: 7200,
+          path: "/",
+          sameSite: "lax" as const,
+        };
 
-      setCookie(
-        COOKIES.user,
-        JSON.stringify({ id: user.id, name, username, user_type, role }),
-        cookie_options,
-      );
-      setCookie(COOKIES.token, access_token, cookie_options);
+        setCookie(
+          COOKIES.user,
+          JSON.stringify({ id: user.id, name, username, user_type, role }),
+          cookie_options,
+        );
+        setCookie(COOKIES.token, access_token, cookie_options);
+      }
     },
   });
 }

@@ -43,15 +43,12 @@ export function ResetPasswordModal({
   resetPasswordClose: () => void;
   token: string;
 }) {
-  const form = useForm<{
-    otp: string;
-    password: string;
-    confirmPassword: string;
-  }>({
+  const form = useForm({
     initialValues: {
       otp: "",
       password: "",
       confirmPassword: "",
+      token,
     },
     validate: yupResolver(schema),
   });
@@ -59,19 +56,13 @@ export function ResetPasswordModal({
   const { isPending, mutate } = useResetAccount();
 
   const handleSubmit = (values: typeof form.values) =>
-    mutate(
-      {
-        token,
-        ...values,
+    mutate(values, {
+      onSuccess: (resp) => {
+        showToast("success", resp.data.message);
+        form.reset();
+        resetPasswordClose();
       },
-      {
-        onSuccess: (resp) => {
-          showToast("success", resp.data.message);
-          form.reset();
-          resetPasswordClose();
-        },
-      },
-    );
+    });
 
   return (
     <Dialog
