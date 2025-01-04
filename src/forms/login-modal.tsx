@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { flushSync } from "react-dom";
 import { object, string } from "yup";
 
 import { useLogin } from "@/api/auth/mutations";
@@ -70,11 +71,15 @@ export function LoginModal() {
     login(values, {
       onSuccess: (response, variables) => {
         if ("token" in response.data) {
-          setOtp({
-            opened: true,
-            email: variables.username,
-            token: response.data.token,
-          });
+          const { token } = response.data;
+
+          flushSync(() =>
+            setOtp({
+              token,
+              opened: true,
+              email: variables.username,
+            }),
+          );
 
           return;
         }
