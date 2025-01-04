@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { flushSync } from "react-dom";
 import { boolean, object, ref, string } from "yup";
 
 import { useRegister } from "@/api/auth/mutations";
@@ -103,13 +102,11 @@ export function SignUpModal({
 
     register.mutate(payload, {
       onSuccess: (response, variables) => {
-        flushSync(() =>
-          setOtp({
-            token: response.data.data.token,
-            opened: true,
-            email: variables.email,
-          }),
-        );
+        setOtp({
+          token: response.data.data.token,
+          opened: true,
+          email: variables.email,
+        });
 
         dialogClose();
         showToast("success", <p>{response.data.message}</p>);
@@ -328,6 +325,7 @@ export function SignUpModal({
           dialogClose();
         }}
         {...otp}
+        key={otp.token}
       />
     </>
   );

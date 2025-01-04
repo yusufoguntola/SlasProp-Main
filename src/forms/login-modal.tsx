@@ -1,6 +1,5 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { flushSync } from "react-dom";
 import { object, string } from "yup";
 
 import { useLogin } from "@/api/auth/mutations";
@@ -73,13 +72,11 @@ export function LoginModal() {
         if ("token" in response.data) {
           const { token } = response.data;
 
-          flushSync(() =>
-            setOtp({
-              token,
-              opened: true,
-              email: variables.username,
-            }),
-          );
+          setOtp({
+            token,
+            opened: true,
+            email: variables.username,
+          });
 
           return;
         }
@@ -236,6 +233,7 @@ export function LoginModal() {
       <EnterOTP
         onClose={() => setOtp({ email: "", opened: false, token: "" })}
         {...otp}
+        key={otp.token}
       />
     </>
   );
