@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { useGetProfile } from "@/api/profile/queries";
 import { useForm } from "@mantine/form";
 import { EditOutlined } from "@mui/icons-material";
@@ -15,7 +17,6 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
 
 const ListOptions = [
   {
@@ -47,7 +48,7 @@ interface SideBarProps {
 export function SideBar({ isOpen, toggle }: SideBarProps) {
   const form = useForm({
     initialValues: {
-      slider: true,
+      slider: false,
     },
   });
 
