@@ -13,7 +13,6 @@ export function FeaturePropertyCard({
   name,
   description,
   squareFootage,
-  price,
 }: Property) {
   return (
     <Card
@@ -106,7 +105,7 @@ export function FeaturePropertyCard({
                 paddingRight: "8px",
               }}
             >
-              {squareFootage}
+              Square Footage
             </Typography>
             <Typography
               sx={{
@@ -116,7 +115,7 @@ export function FeaturePropertyCard({
                 paddingLeft: "8px",
               }}
             >
-              {price}
+              {squareFootage}
             </Typography>
           </Box>
           <Button
