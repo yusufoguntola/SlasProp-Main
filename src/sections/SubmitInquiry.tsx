@@ -15,8 +15,8 @@ import {
 const schema = object({
   name: string().required("Name is required"),
   email: string().email("Invalid email format").required("Email is required"),
-  mobileNo: string().required("Mobile number is required"),
-  optionalNo: string(),
+  mobileNumber: string().required("Mobile number is required"),
+  optionalNumber: string(),
   message: string().required("Message is required"),
 });
 
@@ -114,8 +114,8 @@ export function SubmitInquiry() {
               label="Mobile Number"
               {...form.getInputProps("mobileNumber")}
               fullWidth
-              error={!!form.errors.mobileNo}
-              helperText={form.errors.mobileNo}
+              error={!!form.errors.mobileNumber}
+              helperText={form.errors.mobileNumber}
             />
             <TextField
               type="text"
