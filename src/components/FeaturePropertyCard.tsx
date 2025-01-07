@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   Box,
   Button,
@@ -120,8 +122,9 @@ export function FeaturePropertyCard({
             </Typography>
           </Box>
           <Button
-            href={`/properties/${propertyId}`}
             size="small"
+            href={`/properties/${propertyId}`}
+            LinkComponent={Link}
             sx={{
               backgroundColor: "#fff",
               color: "#DF593D",

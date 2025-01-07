@@ -12,13 +12,17 @@ const remotePatterns = [
     protocol: "https",
     hostname: "api.slasprop.com",
   },
+  {
+    protocol: "https",
+    hostname: "*.openstreetmap.org",
+  },
 ];
 
 const images = remotePatterns.map(({ hostname }) => hostname).join(" ");
 
 const csp = [
   `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${scripts}`,
-  `style-src 'self' 'unsafe-inline'`,
+  `style-src 'self' 'unsafe-inline' 'https://cdn.jsdelivr.net/*'`,
   `img-src 'self' blob: data: ${images}`,
   `font-src 'self'`,
   `frame-ancestors 'none'`,
