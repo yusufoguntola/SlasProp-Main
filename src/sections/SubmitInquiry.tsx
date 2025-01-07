@@ -1,3 +1,7 @@
+import { object, string } from "yup";
+
+import { useSubmitEnquiryForm } from "@/api/profile/mutations";
+import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import {
   Button,
@@ -7,7 +11,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { object, string } from "yup";
 
 const schema = object({
   name: string().required("Name is required"),
@@ -18,18 +21,26 @@ const schema = object({
 });
 
 export function SubmitInquiry() {
-  const form = useForm({
+  const form = useForm<EnquiryForm>({
     initialValues: {
       name: "",
       email: "",
-      mobileNo: "",
-      optionalNo: "",
+      mobileNumber: "",
+      otherNumber: "",
       message: "",
     },
     validate: yupResolver(schema),
   });
 
-  const handleSubmit = () => {};
+  const { mutate, isPending } = useSubmitEnquiryForm();
+
+  const handleSubmit = (values: EnquiryForm) =>
+    mutate(values, {
+      onSuccess: (resp) => {
+        form.reset();
+        showToast("success", resp.data.message);
+      },
+    });
 
   return (
     <Container
@@ -78,7 +89,6 @@ export function SubmitInquiry() {
               label="Name"
               {...form.getInputProps("name")}
               fullWidth
-              required
               error={!!form.errors.name}
               helperText={form.errors.name ? form.errors.name : ""}
             />
@@ -88,7 +98,6 @@ export function SubmitInquiry() {
               label="Email"
               {...form.getInputProps("email")}
               fullWidth
-              required
               error={!!form.errors.email}
               helperText={form.errors.email}
             />
@@ -103,9 +112,8 @@ export function SubmitInquiry() {
               type="text"
               variant="standard"
               label="Mobile Number"
-              {...form.getInputProps("mobileNo")}
+              {...form.getInputProps("mobileNumber")}
               fullWidth
-              required
               error={!!form.errors.mobileNo}
               helperText={form.errors.mobileNo}
             />
@@ -113,7 +121,7 @@ export function SubmitInquiry() {
               type="text"
               variant="standard"
               label="Optional Number"
-              {...form.getInputProps("optionalNo")}
+              {...form.getInputProps("otherNumber")}
               fullWidth
             />
           </Stack>
@@ -124,7 +132,6 @@ export function SubmitInquiry() {
             label="Message"
             {...form.getInputProps("message")}
             margin="normal"
-            required
             multiline
             rows={4}
             error={!!form.errors.message}
@@ -134,6 +141,7 @@ export function SubmitInquiry() {
           <Button
             variant="contained"
             type="submit"
+            disabled={isPending}
             sx={{
               bgcolor: "#26a69a",
               color: "white",
@@ -144,7 +152,7 @@ export function SubmitInquiry() {
               "&:hover": { backgroundColor: "#26a69a" },
             }}
           >
-            Submit Inquiry
+            {isPending ? "Submitting..." : " Submit Inquiry"}
           </Button>
         </form>
       </Container>

@@ -32,3 +32,10 @@ export function useUploadImage() {
     mutationFn: builder.$use.user.upload_image,
   });
 }
+
+export function useSubmitEnquiryForm() {
+  return useMutation({
+    mutationKey: builder.user.enquiry_form.$get(),
+    mutationFn: builder.$use.user.enquiry_form,
+  });
+}

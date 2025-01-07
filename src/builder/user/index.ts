@@ -84,6 +84,9 @@ const reset_account = (payload: {
   password: string;
 }) => axiosInstance.post<{ message: string }>("/auth/password/reset", payload);
 
+const enquiry_form = (payload: EnquiryForm) =>
+  axiosInstance.post<{ message: string }>("/inquiries", payload);
+
 export const user = {
   login,
   register,
@@ -95,4 +98,5 @@ export const user = {
   upload_image,
   request_password_reset,
   reset_account,
+  enquiry_form,
 };

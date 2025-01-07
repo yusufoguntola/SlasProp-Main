@@ -21,3 +21,11 @@ interface Profile {
   phoneNumber: string;
   username: string;
 }
+
+interface EnquiryForm {
+  name: string;
+  email: string;
+  mobileNumber: string;
+  otherNumber: string;
+  message: string;
+}

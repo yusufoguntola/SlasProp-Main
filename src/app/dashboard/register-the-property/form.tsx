@@ -11,7 +11,7 @@ import { useInitiatePayment, useVerifyPayment } from "@/api/payments/mutations";
 import { useGetProfile } from "@/api/profile/queries";
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
-import { useMaterialMenu } from "@/hooks/use-material-menu";
+import { useModalState } from "@/hooks/use-modal-state";
 import { useForm, yupResolver } from "@mantine/form";
 import {
   Box,
@@ -104,7 +104,7 @@ export default function RegisterTheProperty() {
   const verifyPayment = useVerifyPayment();
 
   const { verifyPaymentOpen, verifyPaymentIsOpen, verifyPaymentClose } =
-    useMaterialMenu("verifyPayment");
+    useModalState("verifyPayment");
 
   const handleSubmit = (values: RegisterProperty) =>
     registerProperty.mutate(

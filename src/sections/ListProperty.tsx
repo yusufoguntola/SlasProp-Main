@@ -1,3 +1,4 @@
+import { useCatchRedirect } from "@/hooks/use-catch-redirect";
 import {
   BusinessCenterOutlined,
   CameraAltOutlined,
@@ -19,6 +20,8 @@ import {
 } from "@mui/material";
 
 export function ListProperty() {
+  const catchRedirect = useCatchRedirect("/dashboard/add-property");
+
   return (
     <Container
       sx={{
@@ -107,6 +110,7 @@ export function ListProperty() {
         </List>
         <Button
           size="large"
+          onClick={catchRedirect}
           sx={{
             backgroundColor: "#26a69a",
             color: "white",

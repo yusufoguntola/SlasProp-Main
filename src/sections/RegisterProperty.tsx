@@ -1,3 +1,4 @@
+import { useModalState } from "@/hooks/use-modal-state";
 import {
   AccessTimeOutlined,
   BusinessCenterOutlined,
@@ -19,6 +20,7 @@ import {
 } from "@mui/material";
 
 export function RegisterProperty() {
+  const { registerOpen } = useModalState("register");
   return (
     <Container
       sx={{
@@ -113,6 +115,7 @@ export function RegisterProperty() {
             mt: 3,
             alignSelf: { xs: "center", md: "flex-start" },
           }}
+          onClick={registerOpen}
         >
           Register Now
         </Button>

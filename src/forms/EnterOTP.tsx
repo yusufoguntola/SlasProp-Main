@@ -7,6 +7,7 @@ import {
   useActivateAccount,
   useResendActivationOTP,
 } from "@/api/auth/mutations";
+import { useModalState } from "@/hooks/use-modal-state";
 import { showToast } from "@/utils/toast";
 import { useForm } from "@mantine/form";
 import { Clear } from "@mui/icons-material";
@@ -34,6 +35,8 @@ export function EnterOTP({
 
   const [activationToken, setToken] = useState(token);
 
+  const { loginOpen } = useModalState("login");
+
   const { values, setFieldValue, reset } = useForm({
     initialValues: {
       otp: "",
@@ -46,9 +49,11 @@ export function EnterOTP({
       {
         onSuccess: (response) => {
           showToast("success", <p>{response.data.message}</p>);
+          reset();
+
           onClose();
 
-          reset();
+          loginOpen();
         },
       },
     );

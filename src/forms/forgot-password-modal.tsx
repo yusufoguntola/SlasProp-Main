@@ -2,7 +2,7 @@ import { useState } from "react";
 import { object, string } from "yup";
 
 import { useForgotPassword } from "@/api/auth/mutations";
-import { useMaterialMenu } from "@/hooks/use-material-menu";
+import { useModalState } from "@/hooks/use-modal-state";
 import { useOptionStore } from "@/stores/useOptionStore";
 import { useForm, yupResolver } from "@mantine/form";
 import { Clear } from "@mui/icons-material";
@@ -43,7 +43,7 @@ export function ForgotPassword({
   });
 
   const { resetPasswordOpen, resetPasswordClose, resetPasswordIsOpen } =
-    useMaterialMenu("resetPassword");
+    useModalState("resetPassword");
 
   async function handleSubmit({ ...values }: typeof form.values) {
     resetAccount(values, {

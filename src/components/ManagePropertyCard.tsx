@@ -8,19 +8,28 @@ import {
   Typography,
 } from "@mui/material";
 
-interface ManagePropertyCardProps {
+interface ManagePropertyCard {
   imageUrl: string;
   heading: string;
   desc: string;
-  href: string;
 }
 
-export function ManagePropertyCard({
-  imageUrl,
-  heading,
-  desc,
-  href,
-}: ManagePropertyCardProps) {
+interface ManagePropertyCardLink extends ManagePropertyCard {
+  href: string;
+  type: "link";
+}
+
+interface ManagePropertyCardButton extends ManagePropertyCard {
+  type: "button";
+  onClick: () => void;
+}
+
+type ManagePropertyCardProps =
+  | ManagePropertyCardLink
+  | ManagePropertyCardButton;
+export function ManagePropertyCard(props: ManagePropertyCardProps) {
+  const { imageUrl, heading, desc, type } = props;
+
   return (
     <Card
       sx={{
@@ -38,8 +47,9 @@ export function ManagePropertyCard({
           alignItems: "center",
           height: "100%",
         }}
-        LinkComponent={Link}
-        href={href}
+        {...(type === "link"
+          ? { LinkComponent: Link, href: props.href }
+          : { onClick: props.onClick })}
       >
         <CardMedia
           component="img"

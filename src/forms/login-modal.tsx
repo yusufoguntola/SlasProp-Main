@@ -1,9 +1,13 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { object, string } from "yup";
 
 import { useLogin } from "@/api/auth/mutations";
-import { useMaterialMenu } from "@/hooks/use-material-menu";
+import { useIsAuthenticated } from "@/api/auth/queries";
+import { ProfileMenu } from "@/components/ProfileMenu";
+import { useModalState } from "@/hooks/use-modal-state";
 import { useOptionStore } from "@/stores/useOptionStore";
 import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
@@ -42,6 +46,8 @@ const schema = object({
 
 export function LoginModal() {
   const setOption = useOptionStore((state) => state.setOption);
+  const isAuthenticated = useIsAuthenticated();
+
   const { mutate: login, isPending } = useLogin();
   const { push } = useRouter();
 
@@ -61,10 +67,11 @@ export function LoginModal() {
     validate: yupResolver(schema),
   });
 
-  const { loginIsOpen, loginToggle, loginClose } = useMaterialMenu("login");
+  const { loginIsOpen, loginClose, loginOpen } = useModalState("login");
   const { forgotPasswordOpen, forgotPasswordIsOpen, forgotPasswordClose } =
-    useMaterialMenu("forgotPassword");
-  const { dialogToggle, dialogIsOpen, dialogClose } = useMaterialMenu("dialog");
+    useModalState("forgotPassword");
+  const { registerToggle, registerIsOpen, registerClose } =
+    useModalState("register");
 
   async function handleSubmit({ showPassword, ...values }: typeof form.values) {
     login(values, {
@@ -95,16 +102,20 @@ export function LoginModal() {
 
   return (
     <>
-      <Button
-        color="inherit"
-        style={{ textTransform: "capitalize" }}
-        onClick={loginToggle}
-      >
-        Sign In / Login
-        <ArrowCircleRightOutlined
-          style={{ color: "#26a69a", paddingLeft: 4 }}
-        />
-      </Button>
+      {isAuthenticated ? (
+        <ProfileMenu />
+      ) : (
+        <Button
+          color="inherit"
+          style={{ textTransform: "capitalize" }}
+          onClick={loginOpen}
+        >
+          Sign In / Login
+          <ArrowCircleRightOutlined
+            style={{ color: "#26a69a", paddingLeft: 4 }}
+          />
+        </Button>
+      )}
 
       <form onSubmit={form.onSubmit(handleSubmit)} id="loginForm">
         <Dialog open={loginIsOpen} maxWidth="lg" onClose={closeLoginModal}>
@@ -216,7 +227,7 @@ export function LoginModal() {
                 color: "#26a69a",
                 "&:hover": { backgroundColor: "white" },
               }}
-              onClick={dialogToggle}
+              onClick={registerToggle}
             >
               Don't have an account? Sign Up
             </Button>
@@ -228,7 +239,7 @@ export function LoginModal() {
         forgotPasswordClose={forgotPasswordClose}
         forgotPasswordIsOpen={forgotPasswordIsOpen}
       />
-      <SignUpModal dialogIsOpen={dialogIsOpen} dialogClose={dialogClose} />
+      <SignUpModal dialogIsOpen={registerIsOpen} dialogClose={registerClose} />
 
       <EnterOTP
         onClose={() => setOtp({ email: "", opened: false, token: "" })}
