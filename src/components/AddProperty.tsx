@@ -13,9 +13,12 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
   FormLabel,
   IconButton,
   InputAdornment,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -91,6 +94,7 @@ export default function AddProperty() {
       longitude: "",
       latitude: "",
       propertyType: "",
+      listingType: "Buy",
       constructionDetails: {
         buildingMaterials: [],
         architecturalStyle: "",
@@ -227,6 +231,22 @@ export default function AddProperty() {
               error={!!form.errors.name}
               helperText={form.errors.name}
             />
+
+            <FormControl fullWidth>
+              <FormLabel sx={{ color: "black", fontSize: "12px", my: 1 }}>
+                Listing Type
+              </FormLabel>
+              <Select
+                size="small"
+                value={form.values.listingType}
+                onChange={(ev) =>
+                  form.setFieldValue("listingType", ev.target.value)
+                }
+              >
+                <MenuItem value="Buy">Buy</MenuItem>
+                <MenuItem value="Rent">Rent</MenuItem>
+              </Select>
+            </FormControl>
 
             {/* Property Type and SubType Component */}
             <PropertyTypeSelector form={form} />

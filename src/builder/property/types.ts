@@ -21,6 +21,7 @@ interface Property {
   // Construction Details
   constructionDetails: ConstructionDetails;
   listingStatus: ListingStatus | null;
+  listingType: string;
   listingDate: Date;
   ownershipStatus: OwnershipStatus | null;
   // Utility Details

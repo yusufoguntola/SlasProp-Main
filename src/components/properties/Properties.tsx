@@ -66,7 +66,7 @@ export default function PropertyTypeSelector({
         {/* Property Type Dropdown */}
 
         <FormControl sx={{ flex: 1 }} size="small">
-          <FormLabel sx={{ color: "black", fontSize: "12px", my: 2 }}>
+          <FormLabel sx={{ color: "black", fontSize: "12px" }}>
             Property Type
           </FormLabel>
           <Select
@@ -92,7 +92,7 @@ export default function PropertyTypeSelector({
         {/* Property SubType Dropdown */}
         {/* {propertyType && ( */}
         <FormControl sx={{ flex: 1 }} size="small">
-          <FormLabel sx={{ color: "black", fontSize: "12px", my: 2 }}>
+          <FormLabel sx={{ color: "black", fontSize: "12px" }}>
             Property SubType
           </FormLabel>
           <Select
