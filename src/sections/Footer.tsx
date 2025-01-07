@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { useCatchRedirect } from "@/hooks/use-catch-redirect";
 import {
   AlternateEmail,
   Copyright,
@@ -19,6 +22,8 @@ import {
 } from "@mui/material";
 
 export function Footer() {
+  const catchRedirect = useCatchRedirect("/dashboard/add-property");
+
   return (
     <>
       <Box
@@ -68,17 +73,25 @@ export function Footer() {
           </Typography>
           <List>
             {[
-              "Home",
-              "Register Property",
-              "List Property",
-              "Buy",
-              "Sell",
-              "Rent",
-            ].map((link) => (
-              <ListItem key={link} disablePadding>
-                <ListItemText primaryTypographyProps={{ fontSize: "14px" }}>
-                  {link}
-                </ListItemText>
+              { name: "Home", href: "/" },
+              { name: "Register Property", href: "#", onClick: catchRedirect },
+              { name: "List Property", href: "#", onClick: catchRedirect },
+              { name: "Buy ", href: "/properties?listingType=Buy" },
+              { name: "Sell", href: "#", onClick: catchRedirect },
+              { name: "Rent", href: "/properties?listingType=Sell" },
+            ].map(({ href, name, onClick }) => (
+              <ListItem key={href + name} disablePadding onClick={onClick}>
+                <Link href={href}>
+                  <ListItemText
+                    slotProps={{
+                      primary: {
+                        fontSize: "14px",
+                      },
+                    }}
+                  >
+                    {name}
+                  </ListItemText>
+                </Link>
               </ListItem>
             ))}
           </List>
@@ -90,16 +103,24 @@ export function Footer() {
           </Typography>
           <List>
             {[
-              "Blogs",
-              "Terms & Conditions",
-              "Privacy Policy",
-              "FAQ",
-              "Sitemap",
-            ].map((link) => (
-              <ListItem key={link} disablePadding>
-                <ListItemText primaryTypographyProps={{ fontSize: "14px" }}>
-                  {link}
-                </ListItemText>
+              { name: "Blogs", href: "/blog" },
+              { name: "Terms & Conditions", href: "/terms-and-conditions" },
+              { name: "Privacy Policy", href: "/privacy-policy" },
+              { name: "FAQs", href: "/faq" },
+              { name: "Sitemap", href: "/sitemap" },
+            ].map(({ name, href }) => (
+              <ListItem key={href} disablePadding>
+                <Link href={href}>
+                  <ListItemText
+                    slotProps={{
+                      primary: {
+                        fontSize: "14px",
+                      },
+                    }}
+                  >
+                    {name}
+                  </ListItemText>
+                </Link>
               </ListItem>
             ))}
           </List>
@@ -112,7 +133,13 @@ export function Footer() {
               <ListItemIcon>
                 <LocationOn sx={{ color: "#DF593D" }} />
               </ListItemIcon>
-              <ListItemText primaryTypographyProps={{ fontSize: "14px" }}>
+              <ListItemText
+                slotProps={{
+                  primary: {
+                    fontSize: "14px",
+                  },
+                }}
+              >
                 5 Canvavans Rd, Leongatha North VIC 3953, Australia
               </ListItemText>
             </ListItem>
