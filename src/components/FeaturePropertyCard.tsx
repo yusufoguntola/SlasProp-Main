@@ -13,6 +13,7 @@ export function FeaturePropertyCard({
   name,
   description,
   squareFootage,
+  propertyId,
 }: Property) {
   return (
     <Card
@@ -119,6 +120,7 @@ export function FeaturePropertyCard({
             </Typography>
           </Box>
           <Button
+            href={`/properties/${propertyId}`}
             size="small"
             sx={{
               backgroundColor: "#fff",
