@@ -117,6 +117,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
             ) : (
               <>
                 <Typography
+                  className="truncate"
                   sx={{ fontWeight: "bold", fontSize: "18px", color: "black" }}
                 >
                   {user?.firstName} {user?.lastName}
