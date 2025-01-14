@@ -26,7 +26,12 @@ export default function Layout({ children }: LayoutProps) {
 
         <div className="flex sticky top-10">
           <SideBar isOpen={isDrawerOpen} toggle={toggleDrawer} />
-          <div className={cn("flex-1 ml-[270px]", !isDrawerOpen && "ml-0")}>
+          <div
+            className={cn(
+              "flex-1 w-full",
+              isDrawerOpen ? "ml-[270px]" : "ml-0",
+            )}
+          >
             {children}
           </div>
         </div>

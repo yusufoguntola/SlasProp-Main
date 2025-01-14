@@ -191,13 +191,11 @@ export default function RegisterTheProperty() {
                 disabled
                 key={user.status}
                 fullWidth
+                defaultValue={`${user.data?.firstName} ${user.data?.lastName}`}
                 id="registrantName"
                 name="registrantName"
                 size="small"
                 placeholder="Enter name of the Registrant"
-                {...form.getInputProps("registrantName")}
-                error={!!form.errors.registrantName}
-                helperText={form.errors.registrantName}
               />
             </Grid>
 
@@ -360,7 +358,10 @@ export default function RegisterTheProperty() {
             onClick={() => {
               verifyPayment.mutate(paystack.reference, {
                 onSuccess: () => {
-                  replace("/dashboard/registered-properties");
+                  if (form.values.requestType === "Search Query") {
+                  } else {
+                    replace("/dashboard/registered-properties");
+                  }
                 },
               });
             }}

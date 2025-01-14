@@ -27,6 +27,11 @@ const ListOptions = [
     name: "Add Property",
     address: "add-property",
   },
+  {
+    name: "Property Requests",
+    // address: "property-requests",
+    address: "#",
+  },
 ];
 
 const RegisterOptions = [
@@ -136,10 +141,10 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
               color: "#26a69a",
               fontSize: "12px",
               border: "1px solid #26a69a",
-              width: 70,
               my: 1,
               ml: 2,
               borderRadius: 4,
+              flexShrink: 0,
             }}
           >
             <EditOutlined sx={{ mr: 1, color: "#26a69a", fontSize: "large" }} />
@@ -194,19 +199,19 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           </ListItem>
         ))}
 
-        {/* <ListItem disablePadding>
+        <ListItem disablePadding>
           <ListItemButton
             sx={{ borderBottom: "1px solid lightgrey" }}
             component={Link}
-            href="/dashboard/messages"
+            href="/dashboard/available-properties"
           >
             <ListItemText
               sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
               primaryTypographyProps={{ fontSize: "12px" }}
-              primary={"Messages"}
+              primary={"Available Properties"}
             />
           </ListItemButton>
-        </ListItem> */}
+        </ListItem>
 
         <ListItem disablePadding>
           <ListItemButton

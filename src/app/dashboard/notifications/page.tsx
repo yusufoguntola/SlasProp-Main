@@ -1,5 +1,7 @@
 "use client";
 
+import { Fragment, useState } from "react";
+
 import { builder } from "@/builder";
 import { DATE_FORMAT } from "@/constants/time";
 import { formatDate } from "@/utils/format-date";
@@ -15,7 +17,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { Fragment, useState } from "react";
 
 export default function NotificationsComponent() {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -213,10 +214,7 @@ export default function NotificationsComponent() {
 
 const pendingData = Array.from({ length: 15 }).map((_, index) => (
   <Box
-    key={`key-${
-      // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-      index
-    }`}
+    key={`key-${index}`}
     sx={{
       display: "flex",
       alignItems: "center",

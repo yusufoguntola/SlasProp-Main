@@ -61,14 +61,13 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             sx={{
               backgroundColor: "green",
               color: "white",
-              "&:hover": { backgroundColor: "green" },
               borderRadius: "16px",
               fontSize: "10px",
               maxWidth: "80px",
               px: 2.5,
             }}
           >
-            Active
+            {property?.listingType}
           </Button>
           <Typography
             sx={{

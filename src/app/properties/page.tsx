@@ -80,7 +80,6 @@ export default function Properties() {
           </div>
         </div>
       </div>
-      {/* <ImageCardWelcomeSearched /> */}
       <Footer />
     </>
   );

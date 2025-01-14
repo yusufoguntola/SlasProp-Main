@@ -84,3 +84,9 @@ export function useFetchLocations() {
     staleTime: Number.POSITIVE_INFINITY,
   });
 }
+
+export function useGetSearchQueryResults(propertyID: string) {
+  return useQuery({
+    queryKey: ["searchResults", propertyID],
+  });
+}
