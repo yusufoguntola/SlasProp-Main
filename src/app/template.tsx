@@ -6,7 +6,7 @@ import { type PropsWithChildren, Suspense, useState } from "react";
 
 import { onError } from "@/utils/handleError";
 import { ToastProvider } from "@/utils/toast";
-import { NuqsAdapter } from "nuqs/adapters/next/pages";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { createTheme, ThemeProvider } from "@mui/material";
 type TemplateProps = PropsWithChildren;

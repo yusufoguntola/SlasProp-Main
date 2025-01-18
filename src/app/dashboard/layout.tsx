@@ -2,7 +2,6 @@
 
 import ProfileMainBar from "@/components/ProfileMainBar";
 import { SideBar } from "@/components/SideBar";
-import { cn } from "@/utils/cn";
 // import { Footer } from "@/sections/Footer";
 import { type PropsWithChildren, Suspense, useState } from "react";
 
@@ -24,18 +23,12 @@ export default function Layout({ children }: LayoutProps) {
       <div className="flex flex-col h-full">
         <ProfileMainBar toggle={toggleDrawer} />
 
-        <div className="flex sticky top-10">
+        <div className="flex">
           <SideBar isOpen={isDrawerOpen} toggle={toggleDrawer} />
-          <div
-            className={cn(
-              "flex-1 w-full",
-              isDrawerOpen ? "ml-[270px]" : "ml-0",
-            )}
-          >
+          <div className="flex-1 overflow-y-auto flex items-start">
             {children}
           </div>
         </div>
-        {/* <Footer /> */}
       </div>
     </Suspense>
   );

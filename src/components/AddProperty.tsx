@@ -168,12 +168,12 @@ export default function AddProperty() {
   };
 
   return (
-    <form onSubmit={form.onSubmit(handleSubmit)}>
+    <form onSubmit={form.onSubmit(handleSubmit)} className="w-full">
       <Container sx={{ mb: 4 }}>
         <Box
           sx={{
             display: "flex",
-            marginLeft: { xs: 0, lg: "20%" },
+
             gap: 2,
             mt: 4,
             pl: 2,
@@ -205,7 +205,6 @@ export default function AddProperty() {
         <Box
           sx={{
             display: "flex",
-            marginLeft: { xs: 0, lg: "20%" },
             flexDirection: { xs: "column", lg: "row" },
             mt: 2,
           }}
@@ -243,8 +242,9 @@ export default function AddProperty() {
                   form.setFieldValue("listingType", ev.target.value)
                 }
               >
-                <MenuItem value="Buy">Buy</MenuItem>
-                <MenuItem value="Rent">Rent</MenuItem>
+                <MenuItem value="Buy">For Sale</MenuItem>
+                <MenuItem value="Rent">For Rent</MenuItem>
+                <MenuItem value="Lease">For Lease</MenuItem>
               </Select>
             </FormControl>
 

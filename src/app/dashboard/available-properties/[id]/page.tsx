@@ -27,7 +27,7 @@ export default function PropertyDetails({
   };
 
   return (
-    <div className="flex items-center justify-center w-full mx-auto">
+    <div className="flex items-center justify-center w-full">
       <div>{Render[status]}</div>
     </div>
   );

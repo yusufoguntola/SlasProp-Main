@@ -133,7 +133,7 @@ export default function RegisterTheProperty() {
       <Box
         sx={{
           display: "flex",
-          marginLeft: { xs: 0, md: "30%" },
+
           mt: 4,
           borderBottom: "1px solid lightgray",
           pl: 2,
@@ -146,7 +146,7 @@ export default function RegisterTheProperty() {
       </Box>
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box sx={{ marginLeft: { xs: 0, md: "30%" }, mt: 4 }}>
+        <Box sx={{ mt: 4 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormLabel>Name of Current Owner</FormLabel>

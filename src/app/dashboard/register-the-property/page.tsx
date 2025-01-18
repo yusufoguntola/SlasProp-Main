@@ -6,7 +6,7 @@ const Form = dynamic(() => import("./form"), { ssr: false });
 
 export default function Page() {
   return (
-    <div>
+    <div className="w-full">
       <Form />
     </div>
   );

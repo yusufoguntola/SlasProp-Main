@@ -7,9 +7,9 @@ export function PropertyCard(property: Property) {
   return (
     <Link
       href={`/dashboard/available-properties/${property.propertyId}`}
-      className="border rounded-xl flex w-full max-h-56 p-2 shadow-[0_4px_8px_rgba(0,0,0,0.1)] hover:scale-105 transition-all gap-4 items-center"
+      className="border rounded-xl flex w-full h-56 p-2 shadow-[0_4px_8px_rgba(0,0,0,0.1)] transition-all gap-4 items-center"
     >
-      <div className="flex-[0.75] h-full">
+      <div className="flex-[0.75] h-52">
         <Image
           src={property.images[0] ?? "/assets/property-image.jpg"}
           onError={({ currentTarget }) => {
@@ -19,7 +19,7 @@ export function PropertyCard(property: Property) {
           width={200}
           height={256}
           unoptimized
-          className="h-full w-auto object-cover rounded-lg"
+          className="h-full w-full object-cover rounded-lg"
           alt={property.name ?? "property"}
         />
       </div>

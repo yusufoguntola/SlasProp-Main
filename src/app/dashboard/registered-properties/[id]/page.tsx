@@ -1,5 +1,14 @@
+"use client";
+
+import { use } from "react";
+
+import { useGetPublicSingleProperty } from "@/api/properties/queries";
+import { Skeleton } from "@/components/Skeleton";
+import { currencyFormatter } from "@/utils/currency-format";
+import { getInitials } from "@/utils/getInitials";
 import {
   Box,
+  Container,
   Link,
   Paper,
   Table,
@@ -11,166 +20,205 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function RegisteredPropertyDetail() {
-  const taxData = [
-    { year: 2022, tax: "$9246", assessment: "$481,824 +62.5%" },
-    { year: 2021, tax: "$9246", assessment: "$481,824 +62.5%" },
-    { year: 2020, tax: "$9246", assessment: "$481,824 +62.5%" },
-    { year: 2019, tax: "$9246", assessment: "$481,824 +62.5%" },
-  ];
+export default function RegisteredPropertyDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
 
-  const ownerData = [
-    { initials: "IS", name: "Indrani Sen", years: "2015-2017" },
-    { initials: "AD", name: "Arindam Dutta", years: "2017-2019" },
-    { initials: "CD", name: "Chijrant Debnath", years: "2019-Till Date" },
-  ];
+  const { data, status } = useGetPublicSingleProperty(id);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 3,
-        p: 3,
-        ml: { xs: 0, md: "30%" },
-        maxWidth: 950,
-      }}
-    >
-      <Typography variant="h6" fontWeight="bold">
-        Property Details
-      </Typography>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: 3,
-          flexWrap: "wrap",
-        }}
-      >
+    <div className="w-full">
+      <Container>
         <Box
           sx={{
-            flex: 1,
-            border: "1px solid #3cb391",
-            borderRadius: "8px",
-            padding: 2,
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+            p: 3,
           }}
         >
-          <Typography
-            sx={{
-              backgroundColor: "#26a69a",
-              color: "white",
-              fontSize: "18px",
-              fontWeight: "bold",
-              py: 1.5,
-              px: 2,
-              borderTopLeftRadius: "8px",
-              borderTopRightRadius: "8px",
-              textAlign: "center",
-            }}
-          >
-            Tax Details
+          <Typography variant="h6" fontWeight="bold">
+            Property Details
           </Typography>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Year</TableCell>
-                  <TableCell>Property Taxes</TableCell>
-                  <TableCell>Tax Assessment</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {taxData.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{row.year}</TableCell>
-                    <TableCell>{row.tax}</TableCell>
-                    <TableCell>{row.assessment}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
 
-        {/* Owners Details */}
-        <Box
-          sx={{
-            flex: 1,
-            border: "1px solid #3cb391",
-            borderRadius: "8px",
-            padding: 2,
-          }}
-        >
-          <Typography
+          <Box
             sx={{
-              backgroundColor: "#26a69a",
-              color: "white",
-              fontSize: "18px",
-              fontWeight: "bold",
-              py: 1.5,
-              px: 2,
-              borderTopLeftRadius: "8px",
-              borderTopRightRadius: "8px",
-              textAlign: "center",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 3,
+              flexWrap: "wrap",
             }}
           >
-            Owners Details
-          </Typography>
-          <Box sx={{ mt: 2, p: 2 }}>
-            {ownerData.map((owner, index) => (
-              <Box
-                key={index}
+            <Box
+              sx={{
+                flex: 1,
+                border: "1px solid #3cb391",
+                borderRadius: "8px",
+                padding: 2,
+              }}
+            >
+              <Typography
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mb: 1,
+                  backgroundColor: "#26a69a",
+                  color: "white",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  py: 1.5,
+                  px: 2,
+                  borderTopLeftRadius: "8px",
+                  borderTopRightRadius: "8px",
+                  textAlign: "center",
                 }}
               >
-                <Typography>
-                  <b>{owner.initials}</b> {owner.name}
-                </Typography>
-                <Typography>{owner.years}</Typography>
+                Tax Details
+              </Typography>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Year</TableCell>
+                      <TableCell>Property Taxes</TableCell>
+                      <TableCell>Tax Assessment</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="p-3 text-center" colSpan={3}>
+                        No Tax Details available
+                      </TableCell>
+                    </TableRow>
+                    {/* {taxData.map((row, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{row.year}</TableCell>
+                        <TableCell>{row.tax}</TableCell>
+                        <TableCell>{row.assessment}</TableCell>
+                      </TableRow>
+                    ))} */}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+
+            {/* Owners Details */}
+            <Box
+              sx={{
+                flex: 1,
+                border: "1px solid #3cb391",
+                borderRadius: "8px",
+                padding: 2,
+              }}
+            >
+              <Typography
+                sx={{
+                  backgroundColor: "#26a69a",
+                  color: "white",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  py: 1.5,
+                  px: 2,
+                  borderTopLeftRadius: "8px",
+                  borderTopRightRadius: "8px",
+                  textAlign: "center",
+                }}
+              >
+                Owners Details
+              </Typography>
+              <Box sx={{ mt: 2, p: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mb: 1,
+                  }}
+                >
+                  <Skeleton
+                    visible={status !== "success"}
+                    width={200}
+                    height={20}
+                  >
+                    <Typography>
+                      <b>
+                        {getInitials(
+                          `${data?.data.data.owner.firstName}`,
+                          data?.data.data.owner.lastName,
+                        )}
+                      </b>{" "}
+                      {data?.data.data.owner.firstName}
+                      {data?.data.data.owner.lastName}
+                    </Typography>
+                  </Skeleton>
+                  <Skeleton
+                    visible={status !== "success"}
+                    width={100}
+                    height={20}
+                  >
+                    <Typography>2024 - date</Typography>
+                  </Skeleton>
+                </Box>
               </Box>
-            ))}
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              gap: 3,
+              flexWrap: "wrap",
+            }}
+          >
+            <Box
+              sx={{
+                border: "1px solid #3cb391",
+                borderRadius: "8px",
+                padding: 2,
+                flex: "none",
+              }}
+            >
+              <Skeleton
+                visible={status !== "success"}
+                variant="text"
+                width={200}
+                height={24}
+              >
+                <Typography>
+                  EMI:{" "}
+                  <b>
+                    {currencyFormatter(Number(data?.data.data.price) / 12)}/mo
+                  </b>{" "}
+                  <Link href="#">DETAILS</Link>
+                </Typography>
+              </Skeleton>
+            </Box>
+
+            <Box
+              sx={{
+                border: "1px solid #3cb391",
+                borderRadius: "8px",
+                padding: 2,
+                flex: "none",
+              }}
+            >
+              <Skeleton
+                visible={status !== "success"}
+                variant="text"
+                width={200}
+                height={24}
+              >
+                <Typography>
+                  Current Valuation{" "}
+                  <b style={{ color: "#3cb391" }}>
+                    {currencyFormatter(data?.data.data.price)}{" "}
+                  </b>
+                </Typography>
+              </Skeleton>
+            </Box>
           </Box>
         </Box>
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-start",
-          gap: 3,
-          flexWrap: "wrap",
-        }}
-      >
-        <Box
-          sx={{
-            border: "1px solid #3cb391",
-            borderRadius: "8px",
-            padding: 2,
-            flex: "none",
-          }}
-        >
-          <Typography>
-            EMI: <b>$2,109/mo</b> <Link href="#">DETAILS</Link>
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            border: "1px solid #3cb391",
-            borderRadius: "8px",
-            padding: 2,
-            flex: "none",
-          }}
-        >
-          <Typography>
-            Current Valuation <b style={{ color: "#3cb391" }}>$565758</b>
-          </Typography>
-        </Box>
-      </Box>
-    </Box>
+      </Container>
+    </div>
   );
 }

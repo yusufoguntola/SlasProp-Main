@@ -4,6 +4,7 @@ import { object, string } from "yup";
 import { useForgotPassword } from "@/api/auth/mutations";
 import { useModalState } from "@/hooks/use-modal-state";
 import { useOptionStore } from "@/stores/useOptionStore";
+import { showToast } from "@/utils/toast";
 import { useForm, yupResolver } from "@mantine/form";
 import { Clear } from "@mui/icons-material";
 import {
@@ -48,10 +49,15 @@ export function ForgotPassword({
   async function handleSubmit({ ...values }: typeof form.values) {
     resetAccount(values, {
       onSuccess: (resp) => {
-        forgotPasswordClose();
-        resetPasswordOpen();
-        setToken(resp.data.token);
-        form.reset();
+        const { token } = resp.data;
+        if (token) {
+          forgotPasswordClose();
+          resetPasswordOpen();
+          setToken(resp.data.token);
+          form.reset();
+        } else {
+          showToast("error", "Invalid credentials, please try again!!");
+        }
       },
     });
 
@@ -126,7 +132,7 @@ export function ForgotPassword({
       <ResetPasswordModal
         resetPasswordClose={resetPasswordClose}
         resetPasswordIsOpen={resetPasswordIsOpen}
-        token={token}
+        token={token ?? ""}
       />
     </>
   );

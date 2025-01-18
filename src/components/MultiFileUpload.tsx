@@ -12,7 +12,7 @@ interface MultipleFileUploadProps {
 export function MultipleFileUpload({
   setImages,
   name = "upload-input",
-  multiple = false,
+  multiple = true,
 }: MultipleFileUploadProps) {
   const [loading, setIsLoading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]); // To store URLs of uploaded images

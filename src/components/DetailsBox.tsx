@@ -87,10 +87,12 @@ export function DetailsBox({ property }: DetailsBoxProps) {
               {formattedPrice}
             </Typography>
           ) : null}
-          <Typography sx={{ color: "grey", mr: 6 }}>
-            <LocationOnIcon sx={{ color: "#DF593D", fontSize: "14px" }} />
-            {property?.address}
-          </Typography>
+          {isLoggedIn ? (
+            <Typography sx={{ color: "grey", mr: 6 }}>
+              <LocationOnIcon sx={{ color: "#DF593D", fontSize: "14px" }} />
+              {property?.address}
+            </Typography>
+          ) : null}
         </Box>
 
         <Box

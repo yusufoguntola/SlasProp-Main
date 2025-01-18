@@ -29,52 +29,6 @@ export function MainBar() {
               />
             </Button>
           </Box>
-
-          {/* <IconButton
-            sx={{
-              border: "1px solid #26a69a",
-              maxHeight: 30,
-              maxWidth: 30,
-              mr: 1.5,
-            }}
-          >
-            <Facebook style={{ color: "#26a69a", fontSize: 20 }} />
-          </IconButton>
-
-          <IconButton
-            sx={{
-              border: "1px solid #26a69a",
-              maxHeight: 30,
-              maxWidth: 30,
-              mr: 1.5,
-            }}
-          >
-            <Instagram style={{ color: "#26a69a", fontSize: 20 }} />
-          </IconButton>
-
-          <IconButton
-            sx={{
-              border: "1px solid #26a69a",
-              maxHeight: 30,
-              maxWidth: 30,
-              mr: 1.5,
-            }}
-          >
-            <YouTube style={{ color: "#26a69a", fontSize: 20 }} />
-          </IconButton>
-
-          <IconButton
-            sx={{
-              border: "1px solid #26a69a",
-              maxHeight: 30,
-              maxWidth: 30,
-              mr: 3,
-            }}
-          >
-            <X style={{ color: "#26a69a", fontSize: 20 }} />
-          </IconButton> */}
-
-          {/* <Divider sx={{ height: 28, m: 0.5, mr: 2 }} orientation='vertical' /> */}
           <LoginModal />
         </Toolbar>
       </AppBar>

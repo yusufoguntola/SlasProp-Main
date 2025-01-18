@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 
 import { Container } from "@mui/material";
 
+import { Filters } from "./filters";
 import PropertyList from "./list";
 
 const DensityMap = dynamic(() => import("@/components/DensityMap"), {
@@ -13,10 +14,11 @@ const DensityMap = dynamic(() => import("@/components/DensityMap"), {
 
 export default function Properties() {
   return (
-    <Container sx={{ ml: { xs: 0, md: "340px", width: "100%" } }}>
+    <Container>
       <div className="my-6 md:my-12 lg:my-20 ">
-        <div className="flex w-full gap-6 md:gap-8 lg:gap-16">
-          <div className="lg:flex-[0.75]">
+        <Filters />
+        <div className="flex w-full gap-6 md:gap-8">
+          <div className="lg:flex-1">
             <DensityMap />
           </div>
           <div className="lg:flex-1">

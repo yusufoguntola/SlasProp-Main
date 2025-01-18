@@ -37,7 +37,7 @@ const schema = object({
 export function ResetPasswordModal({
   resetPasswordIsOpen,
   resetPasswordClose,
-  token,
+  token = "",
 }: {
   resetPasswordIsOpen: boolean;
   resetPasswordClose: () => void;
@@ -48,7 +48,6 @@ export function ResetPasswordModal({
       otp: "",
       password: "",
       confirmPassword: "",
-      token,
     },
     validate: yupResolver(schema),
   });
@@ -56,13 +55,16 @@ export function ResetPasswordModal({
   const { isPending, mutate } = useResetAccount();
 
   const handleSubmit = (values: typeof form.values) =>
-    mutate(values, {
-      onSuccess: (resp) => {
-        showToast("success", resp.data.message);
-        form.reset();
-        resetPasswordClose();
+    mutate(
+      { ...values, token },
+      {
+        onSuccess: (resp) => {
+          showToast("success", resp.data.message);
+          form.reset();
+          resetPasswordClose();
+        },
       },
-    });
+    );
 
   return (
     <Dialog
