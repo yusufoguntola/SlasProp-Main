@@ -157,3 +157,37 @@ interface Payment {
   deletedAt: null;
   splitCode: string;
 }
+
+interface PropertyRequestPayload {
+  propertyId: PermId;
+  amountOffered: number;
+  message: string;
+}
+
+interface PropertyRequest {
+  id: PermId;
+  requestId: string;
+  amountOffered: number;
+  message: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  createdById: PermId;
+  propertyId: PermId;
+  createdBy: User;
+  property: {
+    name: string;
+    id: 1;
+    propertyId: string;
+    status: string;
+    listingType: string;
+    propertyType: string;
+    propertySubType: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    price: number;
+    description: string;
+  };
+}

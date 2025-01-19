@@ -23,3 +23,17 @@ export function useRegisterProperty() {
     },
   });
 }
+
+export function useCreatePropertyRequest() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationKey: builder.properties.requests.create.$get(),
+    mutationFn: builder.$use.properties.requests.create,
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: builder.properties.requests.$get(),
+      });
+    },
+  });
+}

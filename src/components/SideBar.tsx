@@ -29,8 +29,11 @@ const ListOptions = [
   },
   {
     name: "Property Requests",
-    // address: "property-requests",
-    address: "#",
+    address: "property-requests",
+  },
+  {
+    name: "Available Properties",
+    address: "available-properties",
   },
 ];
 
@@ -57,7 +60,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
     },
   });
 
-  const { data: user, isFetching } = useGetProfile();
+  const { data: user, isPending } = useGetProfile();
   const SidebarContent = () => (
     <aside className="w-[270px] sticky top-16 overflow-hidden shadow-[10px_0_10px_rgba(108,122,137,0.5)] bg-white h-[calc(100dvh-64px)]">
       <Box sx={{ overflowY: "auto" }}>
@@ -75,7 +78,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
               mr: -3,
             }}
           />
-          {isFetching ? (
+          {isPending ? (
             <Avatar
               sx={{
                 width: 80,
@@ -94,7 +97,7 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
           )}
           <Box sx={{ display: "flex", my: 2 }}>
             <Box>
-              {isFetching ? (
+              {isPending ? (
                 <>
                   <Typography
                     sx={{
@@ -215,16 +218,15 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
             <ListItemButton
               sx={{ borderBottom: "1px solid lightgrey" }}
               component={Link}
-              href="/dashboard/available-properties"
+              href="/dashboard/messages"
             >
               <ListItemText
                 sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
                 primaryTypographyProps={{ fontSize: "12px" }}
-                primary={"Available Properties"}
+                primary={"Messages"}
               />
             </ListItemButton>
           </ListItem>
-
           <ListItem disablePadding>
             <ListItemButton
               sx={{ borderBottom: "1px solid lightgrey" }}

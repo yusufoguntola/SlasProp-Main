@@ -4,7 +4,7 @@ interface RoleCreationPayload {
   permissionIds: PermId[];
 }
 
-type PermId = number;
+type PermId = number | string;
 
 interface UserCreationPayload {
   email: string;

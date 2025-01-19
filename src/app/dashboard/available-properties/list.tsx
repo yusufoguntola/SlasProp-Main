@@ -14,8 +14,11 @@ const generateKey = (pre: unknown) => {
 };
 
 export default function PropertyList() {
-  const { data, isPending, isError, isRefetching } = useGetPublicProperties();
-  const [{ page }, setFilter] = useFilterProperties(6);
+  const [{ page, page_size }, setFilter] = useFilterProperties(6);
+  const { data, isPending, isError, isRefetching } = useGetPublicProperties({
+    page,
+    page_size,
+  });
 
   const total = useMemo(() => data?.data.total ?? 0, [data]);
 

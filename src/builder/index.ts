@@ -1,6 +1,7 @@
 import { createBuilder } from "@ibnlanre/builder";
 
 import { admin } from "./admin";
+import { messaging } from "./messages";
 import { notification } from "./notification";
 import { payments } from "./payments";
 import { properties } from "./property";
@@ -12,4 +13,5 @@ export const builder = createBuilder({
   admin,
   notification,
   payments,
+  messaging,
 });

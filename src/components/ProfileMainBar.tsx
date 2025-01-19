@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { useLogout } from "@/api/auth/mutations";
+import { useGetMessages } from "@/api/messages/queries";
+import { useGetNotifications } from "@/api/notifications/queries";
 import { useOptionStore } from "@/stores/useOptionStore";
 import {
   ArrowCircleRightOutlined,
@@ -27,6 +31,8 @@ interface ProfileMainBarProps {
 
 const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
   const setOption = useOptionStore((state) => state.setOption);
+  const [search, setSearch] = useState("");
+  const { push } = useRouter();
 
   const logout = useLogout();
 
@@ -34,6 +40,15 @@ const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
     setOption(true);
     logout();
   };
+
+  const handleSearch = () => {
+    push(`/dashboard/available-properties?filter=${search}`);
+
+    setSearch("");
+  };
+
+  const notifications = useGetNotifications();
+  const messages = useGetMessages();
 
   return (
     <Box
@@ -70,30 +85,43 @@ const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
               }}
             />
           </Typography>
-          <InputBase
-            sx={{
-              fontSize: { lg: 12, sm: 12, xs: 7 },
-              border: "1px solid grey;",
-              py: 0.25,
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSearch();
             }}
-            placeholder="  Search Here"
-            inputProps={{ "aria-label": "search-bar" }}
-          />
-          <Button
-            type="button"
-            className="SearchButton"
-            size="small"
-            sx={{
-              bgcolor: "#26a69a",
-              color: "white",
-              borderRadius: "0px",
-              "&:hover": { backgroundColor: "#52d6cf" },
-              marginRight: 3,
-            }}
-            aria-label="search"
+            id="searchForm"
           >
-            <Search />
-          </Button>
+            <InputBase
+              sx={{
+                fontSize: { lg: 12, sm: 12, xs: 7 },
+                border: "1px solid grey;",
+                py: 0.25,
+                px: 2,
+              }}
+              name="filter"
+              placeholder="Search Here"
+              inputProps={{ "aria-label": "search-bar" }}
+              value={search}
+              onChange={(ev) => setSearch(ev.target.value)}
+            />
+            <Button
+              type="submit"
+              form="searchForm"
+              className="SearchButton"
+              size="small"
+              sx={{
+                bgcolor: "#26a69a",
+                color: "white",
+                borderRadius: "0px",
+                "&:hover": { backgroundColor: "#52d6cf" },
+                marginRight: 3,
+              }}
+              aria-label="search"
+            >
+              <Search />
+            </Button>
+          </form>
 
           <Divider sx={{ color: "#26a69a" }} orientation="vertical" flexItem />
 
@@ -104,7 +132,10 @@ const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
               component={Link}
               href="/dashboard/messages"
             >
-              <Badge badgeContent={1} color="error">
+              <Badge
+                badgeContent={messages.data ? messages.data.data.total : null}
+                color="error"
+              >
                 <ChatBubbleOutlineOutlined
                   fontSize="medium"
                   sx={{ color: "#26a69a" }}
@@ -124,7 +155,12 @@ const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
               component={Link}
               href="/dashboard/notifications"
             >
-              <Badge badgeContent={1} color="error">
+              <Badge
+                badgeContent={
+                  notifications.data ? notifications.data.data.length : null
+                }
+                color="error"
+              >
                 <NotificationsNoneOutlined
                   fontSize="large"
                   sx={{ color: "#26a69a" }}

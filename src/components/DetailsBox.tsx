@@ -1,10 +1,12 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useState } from "react";
 
 import { useIsAuthenticated } from "@/api/auth/queries";
 import { formatDate } from "@/utils/format-date";
+import { Chat } from "@mui/icons-material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
@@ -621,7 +623,10 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
+                  alignItems: "center",
                   px: 2,
+                  width: "100%",
+                  gap: 6,
                 }}
               >
                 <Typography
@@ -633,6 +638,11 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                 >
                   {property?.owner.firstName} {property?.owner.lastName}
                 </Typography>
+                <Link
+                  href={`/dashboard/messages?newMessage=${property?.ownerId}`}
+                >
+                  <Chat />
+                </Link>
               </Box>
             </Box>
           </Box>

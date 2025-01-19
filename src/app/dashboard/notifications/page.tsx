@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { builder } from "@/builder";
+import { useGetNotifications } from "@/api/notifications/queries";
 import { DATE_FORMAT } from "@/constants/time";
 import { formatDate } from "@/utils/format-date";
 import { MoreVert, Notifications } from "@mui/icons-material";
@@ -17,7 +17,6 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 
 export default function NotificationsComponent() {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -33,11 +32,7 @@ export default function NotificationsComponent() {
     setSelected(null);
   };
 
-  const { data, isPending, isError } = useQuery({
-    queryKey: builder.notification.get.$get(),
-    queryFn: builder.$use.notification.get,
-    select: ({ data }) => data,
-  });
+  const { data, isPending, isError } = useGetNotifications();
 
   if (isPending || isError) {
     return (
@@ -145,7 +140,7 @@ export default function NotificationsComponent() {
                     No notifications available
                   </Typography>
                 </div>
-                {data?.map((notification) => (
+                {data.data.map((notification) => (
                   <Box
                     key={notification.id}
                     sx={{

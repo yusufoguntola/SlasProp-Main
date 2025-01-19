@@ -43,6 +43,15 @@ const list_registered = (page = 1) =>
     .get<ApiResponse<RegisteredProperty[]>>(`/property-queries?page=${page}`)
     .then((res) => res.data.data);
 
+const requests = {
+  create: (payload: PropertyRequestPayload) =>
+    axiosInstance.post("/property-requests", payload),
+  list: (params = {}) =>
+    axiosInstance.get<ApiResponse<PropertyRequest[]>>("/property-requests", {
+      params,
+    }),
+};
+
 export const properties = {
   list,
   single,
@@ -52,4 +61,5 @@ export const properties = {
   publicList,
   publicSingle,
   featuredList,
+  requests,
 };

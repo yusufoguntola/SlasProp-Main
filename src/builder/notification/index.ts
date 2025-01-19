@@ -1,9 +1,9 @@
 import { axiosInstance } from "@/axios";
 
-const get = () => {
-  return axiosInstance
-    .get<ApiResponse<NotificationData[]>>("/notifications")
-    .then((res) => res.data);
+const get = async () => {
+  const res =
+    await axiosInstance.get<ApiResponse<NotificationData[]>>("/notifications");
+  return res.data;
 };
 
 const mark_as_read = (payload: { nids: string[] }) => {

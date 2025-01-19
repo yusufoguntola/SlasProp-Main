@@ -1,23 +1,18 @@
 import { axiosInstance } from "@/axios";
 import { builder } from "@/builder";
-import { useFilterProperties } from "@/hooks/use-filter-properties";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-export function useGetProperties() {
-  const [filters] = useFilterProperties();
-
+export function useGetProperties(params = {}) {
   return useQuery({
-    queryKey: builder.properties.list.$get(filters),
-    queryFn: () => builder.$use.properties.list(filters),
+    queryKey: builder.properties.list.$get(params),
+    queryFn: () => builder.$use.properties.list(params),
     placeholderData: keepPreviousData,
   });
 }
-export function useGetPublicProperties() {
-  const [filters] = useFilterProperties();
-
+export function useGetPublicProperties(params = {}) {
   return useQuery({
-    queryKey: builder.properties.publicList.$get(filters),
-    queryFn: () => builder.$use.properties.publicList(filters),
+    queryKey: builder.properties.publicList.$get(params),
+    queryFn: () => builder.$use.properties.publicList(params),
     placeholderData: keepPreviousData,
   });
 }
@@ -88,5 +83,12 @@ export function useFetchLocations() {
 export function useGetSearchQueryResults(propertyID: string) {
   return useQuery({
     queryKey: ["searchResults", propertyID],
+  });
+}
+
+export function useGetPropertyRequests(params = {}) {
+  return useQuery({
+    queryKey: builder.properties.requests.list.$get(),
+    queryFn: () => builder.$use.properties.requests.list(params),
   });
 }
