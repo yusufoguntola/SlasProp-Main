@@ -15,3 +15,10 @@ export function useGetMessages(conversationId: PermId) {
     enabled: !!conversationId,
   });
 }
+
+export function useGetMessageList() {
+  return useQuery({
+    queryKey: builder.messaging.messages.$get(),
+    queryFn: () => builder.$use.messaging.messages(),
+  });
+}

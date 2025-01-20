@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { useLogout } from "@/api/auth/mutations";
-import { useGetMessages } from "@/api/messages/queries";
+import { useGetMessageList } from "@/api/messages/queries";
 import { useGetNotifications } from "@/api/notifications/queries";
 import { useOptionStore } from "@/stores/useOptionStore";
 import {
@@ -48,7 +48,7 @@ const ProfileMainBar = ({ toggle }: ProfileMainBarProps) => {
   };
 
   const notifications = useGetNotifications();
-  const messages = useGetMessages();
+  const messages = useGetMessageList();
 
   return (
     <Box
