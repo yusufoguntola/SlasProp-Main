@@ -20,20 +20,20 @@ import {
 
 const ListOptions = [
   {
-    name: "My Properties",
-    address: "my-properties",
+    name: "Available Properties",
+    address: "available-properties",
   },
   {
     name: "Add Property",
     address: "add-property",
   },
   {
-    name: "Property Requests",
-    address: "property-requests",
+    name: "My Properties",
+    address: "my-properties",
   },
   {
-    name: "Available Properties",
-    address: "available-properties",
+    name: "Property Requests",
+    address: "property-requests",
   },
 ];
 
