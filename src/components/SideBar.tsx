@@ -20,7 +20,7 @@ import {
 
 const ListOptions = [
   {
-    name: "Available Properties",
+    name: "Search Properties",
     address: "available-properties",
   },
   {
