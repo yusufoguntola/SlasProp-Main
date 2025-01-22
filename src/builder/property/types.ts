@@ -191,3 +191,24 @@ interface PropertyRequest {
     description: string;
   };
 }
+
+interface PropertyQuery {
+  id: PermId;
+  requestId: string;
+  requestType: string;
+  ownerName: string;
+  registrantName: string;
+  propertyType: string;
+  registrationNumber: string;
+  propertyTaxId: string;
+  areaOfLand: string;
+  zipCode: string;
+  registeredAddress: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: null;
+  createdById: PermId;
+  updatedById: PermId | null;
+  locationId: PermId;
+  location: { name: string; id: PermId } | null;
+}

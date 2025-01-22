@@ -21,3 +21,24 @@ interface PostResponse<T> {
   data: T;
   message: string;
 }
+
+interface RTask {
+  id: PermId;
+  taskId: string;
+  type: string;
+  status: "Pending" | "Submitted" | (string & {});
+  stage: string;
+  coordinates: Array<{ latitude: number; longitude: number }> | null;
+  photographUrl: string | null;
+  idCardUrl: string | null;
+  proofOfOwnershipUrl: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  createdById: PermId;
+  propertyRequestId: PermId;
+  demarcationOfficerId: PermId | null;
+  recordingOfficerId: PermId | null;
+  fieldAssistantId: PermId | null;
+  propertyQueryId: PermId;
+  propertyQuery: PropertyQuery | null;
+}

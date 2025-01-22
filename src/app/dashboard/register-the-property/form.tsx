@@ -28,6 +28,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import { SearchResults } from "./search_results";
+
 const schema = object({
   ownerName: string().required("Owner name is required"),
   requestType: string().required("Request type is required"),
@@ -96,6 +98,14 @@ export default function RegisterTheProperty() {
     clearInputErrorOnChange: true,
   });
 
+  const [searchResults, setSearchResults] = useState<{
+    opened: boolean;
+    data: RTask[];
+  }>({
+    opened: false,
+    data: [],
+  });
+
   const { replace } = useRouter();
   const { data: locations, isFetching } = useFetchLocations();
 
@@ -129,255 +139,268 @@ export default function RegisterTheProperty() {
     );
 
   return (
-    <Container>
-      <Box
-        sx={{
-          display: "flex",
+    <>
+      <Container>
+        <Box
+          sx={{
+            display: "flex",
 
-          mt: 4,
-          borderBottom: "1px solid lightgray",
-          pl: 2,
-          pb: 2,
-        }}
-      >
-        <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
-          Register New Property
-        </Typography>
-      </Box>
+            mt: 4,
+            borderBottom: "1px solid lightgray",
+            pl: 2,
+            pb: 2,
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold", flexGrow: 1 }}>
+            Register New Property
+          </Typography>
+        </Box>
 
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Box sx={{ mt: 4 }}>
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Name of Current Owner</FormLabel>
-              <TextField
-                fullWidth
-                id="ownerName"
-                name="ownerName"
-                size="small"
-                placeholder="Enter name of the owner"
-                {...form.getInputProps("ownerName")}
-                error={!!form.errors.ownerName}
-                helperText={form.errors.ownerName}
-              />
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Box sx={{ mt: 4 }}>
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Name of Current Owner</FormLabel>
+                <TextField
+                  fullWidth
+                  id="ownerName"
+                  name="ownerName"
+                  size="small"
+                  placeholder="Enter name of the owner"
+                  {...form.getInputProps("ownerName")}
+                  error={!!form.errors.ownerName}
+                  helperText={form.errors.ownerName}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Request Type</FormLabel>
+                <TextField
+                  select
+                  fullWidth
+                  id="requestType"
+                  name="requestType"
+                  size="small"
+                  value={form.values.requestType}
+                  onChange={(e) =>
+                    form.setFieldValue("requestType", e.target.value)
+                  }
+                  error={!!form.errors.requestType}
+                  helperText={form.errors.requestType}
+                >
+                  {REQUEST_TYPES.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Name of the Registrant</FormLabel>
+                <TextField
+                  disabled
+                  key={user.status}
+                  fullWidth
+                  defaultValue={`${user.data?.firstName} ${user.data?.lastName}`}
+                  id="registrantName"
+                  name="registrantName"
+                  size="small"
+                  placeholder="Enter name of the Registrant"
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Type of Property</FormLabel>
+                <TextField
+                  select
+                  fullWidth
+                  id="propertyType"
+                  name="propertyType"
+                  size="small"
+                  value={form.values.propertyType}
+                  onChange={(e) =>
+                    form.setFieldValue("propertyType", e.target.value)
+                  }
+                  error={!!form.errors.propertyType}
+                  helperText={form.errors.propertyType}
+                >
+                  {PROPERTY_TYPES.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Registration Number</FormLabel>
+                <TextField
+                  fullWidth
+                  id="registrationNumber"
+                  name="registrationNumber"
+                  size="small"
+                  placeholder="Enter registration number"
+                  {...form.getInputProps("registrationNumber")}
+                  error={!!form.errors.registrationNumber}
+                  helperText={form.errors.registrationNumber}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Property Tax ID</FormLabel>
+                <TextField
+                  fullWidth
+                  id="propertyTaxId"
+                  name="propertyTaxId"
+                  size="small"
+                  placeholder="Enter property tax ID"
+                  {...form.getInputProps("propertyTaxId")}
+                  error={!!form.errors.propertyTaxId}
+                  helperText={form.errors.propertyTaxId}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Area of Land</FormLabel>
+                <TextField
+                  fullWidth
+                  id="areaOfLand"
+                  name="areaOfLand"
+                  type="number"
+                  size="small"
+                  placeholder="Enter area of land"
+                  {...form.getInputProps("areaOfLand")}
+                  error={!!form.errors.areaOfLand}
+                  helperText={form.errors.areaOfLand}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Location</FormLabel>
+                <TextField
+                  select
+                  fullWidth
+                  id="locationId"
+                  name="locationId"
+                  size="small"
+                  value={form.values.locationId}
+                  onChange={(e) =>
+                    form.setFieldValue("locationId", e.target.value)
+                  }
+                  error={!!form.errors.locationId}
+                  helperText={
+                    isFetching ? "Loading locations..." : form.errors.locationId
+                  }
+                  disabled={isFetching}
+                >
+                  {locations?.map((location) => (
+                    <MenuItem key={location.id} value={location.id}>
+                      {location.name}
+                    </MenuItem>
+                  )) || <MenuItem disabled>No locations available</MenuItem>}
+                </TextField>
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>ZIP/PIN Code</FormLabel>
+                <TextField
+                  fullWidth
+                  id="zipCode"
+                  name="zipCode"
+                  size="small"
+                  placeholder="Enter ZIP/PIN Code"
+                  {...form.getInputProps("zipCode")}
+                  error={!!form.errors.zipCode}
+                  helperText={form.errors.zipCode}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <FormLabel>Registered Address</FormLabel>
+                <TextField
+                  fullWidth
+                  id="registeredAddress"
+                  name="registeredAddress"
+                  size="small"
+                  placeholder="Enter registered address"
+                  {...form.getInputProps("registeredAddress")}
+                  error={!!form.errors.registeredAddress}
+                  helperText={form.errors.registeredAddress}
+                />
+              </Grid>
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Request Type</FormLabel>
-              <TextField
-                select
-                fullWidth
-                id="requestType"
-                name="requestType"
-                size="small"
-                value={form.values.requestType}
-                onChange={(e) =>
-                  form.setFieldValue("requestType", e.target.value)
+            <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
+              <Button
+                type="submit"
+                variant="contained"
+                size="medium"
+                disabled={
+                  registerProperty.isPending || initiatePayment.isPending
                 }
-                error={!!form.errors.requestType}
-                helperText={form.errors.requestType}
-              >
-                {REQUEST_TYPES.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Name of the Registrant</FormLabel>
-              <TextField
-                disabled
-                key={user.status}
-                fullWidth
-                defaultValue={`${user.data?.firstName} ${user.data?.lastName}`}
-                id="registrantName"
-                name="registrantName"
-                size="small"
-                placeholder="Enter name of the Registrant"
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Type of Property</FormLabel>
-              <TextField
-                select
-                fullWidth
-                id="propertyType"
-                name="propertyType"
-                size="small"
-                value={form.values.propertyType}
-                onChange={(e) =>
-                  form.setFieldValue("propertyType", e.target.value)
-                }
-                error={!!form.errors.propertyType}
-                helperText={form.errors.propertyType}
-              >
-                {PROPERTY_TYPES.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Registration Number</FormLabel>
-              <TextField
-                fullWidth
-                id="registrationNumber"
-                name="registrationNumber"
-                size="small"
-                placeholder="Enter registration number"
-                {...form.getInputProps("registrationNumber")}
-                error={!!form.errors.registrationNumber}
-                helperText={form.errors.registrationNumber}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Property Tax ID</FormLabel>
-              <TextField
-                fullWidth
-                id="propertyTaxId"
-                name="propertyTaxId"
-                size="small"
-                placeholder="Enter property tax ID"
-                {...form.getInputProps("propertyTaxId")}
-                error={!!form.errors.propertyTaxId}
-                helperText={form.errors.propertyTaxId}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Area of Land</FormLabel>
-              <TextField
-                fullWidth
-                id="areaOfLand"
-                name="areaOfLand"
-                type="number"
-                size="small"
-                placeholder="Enter area of land"
-                {...form.getInputProps("areaOfLand")}
-                error={!!form.errors.areaOfLand}
-                helperText={form.errors.areaOfLand}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Location</FormLabel>
-              <TextField
-                select
-                fullWidth
-                id="locationId"
-                name="locationId"
-                size="small"
-                value={form.values.locationId}
-                onChange={(e) =>
-                  form.setFieldValue("locationId", e.target.value)
-                }
-                error={!!form.errors.locationId}
-                helperText={
-                  isFetching ? "Loading locations..." : form.errors.locationId
-                }
-                disabled={isFetching}
-              >
-                {locations?.map((location) => (
-                  <MenuItem key={location.id} value={location.id}>
-                    {location.name}
-                  </MenuItem>
-                )) || <MenuItem disabled>No locations available</MenuItem>}
-              </TextField>
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>ZIP/PIN Code</FormLabel>
-              <TextField
-                fullWidth
-                id="zipCode"
-                name="zipCode"
-                size="small"
-                placeholder="Enter ZIP/PIN Code"
-                {...form.getInputProps("zipCode")}
-                error={!!form.errors.zipCode}
-                helperText={form.errors.zipCode}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormLabel>Registered Address</FormLabel>
-              <TextField
-                fullWidth
-                id="registeredAddress"
-                name="registeredAddress"
-                size="small"
-                placeholder="Enter registered address"
-                {...form.getInputProps("registeredAddress")}
-                error={!!form.errors.registeredAddress}
-                helperText={form.errors.registeredAddress}
-              />
-            </Grid>
-          </Grid>
-
-          <Container sx={{ display: "flex", justifyContent: "right", mt: 4 }}>
-            <Button
-              type="submit"
-              variant="contained"
-              size="medium"
-              disabled={registerProperty.isPending || initiatePayment.isPending}
-              sx={{
-                backgroundColor: registerProperty.isPending
-                  ? "lightgray"
-                  : "#DF593D",
-                "&:hover": {
+                sx={{
                   backgroundColor: registerProperty.isPending
                     ? "lightgray"
                     : "#DF593D",
-                },
-                borderRadius: "16px",
-                boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.15)",
-                textTransform: "capitalize",
+                  "&:hover": {
+                    backgroundColor: registerProperty.isPending
+                      ? "lightgray"
+                      : "#DF593D",
+                  },
+                  borderRadius: "16px",
+                  boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.15)",
+                  textTransform: "capitalize",
+                }}
+              >
+                {registerProperty.isPending || initiatePayment.isPending ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  "Register Property"
+                )}
+              </Button>
+            </Container>
+          </Box>
+        </form>
+
+        <Modal open={verifyPaymentIsOpen} onClose={verifyPaymentClose}>
+          <div className="bg-white p-4 h-64 max-w-sm absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full flex items-center justify-center">
+            <Button
+              disabled={verifyPayment.isPending}
+              variant="contained"
+              onClick={() => {
+                verifyPayment.mutate(paystack.reference, {
+                  onSuccess: (resp) => {
+                    if (form.values.requestType === "Search Query") {
+                      setSearchResults({ opened: true, data: resp.data.data });
+                    } else {
+                      replace("/dashboard/registered-properties");
+                    }
+                  },
+                });
               }}
             >
-              {registerProperty.isPending || initiatePayment.isPending ? (
-                <CircularProgress size={20} color="inherit" />
-              ) : (
-                "Register Property"
-              )}
+              {verifyPayment.isPending ? "Confirming payment..." : "Continue"}
             </Button>
-          </Container>
-        </Box>
-      </form>
+          </div>
+        </Modal>
 
-      <Modal open={verifyPaymentIsOpen} onClose={verifyPaymentClose}>
-        <div className="bg-white p-4 h-64 max-w-sm absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full flex items-center justify-center">
-          <Button
-            disabled={verifyPayment.isPending}
-            variant="contained"
-            onClick={() => {
-              verifyPayment.mutate(paystack.reference, {
-                onSuccess: () => {
-                  if (form.values.requestType === "Search Query") {
-                  } else {
-                    replace("/dashboard/registered-properties");
-                  }
-                },
-              });
-            }}
-          >
-            {verifyPayment.isPending ? "Confirming payment..." : "Continue"}
-          </Button>
-        </div>
-      </Modal>
+        <PaystackPay
+          verifyPayment={verifyPaymentOpen}
+          {...paystack}
+          open={paystack.opened}
+          close={() => setPaystack((prev) => ({ ...prev, opened: false }))}
+        />
+      </Container>
 
-      <PaystackPay
-        verifyPayment={verifyPaymentOpen}
-        {...paystack}
-        open={paystack.opened}
-        close={() => setPaystack((prev) => ({ ...prev, opened: false }))}
+      <SearchResults
+        onClose={() => {
+          replace("/dashboard/registered-properties");
+        }}
+        opened={searchResults.opened}
+        results={searchResults.data}
       />
-    </Container>
+    </>
   );
 }
 

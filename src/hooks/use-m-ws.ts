@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 const WS_URL = "ws://api.slasprop.com";
 
 export function useMessagingWS(receiverId: PermId) {
-  const token = getCookie(COOKIES.token);
+  const authToken = getCookie(COOKIES.token);
 
   const [newMessage, setMessage] = useState({
     type: "X05",
@@ -24,12 +24,13 @@ export function useMessagingWS(receiverId: PermId) {
   const qc = useQueryClient();
 
   const { sendJsonMessage, sendMessage } = useWebSocket(WS_URL, {
-    protocols: ["Authorization", `${token}`],
-    onMessage: () => {
-      setMessage({
-        type: "X05",
-        content: { text: "", muid: `${new Date().getTime()}`, receiverId },
-      });
+    queryParams: { token: `${authToken}` },
+    onMessage: (message) => {
+      if (["X04", "X02"].includes(message.type)) {
+        qc.invalidateQueries({
+          queryKey: ["unread_message_count"],
+        });
+      }
 
       qc.invalidateQueries({
         queryKey: builder.messaging.$get(),
