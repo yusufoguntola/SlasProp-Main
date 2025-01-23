@@ -212,3 +212,21 @@ interface PropertyQuery {
   locationId: PermId;
   location: { name: string; id: PermId } | null;
 }
+
+interface PropertyPaymentRequest {
+  id: PermId;
+  refId: string;
+  type: "Property Request";
+  amount: string;
+  description: string;
+  amountPaid: string | null;
+  status: string;
+  createdById: PermId;
+  currency: string;
+  createdAt: Date;
+  updatedAt: Date;
+  callbackMetadata: null;
+  deletedAt: Date;
+  locationId: null;
+  splitCode: string;
+}

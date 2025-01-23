@@ -8,6 +8,7 @@ const login = async (payload: LoginPayload) => {
           access_token: string;
           name: string;
           username: string;
+          email: string;
           role?: {
             name: string;
             id: number;

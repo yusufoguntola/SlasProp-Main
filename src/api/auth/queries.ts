@@ -13,5 +13,5 @@ export function useGetUserDetails() {
 
   if (!user) return null;
 
-  return JSON.parse(user as string) as User;
+  return JSON.parse(user as string) as LoggedInUser;
 }

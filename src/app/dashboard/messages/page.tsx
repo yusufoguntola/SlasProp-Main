@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useQueryState } from "nuqs";
 import { useState } from "react";
 
 import { useGetConversations, useGetMessages } from "@/api/messages/queries";
@@ -33,9 +33,7 @@ function isSameUser(user1: User, user2: Profile): boolean {
 
 export default function Messages() {
   const { data: user, isPending } = useGetProfile();
-  const searchParams = useSearchParams();
-
-  const init = searchParams.get("beginConversationWith");
+  const [init] = useQueryState("beginConversationWith");
 
   const conversations = useGetConversations();
 

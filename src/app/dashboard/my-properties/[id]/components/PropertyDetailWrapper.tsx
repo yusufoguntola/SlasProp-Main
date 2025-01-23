@@ -1,18 +1,16 @@
 "use client";
 
-import { axiosInstance } from "@/axios";
+import { useGetSingleProperty } from "@/api/properties/queries";
 import { DetailsBox } from "@/components/DetailsBox";
 import { ImageGallery } from "@/components/ImageGallery";
 import { Box } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 
 function PropertyDetailWrapper({ id }: { id: string }) {
-  const { data } = useQuery({
-    queryKey: ["properties", id],
-    queryFn: () => axiosInstance.get(`/properties/${id}`),
-  });
+  const { data, status } = useGetSingleProperty(id);
 
-  const property = data?.data.data as Property;
+  if (status !== "success") return <p>Loading...</p>;
+
+  const property = data.data.data;
 
   return (
     <Box

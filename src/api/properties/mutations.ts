@@ -34,6 +34,9 @@ export function useCreatePropertyRequest() {
       qc.invalidateQueries({
         queryKey: builder.properties.requests.$get(),
       });
+      qc.invalidateQueries({
+        queryKey: builder.properties.$get(),
+      });
     },
   });
 }

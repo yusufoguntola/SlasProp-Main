@@ -3,9 +3,16 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
+import { usePaystackPayment } from "react-paystack";
+import type { PaystackProps } from "react-paystack/dist/types";
+import { number, object } from "yup";
 
-import { useIsAuthenticated } from "@/api/auth/queries";
+import { useGetUserDetails, useIsAuthenticated } from "@/api/auth/queries";
+import { useCreatePropertyRequest } from "@/api/properties/mutations";
+import useDisclosure from "@/hooks/useDisclosure";
 import { formatDate } from "@/utils/format-date";
+import { calculatePayment } from "@/utils/paystack";
+import { useForm, yupResolver } from "@mantine/form";
 import { Chat } from "@mui/icons-material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -16,6 +23,11 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogContent,
+  FormControl,
+  FormLabel,
+  TextField,
   Typography,
 } from "@mui/material";
 
@@ -24,12 +36,14 @@ import { OwnerDetails } from "./OwnerDetails";
 const PropertyMap = dynamic(() => import("./PropertyMap"), { ssr: false });
 
 type DetailsBoxProps = {
-  property?: Property;
+  property: Property;
 };
 
 export function DetailsBox({ property }: DetailsBoxProps) {
   const [expanded, setExpanded] = useState<string | false>(false);
   const isLoggedIn = useIsAuthenticated();
+
+  const [opened, { open, close }] = useDisclosure();
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
@@ -59,18 +73,21 @@ export function DetailsBox({ property }: DetailsBoxProps) {
     <>
       <Container sx={{ display: "flex", mt: 4 }}>
         <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-          <Button
-            sx={{
-              backgroundColor: "green",
-              color: "white",
-              borderRadius: "16px",
-              fontSize: "10px",
-              maxWidth: "80px",
-              px: 2.5,
-            }}
-          >
-            {property?.listingType}
-          </Button>
+          {isLoggedIn ? (
+            <Button
+              onClick={open}
+              sx={{
+                backgroundColor: "green",
+                color: "white",
+                borderRadius: "16px",
+                fontSize: "10px",
+                px: 2.5,
+                maxWidth: "max-content",
+              }}
+            >
+              Request {property?.listingType}
+            </Button>
+          ) : null}
           <Typography
             sx={{
               mt: 0.5,
@@ -639,7 +656,7 @@ export function DetailsBox({ property }: DetailsBoxProps) {
                   {property?.owner.firstName} {property?.owner.lastName}
                 </Typography>
                 <Link
-                  href={`/dashboard/messages?newMessage=${property?.ownerId}`}
+                  href={`/dashboard/messages?beginConversationWith=${property?.ownerId}`}
                 >
                   <Chat />
                 </Link>
@@ -648,6 +665,130 @@ export function DetailsBox({ property }: DetailsBoxProps) {
           </Box>
         </Container>
       ) : null}
+
+      <RequestPayment onClose={close} opened={opened} property={property} />
     </>
+  );
+}
+
+function RequestPayment({
+  property,
+  opened,
+  onClose,
+}: {
+  property: Property;
+  opened: boolean;
+  onClose: () => void;
+}) {
+  const user = useGetUserDetails();
+  const schema = object({
+    amountOffered: number().required("Please enter an amount"),
+  });
+
+  const form = useForm({
+    initialValues: {
+      amountOffered: Number(property.price),
+      message: "I am interested in this property",
+    },
+    validate: yupResolver(schema),
+  });
+
+  const mutation = useCreatePropertyRequest();
+
+  const [paystack, setPaystack] = useState({
+    amount: 0,
+    reference: "",
+    opened: false,
+  });
+
+  const handleSubmit = (values: typeof form.values) =>
+    mutation.mutate(
+      { ...values, propertyId: property.id },
+      {
+        onSuccess(data) {
+          onClose();
+          setPaystack({
+            opened: true,
+            amount: calculatePayment(data.data.data.amount),
+            reference: data.data.data.refId,
+          });
+        },
+      },
+    );
+
+  return (
+    <>
+      <Dialog open={opened} onClose={onClose} fullWidth>
+        <DialogContent>
+          <form
+            onSubmit={form.onSubmit(handleSubmit)}
+            className="flex flex-col gap-4"
+          >
+            <FormControl fullWidth>
+              <FormLabel>Amount</FormLabel>
+              <TextField
+                disabled
+                fullWidth
+                {...form.getInputProps("amountOffered")}
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <FormLabel>Message</FormLabel>
+              <TextField
+                fullWidth
+                multiline
+                minRows={3}
+                {...form.getInputProps("message")}
+              />
+            </FormControl>
+
+            <Button
+              type="submit"
+              disabled={mutation.isPending}
+              variant="contained"
+              fullWidth
+            >
+              {mutation.isPending ? "Submitting..." : "Submit"}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <PaystackPay
+        open={paystack.opened}
+        close={() => setPaystack({ amount: 0, opened: false, reference: "" })}
+        amount={paystack.amount}
+        email={`${user?.email}`}
+        publicKey="pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22"
+      />
+    </>
+  );
+}
+
+function PaystackPay({
+  open,
+  close,
+  ...props
+}: PaystackProps & {
+  open: boolean;
+  close: () => void;
+}) {
+  const initializePaystack = usePaystackPayment(props);
+
+  const makePayment = () =>
+    initializePaystack({
+      onSuccess: () => {
+        close();
+      },
+    });
+
+  return (
+    <Dialog open={open} maxWidth="sm" onClose={() => {}}>
+      <DialogContent sx={{ p: 4 }}>
+        <Button variant="contained" onClick={() => makePayment()}>
+          Click to Make Payment
+        </Button>
+      </DialogContent>
+    </Dialog>
   );
 }

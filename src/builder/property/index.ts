@@ -45,7 +45,10 @@ const list_registered = (page = 1) =>
 
 const requests = {
   create: (payload: PropertyRequestPayload) =>
-    axiosInstance.post("/property-requests", payload),
+    axiosInstance.post<PostResponse<PropertyPaymentRequest>>(
+      "/property-requests",
+      payload,
+    ),
   list: (params = {}) =>
     axiosInstance.get<ApiResponse<PropertyRequest[]>>("/property-requests", {
       params,

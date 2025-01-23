@@ -21,7 +21,8 @@ export default function PropertyDetails({
     pending: <>Loading...</>,
     success: (
       <>
-        <DetailsBox property={property} />
+        {/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
+        <DetailsBox property={property!} />
       </>
     ),
   };

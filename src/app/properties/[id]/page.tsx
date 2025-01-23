@@ -25,7 +25,8 @@ export default function PropertyDetails({
       <>
         <NavBarContainer />
         <ImageGallery property={property} />
-        <DetailsBox property={property} />
+        {/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
+        <DetailsBox property={property!} />
       </>
     ),
   };

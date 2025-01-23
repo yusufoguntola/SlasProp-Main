@@ -15,6 +15,7 @@ interface User {
     permissions: string[];
   };
   name: string;
+  email: string;
 }
 
 interface PostResponse<T> {
