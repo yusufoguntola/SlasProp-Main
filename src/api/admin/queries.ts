@@ -63,6 +63,6 @@ export function useGetToolCategoryById() {}
 export function useGetLocations() {
   return useQuery({
     queryKey: builder.admin.locations.list.$get(),
-    queryFn: () => builder.$use.admin.locations.list(),
+    queryFn: () => builder.$use.admin.locations.list({ page_size: 100 }),
   });
 }
