@@ -73,7 +73,7 @@ export function DetailsBox({ property }: DetailsBoxProps) {
     <>
       <Container sx={{ display: "flex", mt: 4 }}>
         <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-          {isLoggedIn ? (
+          {isLoggedIn && property.status === "Available" ? (
             <Button
               onClick={open}
               sx={{

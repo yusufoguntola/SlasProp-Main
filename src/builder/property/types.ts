@@ -1,6 +1,7 @@
 interface Property {
   id: number;
   propertyId: string;
+  status: string;
   // Property information
   name: string;
   propertyType: string;
