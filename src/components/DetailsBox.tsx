@@ -2,9 +2,9 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { usePaystackPayment } from "react-paystack";
-import type { PaystackProps } from "react-paystack/dist/types";
 import { number, object } from "yup";
 
 import { useGetUserDetails, useIsAuthenticated } from "@/api/auth/queries";
@@ -21,6 +21,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Alert,
   Box,
   Button,
   Container,
@@ -702,17 +703,31 @@ function RequestPayment({
     opened: false,
   });
 
+  const initializePaystack = usePaystackPayment({
+    publicKey: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
+    amount: paystack.amount,
+    reference: paystack.reference,
+    email: user?.email,
+  });
+
+  const paystackRef = useRef<HTMLButtonElement>(null);
+
+  const verifyPayment = useVerifyPayment();
+
   const handleSubmit = (values: typeof form.values) =>
     mutation.mutate(
       { ...values, propertyId: property.id },
       {
         onSuccess(data) {
           onClose();
-          setPaystack({
-            opened: true,
-            amount: calculatePayment(data.data.data.amount),
-            reference: data.data.data.refId,
+          flushSync(() => {
+            setPaystack({
+              opened: true,
+              amount: calculatePayment(data.data.data.amount),
+              reference: data.data.data.refId,
+            });
           });
+          paystackRef.current?.click();
         },
       },
     );
@@ -734,6 +749,14 @@ function RequestPayment({
               />
             </FormControl>
             <FormControl fullWidth>
+              <FormLabel>Applicable Fee</FormLabel>
+              <TextField
+                disabled
+                fullWidth
+                value={form.values.amountOffered / 10}
+              />
+            </FormControl>
+            <FormControl fullWidth>
               <FormLabel>Message</FormLabel>
               <TextField
                 fullWidth
@@ -742,6 +765,10 @@ function RequestPayment({
                 {...form.getInputProps("message")}
               />
             </FormControl>
+            <Alert severity="info">
+              There is an additional 0.15% + &#x20A6;100 processing fee, capped
+              at &#x20A6;2,000.
+            </Alert>
 
             <Button
               type="submit"
@@ -755,45 +782,21 @@ function RequestPayment({
         </DialogContent>
       </Dialog>
 
-      <PaystackPay
-        open={paystack.opened}
-        close={() => setPaystack({ amount: 0, opened: false, reference: "" })}
-        amount={paystack.amount}
-        email={`${user?.email}`}
-        publicKey="pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22"
-        reference={paystack.reference}
-      />
+      <button
+        type="button"
+        ref={paystackRef}
+        hidden
+        className="hidden"
+        onClick={() =>
+          initializePaystack({
+            onSuccess: (trx) => {
+              verifyPayment.mutate(trx.trxref);
+            },
+          })
+        }
+      >
+        Pay with Paystack
+      </button>
     </>
-  );
-}
-
-function PaystackPay({
-  open,
-  close,
-  ...props
-}: PaystackProps & {
-  open: boolean;
-  close: () => void;
-}) {
-  const initializePaystack = usePaystackPayment(props);
-  const verifyPayment = useVerifyPayment();
-
-  const makePayment = () =>
-    initializePaystack({
-      onSuccess: () => {
-        verifyPayment.mutate(`${props.reference}`, {
-          onSuccess: close,
-        });
-      },
-    });
-
-  return (
-    <Dialog open={open} maxWidth="sm" onClose={() => {}}>
-      <DialogContent sx={{ p: 4 }}>
-        <Button variant="contained" onClick={() => makePayment()}>
-          Click to Make Payment
-        </Button>
-      </DialogContent>
-    </Dialog>
   );
 }
