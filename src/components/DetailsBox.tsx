@@ -8,6 +8,7 @@ import type { PaystackProps } from "react-paystack/dist/types";
 import { number, object } from "yup";
 
 import { useGetUserDetails, useIsAuthenticated } from "@/api/auth/queries";
+import { useVerifyPayment } from "@/api/payments/mutations";
 import { useCreatePropertyRequest } from "@/api/properties/mutations";
 import useDisclosure from "@/hooks/useDisclosure";
 import { formatDate } from "@/utils/format-date";
@@ -760,6 +761,7 @@ function RequestPayment({
         amount={paystack.amount}
         email={`${user?.email}`}
         publicKey="pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22"
+        reference={paystack.reference}
       />
     </>
   );
@@ -774,11 +776,14 @@ function PaystackPay({
   close: () => void;
 }) {
   const initializePaystack = usePaystackPayment(props);
+  const verifyPayment = useVerifyPayment();
 
   const makePayment = () =>
     initializePaystack({
       onSuccess: () => {
-        close();
+        verifyPayment.mutate(`${props.reference}`, {
+          onSuccess: close,
+        });
       },
     });
 

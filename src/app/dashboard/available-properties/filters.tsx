@@ -13,8 +13,8 @@ import { type ChangeEvent, useCallback, useState } from "react";
 const listingTypes = ["Buy", "Rent", "Lease"];
 
 export function Filters() {
-  const [search, setSearch] = useState("");
-  const [filters, setFilter] = useFilterProperties();
+  const [filters, setFilter] = useFilterProperties(6);
+  const [search, setSearch] = useState(filters.filter ?? "");
 
   const setDebouncedSearch = useCallback(
     debounce(

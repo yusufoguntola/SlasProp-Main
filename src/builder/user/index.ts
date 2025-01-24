@@ -4,17 +4,7 @@ const login = async (payload: LoginPayload) => {
   return axiosInstance.post<
     | {
         message: string;
-        data: {
-          access_token: string;
-          name: string;
-          username: string;
-          email: string;
-          role?: {
-            name: string;
-            id: number;
-            permissions: string[];
-          };
-        };
+        data: LoggedInUser & { access_token: string };
       }
     | { message: string; token: string }
   >("/auth/login", payload);

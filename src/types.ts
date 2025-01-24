@@ -7,7 +7,7 @@ interface ApiResponse<T> {
   data: T;
 }
 
-interface User {
+interface LoggedInUser {
   username: string;
   role?: {
     id: number;
