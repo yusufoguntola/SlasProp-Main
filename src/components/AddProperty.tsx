@@ -78,6 +78,7 @@ export default function AddProperty() {
   // State variables for the main form
   const form = useForm<CreateProperty>({
     initialValues: {
+      status: "",
       name: "",
       price: "",
       description: "",
@@ -155,7 +156,7 @@ export default function AddProperty() {
   const { mutate, isPending } = useCreateProperty();
   const { replace } = useRouter();
 
-  const handleSubmit = (values: CreateProperty) => {
+  const handleSubmit = (values: typeof form.values) => {
     form.validate();
 
     mutate(values, {

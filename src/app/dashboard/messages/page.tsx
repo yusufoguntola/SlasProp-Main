@@ -126,7 +126,7 @@ export default function Messages() {
                   >
                     <ListItemIcon>
                       <Avatar
-                        alt={conv.user.username}
+                        alt={`${conv.user.firstName} ${conv.user.lastName}`}
                         src={conv.user.imageUrl}
                       />
                     </ListItemIcon>
