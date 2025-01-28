@@ -18,3 +18,9 @@ export function formatDate(date?: ConfigType, format?: string): string {
 export function fromNow(date: ConfigType): string {
   return dayjs(date).fromNow();
 }
+
+export function formatChatDate(date: ConfigType, format?: string): string {
+  return dayjs(date).isValid()
+    ? dayjs(date).format(format ?? "DD/MM/YYYY hh:mm a")
+    : "";
+}

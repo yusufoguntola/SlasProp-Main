@@ -5,7 +5,8 @@ import { useState } from "react";
 
 import { useGetConversations, useGetMessages } from "@/api/messages/queries";
 import { useGetProfile } from "@/api/profile/queries";
-import { useMessagingWS } from "@/hooks/use-m-ws";
+import { formatChatDate } from "@/utils/format-date";
+import { useWebSocket } from "@/utils/socket";
 import { Search, Send } from "@mui/icons-material";
 import {
   Avatar,
@@ -34,6 +35,7 @@ function isSameUser(user1: User, user2: Profile): boolean {
 export default function Messages() {
   const { data: user, isPending } = useGetProfile();
   const [init] = useQueryState("beginConversationWith");
+  const [message, setMessage] = useState("");
 
   const conversations = useGetConversations();
 
@@ -42,7 +44,21 @@ export default function Messages() {
 
   const messages = useGetMessages(conversationId);
 
-  const { text, updateText } = useMessagingWS(receiverId);
+  const { sendJsonMessage } = useWebSocket();
+
+  const handleSendMessage = () => {
+    sendJsonMessage({
+      type: "X05",
+      content: [
+        {
+          muid: `${new Date().getTime()}-message`,
+          receiverId,
+          text: message,
+        },
+      ],
+    });
+    setMessage("");
+  };
 
   return (
     <div className="w-full">
@@ -173,7 +189,9 @@ export default function Messages() {
                           primary={message.text}
                         />
 
-                        <ListItemText secondary="9:09" />
+                        <ListItemText
+                          secondary={formatChatDate(message.createdAt)}
+                        />
                       </Grid>
                     </Grid>
                   </ListItem>
@@ -190,8 +208,8 @@ export default function Messages() {
                       label="Type Something"
                       fullWidth
                       variant="outlined"
-                      value={text}
-                      onChange={(ev) => updateText(ev.currentTarget.value)}
+                      value={message}
+                      onChange={(ev) => setMessage(ev.currentTarget.value)}
                     />
                   </Grid>
                   <Grid
@@ -205,6 +223,7 @@ export default function Messages() {
                     <Fab
                       sx={{ bgcolor: "#26a69a", color: "white" }}
                       aria-label="send"
+                      onClick={handleSendMessage}
                     >
                       <Send />
                     </Fab>
