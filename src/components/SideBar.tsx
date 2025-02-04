@@ -1,6 +1,5 @@
 import { getCookie, setCookie } from "cookies-next";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { useGetProfile } from "@/api/profile/queries";
 import { useForm } from "@mantine/form";
@@ -56,7 +55,6 @@ interface SideBarProps {
 }
 
 export function SideBar({ isOpen, toggle }: SideBarProps) {
-  const { replace } = useRouter();
   const form = useForm({
     initialValues: {
       slider: getCookie("slider") === "true",
@@ -66,11 +64,6 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
         path: "/",
         sameSite: "lax",
       });
-      if (!values.slider) {
-        replace("/dashboard/my-properties");
-      } else {
-        replace("/dashboard/registered-properties");
-      }
     },
   });
 
