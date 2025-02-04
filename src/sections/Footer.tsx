@@ -90,7 +90,7 @@ export function Footer() {
               { name: "List Property", href: "#", onClick: catchRedirect },
               { name: "Buy ", href: "/properties?listingType=Buy" },
               { name: "Sell", href: "#", onClick: catchRedirect },
-              { name: "Rent", href: "/properties?listingType=Sell" },
+              { name: "Rent", href: "/properties?listingType=Rent" },
             ].map(({ href, name, onClick }) => (
               <ListItem key={href + name} disablePadding onClick={onClick}>
                 <Link href={href}>
