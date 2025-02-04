@@ -22,7 +22,7 @@ const images = remotePatterns.map(({ hostname }) => hostname).join(" ");
 
 const csp = [
   `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${scripts}`,
-  `style-src 'self' 'unsafe-inline' 'https://cdn.jsdelivr.net/*'`,
+  `style-src 'self' 'unsafe-inline' 'https://cdn.jsdelivr.net/*' 'https://cdn.jsdelivr.net/npm/antd/dist/antd.min.css'`,
   `img-src 'self' blob: data: ${images}`,
   `font-src 'self'`,
   `frame-ancestors 'none'`,

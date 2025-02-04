@@ -1,16 +1,18 @@
 "use client";
 
-import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
+import "leaflet/dist/leaflet.css";
 
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 import { useGetPublicProperties } from "@/api/properties/queries";
+import { useFilterProperties } from "@/hooks/use-filter-properties";
 import { Skeleton } from "@mui/material";
 
 export default function DensityMap() {
-  const { data, status } = useGetPublicProperties();
+  const [filters] = useFilterProperties();
+  const { data, status } = useGetPublicProperties(filters);
 
   const View = {
     pending: <Skeleton height={"100%"} />,

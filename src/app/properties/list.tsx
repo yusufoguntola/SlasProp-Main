@@ -13,9 +13,9 @@ const generateKey = (pre: unknown) => {
 };
 
 export default function PropertyList() {
-  const { data, isLoading, isError } = useGetPublicProperties();
-  const [{ page }, setFilter] = useFilterProperties(6);
+  const [filters, setFilter] = useFilterProperties(6);
 
+  const { data, isLoading, isError } = useGetPublicProperties(filters);
   const total = useMemo(() => data?.data.total ?? 0, [data]);
 
   if (isError || isLoading) {
@@ -42,7 +42,7 @@ export default function PropertyList() {
       </div>
       <Pagination
         count={total / 6}
-        page={page}
+        page={filters.page}
         onChange={(_, page) => setFilter({ page })}
       />
     </div>
