@@ -19,7 +19,7 @@ export default function PropertyDetails({
   const property = data?.data.data;
 
   const Render = {
-    error: <>Loading...</>,
+    error: <>Error Loading this property. Please refresh and try again...</>,
     pending: <>Loading...</>,
     success: (
       <>

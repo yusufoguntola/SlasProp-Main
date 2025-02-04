@@ -72,7 +72,7 @@ export function SubmitInquiry() {
             fontFamily: "Arial",
           }}
         >
-          Submit Inquiry
+          Submit Enquiry
         </Typography>
         <Typography variant="h5" sx={{ fontWeight: "bold", mt: 1 }}>
           How can we be of help?
@@ -140,6 +140,7 @@ export function SubmitInquiry() {
 
           <Button
             variant="contained"
+            fullWidth
             type="submit"
             disabled={isPending}
             sx={{
@@ -152,7 +153,7 @@ export function SubmitInquiry() {
               "&:hover": { backgroundColor: "#26a69a" },
             }}
           >
-            {isPending ? "Submitting..." : " Submit Inquiry"}
+            {isPending ? "Submitting..." : " Submit"}
           </Button>
         </form>
       </Container>

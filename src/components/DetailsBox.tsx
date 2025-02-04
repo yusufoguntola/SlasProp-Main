@@ -12,6 +12,7 @@ import { useVerifyPayment } from "@/api/payments/mutations";
 import { useCreatePropertyRequest } from "@/api/properties/mutations";
 import useDisclosure from "@/hooks/useDisclosure";
 import { formatDate } from "@/utils/format-date";
+import { getPaystackKey } from "@/utils/get-paystack-key";
 import { calculatePayment } from "@/utils/paystack";
 import { useForm, yupResolver } from "@mantine/form";
 import { Chat } from "@mui/icons-material";
@@ -89,7 +90,21 @@ export function DetailsBox({ property }: DetailsBoxProps) {
             >
               Request {property?.listingType}
             </Button>
-          ) : null}
+          ) : (
+            <Typography
+              sx={{
+                borderRadius: "16px",
+                fontSize: "10px",
+                px: 2.5,
+                py: 1,
+                maxWidth: "max-content",
+                backgroundColor: "gray",
+                color: "white",
+              }}
+            >
+              {property.status}
+            </Typography>
+          )}
           <Typography
             sx={{
               mt: 0.5,
@@ -704,7 +719,7 @@ function RequestPayment({
   });
 
   const initializePaystack = usePaystackPayment({
-    publicKey: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
+    publicKey: getPaystackKey(),
     amount: paystack.amount,
     reference: paystack.reference,
     email: user?.email,

@@ -5,7 +5,7 @@ export function KnowAboutSlasProp() {
   return (
     <Container sx={{ py: 8 }}>
       <Typography variant="h5" sx={{ textAlign: "center", fontWeight: "bold" }}>
-        Know About SlasProp
+        About SlasProp
       </Typography>
 
       <Typography

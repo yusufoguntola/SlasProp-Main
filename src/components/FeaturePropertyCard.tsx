@@ -124,6 +124,7 @@ export function FeaturePropertyCard({
           <Button
             size="small"
             href={`/properties/${propertyId}`}
+            target="_blank"
             LinkComponent={Link}
             sx={{
               backgroundColor: "#fff",

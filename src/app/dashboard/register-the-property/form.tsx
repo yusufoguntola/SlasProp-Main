@@ -12,6 +12,7 @@ import { useGetProfile } from "@/api/profile/queries";
 import { useRegisterProperty } from "@/api/properties/mutations";
 import { useFetchLocations } from "@/api/properties/queries";
 import { useModalState } from "@/hooks/use-modal-state";
+import { getPaystackKey } from "@/utils/get-paystack-key";
 import { calculatePayment } from "@/utils/paystack";
 import { useForm, yupResolver } from "@mantine/form";
 import {
@@ -55,7 +56,7 @@ const PROPERTY_TYPES = [
 export default function RegisterTheProperty() {
   const user = useGetProfile();
   const [paystack, setPaystack] = useState({
-    publicKey: "pk_test_c844526b24eec6fe53a6851ad0283e18c9adbc22",
+    publicKey: getPaystackKey(),
     amount: 0,
     reference: "",
     split_code: "",

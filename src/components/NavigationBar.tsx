@@ -29,7 +29,7 @@ const pages = [
     link: "/properties?listingType=Buy",
   },
   { name: "Rent", link: "/properties?listingType=Rent" },
-  { name: "Know About SlasProp", link: "/about-us" },
+  { name: "About SlasProp", link: "/about-us" },
   { name: "Blog", link: "/blog" },
   { name: "FAQ", link: "/faq" },
 ];

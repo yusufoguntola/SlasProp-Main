@@ -1,4 +1,5 @@
 import { Box, CardMedia, Container, Typography } from "@mui/material";
+
 import { KeyFeatureCard } from "./KeyFeatureCard";
 
 const keyFeatures = [
@@ -95,6 +96,7 @@ export function KeyFeatures() {
           maxWidth: "800px",
           margin: "auto",
           color: "#333",
+          marginTop: 12,
         }}
       >
         Whether you're a first-time homebuyer, seasoned investor, or property

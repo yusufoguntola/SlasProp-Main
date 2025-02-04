@@ -140,7 +140,7 @@ export function Footer() {
                   },
                 }}
               >
-                5 Canvavans Rd, Leongatha North VIC 3953, Australia
+                15b Parkway, ocean Bay Estate, Lekki
               </ListItemText>
             </ListItem>
             <ListItem disablePadding>
@@ -148,7 +148,7 @@ export function Footer() {
                 <PhoneInTalk sx={{ color: "#DF593D" }} />
               </ListItemIcon>
               <ListItemText primaryTypographyProps={{ fontSize: "14px" }}>
-                +61 417 841 278
+                +2348060500134
               </ListItemText>
             </ListItem>
             <ListItem disablePadding>
@@ -156,7 +156,7 @@ export function Footer() {
                 <AlternateEmail sx={{ color: "#DF593D" }} />
               </ListItemIcon>
               <ListItemText primaryTypographyProps={{ fontSize: "14px" }}>
-                kppsmash@gmail.com
+                info@slastech.com.
               </ListItemText>
             </ListItem>
           </List>
@@ -173,7 +173,8 @@ export function Footer() {
         }}
       >
         <Typography sx={{ fontSize: "14px" }}>
-          2023 <Copyright sx={{ fontSize: "14px", verticalAlign: "middle" }} />
+          {new Date().getUTCFullYear()}{" "}
+          <Copyright sx={{ fontSize: "14px", verticalAlign: "middle" }} />
           <span style={{ color: "#DF593D" }}> SlasProp </span> All Rights
           Reserved
         </Typography>

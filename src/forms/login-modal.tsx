@@ -110,7 +110,7 @@ export function LoginModal() {
           style={{ textTransform: "capitalize" }}
           onClick={loginOpen}
         >
-          Sign In / Login
+          Sign up / Login
           <ArrowCircleRightOutlined
             style={{ color: "#26a69a", paddingLeft: 4 }}
           />
