@@ -21,6 +21,10 @@ import {
 
 const ListOptions = [
   {
+    name: "Dashboard",
+    address: "",
+  },
+  {
     name: "Search Properties",
     address: "available-properties",
   },
@@ -40,7 +44,7 @@ const ListOptions = [
 
 const RegisterOptions = [
   {
-    name: "Registered Properties",
+    name: "Dashboard",
     address: "registered-properties",
   },
   {
@@ -185,20 +189,6 @@ export function SideBar({ isOpen, toggle }: SideBarProps) {
               </Typography>
             </Stack>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{ borderBottom: "1px solid lightgrey" }}
-              component={Link}
-              href="/dashboard"
-            >
-              <ListItemText
-                primary={"Dashboard"}
-                primaryTypographyProps={{ fontSize: "12px" }}
-                sx={{ color: "#26a69a", textTransform: "uppercase", ml: 2 }}
-              />
-            </ListItemButton>
-          </ListItem>
-
           {(form.values.slider ? RegisterOptions : ListOptions).map(
             (option) => (
               <ListItem disablePadding key={option.name}>

@@ -23,6 +23,7 @@ import {
 
 export function Footer() {
   const catchRedirect = useCatchRedirect("/dashboard/add-property");
+  const registerRedirect = useCatchRedirect("/dashboard/register-the-property");
 
   return (
     <>
@@ -86,11 +87,15 @@ export function Footer() {
           <List>
             {[
               { name: "Home", href: "/" },
-              { name: "Register Property", href: "#", onClick: catchRedirect },
+              {
+                name: "Register Property",
+                href: "#",
+                onClick: registerRedirect,
+              },
               { name: "List Property", href: "#", onClick: catchRedirect },
               { name: "Buy ", href: "/properties?listingType=Buy" },
               { name: "Sell", href: "#", onClick: catchRedirect },
-              { name: "Rent", href: "/properties?listingType=Rent" },
+              { name: "Rent", href: "/properties?listingType=Sell" },
             ].map(({ href, name, onClick }) => (
               <ListItem key={href + name} disablePadding onClick={onClick}>
                 <Link href={href}>
