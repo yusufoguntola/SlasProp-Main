@@ -92,7 +92,7 @@ export default function RegisterTheProperty() {
   });
 
   const { replace } = useRouter();
-  const { data: locations, isFetching } = useFetchLocations();
+  const { data: locations, isFetching } = useFetchLocations({page_size: 100, page: 1});
 
   const registerProperty = useRegisterProperty();
   const initiatePayment = useInitiatePayment();

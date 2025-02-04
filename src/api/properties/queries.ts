@@ -65,14 +65,14 @@ export function useFetchCountries() {
   });
 }
 
-export function useFetchLocations() {
+export function useFetchLocations(params = {}) {
   return useQuery({
-    queryKey: ["locations"],
+    queryKey: ["locations", params],
     queryFn: async () => {
       const response =
         await axiosInstance.get<
           ApiResponse<{ code: string; name: string; id: number }[]>
-        >("/locations");
+        >("/locations", { params });
 
       return response.data.data;
     },
