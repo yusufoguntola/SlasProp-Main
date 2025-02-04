@@ -45,21 +45,33 @@ export function Footer() {
           />
           <Box sx={{ display: "flex", gap: 1 }}>
             <IconButton
+              href="https://www.facebook.com/share/15raW2dFyb"
+              target="_blank"
+              rel="noreferrer noopener"
               sx={{ backgroundColor: "white", height: 30, width: 30 }}
             >
               <Facebook sx={{ fontSize: "16px", color: "black" }} />
             </IconButton>
             <IconButton
+              href="https://x.com/SlasProp"
+              target="_blank"
+              rel="noreferrer noopener"
               sx={{ backgroundColor: "white", height: 30, width: 30 }}
             >
               <X sx={{ fontSize: "16px", color: "black" }} />
             </IconButton>
             <IconButton
+              href="https://www.instagram.com/slasprop/"
+              target="_blank"
+              rel="noreferrer noopener"
               sx={{ backgroundColor: "white", height: 30, width: 30 }}
             >
               <Instagram sx={{ fontSize: "16px", color: "black" }} />
             </IconButton>
             <IconButton
+              href="https://www.youtube.com/@slasprop"
+              target="_blank"
+              rel="noreferrer noopener"
               sx={{ backgroundColor: "white", height: 30, width: 30 }}
             >
               <YouTube sx={{ fontSize: "16px", color: "black" }} />
