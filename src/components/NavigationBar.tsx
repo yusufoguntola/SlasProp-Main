@@ -93,8 +93,10 @@ export function NavigationBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.name} onClick={navClose}>
-                  <Typography textAlign="center">{page.name}</Typography>
+                <MenuItem key={page.name} onClick={navClose} href={page.link}>
+                  <Link href={page.link} className="h-full w-full inline-flex">
+                    <Typography textAlign="center">{page.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
